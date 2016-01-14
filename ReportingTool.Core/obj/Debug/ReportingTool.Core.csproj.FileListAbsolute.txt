@@ -1,5 +1,0 @@
-c:\users\home\documents\visual studio 2013\Projects\ReportingTool\ReportingTool.Core\bin\Debug\ReportingTool.Core.dll
-c:\users\home\documents\visual studio 2013\Projects\ReportingTool\ReportingTool.Core\bin\Debug\ReportingTool.Core.pdb
-c:\users\home\documents\visual studio 2013\Projects\ReportingTool\ReportingTool.Core\obj\Debug\ReportingTool.Core.csprojResolveAssemblyReference.cache
-c:\users\home\documents\visual studio 2013\Projects\ReportingTool\ReportingTool.Core\obj\Debug\ReportingTool.Core.dll
-c:\users\home\documents\visual studio 2013\Projects\ReportingTool\ReportingTool.Core\obj\Debug\ReportingTool.Core.pdb
