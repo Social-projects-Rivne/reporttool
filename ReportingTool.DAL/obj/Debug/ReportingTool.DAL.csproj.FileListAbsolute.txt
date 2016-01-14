@@ -1,0 +1,5 @@
+c:\users\home\documents\visual studio 2013\Projects\ReportingTool\ReportingTool.DAL\bin\Debug\ReportingTool.DAL.dll
+c:\users\home\documents\visual studio 2013\Projects\ReportingTool\ReportingTool.DAL\bin\Debug\ReportingTool.DAL.pdb
+c:\users\home\documents\visual studio 2013\Projects\ReportingTool\ReportingTool.DAL\obj\Debug\ReportingTool.DAL.csprojResolveAssemblyReference.cache
+c:\users\home\documents\visual studio 2013\Projects\ReportingTool\ReportingTool.DAL\obj\Debug\ReportingTool.DAL.dll
+c:\users\home\documents\visual studio 2013\Projects\ReportingTool\ReportingTool.DAL\obj\Debug\ReportingTool.DAL.pdb
