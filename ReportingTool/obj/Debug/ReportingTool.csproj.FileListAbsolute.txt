@@ -12,3 +12,17 @@ c:\users\home\documents\visual studio 2013\Projects\ReportingTool\ReportingTool\
 c:\users\home\documents\visual studio 2013\Projects\ReportingTool\ReportingTool\obj\Debug\ReportingTool.csprojResolveAssemblyReference.cache
 c:\users\home\documents\visual studio 2013\Projects\ReportingTool\ReportingTool\obj\Debug\ReportingTool.dll
 c:\users\home\documents\visual studio 2013\Projects\ReportingTool\ReportingTool\obj\Debug\ReportingTool.pdb
+C:\Users\adminaccount\Desktop\reporttool\ReportingTool\bin\ReportingTool.dll.config
+C:\Users\adminaccount\Desktop\reporttool\ReportingTool\bin\ReportingTool.dll
+C:\Users\adminaccount\Desktop\reporttool\ReportingTool\bin\ReportingTool.pdb
+C:\Users\adminaccount\Desktop\reporttool\ReportingTool\bin\Newtonsoft.Json.dll
+C:\Users\adminaccount\Desktop\reporttool\ReportingTool\bin\System.Net.Http.Formatting.dll
+C:\Users\adminaccount\Desktop\reporttool\ReportingTool\bin\System.Web.Http.dll
+C:\Users\adminaccount\Desktop\reporttool\ReportingTool\bin\System.Web.Http.WebHost.dll
+C:\Users\adminaccount\Desktop\reporttool\ReportingTool\bin\Newtonsoft.Json.xml
+C:\Users\adminaccount\Desktop\reporttool\ReportingTool\bin\System.Net.Http.Formatting.xml
+C:\Users\adminaccount\Desktop\reporttool\ReportingTool\bin\System.Web.Http.xml
+C:\Users\adminaccount\Desktop\reporttool\ReportingTool\bin\System.Web.Http.WebHost.xml
+C:\Users\adminaccount\Desktop\reporttool\ReportingTool\obj\Debug\ReportingTool.csprojResolveAssemblyReference.cache
+C:\Users\adminaccount\Desktop\reporttool\ReportingTool\obj\Debug\ReportingTool.dll
+C:\Users\adminaccount\Desktop\reporttool\ReportingTool\obj\Debug\ReportingTool.pdb
