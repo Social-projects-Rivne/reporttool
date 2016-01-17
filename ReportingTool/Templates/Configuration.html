@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html ng-app="ConfigurationModule"  xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Configuration</title>
+    <script src="../Scripts/angular.js"></script>
+    <script src="../Scripts/configuration-module.js"></script>
+    <link rel="stylesheet" href="../Content/bootstrap.min.css">
+    <link rel="stylesheet" href="../CSS/configuration-module.css">
+</head>
+<body ng-controller="ConfigurationController">
+    <div class="container" id="container"
+         ng-show="isConfigurationNotReady">
+        <h2>Configuration</h2>
+        <form class="form-horizontal, css-form"
+              name="form"
+              novalidate>
+            <div class="form-group">
+                <label>Jira host:</label>
+                <input type="url"
+                       class="form-control"
+                       placeholder="Enter Jira host"
+                       ng-model="configurationData.ServerUrl"
+                       name="serverUrl"
+                       ng-disabled="serverError"
+                       required>
+            </div>
+            <div ng-show="form.serverUrl.$dirty && form.serverUrl.$invalid"
+                 class="error">
+                Error:
+                <span ng-show="form.serverUrl.$error.required">Please provide Jira host</span>
+                <span ng-show="form.serverUrl.$error.url">Invalid link</span>
+            </div>
+
+            <div class="form-group">
+                <label>Project name:</label>
+                <input type="text"
+                       class="form-control"
+                       placeholder="Enter project name"
+                       ng-model="configurationData.ProjectName"
+                       name="projectName"
+                       ng-minlength="3"
+                       ng-disabled="serverError"
+                       required>
+            </div>
+            <div ng-show="form.projectName.$dirty && form.projectName.$invalid"
+                 class="error">
+                Error:
+                <span ng-show="form.projectName.$error.required">Please provide project name</span>
+                <span ng-show="form.projectName.$error.minlength">Project name should contain at least 3 characters</span>
+            </div>
+            <button class="btn btn-default"
+                    ng-click="SendConfigurationDataToServer();"
+                    ng-disabled="form.$invalid && serverError">
+                Save
+            </button>
+            <div class="alert alert-info"
+                 ng-show="isConfigurationFileError">
+                {{fileStatusMessage}}
+            </div>
+            <div class="alert alert-warning"
+                 ng-show="fileSavingError">
+                {{fileNotSavedMessage}}
+            </div>
+            <div class="alert alert-danger"
+                 ng-show="serverError">
+                {{serverErrorMessage}}
+            </div>
+        </form>
+
+    </div>
+</body>
+</html>
