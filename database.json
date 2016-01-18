@@ -1,0 +1,15 @@
+﻿{
+  "dev": "postgres://sid:foo.bar@localhost/petstore",
+
+  "test": {
+    "driver": "sqlite3",
+    "filename": ":memory:"
+  },
+
+  "prod": {
+    "driver": "pg",
+    "user": "joe",
+    "password": "toottoot",
+    "database": "petstore"
+  }
+}
