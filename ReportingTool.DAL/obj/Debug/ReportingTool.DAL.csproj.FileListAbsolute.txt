@@ -3,3 +3,5 @@ c:\users\home\documents\visual studio 2013\Projects\ReportingTool\ReportingTool.
 c:\users\home\documents\visual studio 2013\Projects\ReportingTool\ReportingTool.DAL\obj\Debug\ReportingTool.DAL.csprojResolveAssemblyReference.cache
 c:\users\home\documents\visual studio 2013\Projects\ReportingTool\ReportingTool.DAL\obj\Debug\ReportingTool.DAL.dll
 c:\users\home\documents\visual studio 2013\Projects\ReportingTool\ReportingTool.DAL\obj\Debug\ReportingTool.DAL.pdb
+C:\Users\HOME\Documents\Visual Studio 2013\Projects\ReportingTool\ReportingTool.DAL\bin\Debug\RestSharp.dll
+C:\Users\HOME\Documents\Visual Studio 2013\Projects\ReportingTool\ReportingTool.DAL\bin\Debug\RestSharp.xml
