@@ -45,7 +45,7 @@ namespace ReportingTool.DAL.DataAccessLayer
                 throw new JiraClientException("JIRA returned wrong status: " + response.StatusDescription, response.Content);
         }
 
-        public List<JiraUser> GetUsernames(string projectName, int startAt)
+        public List<JiraUser> GetUsers(string projectName, int startAt)
         {
             string path = "user/assignable/search?project=" + projectName + "&startAt=" + startAt + "&maxResults=" + 1000;
             var request = CreateRequest(Method.GET, path);
@@ -54,6 +54,24 @@ namespace ReportingTool.DAL.DataAccessLayer
             AssertStatus(response, HttpStatusCode.OK);
             return deserializer.Deserialize<List<JiraUser>>(response);
 
+        }
+        public List<JiraUser> GetAllUsers(string projectName)
+        {
+            List<JiraUser> result = new List<JiraUser>();
+            int count = 0;
+            int cursor = 0;
+            int i = 1;
+            do
+            {
+                count = GetUsers(projectName, cursor).Count;
+                foreach (var u in GetUsers(projectName, cursor))
+                {
+                    result.Add(u);
+                }
+                cursor += 1000;
+            } while (count >= 1000);
+
+            return result;
         }
 
         //public List<JiraUser> GetUsersInGroup(string groupName)
