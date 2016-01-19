@@ -1,43 +1,40 @@
-  
-    <div  ng-if="showTeams" ng-controller="TeamsController">
-          <div ng-if="!showTeams">
-        {{message}}
-    </div>
-        <div id='title'>
-            <div class="col-sm-10">
-                <h2> Manage Teams </h2>
-            </div>
-            <div class="col-sm-2">
-                <a ui-sref="teams.new" class="btn btn-flat">Add Team</a>
-            </div>
-        </div>
+<div ng-if="showTeams" ng-controller="TeamsController">
+	<div ng-if="!showTeams">
+		{{message}}
+	</div>
+	<div id='title'>
+		<div class="col-sm-10">
+			<h2> Manage Teams </h2>
+		</div>
+		<div class="col-sm-2">
+			<a ui-sref="teams.new" class="btn btn-flat">Add Team</a>
+		</div>
+	</div>
 
-    <table class="table table-striped">
-        <colgroup>
-            <col width="5%"/>
-            <col width="70%"/>
-            <col width="25%"/>
-        </colgroup>
-        <thead id='manage-teams-head'>
-            <tr>
-                <th>#</th>
-                <th>Team</th>
-                <th>&nbsp</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="team in teams">
-                <td>{{team.teamID}}</td>
-                <td>{{team.teamName}}</td>
-                <td>
-                    <a class="glyph-link" ui-sref="teams.edit({id:team.teamID})"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> </a>
-                    <a class="glyph-link" ng-click="delTeam(team.teamID)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-
-    </div>
+	<table class="table table-striped">
+		<colgroup>
+			<col width="5%" />
+			<col width="70%" />
+			<col width="25%" />
+		</colgroup>
+		<thead id='manage-teams-head'>
+			<tr>
+				<th>#</th>
+				<th>Team</th>
+				<th>&nbsp</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="team in teams">
+				<td>{{team.teamID}}</td>
+				<td>{{team.teamName}}</td>
+				<td>
+					<a class="glyph-link" ui-sref="teams.edit({id:team.teamID})"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> </a>
+					<a class="glyph-link" ng-click="delTeam(team.teamID)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 
 
+</div>
