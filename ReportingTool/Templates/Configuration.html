@@ -4,6 +4,8 @@
     <title>Configuration</title>
     <script src="../Scripts/angular.js"></script>
     <script src="../Scripts/configuration-module.js"></script>
+    <script src="../Scripts/projectNameDirective.js"></script>
+    <script type="text/javascript" src="../Scripts/angular-messages.js"></script>
     <link rel="stylesheet" href="../Content/bootstrap.min.css">
     <link rel="stylesheet" href="../CSS/configuration-module.css">
 </head>
@@ -25,12 +27,10 @@
                        required>
             </div>
             <div ng-show="form.serverUrl.$dirty && form.serverUrl.$invalid"
-                 class="error">
-                Error:
+                 id="hostError">
                 <span ng-show="form.serverUrl.$error.required">Please provide Jira host</span>
-                <span ng-show="form.serverUrl.$error.url">Invalid link</span>
+                <span ng-show="form.serverUrl.$error.url">Invalid Jira host</span>
             </div>
-
             <div class="form-group">
                 <label>Project name:</label>
                 <input type="text"
@@ -38,15 +38,12 @@
                        placeholder="Enter project name"
                        ng-model="configurationData.ProjectName"
                        name="projectName"
-                       ng-minlength="3"
                        ng-disabled="serverError"
-                       required>
-            </div>
-            <div ng-show="form.projectName.$dirty && form.projectName.$invalid"
-                 class="error">
-                Error:
-                <span ng-show="form.projectName.$error.required">Please provide project name</span>
-                <span ng-show="form.projectName.$error.minlength">Project name should contain at least 3 characters</span>
+                       project-name required>
+                <div ng-messages="form.projectName.$error" class="error">
+                    <div ng-message="uppercaseValidator">Project name has to contain only uppercase letters</div>
+                    <div ng-message="symbolsValidator">Project name can not contain special symbols</div>
+                </div>
             </div>
             <button class="btn btn-default"
                     ng-click="SendConfigurationDataToServer();"
@@ -66,7 +63,6 @@
                 {{serverErrorMessage}}
             </div>
         </form>
-
     </div>
 </body>
 </html>
