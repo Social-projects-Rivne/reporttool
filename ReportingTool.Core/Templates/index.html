@@ -1,0 +1,80 @@
+<!DOCTYPE html >
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Reporting Tool</title>
+	<!-- Bootstrap -->
+	<!-- build:css styles/main.css -->
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/bootstrap-theme.min.css" rel="stylesheet">
+	<link href="css/font-awesome.min.css" rel="stylesheet">
+	<link href="css/main.css" rel="stylesheet">
+	<!-- endbuild -->
+
+</head>
+
+<body ng-app="ReportingTool">
+
+
+	<nav class="navbar navbar-default" role="navigation">
+		<div class="container-fluid nav-container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse">
+					<span class="sr-only">Toggle Navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/"><span class="light-blue">Reporting</span> <b style="color:#FFF">Tool</b></a>
+			</div>
+			<!-- ./navbar-header -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-3  sidebar">
+				<ul class="list-unstyled">
+					<li>Administration</li>
+					<li>
+						<ul class="list">
+							<li><a ui-sref="teams">Manage Teams</a></li>
+							<li><a href="#">Create Template</a></li>
+						</ul>
+					</li>
+					<li> Reporting</li>
+					<li>
+						<ul class="list">
+							<li><a href="#">Manage Teams</a></li>
+							<li><a href="#">Create Template</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<div class="col-sm-8">
+				<div ui-view="list"></div>
+				<div ui-view="edit_team"></div>
+			</div>
+		</div>
+
+	</div>
+
+
+	<!-- build:js scripts/main.js -->
+	<script src="js/vendor/angular.js"></script>
+	<script src="js/vendor/angular-ui-router.min.js"></script>
+	<script src="js/manageTeams/manageTeamsModule.js"></script>
+	<script src="js/ReportingTool.js"></script>
+	<script src="js/manageTeams/manageTeamsControllers.js"></script>
+	<script src="js/manageTeams/manageTeamsServices.js"></script>
+
+	<!-- endbuild -->
+
+</body>
+
+</html>
