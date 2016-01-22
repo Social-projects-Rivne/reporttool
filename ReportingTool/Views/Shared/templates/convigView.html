@@ -1,15 +1,26 @@
 ﻿<!DOCTYPE html>
-<html ng-app="ConfigurationModule"  xmlns="http://www.w3.org/1999/xhtml">
+<html ng-app="ConfigurationModule"     
+      xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Configuration</title>
-    <script src="../Scripts/angular.js"></script>
-    <script src="../Scripts/configuration-module.js"></script>
-    <script src="../Scripts/projectNameDirective.js"></script>
-    <script type="text/javascript" src="../Scripts/angular-messages.js"></script>
-    <link rel="stylesheet" href="../Content/bootstrap.min.css">
-    <link rel="stylesheet" href="../CSS/configuration-module.css">
+    <script src="../../../Scripts/angular.js"></script>  
+    <script type="text/javascript" src="../../../Scripts/angular-messages.js"></script>
+    <script type="text/javascript" src="../../../Scripts/angular-material.min.js"></script>
+    <script type="text/javascript" src="../../../Scripts/angular-aria.min.js"></script>
+    <script type="text/javascript" src="../../../Scripts/angular-animate.min.js"></script>
+    <script src="../../../Content/js/configView/configuration-module.js"></script>
+    <script src="../../../Content/js/configView/projectNameDirective.js"></script>
+    <link rel="stylesheet" href="../../../Content/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../Content/css/configuration-module.css">
+    <link rel="stylesheet" href="../../../Content/css/angular-material.min.css">
 </head>
-<body ng-controller="ConfigurationController">
+<body ng-controller="ConfigurationController" ng-cloak>
+    <div id="startProgressIndicator">
+        <md-progress-circular md-mode="indeterminate"
+                              ng-show="getRequestIsLoading"
+                              md-diameter="96">
+        </md-progress-circular>
+    </div>   
     <div class="container" id="container"
          ng-show="isConfigurationNotReady">
         <h2>Configuration</h2>
@@ -40,7 +51,8 @@
                        name="projectName"
                        ng-disabled="serverError"
                        project-name required>
-                <div ng-messages="form.projectName.$error" class="error">
+                <div ng-messages="form.projectName.$error" class="error"
+                     ng-hide="serverError">
                     <div ng-message="uppercaseValidator">Project name has to contain only uppercase letters</div>
                     <div ng-message="symbolsValidator">Project name can not contain special symbols</div>
                 </div>
@@ -50,6 +62,12 @@
                     ng-disabled="form.$invalid && serverError">
                 Save
             </button>
+            <div id="sendDataProgressIndicator">
+                <md-progress-circular md-mode="indeterminate"
+                                      ng-show="postRequestIsLoading"
+                                      md-diameter="96">
+                </md-progress-circular>
+            </div>   
             <div class="alert alert-info"
                  ng-show="isConfigurationFileError">
                 {{fileStatusMessage}}
