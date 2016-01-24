@@ -1,6 +1,6 @@
 'use strict';
 
-manageTeamsModule.
+teamsManagerModule.
 factory('TeamFactory', ['$http', function ($http) {
 		var teamFactory = {
 			all: all,

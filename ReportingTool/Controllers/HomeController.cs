@@ -3,21 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ReportingTool.Models;
 
 namespace ReportingTool.Controllers
 {
     public class HomeController : Controller
     {
-        // GET: Home
+        [HttpGet]
         public ActionResult index()
         {
             return View();
         }
 
-        // GET: Home/Details/5
-        public ActionResult Details(int id)
+        [HttpPost]
+        public JsonResult AddNewTeam(TempTeamModel newTeam)
         {
-            return View();
+            newTeam.teamID = 1;
+            return Json(newTeam);
         }
 
         // GET: Home/Create

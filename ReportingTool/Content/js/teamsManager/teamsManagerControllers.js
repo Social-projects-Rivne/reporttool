@@ -1,10 +1,10 @@
 'use strict';
 
-manageTeamsModule
-	.controller('TeamsController', ['$scope', 'TeamFactory', function ($scope, TeamFactory) {
+teamsManagerModule
+	.controller('teamsManagerController', ['$scope', 'TeamFactory', function ($scope, TeamFactory) {
 	    $scope.message = "Loading...";
 	    debugger;
-		$scope.showTeams = false;
+		$scope.showTeams = true;
 		$scope.teams = {};
 		TeamFactory.all().then(teamsSuccess, teamsFail);
 

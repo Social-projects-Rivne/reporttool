@@ -1,6 +1,6 @@
 "use strict"
 
-var ReportingTool = angular.module('ReportingTool', ['ui.router', 'manageTeamsModule']); //add to dependencies: loginModule, configureModule
+var ReportingTool = angular.module('ReportingTool', ['ui.router', 'mainViewModule']); //add to dependencies: loginModule, configureModule
 
 //Routing for loginView and configureView
 
@@ -26,10 +26,10 @@ var ReportingTool = angular.module('ReportingTool', ['ui.router', 'manageTeamsMo
 ReportingTool.run(['$state', function ($state) {
     if (true) {                                     //  if (isConfigureFileValid)
         if (true) {                              //  if (isLoggedIn)
-           // ReportingTool.requires.push('manageTeamsModule');
-            $state.transitionTo('main');
+            // ReportingTool.requires.push('manageTeamsModule');
+            $state.transitionTo('mainView');
         }
-        else $state.transitionTo('login');
+        else $state.transitionTo('loginView');
     }
-    else $state.transitionTo('config');
+    else $state.transitionTo('configView');
 }]);

@@ -39,11 +39,10 @@
 
     <script src="~/Content/js/vendor/angular.js"></script>
     <script src="~/Content/js/vendor/angular-ui-router.min.js"></script>
-    <script src="~/Content/js/teamsManager/teamsManagerModule.js"></script>
-    <script src="~/Content/js/mainViewModule.js"></script>
+    <script src="~/Content/js/manageTeams/manageTeamsModule.js"></script>
     <script src="~/Content/js/ReportingTool.js"></script>
-    <script src="~/Content/js/teamsManager/teamsManagerControllers.js"></script>
-    <script src="~/Content/js/teamsManager/teamsManagerServices.js"></script>
+    <script src="~/Content/js/manageTeams/manageTeamsControllers.js"></script>
+    <script src="~/Content/js/manageTeams/manageTeamsServices.js"></script>
 
 </body>
 
