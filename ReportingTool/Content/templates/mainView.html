@@ -6,7 +6,7 @@
                     <li>Administration</li>
                     <li>
                         <ul class="list">
-                            <li><a href="#/main/teamsManager">Manage Teams</a></li>
+                            <li><a ui-sref=".teamsManager">Manage Teams</a></li>
                             <li><a href="#">Create Template</a></li>
                         </ul>
                     </li>
@@ -22,10 +22,6 @@
         </div>
     </section>
     <section id="Content">
-        <div class="row">
-            <div class="col-sm-8 col-md-8">
-                <div ui-view></div>
-            </div>
-        </div>
+        <div ui-view></div>
     </section>
 </section>

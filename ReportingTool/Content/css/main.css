@@ -1,144 +1,151 @@
-body{
-	min-width: 750px;
+body {
+    min-width: 750px;
 }
 
-a{
-	cursor: pointer;
+#Menu {
+    float: left;
+}
+
+a {
+    cursor: pointer;
+}
+
+section {
+    display: inline;
 }
 
 .navbar {
-	background-color: #161c66;
-	margin-bottom: 20px;
+    background-color: #161c66;
+    margin-bottom: 20px;
 }
 
 .nav-container {
-	background-color: #161c66;
-	padding: 5px;
+    background-color: #161c66;
+    padding: 5px;
 }
 
 .navbar .logout {
-	display: inline;
-	float: right;
+    display: inline;
+    float: right;
 }
 
 .navbar-brand .blue {
-	color: #00bfe2;
+    color: #00bfe2;
 }
 
 .navbar-brand .white {
-	color: white;
-	font-weight: bold;
+    color: white;
+    font-weight: bold;
 }
 
 navbar-header p {
-	margin: 10px 0;
-	display: inline;
+    margin: 10px 0;
+    display: inline;
 }
 
 .navbar .brand p {
-	font-size: 2em;
-	display: inline;
+    font-size: 2em;
+    display: inline;
 }
 
 .navbar .logout p {
-	font-size: 1.5em;
+    font-size: 1.5em;
 }
 
 .row {
-	margin-top: 40px;
+    margin-top: 40px;
 }
 
 .sidebar {
-	background-color: rgba(91, 192, 222, 0.10);
-	color: #00BCD4;
-	font-weight: bold;
-	float: left;
-	display: inline;
-	min-width: 200px;
+    background-color: rgba(91, 192, 222, 0.10);
+    color: #00BCD4;
+    font-weight: bold;
+    float: left;
+    display: inline;
+    min-width: 200px;
 }
 
-.list-unstyled{
-		min-width: 200px;
-
+.list-unstyled {
+    min-width: 200px;
 }
 
 li a {
-	text-decoration: none;
-	color: #00BCD4;
+    text-decoration: none;
+    color: #00BCD4;
 }
 
 .sidebar li {
-	margin: 10px;
-	list-style-type: none;
+    margin: 10px;
+    list-style-type: none;
 }
 
 .btn-flat {
-	border: 1px solid #00BCD4;
-	border-radius: 0px;
-	background-color: #fff;
-	color: #00BCD4;
-	font-weight: bold;
-	font-size: 14pt;
-	margin-top: 10px;
+    border: 1px solid #00BCD4;
+    border-radius: 0px;
+    background-color: #fff;
+    color: #00BCD4;
+    font-weight: bold;
+    font-size: 14pt;
+    margin-top: 10px;
 }
 
 #title div {
-	margin: auto 0;
+    margin: auto 0;
 }
 
 #manage-teams-head {
-	background-color: #19287B;
-	color: #fff;
+    background-color: #19287B;
+    color: #fff;
 }
 
 th:nth-child(3) {
-	border-left: 1px solid #fff;
+    border-left: 1px solid #fff;
 }
 
 .glyphicon {
-	color: #00BCD4;
+    color: #00BCD4;
 }
 
 .glyph-link:hover {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 .glyph-link:active {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 .glyph-link:visited {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 #change-team-name {
-	border-radius: 0px;
-	border: 1px solid #00BCD4;
-	background-color: #fff;
-	margin-bottom: 20px;
-	margin-top: 70px;
+    border-radius: 0px;
+    border: 1px solid #00BCD4;
+    background-color: #fff;
+    margin-bottom: 20px;
+    margin-top: 70px;
 }
 
 #btn-save {
-	margin-right: 10px;
-	float: right;
-	width: 150px;
+    margin-right: 10px;
+    float: right;
+    width: 150px;
 }
 
 #btn-cancel {
-	margin-left: 10px;
-	float: left;
-	width: 150px;
+    margin-left: 10px;
+    float: left;
+    width: 150px;
 }
 
 #change-team-head {
-	color: #fff;
-	background-color: #00BCD4;
+    color: #fff;
+    background-color: #00BCD4;
 }
 
 .select-username,
 .select-fullname {
-	border-radius: 0px;
-	border: 1px solid #00BCD4;
-	background-color: #fff;
+    border-radius: 0px;
+    border: 1px solid #00BCD4;
+    background-color: #fff;
 }

@@ -22,7 +22,12 @@ namespace ReportingTool.Controllers
             return Json(newTeam);
         }
 
-        // GET: Home/Create
+        [HttpGet]
+        public JsonResult GetAllUsers() { 
+        List<TempMemberModel> users = ;
+            return Json(users);
+        }
+
         public ActionResult Create()
         {
             return View();

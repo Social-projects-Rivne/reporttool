@@ -11,8 +11,9 @@ factory('TeamFactory', ['$http', function ($http) {
 		};
 
 		function all() {
+		    var users = $http.get("Home/GetAllUsers");
 		    debugger;
-		    return $http.get("Home/GetAllUsers");
+		    return users;
 		}
 
 		function get(id) {
