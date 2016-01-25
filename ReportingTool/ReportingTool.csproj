@@ -118,6 +118,8 @@
     <Content Include="Content\css\main.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\img\logo.png" />
+    <Content Include="Content\js\configuration\configViewModule.js" />
+    <Content Include="Content\js\configuration\projectNameDirective.js" />
     <Content Include="Content\js\mainViewModule.js" />
     <Content Include="Content\js\teamsManager\teamsManagerControllers.js" />
     <Content Include="Content\js\teamsManager\teamsManagerModule.js" />
