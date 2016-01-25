@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ReportingTool.Models;
+using ReportingTool.DAL.DataAccessLayer;
+using System.Web.Script.Serialization;
 
 namespace ReportingTool.Controllers
 {
@@ -23,8 +25,9 @@ namespace ReportingTool.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetAllUsers() { 
-        List<TempMemberModel> users = ;
+        public JsonResult GetAllUsers() {
+            JiraClient jiraClient = new JiraClient();
+            var users = new JavaScriptSerializer().Serialize(jiraClient.GetUsers("RVNETJAN", 1));
             return Json(users);
         }
 

@@ -33,12 +33,13 @@ teamsManagerModule
 		}
 
 		function teamsSuccess(response) {
+		    debugger;
 			$scope.teams = response.data;
 			$scope.showTeams = true;
 		}
 
 		function teamsFail(response) {
-			$scope.message = "Error: " + response.code + " " + response.statusText;
+			alert("Error: " + response.code + " " + response.statusText);
 		}
 
     }])
