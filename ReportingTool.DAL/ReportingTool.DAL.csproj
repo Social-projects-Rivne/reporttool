@@ -66,6 +66,12 @@
     <Compile Include="DataAccessLayer\JiraClient.cs" />
     <Compile Include="DataAccessLayer\JiraClientException.cs" />
     <Compile Include="Entities\DataDomain.cs" />
+    <Compile Include="Repositories\EFMemberRepository.cs" />
+    <Compile Include="Repositories\EFTeamMemberRepository.cs" />
+    <Compile Include="Repositories\EFTeamRepository.cs" />
+    <Compile Include="Repositories\IMemberRepository.cs" />
+    <Compile Include="Repositories\ITeamMemberRepository.cs" />
+    <Compile Include="Repositories\ITeamRepository.cs" />
     <Compile Include="Entities\JiraUser.cs" />
     <Compile Include="Entities\Member.cs" />
     <Compile Include="Entities\Team.cs" />
