@@ -1,2 +1,10 @@
-bin/
-obj/
+# Build results
+[Bb]in/
+[Oo]bj/
+
+# Personal
+*.suo
+*.user
+
+# Packages
+packages/
