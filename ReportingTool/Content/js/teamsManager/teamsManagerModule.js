@@ -4,7 +4,7 @@ var teamsManagerModule = angular.module("teamsManagerModule", ['ui.router']);
 
 teamsManagerModule.config(['$stateProvider', function ($stateProvider, $urlRouterProvider) {
 
-    var teamManager = {
+    var teamsManager = {
         name: 'mainView.teamsManager',
         url: '/teamsManager',
 
@@ -12,60 +12,31 @@ teamsManagerModule.config(['$stateProvider', function ($stateProvider, $urlRoute
             '': { templateUrl: 'Content/templates/teamsManager/teamsManagerView.html' },
             'teamsList@mainView.teamsManager': {
                 templateUrl: 'Content/templates/teamsManager/teamsList.html'
-            }
+            },
+            'editBlock@mainView.teamsManager': { template: '' }
         }
 
-    }
+    };
 
+    var editTeam = {
+        name: 'mainView.teamsManager.editTeam',
+        url: '/editTeam/:teamID',
+        view: {
+            'editBlock@mainView.teamsManager.editTeam': {
+                templateUrl: 'Content/templates/teamsManager/editTeam.html'
+            }
+        }
+    };
+    var createTeam = {
+        name: 'mainView.teamsManager.createTeamsdf',
+        url: '/createTeam',
+        view: { 'editBlock@mainView.teamsManager.editTeam': { templateUrl: 'Content/templates/teamsManager/editTeam.html' } }
+    };
 
-    $stateProvider.state(teamManager);
+    $stateProvider.state(teamsManager);
+    $stateProvider.state(editTeam);
+    $stateProvider.state(createTeam);
 }]);
-
-
-
-
-//var teamsManager = {
-//    name: 'mainView.teamsManager',
-//    url: '/teamsManager',
-//        view: {
-//            '': { templateUrl: 'Content/templates/teamsManager/teamsManagerView.html' },
-//            'teamsList@teamsManager': {
-//                templateUrl: 'Content/templates/teamsManager/teamsList.html'
-//            },
-//            'editBlock@teamsManager': {
-//                template: '',
-//            }
-
-//        }
-//    },
-//        editTeam = {
-//            name: 'teamsManager.editTeam',
-//            url: '/editTeam/:teamID',
-//            view: {
-//                'editBlock@': {
-//                    templateUrl: 'Content/templates/teamsManager/editTeam.html'
-//                }
-//            }
-//        },
-//        createTeam = {
-//            name: 'teamsManager.createTeam',
-//            url: '/createTeam',
-//            view: { 'editBlock@': { templateUrl: 'Content/templates/teamsManager/editTeam.html' } }
-//        };
-
-//    $stateProvider.state(teamsManager);
-//    $stateProvider.state(editTeam);
-//    $stateProvider.state(createTeam);
-//}]);
-
-
-
-
-
-
-
-
-
 
 
 //manageTeamsModule.config(function ($stateProvider, $urlRouterProvider) {

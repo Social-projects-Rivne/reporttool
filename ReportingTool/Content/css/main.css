@@ -6,6 +6,10 @@ body {
     float: left;
 }
 
+.teamsList {
+margin-top: -62px;
+}
+
 a {
     cursor: pointer;
 }

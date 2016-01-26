@@ -20,9 +20,14 @@ namespace ReportingTool.Controllers
         }
 
         [HttpPut]
-        public HttpStatusCode EditTeam(string teamID)
+        public HttpStatusCode EditTeam(/*Some teamModel object*/)
         {
             return HttpStatusCode.OK;
+        }
+
+        [HttpDelete]
+        public HttpStatusCodeResult DeleteTeam(string teamID) {
+            return new HttpStatusCodeResult(HttpStatusCode.OK, "Team deleted successfully");
         }
     }
 }

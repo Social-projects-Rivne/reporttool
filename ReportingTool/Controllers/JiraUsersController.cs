@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using ReportingTool.DAL.DataAccessLayer.Jira;
+using ReportingTool.DAL.DataAccessLayer;
 using ReportingTool.DAL.Entities;
 
 namespace ReportingTool.Controllers
