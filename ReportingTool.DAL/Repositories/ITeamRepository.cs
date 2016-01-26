@@ -10,7 +10,8 @@ namespace ReportingTool.DAL.Repositories
 {
     public interface ITeamRepository
     {
-        IEnumerable<Team> Get();
+        //IEnumerable<Team> Get();
+        IEnumerable<Team> Get(string projectkey);
 
         //bool TryGet(int id, out Team team);
         bool TryGet(string name, out Team team);

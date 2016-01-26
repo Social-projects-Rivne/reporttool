@@ -12,14 +12,23 @@ namespace ReportingTool.DAL.Repositories
     public class EFTeamRepository : ITeamRepository
     {
 
-        public IEnumerable<Team> Get()
+        public IEnumerable<Team> Get(string projectkey)
         {
             using (var ctx = new DB2())
             {
-                List<Team> teams = ctx.Teams.ToList();
-                return teams.OrderBy(t => t.Id);
+                //List<Team> teams = ctx.Teams.ToList();
+                //return teams.OrderBy(t => t.Id).Where(t => t.ProjectKey == projectkey);
+                List<Team> teams = ctx.Teams.Where(t => t.ProjectKey == projectkey).ToList();
+                //IEnumerable<Team> teamsOrdered = teams.OrderBy(t => t.Id).Where(t => t.ProjectKey == projectkey);
+
+                if (teams != null)
+                {
+                    return teams.OrderBy(t => t.Id);
+                }
+                return null;
             }
             //return comments.Values.OrderBy(comment => comment.ID);
+           
         }
 
         //public bool TryGet(int id, out Team team)

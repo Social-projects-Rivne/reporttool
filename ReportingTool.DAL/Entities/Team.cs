@@ -25,6 +25,12 @@ namespace ReportingTool.DAL.Entities
     public string Name { get; set; }
 
     [Required]
+    [Column("projectkey")]
+    [MinLength(4)]
+    [MaxLength(50)]
+    public string ProjectKey { get; set; }
+
+    [Required]
     [Column("isactive")]
     public bool IsActive { get; set; }
 

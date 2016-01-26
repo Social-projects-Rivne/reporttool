@@ -25,6 +25,7 @@ CREATE TABLE "teams"
 (
   "id" serial NOT NULL,
   "name" CHARACTER VARYING(50),
+  "projectkey" CHARACTER VARYING(50),
   "isactive" BOOLEAN,
   CONSTRAINT "teams_pkey" PRIMARY KEY ("id")	
 )

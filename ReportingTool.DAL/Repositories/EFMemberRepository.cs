@@ -21,13 +21,13 @@ namespace ReportingTool.DAL.Repositories
             //return comments.Values.OrderBy(comment => comment.ID);
         }
 
-        //public bool TryGet(int id, out Member member)
-        public bool TryGet(string username, out Member member)
+        public bool TryGet(int id, out Member member)
+        //public bool TryGet(string username, out Member member)
         {
             using (var ctx = new DB2())
             {
-                //  member = ctx.Members.FirstOrDefault(t => t.Id == id);
-                member = ctx.Members.FirstOrDefault(t => t.Username == username);
+                member = ctx.Members.FirstOrDefault(t => t.Id == id);
+                //member = ctx.Members.FirstOrDefault(t => t.Username == username);
             }
             if (member != null)
             {

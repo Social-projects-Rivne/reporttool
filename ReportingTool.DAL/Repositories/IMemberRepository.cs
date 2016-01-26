@@ -12,8 +12,8 @@ namespace ReportingTool.DAL.Repositories
     {
         IEnumerable<Member> Get();
 
-        //bool TryGet(int id, out Member member);
-        bool TryGet(string username, out Member member);
+        bool TryGet(int id, out Member member);
+        //bool TryGet(string username, out Member member);
 
         Member Add(Member member);
 
