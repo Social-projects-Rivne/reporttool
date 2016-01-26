@@ -70,7 +70,8 @@
     <Compile Include="DataAccessLayer\JiraClient.cs" />
     <Compile Include="DataAccessLayer\JiraClientException.cs" />
     <Compile Include="Entities\DataDomain.cs" />
-    <Compile Include="Entities\TeamViewModel.cs" />
+    <Compile Include="Entities\JSON.Models\MemberJSM.cs" />
+    <Compile Include="Entities\JSON.Models\TeamJSM.cs" />
     <Compile Include="Repositories\EFMemberRepository.cs" />
     <Compile Include="Repositories\EFTeamMemberRepository.cs" />
     <Compile Include="Repositories\EFTeamRepository.cs" />

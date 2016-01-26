@@ -24,7 +24,7 @@ namespace ReportingTool.WebAPI.Controllers
             //  find Teams by projectkey
             EFTeamRepository efTeamRepository = new EFTeamRepository();
             string projectkeyVar = "projectkey1";
-            IEnumerable<Team> teams = efTeamRepository.Get(projectkeyVar);
+            IEnumerable<Team> teams = efTeamRepository.GetAll(projectkeyVar);
 
             //  get TeamMembers
             EFTeamMemberRepository efTeamMemberRepository = new EFTeamMemberRepository();

@@ -12,7 +12,7 @@ namespace ReportingTool.DAL.Repositories
     public class EFTeamRepository : ITeamRepository
     {
 
-        public IEnumerable<Team> Get(string projectkey)
+        public IEnumerable<Team> GetAll(string projectkey)
         {
             using (var ctx = new DB2())
             {

@@ -8,6 +8,7 @@ using ReportingTool.DAL.Entities;
 using ReportingTool.DAL.Repositories;
 using System.Runtime.Serialization.Json;
 using System.IO;
+using ReportingTool.DAL.Entities.JSON.Models;
 
 namespace ReportingTool.DAL.TestConsoleApp
 {
@@ -142,8 +143,8 @@ namespace ReportingTool.DAL.TestConsoleApp
             //  find Teams by projectkey
             EFTeamRepository efTeamRepository = new EFTeamRepository();
             string projectkeyVar = "projectkey1";
-            IEnumerable<Team> teams = efTeamRepository.Get(projectkeyVar);
-            
+            IEnumerable<Team> teamList = efTeamRepository.GetAll(projectkeyVar);
+
             //  get TeamMembers
             EFTeamMemberRepository efTeamMemberRepository = new EFTeamMemberRepository();
             IEnumerable<TeamMember> teamMembers = efTeamMemberRepository.Get();
@@ -153,23 +154,24 @@ namespace ReportingTool.DAL.TestConsoleApp
             IEnumerable<Member> members = efMemberRepository.Get();
 
             //  a list for sorted out members
-            List<Member> membersVar = new List<Member>();
-            List<TeamViewModel> tvmList = new List<TeamViewModel>();
+            List<MemberJSM> membersVar = new List<MemberJSM>();
+            List<TeamJSM> tvmList = new List<TeamJSM>();
 
-            foreach (Team t2 in teams)
+            foreach (Team teamvar in teamList)
             {
                 //IEnumerable<TeamMember> teamMembersVar = teamMembers.Where(tm => tm.TeamId == t2.Id);
                 List<TeamMember> tmsVar = new List<TeamMember>();
-                //
-                TeamViewModel tvm = new TeamViewModel();
-                tvm.Id = t2.Id;
-                tvm.Name = t2.Name;
-                tvm.ProjectKey = t2.ProjectKey;
-                tvm.IsActive = t2.IsActive;
+
+                // fill JSON Model
+                TeamJSM teamJSM = new TeamJSM();
+                teamJSM.teamID = teamvar.Id;
+                teamJSM.teamName = teamvar.Name;
+                teamJSM.projectKey = teamvar.ProjectKey;
+                teamJSM.isActive = teamvar.IsActive;
                 //
                 foreach (var tm in teamMembers)
                 {
-                    if (tm.TeamId == t2.Id)
+                    if (tm.TeamId == teamvar.Id)
                     {
                         tmsVar.Add(tm);
                     }
@@ -178,25 +180,31 @@ namespace ReportingTool.DAL.TestConsoleApp
                 foreach (var tm2 in tmsVar)
                 {
                     //Member memberVar = (Member)members.Where(m => m.Id == tm2.MemberId);
-                    Member member = null;
-                    if (efMemberRepository.TryGet(tm2.MemberId, out member))
+                    Member memberVar = null;
+                    if (efMemberRepository.TryGet(tm2.MemberId, out memberVar))
                     {
-                        if (member != null)
+                        if (memberVar != null)
                         {
-                            tvm.Members.Add(member);
+                            MemberJSM memberJSM = new MemberJSM();
+                            memberJSM.memberID = memberVar.Id;
+                            memberJSM.userName = memberVar.Username;
+                            memberJSM.fullName = memberVar.Fullname;
+                            memberJSM.isActive = memberVar.IsActive;
+
+                            teamJSM.members.Add(memberJSM);
 
                             // list of Members for testing
-                            membersVar.Add(member);
+                            membersVar.Add(memberJSM);
                         }
                     }
                 }
                 //Console.WriteLine("{0}  {1}  {2} {3}", t2.Id, t2.Name, t2.ProjectKey, t2.IsActive);
-                tvmList.Add(tvm);
+                tvmList.Add(teamJSM);
             }
 
             foreach (var m in membersVar)
             {
-                Console.WriteLine("{0}  {1}  {2}", m.Id, m.Username, m.Fullname, m.IsActive);
+                Console.WriteLine("{0}  {1}  {2}", m.memberID, m.userName, m.fullName, m.isActive);
             }
 
             ////  serialization
