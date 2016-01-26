@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.Routing;
+using ReportingTool.App_Start;
 
 namespace ReportingTool
 {
@@ -12,6 +13,7 @@ namespace ReportingTool
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
     }
 }
