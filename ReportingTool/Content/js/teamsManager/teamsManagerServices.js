@@ -4,51 +4,45 @@ teamsManagerModule.
 factory('TeamFactory', ['$http', function ($http) {
 		var teamFactory = {
 			all: all,
-			get: get,
-			update: update,
-			del: del,
-			create: create
+			editTeam: editTeam,
+			deleteTeam: deleteTeam,
+			createTeam: createTeam
 		};
 
 		function all() {
-		    var users = $http.get("Home/GetAllUsers");
-		    debugger;
-		    return users;
+		    var teams = $http.get("Teams/GetAllTeams");
+		    return teams;
 		}
 
-		function get(id) {
-			return $http.get("http://localhost:3000/teams/");
-			//return $http.get("http://localhost:3000/teams/" + id);
-		}
-
-		function create(id, data) {
-			return $http.post("/api/teams/", {
+		function createTeam(data) {
+		    return $http.post("Teams/AddNewTeam", {
 				data: data
 			});
 		}
 
-		function update(id, data) {
-			return $http.put("/api/teams/", {
+		function editTeam(data) {
+		    return $http.put("Teams/EditTeam", {
 				data: data
 			});
 		}
 
-		function del(id) {
-			return $http.put("/api/teams/" + id);
+		function deleteTeam(id) {
+		    return $http.put("Teams/DeleteTeam/" + id);
 		}
 
 		return teamFactory;
     }])
 	.factory('UserFactory', ['$http', function ($http) {
-		var user = {
+		var users = {
 			all: all
 		};
 
 		function all() {
-			return $http.get("http://localhost:3000/users/");
+		    var users = $http.get("JiraUsers/GetAllUsers");
+		    return users;
 		}
 
-		return user;
+		return users;
     }])
 	.factory('TemplatesFactory', ['$http', function ($http) {
 		var template = {

@@ -12,8 +12,7 @@ teamsManagerModule.config(['$stateProvider', function ($stateProvider, $urlRoute
             '': { templateUrl: 'Content/templates/teamsManager/teamsManagerView.html' },
             'teamsList@mainView.teamsManager': {
                 templateUrl: 'Content/templates/teamsManager/teamsList.html'
-            },
-            'editBlock@mainView.teamsManager': { template: '' }
+            }
         }
 
     };
@@ -22,15 +21,15 @@ teamsManagerModule.config(['$stateProvider', function ($stateProvider, $urlRoute
         name: 'mainView.teamsManager.editTeam',
         url: '/editTeam/:teamID',
         view: {
-            'editBlock@mainView.teamsManager.editTeam': {
+            'editBlock@mainView.teamsManager': {
                 templateUrl: 'Content/templates/teamsManager/editTeam.html'
             }
         }
     };
     var createTeam = {
-        name: 'mainView.teamsManager.createTeamsdf',
+        name: 'mainView.teamsManager.createTeam',
         url: '/createTeam',
-        view: { 'editBlock@mainView.teamsManager.editTeam': { templateUrl: 'Content/templates/teamsManager/editTeam.html' } }
+        view: { 'editBlock@mainView.teamsManager': { templateUrl: 'Content/templates/teamsManager/editTeam.html' } }
     };
 
     $stateProvider.state(teamsManager);

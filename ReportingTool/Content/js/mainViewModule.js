@@ -10,5 +10,5 @@ mainViewModule.config(['$stateProvider', function ($stateProvider) {
         //controller: 'MainViewController' // it should get all teams from server and store it to some rootScope variable
     }
 
-    $stateProvider.state(mainView);
+    $stateProvider.state(mainView); 
 }]);

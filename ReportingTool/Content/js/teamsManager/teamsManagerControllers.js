@@ -33,7 +33,6 @@ teamsManagerModule
 		}
 
 		function teamsSuccess(response) {
-		    debugger;
 			$scope.teams = response.data;
 			$scope.showTeams = true;
 		}
@@ -57,7 +56,7 @@ teamsManagerModule
 			fullName: ""
 		};
 		$scope.message = "Loading...";
-		$scope.showEditBlock = false;
+		$scope.showEditBlock = true;
 
 		var id_team_to_del = parseInt($stateParams.id, 10);
 		var backupTeam = {};

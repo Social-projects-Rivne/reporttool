@@ -13,11 +13,17 @@ namespace ReportingTool.Models
         [Required]
         public string teamName;
         [Required]
-        public List<TempMemberModel> members;
+        public List<TempMemberModel> members = new List<TempMemberModel>();
     }
 
     public class TempMemberModel
     {
+        public TempMemberModel() { }
+        public TempMemberModel(string name, string full) {
+            userName = name;
+            fullName = full;
+        }
+
         public string userName;
         public string fullName;
     }
