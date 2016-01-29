@@ -3,13 +3,13 @@
 teamsManagerModule.
 factory('TeamFactory', ['$http', function ($http) {
 		var teamFactory = {
-			all: all,
+		    GetAllTeams: GetAllTeams,
 			editTeam: editTeam,
 			deleteTeam: deleteTeam,
 			createTeam: createTeam
 		};
 
-		function all() {
+		function GetAllTeams() {
 		    var teams = $http.get("Teams/GetAllTeams");
 		    return teams;
 		}

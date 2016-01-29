@@ -1,17 +1,21 @@
 'use strict';
 
 teamsManagerModule
-	.controller('teamsManagerController', ['$scope', 'TeamFactory', function ($scope, TeamFactory) {
+	.controller('teamsManagerController', ['$scope', '$stateParams', '$state', 'TeamFactory', function ($scope,$stateParams,$state, TeamFactory) {
 	    $scope.message = "Loading...";
 		$scope.showTeams = true;
 		$scope.teams = {};
-		TeamFactory.all().then(teamsSuccess, teamsFail);
+		TeamFactory.GetAllTeams().then(teamsSuccess, teamsFail);
 
 		var id_team_to_del = null;
 
 		$scope.delTeam = function (id) {
 			TeamFactory.del(id).then(delSuccess, delFail);
 			id_team_to_del = id;
+		}
+
+		$scope.AddTeam = function () {
+		    $state.go('.createTeam');
 		}
 
 		function delSuccess(response) {
@@ -47,12 +51,11 @@ teamsManagerModule
 			teamName: ""
 		};
 		$scope.users = [{
-			loginName: 'Loading...',
+			userName: 'Loading...',
 			fullName: 'Loading...'
 		}];
 		$scope.selectedUser = {
-			userID: "",
-			loginName: "",
+			userName: "",
 			fullName: ""
 		};
 		$scope.message = "Loading...";
@@ -64,16 +67,15 @@ teamsManagerModule
 		TeamFactory.get(parseInt($stateParams.id, 10)).then(getSuccess, getFail);
 		UserFactory.all().then(getUsersSuccess, getUsersFail);
 
-		$scope.addUser = function (user) {
+		$scope.addUser = function (member) {
 			for (var i in $scope.editTeam.members) {
-				if ($scope.editTeam.members[i].userID === user.userID) {
+			    if ($scope.editTeam.members[i].userName === user.userName) {
 					return;
 				}
 			}
-			$scope.editTeam.members.push(user);
+			$scope.editTeam.members.push(member);
 			$scope.selectedUser = {
-				userID: "",
-				loginName: "",
+				userName: "",
 				fullName: ""
 			};
 		}
@@ -87,10 +89,10 @@ teamsManagerModule
 			$scope.editTeam = backupTeam;
 		}
 
-		$scope.delMember = function (id) {
-			console.log('del member' + id);
+		$scope.removeMember = function (userName) {
+		    console.log('del member ' + userName);
 			for (var i in $scope.editTeam.members) {
-				if ($scope.editTeam.members[i].userID === id) {
+			    if ($scope.editTeam.members[i].userName === userName) {
 					$scope.editTeam.members.splice(i, 1);
 				}
 			}
@@ -142,12 +144,11 @@ teamsManagerModule
 		members: []
 	};
 	$scope.users = [{
-		loginName: 'Loading...',
+		userName: 'Loading...',
 		fullName: 'Loading...'
 	}];
 	$scope.selectedUser = {
-		userID: "",
-		loginName: "",
+		userName: "",
 		fullName: ""
 	};
 	$scope.showEditBlock = true;
@@ -156,14 +157,13 @@ teamsManagerModule
 
 	$scope.addUser = function (user) {
 		for (var i in $scope.editTeam.members) {
-			if ($scope.editTeam.members[i].userID === user.userID) {
+		    if ($scope.editTeam.members[i].userName === user.userName) {
 				return;
 			}
 		}
 		$scope.editTeam.members.push(user);
 		$scope.selectedUser = {
-			userID: "",
-			loginName: "",
+			userName: "",
 			fullName: ""
 		};
 	}
@@ -175,14 +175,14 @@ teamsManagerModule
 	$scope.cancel = function () {
 		$scope.editTeam = {
 			teamID: "",
-			teamName: "Python Django team",
+			teamName: "",
 			members: []
 		};
 	}
 
-	$scope.delMember = function (id) {
+	$scope.removeMember = function (userName) {
 		for (var i in $scope.editTeam.members) {
-			if ($scope.editTeam.members[i].userID === id) {
+		    if ($scope.editTeam.members[i].userName === userName) {
 				$scope.editTeam.members.splice(i, 1);
 			}
 		}

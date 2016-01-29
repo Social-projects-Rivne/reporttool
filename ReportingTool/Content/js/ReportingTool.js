@@ -23,7 +23,11 @@ var ReportingTool = angular.module('ReportingTool', ['ui.router', 'mainViewModul
 //}]);
 
 
-ReportingTool.run(['$state', function ($state) {
+ReportingTool.run(['$rootScope', '$state', '$stateParams',
+    function ($rootScope,   $state,   $stateParams) {
+        $rootScope.$state = $state;
+        $rootScope.$stateParams = $stateParams;
+
     if (true) {                                     //  if (isConfigureFileValid)
         if (true) {                              //  if (isLoggedIn)
             // ReportingTool.requires.push('manageTeamsModule');
