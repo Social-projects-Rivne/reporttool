@@ -1,20 +1,4 @@
-﻿<!DOCTYPE html>
-<html ng-app="ConfigurationModule"
-      xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>Configuration</title>
-    <script src="../../../Scripts/angular.js"></script>
-    <script type="text/javascript" src="../../../Scripts/angular-messages.js"></script>
-    <script type="text/javascript" src="../../../Scripts/angular-material.min.js"></script>
-    <script type="text/javascript" src="../../../Scripts/angular-aria.min.js"></script>
-    <script type="text/javascript" src="../../../Scripts/angular-animate.min.js"></script>
-    <script src="../../../Content/js/configView/configuration-module.js"></script>
-    <script src="../../../Content/js/configView/projectNameDirective.js"></script>
-    <link rel="stylesheet" href="../../../Content/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../../Content/css/configuration-module.css">
-    <link rel="stylesheet" href="../../../Content/css/angular-material.min.css">
-</head>
-<body ng-controller="ConfigurationController" ng-cloak>
+﻿<section ng-controller="configurationController" ng-cloak>
     <div id="startProgressIndicator">
         <md-progress-circular md-mode="indeterminate"
                               ng-show="getRequestIsLoading"
@@ -82,5 +66,4 @@
             </div>
         </form>
     </div>
-</body>
-</html>
+</section>

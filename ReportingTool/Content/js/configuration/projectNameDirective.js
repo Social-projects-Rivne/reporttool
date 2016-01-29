@@ -1,4 +1,4 @@
-﻿angular.module('ConfigurationModule').directive('projectName', function () {
+﻿angular.module('configurationModule').directive('projectName', function () {
     return {
         restrict: 'A',
         require: 'ngModel',

@@ -42,6 +42,10 @@
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="INIFileParser, Version=2.2.4.0, Culture=neutral, PublicKeyToken=79af7b307b65cf3c, processorArchitecture=MSIL">
+      <HintPath>..\packages\ini-parser.2.2.4\lib\net20\INIFileParser.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -112,19 +116,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\css\angular-material.min.css" />
     <Content Include="Content\css\bootstrap-theme.min.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\font-awesome.min.css" />
     <Content Include="Content\css\main.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\img\logo.png" />
+    <Content Include="Content\js\configuration\configurationController.js" />
     <Content Include="Content\js\configuration\configViewModule.js" />
     <Content Include="Content\js\configuration\projectNameDirective.js" />
+    <Content Include="Content\js\login\loginController.js" />
+    <Content Include="Content\js\login\loginModule.js" />
     <Content Include="Content\js\mainViewModule.js" />
     <Content Include="Content\js\teamsManager\teamsManagerControllers.js" />
     <Content Include="Content\js\teamsManager\teamsManagerModule.js" />
     <Content Include="Content\js\teamsManager\teamsManagerServices.js" />
     <Content Include="Content\js\ReportingTool.js" />
+    <Content Include="Content\js\vendor\angular-animate.min.js" />
+    <Content Include="Content\js\vendor\angular-aria.min.js" />
+    <Content Include="Content\js\vendor\angular-material.min.js" />
+    <Content Include="Content\js\vendor\angular-messages.js" />
     <Content Include="Content\js\vendor\angular-ui-router.min.js" />
     <Content Include="Content\js\vendor\angular.js" />
     <Content Include="Content\templates\teamsManager\teamsManagerView.html" />
@@ -146,11 +158,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
+    <Compile Include="Controllers\ConfigurationController.cs" />
     <Compile Include="Controllers\JiraUsersController.cs" />
     <Compile Include="Controllers\TeamsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ConfigurationParametersModel.cs" />
     <Compile Include="Models\TempTeamModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -171,6 +185,10 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ReportingTool.Core\ReportingTool.Core.csproj">
+      <Project>{53c551bf-3712-41b0-ad4e-e4bf95fb8c87}</Project>
+      <Name>ReportingTool.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ReportingTool.DAL\ReportingTool.DAL.csproj">
       <Project>{a4388dbb-4998-41b9-97fa-7462bb37131a}</Project>
       <Name>ReportingTool.DAL</Name>

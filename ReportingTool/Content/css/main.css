@@ -153,3 +153,124 @@ th:nth-child(3) {
     border: 1px solid #00BCD4;
     background-color: #fff;
 }
+
+/* Login */
+
+#logging {
+    position: relative;
+    width: 605px;
+    height: 513px;
+    top: 250px;
+    left: 50%;
+    margin-left: -303px;
+}
+
+#login {
+    position: absolute;
+    font-family: sans-serif;
+    font-size: 40pt; 
+    color: rgb(22, 28, 102);
+}
+
+#loginInput {
+    position: absolute;
+    top: 78px;
+    height: 85px;
+    width: 600px;
+    border: 2px solid rgb(160, 231, 245);
+    font-size: 40pt;
+} 
+
+#passwordInput {
+    position: absolute;
+    top: 203px;
+    height: 85px;
+    width: 600px;
+    border: 2px solid rgb(160, 231, 245);
+    font-size: 40pt;
+}
+
+#loginButton {
+    position: absolute;
+    width: 100%;
+    height: 85px;
+    background-color: rgb(22, 28, 102);
+    top: 328px;
+    text-align: center;
+    box-sizing: border-box;
+    padding-top: 2px;
+    font-family: sans-serif;
+    font-size: 40pt; 
+    color: white;
+}
+ #loginButton:hover {
+
+     cursor:pointer;
+ }
+
+ .alert {
+     width: 100%;
+ }
+
+ #progressIndicator {
+    display: block;
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    left: 50%;
+    margin-left: -50px;
+    bottom: 5px;
+}
+
+ /* Configuration */
+
+ #container {
+    position: relative;
+}
+
+.alert-info, .alert-danger, .alert-warning{
+    margin-top: 20px;
+}
+
+.css-form input.ng-invalid.ng-dirty {
+    background-color: #FA787E;
+}
+    
+.css-form input.ng-valid.ng-dirty {
+    background-color: #78FA89;
+}
+
+#hostError {
+    color : red;
+    box-sizing: border-box;
+    margin-top: -10px;
+}
+
+.error {
+    color : red;
+    margin-top: 7px;
+}
+
+#startProgressIndicator {
+
+    display: block;
+    position: absolute;
+    text-align: center;
+    vertical-align: central;
+    width: 50px;
+    height: 50px;
+    left: 50%;
+    margin-left: -25px;
+    margin-top: -25px;
+    top: 50%;
+}
+
+#sendDataProgressIndicator {
+    display: block;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    left: 50%;
+    margin-top: -60px;
+    margin-left: -25px;
+}
