@@ -1,6 +1,6 @@
 ﻿'use strict'
 
-loginModule.controller("loginController", function ($scope, $http) {
+loginModule.controller("loginController", ['$scope', '$http', '$stateParams', '$state', function ($scope, $http, $stateParams, $state) {
 
     $scope.credentials = {
         userName: '',
@@ -38,7 +38,7 @@ loginModule.controller("loginController", function ($scope, $http) {
                 else
                     if (r.data.Status == "validCredentials") {
                         //redirect on main page
-                        alert("OK");
+                        $state.transitionTo('mainView');
                     }
                     else
                         if (r.data.Status == "invalidCredentials") {
@@ -55,4 +55,4 @@ loginModule.controller("loginController", function ($scope, $http) {
          );
     }
 
-});
+}]);
