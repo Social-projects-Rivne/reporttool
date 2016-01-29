@@ -1,6 +1,6 @@
 ﻿'use strict'
 
-configurationModule.controller("configurationController", function ($scope, $http) {
+configurationModule.controller("configurationController", ['$scope', '$http', '$stateParams', '$state', function ($scope, $http, $stateParams, $state) {
 
     angular.element(document).ready(function () {
         $scope.CheckConfigurationFile();
@@ -31,7 +31,6 @@ configurationModule.controller("configurationController", function ($scope, $htt
 
         $http(req).then(
             function (r) {
-
                 if (r.data.Answer == 'NotValid') {
                     $scope.isConfigurationNotReady = true;
                     $scope.isConfigurationFileError = true;
@@ -44,15 +43,16 @@ configurationModule.controller("configurationController", function ($scope, $htt
                         $scope.fileStatusMessage = "Configuration file is empty";
                     }
                     else
-                        if (r.data.Answer == 'NotExist') {
+                        if (r.data.Answer == 'NotExists') {
                             $scope.isConfigurationNotReady = true;
                             $scope.isConfigurationFileError = true;
                             $scope.fileStatusMessage = "Configuration file does not exist";
                         }
                         else
-                            if (r.data.Answer == 'Exist') {
+                            if (r.data.Answer == 'Exists') {
                                 //redirect on main login page
-                                window.location.href = "Login.html";
+                                $state.transitionTo('loginView');
+
                             }
             },
             function (response) {
@@ -66,7 +66,7 @@ configurationModule.controller("configurationController", function ($scope, $htt
     $scope.SendConfigurationDataToServer = function () {
 
         var req = {
-            url: '/Configuration/SaveConfigurationData',
+            url: '/Configuration/SetConfigurations',
             method: 'POST',
             data: JSON.stringify($scope.configurationData),
             headers: { 'content-type': 'application/json' }
@@ -76,7 +76,8 @@ configurationModule.controller("configurationController", function ($scope, $htt
             function (r) {
                 if (r.data.Answer == 'Created') {
                     //redirect on main login page
-                    window.location.href = "Login.html";
+                    $state.transitionTo('loginView');
+
                 }
                 else
                     if (r.data.Answer == 'NotCreated') {
@@ -90,4 +91,4 @@ configurationModule.controller("configurationController", function ($scope, $htt
             }
          );
     }
-});
+}]);
