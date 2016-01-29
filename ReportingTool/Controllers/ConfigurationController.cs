@@ -14,7 +14,7 @@ namespace ReportingTool.Controllers
     public enum Answer { NotExists, IsEmpty, NotValid, Exists, Created, NotCreated };
     public class ConfigurationController : Controller
     {
-        private string FILE_NAME = "../../Configurations.ini";
+        private string FILE_NAME = @"D:\gitRepositories\Softserve_ReportingTool\reporttool\Configurations.ini"; //TODO
         private const string SECTION = "GeneralConfiguration";
         private const string SERVEL_URL_KEY = "ServerUrl";
         private const string PROJECT_NAME_KEY = "ProjectName";

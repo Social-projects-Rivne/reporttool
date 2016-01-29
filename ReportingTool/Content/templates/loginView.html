@@ -1,3 +1,34 @@
-<div>
-	<h1>LOGIN PAGE</h1>
-</div>
+<section ng-controller="loginController">
+    <div id="logging">
+        <form class="form-horizontal, css-form" name="loginForm">
+            <input type="text" id="loginInput" placeholder="user name"
+                   ng-model="credentials.userName" class="form-group"
+                   ng-focus="HideErrors();"
+                   required />
+            <input type="password" id="passwordInput" placeholder="password"
+                   class="form-group"
+                   ng-model="credentials.password"
+                   ng-focus="HideErrors();"
+                   required />
+            <input type="submit" value="Log in" id="loginButton"
+                   ng-disabled="loginForm.$invalid"
+                   ng-click="SendData()" />
+
+        </form>
+        <div class="alert alert-warning" id="error"
+             ng-show="showAuthentificationError">
+            {{errorText}}
+        </div>
+        <div class="alert alert-danger" id="error"
+             ng-show="showConnectionError">
+            {{errorText}}
+        </div>
+        <div id="progressIndicator">
+            <md-progress-circular md-mode="indeterminate"
+                                  md-diameter="96"
+                                  ng-show="validationIsInProgress">
+            </md-progress-circular>
+        </div>
+    </div>
+
+</section>

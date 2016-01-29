@@ -1,6 +1,6 @@
 ﻿'use strict'
 
-var configurationModule = angular.module("configurationModule", []);
+var configurationModule = angular.module("configurationModule", ['ui.router']);
 
 configurationModule.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
     var configView = {
