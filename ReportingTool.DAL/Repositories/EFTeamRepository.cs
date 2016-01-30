@@ -9,17 +9,18 @@ using ReportingTool.DAL.Entities;
 
 namespace ReportingTool.DAL.Repositories
 {
+/*
     public class EFTeamRepository : ITeamRepository
     {
 
-        public IEnumerable<Team> GetAll(string projectkey)
+        public IEnumerable<team> GetAll(string projectkey)
         {
             using (var ctx = new DB2())
             {
-                //List<Team> teams = ctx.Teams.ToList();
+                //List<team> teams = ctx.Teams.ToList();
                 //return teams.OrderBy(t => t.Id).Where(t => t.ProjectKey == projectkey);
-                List<Team> teams = ctx.Teams.Where(t => t.ProjectKey == projectkey).ToList();
-                //IEnumerable<Team> teamsOrdered = teams.OrderBy(t => t.Id).Where(t => t.ProjectKey == projectkey);
+                List<team> teams = ctx.Teams.Where(t => t.ProjectKey == projectkey).ToList();
+                //IEnumerable<team> teamsOrdered = teams.OrderBy(t => t.Id).Where(t => t.ProjectKey == projectkey);
 
                 if (teams != null)
                 {
@@ -31,15 +32,15 @@ namespace ReportingTool.DAL.Repositories
            
         }
 
-        //public bool TryGet(int id, out Team team)
-        public bool TryGet(string name, out Team team)
+        //public bool TryGet(int id, out team teamv)
+        public bool TryGet(string name, out team teamv)
         {
             using (var ctx = new DB2())
             {
-                //  team = ctx.Teams.FirstOrDefault(t => t.Id == id);
-                team = ctx.Teams.FirstOrDefault(t => t.Name == name);
+                //  teamv = ctx.Teams.FirstOrDefault(t => t.Id == id);
+                teamv = ctx.Teams.FirstOrDefault(t => t.Name == name);
             }
-            if (team != null)
+            if (teamv != null)
             {
                 return true;
             }
@@ -47,14 +48,14 @@ namespace ReportingTool.DAL.Repositories
         }
 
         //  TODO: issue with indexes
-        public Team Add(Team team)
+        public team Add(team teamv)
         {
             using (var ctx = new DB2())
             {
-                ctx.Teams.Add(team);
+                ctx.Teams.Add(teamv);
                 ctx.SaveChanges();
             }
-            return team;
+            return teamv;
         }
 
         //public bool Delete(int id)
@@ -62,17 +63,17 @@ namespace ReportingTool.DAL.Repositories
         {
             using (var ctx = new DB2())
             {
-                // Query for the Team with the certain Id 
-                //Team team = ctx.Teams.Where(t => t.Id == id).FirstOrDefault();
-                Team team = ctx.Teams.FirstOrDefault(t => t.Name == name);
+                // Query for the team with the certain Id 
+                //team teamv = ctx.Teams.Where(t => t.Id == id).FirstOrDefault();
+                team teamv = ctx.Teams.FirstOrDefault(t => t.Name == name);
 
-                if (team != null)
+                if (teamv != null)
                 {
-                    //ctx.Teams.Remove(team);
-                    team.IsActive = false;
+                    //ctx.Teams.Remove(teamv);
+                    teamv.IsActive = false;
 
-                    ctx.Teams.Attach(team);
-                    ctx.Entry(team).State = EntityState.Modified;
+                    ctx.Teams.Attach(teamv);
+                    ctx.Entry(teamv).State = EntityState.Modified;
                     ctx.SaveChanges();
                     return true;
                 }
@@ -80,27 +81,27 @@ namespace ReportingTool.DAL.Repositories
             }
         }
 
-        public bool Update(Team team)
+        public bool Update(Team teamv)
         {
             using (var ctx = new DB2())
             {
                 // Query for the Team with the certain Id 
-                Team teamFromDB = ctx.Teams.FirstOrDefault(t => t.Id == team.Id);
+                Team teamFromDB = ctx.Teams.FirstOrDefault(t => t.Id == teamv.Id);
 
                 if (teamFromDB != null)
                 {
-                    teamFromDB.Name = team.Name;
-                    teamFromDB.IsActive = team.IsActive;
+                    teamFromDB.Name = teamv.Name;
+                    teamFromDB.IsActive = teamv.IsActive;
 
-                    ctx.Teams.Attach(team);
-                    ctx.Entry(team).State = EntityState.Modified;
+                    ctx.Teams.Attach(teamv);
+                    ctx.Entry(teamv).State = EntityState.Modified;
                     ctx.SaveChanges();
                 }
                 return false;
             }
 
         }
-
     }
+ */
 }
 

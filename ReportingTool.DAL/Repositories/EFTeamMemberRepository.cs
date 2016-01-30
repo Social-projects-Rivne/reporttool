@@ -12,6 +12,7 @@ namespace ReportingTool.DAL.Repositories
 {
     public class EFTeamMemberRepository : ITeamMemberRepository
     {
+/*
         public IEnumerable<TeamMember> Get()
         {
             using (var ctx = new DB2())
@@ -92,5 +93,7 @@ namespace ReportingTool.DAL.Repositories
             }
 
         }
+*/
+
     }
 }

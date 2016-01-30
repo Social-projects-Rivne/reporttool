@@ -10,16 +10,16 @@ namespace ReportingTool.DAL.Repositories
 {
     public interface IMemberRepository
     {
-        IEnumerable<Member> Get();
+        IEnumerable<member> Get();
 
-        bool TryGet(int id, out Member member);
-        //bool TryGet(string username, out Member member);
+        bool TryGet(int id, out member memberv);
+        //bool TryGet(string username, out member memberv);
 
-        Member Add(Member member);
+        member Add(member memberv);
 
         // bool Delete(int id);
         bool Delete(string username);
 
-        bool Update(Member member);
+        bool Update(member memberv);
     }
 }

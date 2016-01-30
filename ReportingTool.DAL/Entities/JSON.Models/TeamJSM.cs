@@ -11,7 +11,7 @@ namespace ReportingTool.DAL.Entities.JSON.Models
     public partial class TeamJSM
     {
         public List<MemberJSM> members = null;
-        //public Member[] Members = {};
+        //public member[] Members = {};
 
         public TeamJSM()
         {

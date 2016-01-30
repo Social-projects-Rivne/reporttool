@@ -13,6 +13,7 @@ using ReportingTool.DAL.Entities.JSON.Models;
 
 namespace ReportingToool.WebAPI.Controllers
 {
+/*
     public class TeamsController : ApiController
     {
         // GET api/teams
@@ -21,7 +22,7 @@ namespace ReportingToool.WebAPI.Controllers
         {
             EFTeamRepository efTeamRepository = new EFTeamRepository();
             string projectkeyVar = "projectkey1";
-            IEnumerable<Team> teamList = efTeamRepository.GetAll(projectkeyVar);
+            IEnumerable<team> teamList = efTeamRepository.GetAll(projectkeyVar);
 
             //  get TeamMembers
             EFTeamMemberRepository efTeamMemberRepository = new EFTeamMemberRepository();
@@ -29,13 +30,13 @@ namespace ReportingToool.WebAPI.Controllers
 
             //  get Members
             EFMemberRepository efMemberRepository = new EFMemberRepository();
-            IEnumerable<Member> members = efMemberRepository.Get();
+            IEnumerable<member> members = efMemberRepository.Get();
 
             //  a list for sorted out members
             List<MemberJSM> membersVar = new List<MemberJSM>();
             List<TeamJSM> tvmList = new List<TeamJSM>();
 
-            foreach (Team teamvar in teamList)
+            foreach (team teamvar in teamList)
             {
                 //IEnumerable<TeamMember> teamMembersVar = teamMembers.Where(tm => tm.TeamId == t2.Id);
                 List<TeamMember> tmsVar = new List<TeamMember>();
@@ -57,17 +58,17 @@ namespace ReportingToool.WebAPI.Controllers
 
                 foreach (var tm2 in tmsVar)
                 {
-                    //Member memberVar = (Member)members.Where(m => m.Id == tm2.MemberId);
-                    Member memberVar = null;
+                    //member memberVar = (member)members.Where(m => m.Id == tm2.MemberId);
+                    member memberVar = null;
                     if (efMemberRepository.TryGet(tm2.MemberId, out memberVar))
                     {
                         if (memberVar != null)
                         {
                             MemberJSM memberJSM = new MemberJSM();
-                            memberJSM.memberID = memberVar.Id;
-                            memberJSM.userName = memberVar.Username;
+                            memberJSM.memberID = memberVar.idv;
+                            memberJSM.userName = memberVar.username;
                             memberJSM.fullName = memberVar.Fullname;
-                            memberJSM.isActive = memberVar.IsActive;
+                            memberJSM.isActive = memberVar.isactive;
 
                             teamJSM.members.Add(memberJSM);
 
@@ -86,7 +87,7 @@ namespace ReportingToool.WebAPI.Controllers
         }
 
         // GET api/teams/5
-        public TeamJSM Get(int id)
+        public TeamJSM Get(int idv)
         {
             return null;
         }
@@ -97,13 +98,14 @@ namespace ReportingToool.WebAPI.Controllers
         }
 
         // PUT api/teams/5
-        public void Put(int id, [FromBody]TeamJSM tvm)
+        public void Put(int idv, [FromBody]TeamJSM tvm)
         {
         }
 
         // DELETE api/teams/5
-        public void Delete(int id)
+        public void Delete(int idv)
         {
         }
     }
+ */
 }

@@ -9,27 +9,28 @@ using ReportingTool.DAL.Entities;
 
 namespace ReportingTool.DAL.Repositories
 {
+/*
     public class EFMemberRepository : IMemberRepository
     {
-        public IEnumerable<Member> Get()
+        public IEnumerable<member> Get()
         {
             using (var ctx = new DB2())
             {
-                List<Member> members = ctx.Members.ToList();
-                return members.OrderBy(m => m.Id);
+                List<member> members = ctx.Members.ToList();
+                return members.OrderBy(m => m.id);
             }
             //return comments.Values.OrderBy(comment => comment.ID);
         }
 
-        public bool TryGet(int id, out Member member)
-        //public bool TryGet(string username, out Member member)
+        public bool TryGet(int id, out member memberv)
+        //public bool TryGet(string username, out member memberv)
         {
             using (var ctx = new DB2())
             {
-                member = ctx.Members.FirstOrDefault(t => t.Id == id);
-                //member = ctx.Members.FirstOrDefault(t => t.Username == username);
+                memberv = ctx.Members.FirstOrDefault(t => t.id == id);
+                //memberv = ctx.Members.FirstOrDefault(t => t.Username == username);
             }
-            if (member != null)
+            if (memberv != null)
             {
                 return true;
             }
@@ -37,14 +38,14 @@ namespace ReportingTool.DAL.Repositories
         }
 
         //  TODO: issue with indexes
-        public Member Add(Member member)
+        public member Add(member memberv)
         {
             using (var ctx = new DB2())
             {
-                ctx.Members.Add(member);
+                ctx.Members.Add(memberv);
                 ctx.SaveChanges();
             }
-            return member;
+            return memberv;
         }
 
         //public bool Delete(int id)
@@ -52,17 +53,17 @@ namespace ReportingTool.DAL.Repositories
         {
             using (var ctx = new DB2())
             {
-                // Query for the Member with the certain Id 
-                //Member member = ctx.Members.Where(t => t.Id == id).FirstOrDefault();
-                Member member = ctx.Members.FirstOrDefault(m => m.Username == username);
+                // Query for the member with the certain Id 
+                //member memberv = ctx.Members.Where(t => t.Id == id).FirstOrDefault();
+                member memberv = ctx.Members.FirstOrDefault(m => m.username == username);
 
-                if (member != null)
+                if (memberv != null)
                 {
-                    //ctx.Members.Remove(member);
-                    member.IsActive = false;
+                    //ctx.Members.Remove(memberv);
+                    memberv.isactive = false;
 
-                    ctx.Members.Attach(member);
-                    ctx.Entry(member).State = EntityState.Modified;
+                    ctx.Members.Attach(memberv);
+                    ctx.Entry(memberv).State = EntityState.Modified;
                     ctx.SaveChanges();
                     return true;
                 }
@@ -70,21 +71,21 @@ namespace ReportingTool.DAL.Repositories
             }
         }
 
-        public bool Update(Member member)
+        public bool Update(member memberv)
         {
             using (var ctx = new DB2())
             {
-                // Query for the Member with the certain Id 
-                Member memberFromDB = ctx.Members.FirstOrDefault(t => t.Id == member.Id);
+                // Query for the member with the certain Id 
+                member memberFromDB = ctx.Members.FirstOrDefault(t => t.id == memberv.id);
 
                 if (memberFromDB != null)
                 {
-                    memberFromDB.Username = member.Username;
-                    memberFromDB.Fullname = member.Fullname;
-                    memberFromDB.IsActive = member.IsActive;
+                    memberFromDB.username = memberv.username;
+                    memberFromDB.fullname = memberv.fullname;
+                    memberFromDB.isactive = memberv.isactive;
 
-                    ctx.Members.Attach(member);
-                    ctx.Entry(member).State = EntityState.Modified;
+                    ctx.Members.Attach(memberv);
+                    ctx.Entry(memberv).State = EntityState.Modified;
                     ctx.SaveChanges();
                 }
                 return false;
@@ -93,4 +94,5 @@ namespace ReportingTool.DAL.Repositories
         }
 
     }
+ */
 }

@@ -40,14 +40,18 @@ COMMENT ON TABLE "teams"
   IS 'The table of teams';
 	
 --
---DROP TABLE "teams_member"
+--DROP TABLE "team_member"
 
-CREATE TABLE "teams_member"
+CREATE TABLE "team_member"
 (
-  "id" serial NOT NULL,
-	"team_id" integer,
-  "member_id" integer,
-  CONSTRAINT "tm_pkey" PRIMARY KEY ("id"),
+ -- "id" serial NOT NULL,
+ --	"team_id" integer,
+ -- "member_id" integer,
+ --CONSTRAINT "tm_pkey" PRIMARY KEY ("id"),
+	"team_id" integer NOT NULL,
+  "member_id" integer NOT NULL,
+  UNIQUE ("team_id","member_id"),
+  CONSTRAINT "tm_pkey" PRIMARY KEY("team_id","member_id"),
 	
 	CONSTRAINT "tm_team_id_fkey" FOREIGN KEY ("team_id")
       REFERENCES "teams" ("id") MATCH SIMPLE
@@ -61,9 +65,9 @@ WITH (
   OIDS=FALSE
 );
 
-ALTER TABLE "teams_member"
+ALTER TABLE "team_member"
   OWNER TO postgres;
 
-COMMENT ON TABLE "teams_member"
-  IS 'The table of teams_member';
+COMMENT ON TABLE "team_member"
+  IS 'The table of team_member';
 

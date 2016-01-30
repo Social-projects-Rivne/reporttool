@@ -10,17 +10,17 @@ namespace ReportingTool.DAL.Repositories
 {
     public interface ITeamRepository
     {
-        //IEnumerable<Team> Get();
-        IEnumerable<Team> GetAll(string projectkey);
+        //IEnumerable<team> Get();
+        IEnumerable<team> GetAll(string projectkey);
 
-        //bool TryGet(int id, out Team team);
-        bool TryGet(string name, out Team team);
+        //bool TryGet(int id, out team teamv);
+        bool TryGet(string name, out team teamv);
 
-        Team Add(Team team);
+        team Add(team teamv);
         
         //bool Delete(int id);
         bool Delete(string name);
 
-        bool Update(Team team);
+        bool Update(team teamv);
     }
 }

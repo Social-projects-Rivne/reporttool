@@ -10,25 +10,22 @@ INSERT INTO "teams" ("name", "projectkey", "isactive") VALUES (N'name3', N'proje
 INSERT INTO "teams" ("name", "projectkey", "isactive") VALUES (N'name4', N'projectkey2', TRUE);
 INSERT INTO "teams" ("name", "projectkey", "isactive") VALUES (N'name5', N'projectkey2', TRUE);
 --
-INSERT INTO "teams_member" ("team_id", "member_id") VALUES (1, 1);
-INSERT INTO "teams_member" ("team_id", "member_id") VALUES (1, 2);
-INSERT INTO "teams_member" ("team_id", "member_id") VALUES (2, 3);
+INSERT INTO "team_member" ("team_id", "member_id") VALUES (1, 1);
+INSERT INTO "team_member" ("team_id", "member_id") VALUES (1, 2);
+INSERT INTO "team_member" ("team_id", "member_id") VALUES (2, 3);
 
-INSERT INTO "teams_member" ("team_id", "member_id") VALUES (2, 4);
-INSERT INTO "teams_member" ("team_id", "member_id") VALUES (3, 4);
+INSERT INTO "team_member" ("team_id", "member_id") VALUES (2, 4);
+INSERT INTO "team_member" ("team_id", "member_id") VALUES (3, 1);
 
-INSERT INTO "teams_member" ("team_id", "member_id") VALUES (3, 1);
-INSERT INTO "teams_member" ("team_id", "member_id") VALUES (3, 2);
+INSERT INTO "team_member" ("team_id", "member_id") VALUES (3, 2);
+INSERT INTO "team_member" ("team_id", "member_id") VALUES (3, 4);
 
-INSERT INTO "teams_member" ("team_id", "member_id") VALUES (4, 3);
-INSERT INTO "teams_member" ("team_id", "member_id") VALUES (4, 5);
+INSERT INTO "team_member" ("team_id", "member_id") VALUES (4, 3);
+INSERT INTO "team_member" ("team_id", "member_id") VALUES (4, 5);
 
-INSERT INTO "teams_member" ("team_id", "member_id") VALUES (5, 1);
+INSERT INTO "team_member" ("team_id", "member_id") VALUES (5, 1);
 
 --
 
 
 
---"id" serial NOT NULL,
---	"team_id" integer,
--- "member_id" integer,

@@ -10,10 +10,12 @@ namespace ReportingTool.DAL.Repositories
 {
     public interface ITeamMemberRepository
     {
+/*
         IEnumerable<TeamMember> Get();
         bool TryGet(int id, out TeamMember teamMember);
         TeamMember Add(TeamMember teamMember);
         bool Delete(int id);
         bool Update(TeamMember teamMember);
+ */
     }
 }
