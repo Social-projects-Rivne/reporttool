@@ -6,6 +6,7 @@ CREATE TABLE "members"
   "username" character varying(50),
   "fullname" character varying(100),
   "isactive" BOOLEAN,
+   UNIQUE ("username"),
   CONSTRAINT "members_pkey" PRIMARY KEY ("id")	
 )
 WITH (
@@ -27,6 +28,7 @@ CREATE TABLE "teams"
   "name" CHARACTER VARYING(50),
   "projectkey" CHARACTER VARYING(50),
   "isactive" BOOLEAN,
+   UNIQUE ("name","projectkey"),
   CONSTRAINT "teams_pkey" PRIMARY KEY ("id")	
 )
 WITH (

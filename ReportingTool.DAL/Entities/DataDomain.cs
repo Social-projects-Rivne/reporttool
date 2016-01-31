@@ -19,7 +19,9 @@ namespace ReportingTool.DAL.Entities
 
     protected override void OnModelCreating(DbModelBuilder modelBuilder)
     {
+        Database.SetInitializer<DB2>(null);
         //modelBuilder.Entity<team>().ToTable("teams");
+
         //modelBuilder.Entity<member>().ToTable("members");
         //modelBuilder.Entity<member>().ToTable("members", "public");
 
@@ -46,3 +48,4 @@ namespace ReportingTool.DAL.Entities
   }
 
 }
+

@@ -21,6 +21,7 @@ namespace ReportingTool.DAL.Entities
         }
 
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
         [Column("id")]
         public int id { get; set; }
