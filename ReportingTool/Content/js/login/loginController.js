@@ -6,16 +6,19 @@ loginModule.controller("loginController", ['$scope', '$http', '$stateParams', '$
         userName: '',
         password: '',
     };
-
-    $scope.showAuthentificationError = false;
-    $scope.showConnectionError = false;
+    $scope.showErrors = {
+       showAuthentificationError : false,
+       showConnectionError : false
+    };
+    $scope.showErrors.showAuthentificationError = false;
+    $scope.showErrors.showConnectionError = false;
     $scope.errorText = "";
     $scope.validationIsInProgress = false;
 
     $scope.HideErrors = function () {
         $scope.errorText = "";
-        $scope.showAuthentificationError = false;
-        $scope.showConnectionError = false;
+        $scope.showErrors.showAuthentificationError = false;
+        $scope.showErrors.showConnectionError = false;
     }
 
     $scope.SendData = function () {
@@ -33,7 +36,7 @@ loginModule.controller("loginController", ['$scope', '$http', '$stateParams', '$
                 $scope.validationIsInProgress = false;
                 if (r.data.Status == "connectionError") {
                     $scope.errorText = "Can not connect to Jira host";
-                    $scope.showConnectionError = true;
+                    $scope.showErrors.showConnectionError = true;
                 }
                 else
                     if (r.data.Status == "validCredentials") {
@@ -43,14 +46,14 @@ loginModule.controller("loginController", ['$scope', '$http', '$stateParams', '$
                     else
                         if (r.data.Status == "invalidCredentials") {
                             $scope.errorText = "Wrong user name or password";
-                            $scope.showAuthentificationError = true;
+                            $scope.showErrors.showAuthentificationError = true;
                         }
 
             },
             function (response) {
                 $scope.validationIsInProgress = false;
                 $scope.errorText = "Server error";
-                $scope.showConnectionError = true;
+                $scope.showErrors.showConnectionError = true;
             }
          );
     }
