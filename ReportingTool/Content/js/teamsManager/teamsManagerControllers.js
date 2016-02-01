@@ -5,6 +5,7 @@ teamsManagerModule
 	    $scope.message = "Loading...";
 		$scope.showTeams = true;
 		$scope.teams = {};
+		$scope.activeTeam = {};
 		TeamFactory.GetAllTeams().then(teamsSuccess, teamsFail);
 
 		var id_team_to_del = null;
@@ -16,6 +17,10 @@ teamsManagerModule
 
 		$scope.AddTeam = function () {
 		    $state.go('.createTeam');
+		}
+
+		$scope.teamSelect = function (selectedTeam) {
+		    $scope.activeTeam = selectedTeam;
 		}
 
 		function delSuccess(response) {

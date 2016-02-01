@@ -9,7 +9,9 @@ teamsManagerModule.config(['$stateProvider', '$urlRouterProvider', function ($st
         url: '/teamsManager',
 
         views: {
-            '': { templateUrl: 'Content/templates/teamsManager/teamsManagerView.html' },
+            '': {
+                templateUrl: 'Content/templates/teamsManager/teamsManagerView.html'
+            },
             'teamsList@mainView.teamsManager': {
                 templateUrl: 'Content/templates/teamsManager/teamsList.html'
             }
