@@ -15,11 +15,24 @@ namespace ReportingTool.Controllers
             var temp = new List<TempTeamModel>();
            TempTeamModel TempTeam = new TempTeamModel();
             TempTeam.teamID = 5;
-            TempTeam.teamName= "Test Team";
-            TempTeam.members.Add(new TempMemberModel( "feodtc", "Feol"));
-            TempTeam.members.Add(new TempMemberModel( "loginName_1", "fullName_1"));
-            TempTeam.members.Add(new TempMemberModel( "loginName_2", "fullName_2"));
+            TempTeam.teamName= "Test Team 1";
+            TempTeam.members.Add(new TempMemberModel("1_feodtc", "1_Feol"));
+            TempTeam.members.Add(new TempMemberModel("1_loginName_1", "1_fullName_1"));
+            TempTeam.members.Add(new TempMemberModel("1_loginName_2", "1_fullName_2"));
             temp.Add(TempTeam);
+
+            TempTeam = new TempTeamModel(7, "Test Team 2");
+            TempTeam.members.Add(new TempMemberModel("2_loginName_1", "2_fullName_1"));
+            TempTeam.members.Add(new TempMemberModel("2_loginName_2", "2_fullName_2"));
+            TempTeam.members.Add(new TempMemberModel("2_loginName_3", "2_fullName_3"));
+            TempTeam.members.Add(new TempMemberModel("2_loginName_4", "2_fullName_4"));
+            temp.Add(TempTeam);
+            
+            TempTeam = new TempTeamModel(11, "Test Team 3");
+            TempTeam.members.Add(new TempMemberModel("3_loginName_1", "3_fullName_1"));
+            TempTeam.members.Add(new TempMemberModel("3_loginName_2", "3_fullName_2"));
+            temp.Add(TempTeam);
+
             return Json(temp, JsonRequestBehavior.AllowGet);
         }
 

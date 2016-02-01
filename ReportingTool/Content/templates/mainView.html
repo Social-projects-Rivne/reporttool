@@ -6,7 +6,7 @@
                     <li>Administration</li>
                     <li>
                         <ul class="list">
-                            <li><a ui-sref=".teamsManager">Manage Teams</a></li>
+                            <li ng-class="{ active: $state.includes('mainView.teamsManager') }"><a ui-sref=".teamsManager">Manage Teams</a></li>
                             <li><a href="#">Create Template</a></li>
                         </ul>
                     </li>

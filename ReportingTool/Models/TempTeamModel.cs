@@ -8,6 +8,11 @@ namespace ReportingTool.Models
 {
     public class TempTeamModel
     {
+        public TempTeamModel() { }
+        public TempTeamModel(int teamID, string teamName) {
+            this.teamID = teamID;
+            this.teamName = teamName;
+        }
 
         public int teamID;
         [Required]
