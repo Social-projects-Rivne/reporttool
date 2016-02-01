@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ReportingTool.DAL.Entities
 {
-
     [Table("teams", Schema = "public")]
     public partial class team
     {
