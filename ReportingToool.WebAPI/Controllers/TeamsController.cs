@@ -16,6 +16,36 @@ namespace ReportingToool.WebAPI.Controllers
 
     public class TeamsController : ApiController
     {
+        //  look for members without teams --> isactive=>false
+        public static void MemberCheck()
+        {
+            using (var ctx = new DB2())
+            {
+                //ctx.Database.Log = Console.WriteLine;
+                //Console.WriteLine("\nMEMBER CHECK : \n");
+
+                var query = from m in ctx.members.Include("teams")
+                            orderby m.id
+                            select m;
+
+                List<member> memberList = query.ToList<member>();
+
+                //foreach (member memberVar in query)
+                foreach (member memberVar in memberList)
+                {
+                    //if (memberVar.teams == null)
+                    if (memberVar.teams.Count == 0)
+                    {
+                        memberVar.isactive = false;
+                        //ctx.members.Attach(memberVar);
+                        //ctx.Entry(memberVar).State = EntityState.Modified;
+                        ctx.SaveChanges();
+                    }
+                }
+            }
+        }
+
+
         /*
                 // GET api/teams
                 public IEnumerable<TeamJSM> Get()
@@ -177,6 +207,7 @@ namespace ReportingToool.WebAPI.Controllers
                 ctx.teams.Add(teamDelete);
                 ctx.SaveChanges();
             }
+            MemberCheck();
         }
     }
 

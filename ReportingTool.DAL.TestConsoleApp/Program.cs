@@ -406,7 +406,7 @@ namespace ReportingTool.DAL.TestConsoleApp
                 ctx.Database.Log = Console.WriteLine;
                 Console.WriteLine("\nUPDATE TEAM2 : \n");
 
-                // ------------ UPDATE --------------------------------------------------
+                // -- team for update ---
                 string t1Name = "teamNEW1";
                 string t1ProjectKey = "projectkey1";
 
@@ -417,7 +417,8 @@ namespace ReportingTool.DAL.TestConsoleApp
                 t1.members.Add(new member { username = "username51", fullname = "fullname51", isactive = true });
                 t1.members.Add(new member { username = "username101", fullname = "fullname101", isactive = true });
                 t1.members.Add(new member { username = "username53", fullname = "fullname53", isactive = true });
-                //
+                // ------
+
                 team teamUpdate = ctx.teams.Include("members")
                     .SingleOrDefault<team>(t => t.name == t1Name && t.projectkey == t1ProjectKey);
 
@@ -426,19 +427,22 @@ namespace ReportingTool.DAL.TestConsoleApp
                     Console.WriteLine("Team doesn't exist!");
                 }
 
-                /*
-                //  1st run from DB thru JSON
+
+                #region  1st run from DB thru JSON
                 bool deleteMember = true;
-                //foreach (var itemDB in teamUpdate.members)
-                for (int i = 0; i < teamUpdate.members.Count; i++)
+                member[] memberArray = new member[teamUpdate.members.Count];
+                int index = 0;
+
+                foreach (var itemDB in teamUpdate.members)
+                //for (int i = 0; i < teamUpdate.members.Count; i++)
                 {
                     deleteMember = true;
-                    //foreach (var itemJSON in t1.members)
-                    for (int j = 0; j < t1.members.Count; i++)
+                    foreach (var itemJSON in t1.members)
+                    //for (int j = 0; j < t1.members.Count; i++)
                     {
                         // found in JSON
-                        //if (itemDB.username == itemJSON.username)
-                        if (t1.members[i].username == itemJSON.username)
+                        if (itemDB.username == itemJSON.username)
+                        //if (t1.members[i].username == itemJSON.username)
                         {
                             deleteMember = false;
                             break;
@@ -447,33 +451,81 @@ namespace ReportingTool.DAL.TestConsoleApp
 
                     if (deleteMember == true)
                     {
-                        teamUpdate.members.Remove(itemDB);
+                        //teamUpdate.members.Remove(itemDB);
+                        memberArray[index++] = itemDB;
                         //ctx.SaveChanges();
                     }
                 }
-                //***
-                */
-                 
-                // 2nd run from JSON thru DB
-                bool addMember = true;
-                foreach (var itemJSON in t1.members)
+
+                for (int k = 0; k < teamUpdate.members.Count; k++)
                 {
-                    foreach (var itemDB in teamUpdate.members)
+                    if ( memberArray[k] != null )
                     {
-                        // found in DB
+                        teamUpdate.members.Remove( memberArray[k] );
+                    }
+                }
+                #endregion
+
+                #region 2nd run from JSON thru DB
+                bool addMember = true;
+                member[] memberArrayAdd = new member[t1.members.Count];
+                index = 0;
+
+                //foreach (var itemJSON in t1.members)
+                //{
+                //    foreach (var itemDB in teamUpdate.members)
+                //    {
+                //        // found in DB
+                //        if (itemDB.username == itemJSON.username)
+                //        {
+                //            addMember = false;
+                //            break;
+                //        }
+                //    }
+
+                //    if (addMember == true)
+                //    {
+                //        teamUpdate.members.Add(itemJSON);
+                //        //ctx.SaveChanges();
+                //    }
+                //}
+
+                bool deleteMember = true;
+                
+
+                foreach (var itemDB in teamUpdate.members)
+                //for (int i = 0; i < teamUpdate.members.Count; i++)
+                {
+                    deleteMember = true;
+                    foreach (var itemJSON in t1.members)
+                    //for (int j = 0; j < t1.members.Count; i++)
+                    {
+                        // found in JSON
                         if (itemDB.username == itemJSON.username)
+                        //if (t1.members[i].username == itemJSON.username)
                         {
-                            addMember = false;
+                            deleteMember = false;
                             break;
                         }
                     }
 
-                    if (addMember == true)
+                    if (deleteMember == true)
                     {
-                        teamUpdate.members.Add(itemJSON);
+                        //teamUpdate.members.Remove(itemDB);
+                        memberArray[index++] = itemDB;
                         //ctx.SaveChanges();
                     }
                 }
+
+                for (int k = 0; k < teamUpdate.members.Count; k++)
+                {
+                    if (memberArray[k] != null)
+                    {
+                        teamUpdate.members.Remove(memberArray[k]);
+                    }
+                }
+
+                #endregion
 
                 ctx.SaveChanges();
             }
@@ -510,14 +562,14 @@ namespace ReportingTool.DAL.TestConsoleApp
 
             //TeamUpdate();
 
-            //TeamUpdate2();
+            TeamUpdate2();
 
             //TeamDelete();
 
             //TeamReadOne();
 
-            string   projectKey = "projectkey1";
-            TeamGetAll(projectKey);
+            //string projectKey = "projectkey1";
+            //TeamGetAll(projectKey);
 
             MemberCheck();
         }
