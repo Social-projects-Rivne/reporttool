@@ -471,64 +471,75 @@ namespace ReportingTool.DAL.TestConsoleApp
                 member[] memberArrayAdd = new member[t1.members.Count];
                 index = 0;
 
-                //foreach (var itemJSON in t1.members)
-                //{
-                //    foreach (var itemDB in teamUpdate.members)
-                //    {
-                //        // found in DB
-                //        if (itemDB.username == itemJSON.username)
-                //        {
-                //            addMember = false;
-                //            break;
-                //        }
-                //    }
-
-                //    if (addMember == true)
-                //    {
-                //        teamUpdate.members.Add(itemJSON);
-                //        //ctx.SaveChanges();
-                //    }
-                //}
-
-                bool deleteMember = true;
-                
-
-                foreach (var itemDB in teamUpdate.members)
-                //for (int i = 0; i < teamUpdate.members.Count; i++)
+                foreach (var itemJSON in t1.members)
                 {
-                    deleteMember = true;
-                    foreach (var itemJSON in t1.members)
-                    //for (int j = 0; j < t1.members.Count; i++)
+                    addMember = true;
+                    foreach (var itemDB in teamUpdate.members)
                     {
-                        // found in JSON
+                        // found in DB
                         if (itemDB.username == itemJSON.username)
-                        //if (t1.members[i].username == itemJSON.username)
                         {
-                            deleteMember = false;
+                            addMember = false;
                             break;
                         }
                     }
 
-                    if (deleteMember == true)
+                    if (addMember == true)
                     {
-                        //teamUpdate.members.Remove(itemDB);
-                        memberArray[index++] = itemDB;
+                        //teamUpdate.members.Add(itemJSON);
+                        memberArrayAdd[index++] = itemJSON;
                         //ctx.SaveChanges();
                     }
                 }
 
-                for (int k = 0; k < teamUpdate.members.Count; k++)
+                for (int k = 0; k < t1.members.Count; k++)
                 {
-                    if (memberArray[k] != null)
+                    if (memberArrayAdd[k] != null)
                     {
-                        teamUpdate.members.Remove(memberArray[k]);
+                        teamUpdate.members.Add(memberArrayAdd[k]);
                     }
                 }
+
+////
+//                foreach (var itemDB in teamUpdate.members)
+//                //for (int i = 0; i < teamUpdate.members.Count; i++)
+//                {
+//                    deleteMember = true;
+//                    foreach (var itemJSON in t1.members)
+//                    //for (int j = 0; j < t1.members.Count; i++)
+//                    {
+//                        // found in JSON
+//                        if (itemDB.username == itemJSON.username)
+//                        //if (t1.members[i].username == itemJSON.username)
+//                        {
+//                            deleteMember = false;
+//                            break;
+//                        }
+//                    }
+
+//                    if (deleteMember == true)
+//                    {
+//                        //teamUpdate.members.Remove(itemDB);
+//                        memberArray[index++] = itemDB;
+//                        //ctx.SaveChanges();
+//                    }
+//                }
+
+//                for (int k = 0; k < teamUpdate.members.Count; k++)
+//                {
+//                    if (memberArray[k] != null)
+//                    {
+//                        teamUpdate.members.Remove(memberArray[k]);
+//                    }
+//                }
+//
 
                 #endregion
 
                 ctx.SaveChanges();
             }
+
+            MemberCheck();
         }
 
         public static void TeamDelete()
