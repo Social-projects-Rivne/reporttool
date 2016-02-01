@@ -62,4 +62,24 @@ loginModule.controller("loginController", ['$scope', '$http', '$stateParams', '$
          );
     }
 
+    $scope.Logout = function () {
+
+        var req = {
+            url: 'Login/Logout',
+            method: 'GET',
+            headers: { 'content-type': 'application/json' }
+        };
+
+        $http(req).then(
+            function (r) {
+                if (r.data.Status == "loggedOut") {
+                    $state.transitionTo('loginView');
+                }
+            },
+            function (response) {
+                alert("Server error");
+            }
+         );
+    }
+
 }]);

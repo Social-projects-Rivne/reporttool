@@ -89,13 +89,13 @@ namespace ReportingTool.Controllers
                 return Json(new { Status = "invalidCredentials" });
             }
         }
-        [AllowAnonymous]
+
         [HttpGet]
-        public ActionResult Logout()
+        public JsonResult Logout()
         {
             FormsAuthentication.SignOut();
             System.Web.HttpContext.Current.User = null;
-            return RedirectToAction("Login");
+            return Json(new { Status = "loggedOut" });
         }
 	}
 }
