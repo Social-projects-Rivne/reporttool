@@ -14,7 +14,8 @@ namespace ReportingTool.Controllers
     public class TeamsController : Controller
     {
         public enum Answer { Exists, Created};
-        private string FILE_NAME = @"E:\programming\studing\softserve\newdev\reporttool\Configurations.ini";
+
+	private string FILE_NAME = @"E:\programming\studing\softserve\newdev\reporttool\Configurations.ini";
         private const string SECTION = "GeneralConfiguration";
         private const string PROJECT_NAME_KEY = "ProjectName";
 
@@ -101,6 +102,15 @@ namespace ReportingTool.Controllers
         public HttpStatusCodeResult DeleteTeam(string teamID)
         {
             return new HttpStatusCodeResult(HttpStatusCode.OK, "Team deleted successfully");
+        }
+        public void CreateConnection(int teamid, int memberid)
+        {
+            using (var db = new DB2())
+            {
+                var connection = new TeamMember { TeamId = teamid, MemberId = memberid };
+                db.TeamMembers.Add(connection);
+                db.SaveChanges();
+            }
         }
     }
 }
