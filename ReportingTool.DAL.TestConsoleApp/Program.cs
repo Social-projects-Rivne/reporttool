@@ -251,7 +251,7 @@ namespace ReportingTool.DAL.TestConsoleApp
             }
         }
 
-        public static void TeamGetAll()
+        public static void TeamGetAll(string projectKey)
         {
             List<team> teamList = new List<team>();
 
@@ -264,7 +264,7 @@ namespace ReportingTool.DAL.TestConsoleApp
 
                 var query = from t in ctx.teams.Include("members")
                             orderby t.projectkey, t.name
-                            where t.isactive == true
+                            where t.isactive == true && t.projectkey == projectKey
                             select t;
 
                 foreach (team teamv in query)
@@ -426,6 +426,7 @@ namespace ReportingTool.DAL.TestConsoleApp
                     Console.WriteLine("Team doesn't exist!");
                 }
 
+                /*
                 //  1st run from DB thru JSON
                 bool deleteMember = true;
                 //foreach (var itemDB in teamUpdate.members)
@@ -450,8 +451,10 @@ namespace ReportingTool.DAL.TestConsoleApp
                         //ctx.SaveChanges();
                     }
                 }
-
-                //
+                //***
+                */
+                 
+                // 2nd run from JSON thru DB
                 bool addMember = true;
                 foreach (var itemJSON in t1.members)
                 {
@@ -507,13 +510,14 @@ namespace ReportingTool.DAL.TestConsoleApp
 
             //TeamUpdate();
 
-            TeamUpdate2();
+            //TeamUpdate2();
 
             //TeamDelete();
 
             //TeamReadOne();
 
-            //TeamGetAll();
+            string   projectKey = "projectkey1";
+            TeamGetAll(projectKey);
 
             MemberCheck();
         }
