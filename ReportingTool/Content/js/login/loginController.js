@@ -10,6 +10,9 @@ loginModule.controller("loginController", ['$scope', '$http', '$stateParams', '$
        showAuthentificationError : false,
        showConnectionError : false
     };
+    $scope.showElements = {
+        showLogout: true
+    };
     $scope.showErrors.showAuthentificationError = false;
     $scope.showErrors.showConnectionError = false;
     $scope.errorText = "";
@@ -40,6 +43,7 @@ loginModule.controller("loginController", ['$scope', '$http', '$stateParams', '$
                 }
                 else
                     if (r.data.Status == "validCredentials") {
+                        $scope.showElements.showLogout = true;
                         //redirect on main page
                         $state.transitionTo('mainView');
                     }

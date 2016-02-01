@@ -9,6 +9,8 @@ using Jira.SDK;
 using Jira.SDK.Domain;
 using System.Web.Security;
 using System.Threading;
+using IniParser;
+using IniParser.Model;
 
 
 namespace ReportingTool.Controllers
@@ -16,32 +18,41 @@ namespace ReportingTool.Controllers
     //[Authorize]
     public class LoginController : Controller
     {
-        private bool IsUserValid(string server, string userName, string password)
+        private string FILE_NAME = @"C:\Configurations.ini";
+        private const string SECTION = "GeneralConfiguration";
+        private const string SERVEL_URL_KEY = "ServerUrl";
+
+        private string getServerUrl()
         {
-            server = "http://ssu-jira.softserveinc.com";
+            FileIniDataParser fileIniData = new FileIniDataParser();
+            IniData parsedData = fileIniData.ReadFile(FILE_NAME);
+            return parsedData[SECTION][SERVEL_URL_KEY];
+        }
+
+        private bool IsUserValid(string userName, string password)
+        {
+            var server = getServerUrl();
 
             Jira.SDK.Jira jira = new Jira.SDK.Jira();
 
             try
             {
-                //to do: get Jira server from configuration file
                 jira.Connect(server, userName, password);
             }
             catch (System.Runtime.Serialization.SerializationException)
             {
                 return false;
             }
+
             return true;     
         }
 
         private bool ConnectionExists(string server)
         {
-            server = "http://ssu-jira.softserveinc.com";
             Jira.SDK.Jira jira = new Jira.SDK.Jira();
             try
             {
-                //to do: get Jira server from configuration file
-                jira.Connect(server, "test", "test");
+                jira.Connect(getServerUrl(), "test", "test");
             }
             catch (System.Net.WebException)
             {
@@ -52,7 +63,6 @@ namespace ReportingTool.Controllers
                 return true;
             }
             return true;
-
         }
     
         [HttpGet]
@@ -68,8 +78,10 @@ namespace ReportingTool.Controllers
             }
             else
             {
-                bool isUserValid = IsUserValid("as", credentials.UserName, credentials.Password);
-                if (isUserValid)
+                bool isUserValid = IsUserValid(credentials.UserName, credentials.Password);
+                bool isUserAuthenticated = (System.Web.HttpContext.Current.User != null) && 
+                     System.Web.HttpContext.Current.User.Identity.IsAuthenticated;
+                if (isUserValid || isUserAuthenticated)
                 {
                     FormsAuthentication.SetAuthCookie(credentials.UserName, false);
                     return Json(new { Status = "validCredentials" });
@@ -82,6 +94,7 @@ namespace ReportingTool.Controllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
+            System.Web.HttpContext.Current.User = null;
             return RedirectToAction("Login");
         }
 	}
