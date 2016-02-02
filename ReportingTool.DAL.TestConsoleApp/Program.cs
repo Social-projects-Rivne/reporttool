@@ -573,14 +573,14 @@ namespace ReportingTool.DAL.TestConsoleApp
 
             //TeamUpdate();
 
-            TeamUpdate2();
+            //TeamUpdate2();
 
             //TeamDelete();
 
             //TeamReadOne();
 
-            //string projectKey = "projectkey1";
-            //TeamGetAll(projectKey);
+            string projectKey = "projectkey1";
+            TeamGetAll(projectKey);
 
             MemberCheck();
         }

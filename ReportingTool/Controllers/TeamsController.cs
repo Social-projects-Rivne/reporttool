@@ -72,11 +72,12 @@ namespace ReportingTool.Controllers
         //} 
         #endregion
 
-         [HttpGet]
+        [HttpGet]
         // http://localhost:7898/api/teams?projectKey=projectkey1
         //public List<team> Get(string projectKey)
 
-        public JsonResult GetAll(string projectKey)
+        //public JsonResult GetAll(string projectKey = "projectkey1")
+        public string GetAll(string projectKey = "projectkey1")
         {
             List<team> teamList = new List<team>();
 
@@ -91,11 +92,12 @@ namespace ReportingTool.Controllers
                             where t.isactive == true && t.projectkey == projectKey
                             select t;
 
-                foreach (team teamv in query)
-                {
-                    teamList.Add(teamv);
-                    
-                }
+                teamList = query.ToList();
+
+                //foreach (team teamv in query)
+                //{
+                //    teamList.Add(teamv);
+                //}
 
                 #region JSON experiments
                 //var serializerSettings = new JsonSerializerSettings { 
@@ -110,8 +112,11 @@ namespace ReportingTool.Controllers
                 //return teamList; 
                 #endregion
 
-                return Json(teamList, JsonRequestBehavior.AllowGet);
             }
+
+            //return Json(teamList, JsonRequestBehavior.AllowGet);
+            string ouputJSON = JsonConvert.SerializeObject(teamList, Formatting.Indented);
+            return ouputJSON;
         }
 
         [HttpPost]
@@ -250,9 +255,9 @@ namespace ReportingTool.Controllers
             return HttpStatusCode.OK;
         }
 
-      
+
         #region Old delete controller
-         //[HttpDelete]
+        //[HttpDelete]
         //public HttpStatusCodeResult DeleteTeam(string teamID)
         //{
         //    return new HttpStatusCodeResult(HttpStatusCode.OK, "Team deleted successfully");
@@ -261,7 +266,7 @@ namespace ReportingTool.Controllers
 
         [HttpDelete]
         //public void Delete(int id)
-        public HttpStatusCodeResult Delete(int id)
+        public HttpStatusCodeResult Delete(int id = 4)
         {
             using (var ctx = new DB2())
             {
