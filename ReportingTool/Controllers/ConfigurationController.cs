@@ -3,10 +3,8 @@ using IniParser.Model;
 using ReportingTool.Core.Validation;
 using ReportingTool.Models;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
+using System.Web.Hosting;
 using System.Web.Mvc;
 
 namespace ReportingTool.Controllers
@@ -14,28 +12,16 @@ namespace ReportingTool.Controllers
     public enum Answer { NotExists, IsEmpty, NotValid, Exists, Created, NotCreated };
     public class ConfigurationController : Controller
     {
-        private string FILE_NAME = @"C:\Configurations.ini"; //TODO
         private const string SECTION = "GeneralConfiguration";
         private const string SERVEL_URL_KEY = "ServerUrl";
         private const string PROJECT_NAME_KEY = "ProjectName";
-        private const string DB_SECTION = "DataBaseConfiguration";
-        private const string DB_ID_KEY = "UserId";
-        private const string DB_PASSWORD_KEY = "Password";
-        private const string DB_DATABASE_KEY = "Database";
-        private const string DB_ID_VALUE = "postgres";
-        private const string DB_PASSWORD_VALUE = "postgres";
-        private const string DB_DATABASE_VALUE = "rtdb";
 
-        public string FileName
+        public string FileName { get; set; }
+
+        public ConfigurationController()
         {
-            get
-            {
-                return FILE_NAME;
-            }
-            set
-            {
-                FILE_NAME = value;
-            }
+            string directory = new DirectoryInfo(HostingEnvironment.MapPath("~")).Parent.FullName;
+            FileName=Path.Combine(directory, "Configurations.ini"); 
         }
 
         /// <summary>
@@ -46,11 +32,11 @@ namespace ReportingTool.Controllers
         public ActionResult SetConfigurations()
         {
             Answer answer;
-            if (!System.IO.File.Exists(FILE_NAME))
+            if (!System.IO.File.Exists(FileName))
             {
                 answer = Answer.NotExists;
             }
-            else if (new FileInfo(FILE_NAME).Length == 0)
+            else if (new FileInfo(FileName).Length == 0)
             {
                 answer = Answer.IsEmpty;
             }
@@ -59,7 +45,7 @@ namespace ReportingTool.Controllers
                 FileIniDataParser fileIniData = new FileIniDataParser();
                 try
                 {
-                    IniData parsedData = fileIniData.ReadFile(FILE_NAME);
+                    IniData parsedData = fileIniData.ReadFile(FileName);
 
                     KeyDataCollection section = parsedData[SECTION];
                     if (section == null)
@@ -115,18 +101,18 @@ namespace ReportingTool.Controllers
                 {
                     FileIniDataParser fileIniData = new FileIniDataParser();
 
-                    if (!System.IO.File.Exists(FILE_NAME) || (new FileInfo(FILE_NAME).Length == 0))
+                    if (!System.IO.File.Exists(FileName) || (new FileInfo(FileName).Length == 0))
                     {
                         IniData newData = ConfigurationHelper.CreateINIData(serverUrl, projectName);
                         newData = ConfigurationHelper.AddSectionDBConfigurationINIData(newData);
-                        fileIniData.WriteFile(FILE_NAME, newData);
+                        fileIniData.WriteFile(FileName, newData);
                         answer = Answer.Created;
                     }
                     else
                     {
                         try
                         {
-                            IniData parsedData = fileIniData.ReadFile(FILE_NAME);
+                            IniData parsedData = fileIniData.ReadFile(FileName);
                             KeyDataCollection section = parsedData[SECTION];
                             if (section == null)
                             {
@@ -153,7 +139,7 @@ namespace ReportingTool.Controllers
                                 }
                             }
                             parsedData = ConfigurationHelper.AddSectionDBConfigurationINIData(parsedData);
-                            fileIniData.WriteFile(FILE_NAME, parsedData);
+                            fileIniData.WriteFile(FileName, parsedData);
                             answer = Answer.Created;
                         }
                         catch (Exception e)
