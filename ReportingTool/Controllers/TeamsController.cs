@@ -10,6 +10,8 @@ using ReportingTool.DAL.Entities;
 //using ReportingTool.DAL.Repositories;
 using System.Data.Entity;
 using Newtonsoft.Json;
+//using System.Web.Http;
+using Newtonsoft.Json.Serialization;
 
 namespace ReportingTool.Controllers
 {
@@ -114,6 +116,10 @@ namespace ReportingTool.Controllers
 
             }
 
+            //var json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
+            //json.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+            //json.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
             //return Json(teamList, JsonRequestBehavior.AllowGet);
             string ouputJSON = JsonConvert.SerializeObject(teamList, Formatting.Indented);
             return ouputJSON;
@@ -135,11 +141,18 @@ namespace ReportingTool.Controllers
 
         [HttpPut]
         //public void Put(int id, [FromBody]team tvm)
-        public HttpStatusCode Edit(team t1)
+        //public HttpStatusCode Edit(team t1)
+        //public HttpStatusCode Edit(string tJ)
+        public JsonResult Edit(team teamFromJSON)
         {
+            //team t1 = JsonConvert.DeserializeObject<team>(tJ);
+            //team t1 = JsonConvert.DeserializeObject(teamString, team);
+
+            team teamForUpdate = new team();
+
             using (var ctx = new DB2())
             {
-                #region Stub for update
+                #region Stub for console update test
                 //ctx.Database.Log = Console.WriteLine;
                 //Console.WriteLine("\nUPDATE TEAM2 : \n");
 
@@ -156,38 +169,43 @@ namespace ReportingTool.Controllers
                 //t1.members.Add(new member { username = "username53", fullname = "fullname53", isactive = true }); 
                 #endregion
 
-                // ------
-                //team t1 = JsonConvert.DeserializeObject(teamString, team);
-                // -----
-
                 //team teamUpdate = ctx.teams.Include("members")
                 //    .SingleOrDefault<team>(t => t.name == t1Name && t.projectkey == t1ProjectKey);
 
-                team teamUpdate = ctx.teams.Include("members")
-                    .SingleOrDefault<team>(t => t.name == t1.name && t.projectkey == t1.projectkey);
+                //  check : 
+                //  is a team with the specified projectkey and name present in DB ?
+                teamForUpdate = ctx.teams.Include("members")
+                    .SingleOrDefault<team>(t => t.name == teamFromJSON.name && t.projectkey == teamFromJSON.projectkey);
 
-                if (teamUpdate == null)
+                //  check result : no -> send an error response + exit
+                if (teamForUpdate == null)
                 {
-                    //  TODO - send a response with error
-                    //Console.WriteLine("Team doesn't exist!");
-                    //throw new ArgumentOutOfRangeException("THE TEAM DOESN't EXIST ");
-                    return HttpStatusCode.NotFound;
+                    // worked OK
+                    //return HttpStatusCode.NotFound;
+
+                    return null;
                 }
 
+                //  check result : yes -> keep running
+
+                //  the team in DB -> active
+                teamForUpdate.isactive = true;
+
                 #region  1st run from DB thru JSON
+                //  members of the team which are not present in JSON must be deleted 
                 bool deleteMember = true;
-                member[] memberArray = new member[teamUpdate.members.Count];
+                member[] memberArrayDelete = new member[teamForUpdate.members.Count];
                 int index = 0;
 
-                foreach (var itemDB in teamUpdate.members)
+                foreach (var itemFromDB in teamForUpdate.members)
                 //for (int i = 0; i < teamUpdate.members.Count; i++)
                 {
                     deleteMember = true;
-                    foreach (var itemJSON in t1.members)
+                    foreach (var itemFromJSON in teamFromJSON.members)
                     //for (int j = 0; j < t1.members.Count; i++)
                     {
                         // found in JSON
-                        if (itemDB.username == itemJSON.username)
+                        if (itemFromDB.username == itemFromJSON.username)
                         //if (t1.members[i].username == itemJSON.username)
                         {
                             deleteMember = false;
@@ -195,54 +213,87 @@ namespace ReportingTool.Controllers
                         }
                     }
 
+                    // the member from DB is not found in JSON -> add to delete array
                     if (deleteMember == true)
                     {
                         //teamUpdate.members.Remove(itemDB);
-                        memberArray[index++] = itemDB;
+                        memberArrayDelete[index++] = itemFromDB;
                         //ctx.SaveChanges();
                     }
                 }
 
-                for (int k = 0; k < teamUpdate.members.Count; k++)
+                // members from delete array are deleted
+                for (int k = 0; k < teamForUpdate.members.Count; k++)
                 {
-                    if (memberArray[k] != null)
+                    if (memberArrayDelete[k] != null)
                     {
-                        teamUpdate.members.Remove(memberArray[k]);
+                        teamForUpdate.members.Remove(memberArrayDelete[k]);
                     }
                 }
                 #endregion
 
                 #region 2nd run from JSON thru DB
+                //  members of the team from JSON which are not present in DB must be added 
                 bool addMember = true;
-                member[] memberArrayAdd = new member[t1.members.Count];
-                index = 0;
+                member[] memberArrayAdd = new member[teamFromJSON.members.Count];
+                int idx = 0;
 
-                foreach (var itemJSON in t1.members)
+                // add members present in JSON and missing in DB to temp array
+                foreach (var itemFromJSON in teamFromJSON.members)
                 {
                     addMember = true;
-                    foreach (var itemDB in teamUpdate.members)
+                    foreach (var itemFromDB in teamForUpdate.members)
                     {
-                        // found in DB
-                        if (itemDB.username == itemJSON.username)
+                        // already present in DB -> not added to DB
+                        if (itemFromDB.username == itemFromJSON.username)
                         {
                             addMember = false;
                             break;
                         }
                     }
 
+                    // the member from JSON is not found in DB -> add to add_array
                     if (addMember == true)
                     {
                         //teamUpdate.members.Add(itemJSON);
-                        memberArrayAdd[index++] = itemJSON;
+                        memberArrayAdd[idx++] = itemFromJSON;
                         //ctx.SaveChanges();
                     }
                 }
-
-                for (int k = 0; k < t1.members.Count; k++)
+                //  ##########################################################################
+                // members from add_array are added
+                for (int k = 0; k < teamFromJSON.members.Count; k++)
                 {
+                    // **** check if members to add are already present in DB ***********************
+                    // 
                     if (memberArrayAdd[k] != null)
                     {
-                        teamUpdate.members.Add(memberArrayAdd[k]);
+                        member memberTmp = memberArrayAdd[k];
+
+                        member memberDup = ctx.members.
+                            SingleOrDefault<member>(m => m.username == memberTmp.username);
+
+                        // if a member with the same name exists he is activated
+                        if (memberDup != null)
+                        {
+                            memberDup.isactive = true;
+
+                            //Insert Raw SQLcommand for team_member DB table
+                            string SqlCommand = "insert into team_member(team_id, member_id) values(" +
+                                teamForUpdate.id + ", " +
+                                memberDup.id + ")";
+
+                            //int noOfRowInserted = ctx.Database.ExecuteSqlCommand("insert into team_member(studentname) values('New Student')");
+                            int noOfRowInserted = ctx.Database.ExecuteSqlCommand(SqlCommand);
+
+                            continue;
+                        }
+                    }
+                    // *************************
+
+                    if (memberArrayAdd[k] != null)
+                    {
+                        teamForUpdate.members.Add(memberArrayAdd[k]);
                     }
                 }
 
@@ -252,7 +303,14 @@ namespace ReportingTool.Controllers
             }
 
             MemberCheck();
-            return HttpStatusCode.OK;
+            // worked OK
+            //return HttpStatusCode.OK;
+
+            //string ouputJSON = JsonConvert.SerializeObject(teamUpdate, Formatting.Indented);
+            //return ouputJSON;
+
+            //return Json(teamUpdate);
+            return Json("TEAM UPDATED");
         }
 
 

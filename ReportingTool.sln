@@ -12,6 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{116C63CE-8BB4-42E7-A8A4-353D01D76033}"
 	ProjectSection(SolutionItems) = preProject
 		DBMODIFY.txt = DBMODIFY.txt
+		JSON for PUT.txt = JSON for PUT.txt
 	EndProjectSection
 EndProject
 Global
