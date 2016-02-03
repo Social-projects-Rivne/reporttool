@@ -11,6 +11,7 @@ using System.Web.Security;
 using System.Threading;
 using IniParser;
 using IniParser.Model;
+using System.Web.Hosting;
 
 
 namespace ReportingTool.Controllers
@@ -18,7 +19,7 @@ namespace ReportingTool.Controllers
     //[Authorize]
     public class LoginController : Controller
     {
-        private string FILE_NAME = @"C:\Configurations.ini";
+        private string FILE_NAME = HostingEnvironment.MapPath("~/Configurations.ini"); 
         private const string SECTION = "GeneralConfiguration";
         private const string SERVEL_URL_KEY = "ServerUrl";
 

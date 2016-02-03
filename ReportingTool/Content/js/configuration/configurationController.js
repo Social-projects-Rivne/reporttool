@@ -51,7 +51,7 @@ configurationModule.controller("configurationController", ['$scope', '$http', '$
                         else
                             if (r.data.Answer == 'Exists') {
                                 //----------------------------------------- should redirect on main login page
-                                $state.transitionTo('mainView');
+                                $state.transitionTo('loginView');
 
                             }
             },
@@ -76,7 +76,7 @@ configurationModule.controller("configurationController", ['$scope', '$http', '$
             function (r) {
                 if (r.data.Answer == 'Created') {
                     //----------------------------------------- should redirect on main login page
-                    $state.transitionTo('mainView');
+                    $state.transitionTo('loginView');
 
                 }
                 else

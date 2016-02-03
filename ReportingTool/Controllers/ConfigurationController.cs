@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Web.Hosting;
 using System.Web.Mvc;
 
 namespace ReportingTool.Controllers
@@ -14,7 +15,7 @@ namespace ReportingTool.Controllers
     public enum Answer { NotExists, IsEmpty, NotValid, Exists, Created, NotCreated };
     public class ConfigurationController : Controller
     {
-        private string FILE_NAME = @"C:\Configurations.ini"; //TODO
+        private string FILE_NAME = HostingEnvironment.MapPath("~/Configurations.ini"); 
         private const string SECTION = "GeneralConfiguration";
         private const string SERVEL_URL_KEY = "ServerUrl";
         private const string PROJECT_NAME_KEY = "ProjectName";
