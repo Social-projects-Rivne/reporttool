@@ -68,13 +68,12 @@ teamsManagerModule.controller('EditTeamController',
 
 	    var id_team_to_del = parseInt($stateParams.id, 10);
 	    var backupTeam = {};
-
-	    TeamFactory.get(parseInt($stateParams.id, 10)).then(getSuccess, getFail);
+	    TeamFactory.GetAllTeams(parseInt($stateParams.id, 10)).then(getSuccess, getFail);
 	    UserFactory.all().then(getUsersSuccess, getUsersFail);
 
 	    $scope.addUser = function (member) {
 	        for (var i in $scope.editTeam.members) {
-	            if ($scope.editTeam.members[i].userName === user.userName) {
+	            if ($scope.editTeam.members[i].userName === member.userName) {
 	                return;
 	            }
 	        }
@@ -133,7 +132,8 @@ teamsManagerModule.controller('EditTeamController',
 	    }
 
 	    function getUsersSuccess(response) {
-	        $scope.users = response.data;
+	        $scope.members = response.data;
+	        debugger;
 	    }
 
 	    function getUsersFail(response) {

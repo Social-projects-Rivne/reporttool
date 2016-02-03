@@ -24,9 +24,9 @@ namespace ReportingTool.Models
     public class TempMemberModel
     {
         public TempMemberModel() { }
-        public TempMemberModel(string name, string full) {
-            userName = name;
-            fullName = full;
+        public TempMemberModel(string userName, string fullName) {
+            this.userName = userName;
+            this.fullName = fullName;
         }
 
         public string userName;

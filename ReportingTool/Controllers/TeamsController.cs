@@ -8,17 +8,18 @@ using System.Web.Mvc;
 using IniParser;
 using IniParser.Model;
 using ReportingTool.DAL.Entities;
+using System.Web.Hosting;
 
 namespace ReportingTool.Controllers
 {
     public class TeamsController : Controller
     {
         public enum Answer { Exists, Created};
-
-	private string FILE_NAME = @"E:\programming\studing\softserve\newdev\reporttool\Configurations.ini";
+        /*------------------------  It should be moved to some JiraHelper ---------------------------------*/
+        private string FILE_NAME = HostingEnvironment.MapPath("~/Configurations.ini"); 
         private const string SECTION = "GeneralConfiguration";
         private const string PROJECT_NAME_KEY = "ProjectName";
-
+        /*-------------------------------------------------------------------------------------------------*/
         [HttpGet]
         public JsonResult GetAllTeams() {
             var temp = new List<TempTeamModel>();
@@ -115,15 +116,6 @@ namespace ReportingTool.Controllers
         public HttpStatusCodeResult DeleteTeam(string teamID)
         {
             return new HttpStatusCodeResult(HttpStatusCode.OK, "Team deleted successfully");
-        }
-        public void CreateConnection(int teamid, int memberid)
-        {
-            using (var db = new DB2())
-            {
-                var connection = new TeamMember { TeamId = teamid, MemberId = memberid };
-                db.TeamMembers.Add(connection);
-                db.SaveChanges();
-            }
         }
     }
 }

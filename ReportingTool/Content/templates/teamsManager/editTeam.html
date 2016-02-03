@@ -1,9 +1,6 @@
-<section>
+<section ng-controller="EditTeamController">
     <div class="row">
-        <div class="col-sm-12" ng-if="!showEditBlock">
-            {{message}}
-        </div>
-        <div class="col-sm-9" ng-if="!showEditBlock">
+        <div class="col-sm-9">
             <input class='form-control' id="change-team-name" ng-model="editTeam.teamName">
             <table class="table table-striped">
                 <colgroup>
