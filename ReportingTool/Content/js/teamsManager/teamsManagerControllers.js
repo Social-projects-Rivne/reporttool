@@ -68,6 +68,7 @@ teamsManagerModule.controller('EditTeamController',
 
 	    var id_team_to_del = parseInt($stateParams.id, 10);
 	    var backupTeam = {};
+
 	    TeamFactory.GetAllTeams(parseInt($stateParams.id, 10)).then(getSuccess, getFail);
 	    UserFactory.all().then(getUsersSuccess, getUsersFail);
 
@@ -133,7 +134,6 @@ teamsManagerModule.controller('EditTeamController',
 
 	    function getUsersSuccess(response) {
 	        $scope.members = response.data;
-	        debugger;
 	    }
 
 	    function getUsersFail(response) {
@@ -146,36 +146,40 @@ teamsManagerModule.controller('NewTeamController',
     ['$stateParams', '$scope', '$state', 'TeamFactory', 'UserFactory', function ($stateParams, $scope, $state, TeamFactory, UserFactory) {
         $scope.editTeam = {
             teamID: "",
-            teamName: "Python Django team",
+            teamName: "",
             members: []
         };
-        $scope.users = [{
+
+        $scope.members = [{
             userName: 'Loading...',
             fullName: 'Loading...'
         }];
-        $scope.selectedUser = {
+
+        $scope.selectedMember = {
             userName: "",
             fullName: ""
         };
+
         $scope.showEditBlock = true;
 
         UserFactory.all().then(getUsersSuccess, getUsersFail);
 
-        $scope.addUser = function (user) {
+        $scope.addMember = function (member) {
             for (var i in $scope.editTeam.members) {
-                if ($scope.editTeam.members[i].userName === user.userName) {
+                if ($scope.editTeam.members[i].userName === member.userName) {
+                    //---------------- TODO: Add duplicates exception ----------------------//
                     return;
                 }
             }
-            $scope.editTeam.members.push(user);
-            $scope.selectedUser = {
+            $scope.editTeam.members.push(member);
+            $scope.selectedMember = {
                 userName: "",
                 fullName: ""
             };
         }
 
         $scope.save = function (editedTeam) {
-            TeamFactory.create(editedTeam).then(createSuccess, createFail);
+            TeamFactory.createTeam(editedTeam).then(createSuccess, createFail);
         }
 
         $scope.cancel = function () {
@@ -195,7 +199,7 @@ teamsManagerModule.controller('NewTeamController',
         }
 
         function getUsersSuccess(response) {
-            $scope.users = response.data;
+            $scope.members = response.data;
         }
 
         function getUsersFail(response) {
@@ -203,11 +207,10 @@ teamsManagerModule.controller('NewTeamController',
         }
 
         function createSuccess(response) {
-            $state.go('teams');
+            $state.go('mainView.teamsManager');
         }
 
         function createFail(response) {
             console.error('create team fail!');
-            $state.go('teams');
         }
     }]);
