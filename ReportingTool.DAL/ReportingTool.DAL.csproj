@@ -80,6 +80,7 @@
   <ItemGroup>
     <Content Include="SQL\Create_DB.sql" />
     <Content Include="SQL\Insert.sql" />
+    <Content Include="SQL\JSON for PUT.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

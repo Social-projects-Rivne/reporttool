@@ -38,7 +38,6 @@ namespace ReportingTool.DAL.Entities
         //throw new UnintentionalCodeFirstException();
 
         //Configure default schema
-        //modelBuilder.HasDefaultSchema("Admin");
         modelBuilder.HasDefaultSchema("public");
     }
 

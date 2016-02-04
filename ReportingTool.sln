@@ -5,15 +5,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportingTool.DAL", "Report
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportingTool.Core", "ReportingTool.Core\ReportingTool.Core.csproj", "{53C551BF-3712-41B0-AD4E-E4BF95FB8C87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportingTool.DAL.TestConsoleApp", "ReportingTool.DAL.TestConsoleApp\ReportingTool.DAL.TestConsoleApp.csproj", "{A843DC59-9162-4941-B97E-29BBC430DC8F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportingTool", "ReportingTool\ReportingTool.csproj", "{35BFB6DB-920F-40F6-812A-0A1F072E3799}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{116C63CE-8BB4-42E7-A8A4-353D01D76033}"
-	ProjectSection(SolutionItems) = preProject
-		DBMODIFY.txt = DBMODIFY.txt
-		JSON for PUT.txt = JSON for PUT.txt
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +23,6 @@ Global
 		{53C551BF-3712-41B0-AD4E-E4BF95FB8C87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53C551BF-3712-41B0-AD4E-E4BF95FB8C87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53C551BF-3712-41B0-AD4E-E4BF95FB8C87}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A843DC59-9162-4941-B97E-29BBC430DC8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A843DC59-9162-4941-B97E-29BBC430DC8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A843DC59-9162-4941-B97E-29BBC430DC8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A843DC59-9162-4941-B97E-29BBC430DC8F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{35BFB6DB-920F-40F6-812A-0A1F072E3799}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{35BFB6DB-920F-40F6-812A-0A1F072E3799}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35BFB6DB-920F-40F6-812A-0A1F072E3799}.Release|Any CPU.ActiveCfg = Release|Any CPU
