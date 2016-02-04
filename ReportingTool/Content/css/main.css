@@ -1,0 +1,247 @@
+body {
+    min-width: 750px;
+}
+
+#Menu {
+    float: left;
+}
+
+.teamsList {
+    margin-top: -43px;
+}
+
+a {
+    cursor: pointer;
+}
+
+section {
+    display: inline;
+}
+
+.navbar {
+    background-color: #161c66;
+    margin-bottom: 20px;
+}
+
+.nav-container {
+    background-color: #161c66;
+    padding: 5px;
+}
+
+.navbar .logout {
+    display: inline;
+    float: right;
+}
+
+.navbar-brand .blue {
+    color: #00bfe2;
+}
+
+.navbar-brand .white {
+    color: white;
+    font-weight: bold;
+}
+
+navbar-header p {
+    margin: 10px 0;
+    display: inline;
+}
+
+.navbar .brand p {
+    font-size: 2em;
+    display: inline;
+}
+
+.navbar .logout p {
+    font-size: 1.5em;
+}
+
+.row {
+    margin-top: 40px;
+}
+
+.sidebar {
+    background-color: rgba(91, 192, 222, 0.10);
+    color: #00BCD4;
+    font-weight: bold;
+    float: left;
+    display: inline;
+    min-width: 200px;
+}
+
+.list-unstyled {
+    min-width: 200px;
+}
+
+.center {
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -50px;
+}
+
+li a {
+    text-decoration: none;
+    color: #00BCD4;
+}
+
+.sidebar li {
+    margin: 10px;
+    list-style-type: none;
+}
+
+.btn-flat {
+    border: 1px solid #00BCD4;
+    border-radius: 0px;
+    background-color: #fff;
+    color: #00BCD4;
+    font-weight: bold;
+    font-size: 14pt;
+    margin-top: 10px;
+}
+
+#title div {
+    margin: auto 0;
+}
+
+#manage-teams-head {
+    background-color: #19287B;
+    color: #fff;
+}
+
+th:nth-child(3) {
+    border-left: 1px solid #fff;
+}
+
+.glyphicon {
+    color: #00BCD4;
+}
+
+.glyph-link:hover {
+    text-decoration: none;
+}
+
+.glyph-link:active {
+    text-decoration: none;
+}
+
+.glyph-link:visited {
+    text-decoration: none;
+}
+
+#change-team-name {
+    border-radius: 0px;
+    border: 1px solid #00BCD4;
+    background-color: #fff;
+    margin-bottom: 20px;
+    margin-top: 70px;
+}
+
+#btn-save {
+    margin-right: 10px;
+    float: right;
+    width: 150px;
+}
+
+#btn-cancel {
+    margin-left: 10px;
+    float: left;
+    width: 150px;
+}
+
+#change-team-head {
+    color: #fff;
+    background-color: #00BCD4;
+}
+
+.select-username,
+.select-fullname {
+    border-radius: 0px;
+    border: 1px solid #00BCD4;
+    background-color: #fff;
+}
+
+/*-------------- Login --------------*/
+
+#Login input {
+    font-size: 2em;
+    height: 40px !important;
+}
+
+#Login h2 {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin-left: -17px;
+    color: #161c66;
+}
+
+#Login button {
+    background-color: #161c66;
+    padding: 0px 12px !important;
+    color: #fff !important;
+    font-size: 2em !important;
+}
+
+.alert {
+    width: 100%;
+}
+
+#progressIndicator {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    left: 50%;
+    margin-left: -50px;
+}
+
+/*-------------- Configuration --------------*/
+
+#container {
+    position: relative;
+}
+
+.alert-info, .alert-danger, .alert-warning {
+    margin-top: 20px;
+}
+
+.css-form input.ng-invalid.ng-dirty {
+    background-color: #FA787E;
+}
+
+.css-form input.ng-valid.ng-dirty {
+    background-color: #78FA89;
+}
+
+#hostError {
+    color: red;
+    box-sizing: border-box;
+    margin-top: -10px;
+}
+
+.error {
+    color: red;
+    margin-top: 7px;
+}
+
+#startProgressIndicator {
+    display: block;
+    position: absolute;
+    text-align: center;
+    vertical-align: central;
+    width: 50px;
+    height: 50px;
+    left: 50%;
+    margin-left: -25px;
+    margin-top: -25px;
+    top: 50%;
+}
+
+#sendDataProgressIndicator {
+    display: block;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    left: 50%;
+    margin-top: -60px;
+    margin-left: -25px;
+}

@@ -17,6 +17,7 @@ namespace ReportingTool.DAL.DataAccessLayer.Jira
         private string password;
         private string baseApiUrl;
         private JsonDeserializer deserializer;
+        
         public JiraClient(string baseUrl, string username, string password)
         {
             this.username = username;

@@ -1,0 +1,69 @@
+﻿<section ng-controller="configurationController" ng-cloak>
+    <div id="startProgressIndicator">
+        <md-progress-circular md-mode="indeterminate"
+                              ng-show="getRequestIsLoading"
+                              md-diameter="96">
+        </md-progress-circular>
+    </div>
+    <div class="container" id="container"
+         ng-show="isConfigurationNotReady">
+        <h2>Configuration</h2>
+        <form class="form-horizontal, css-form"
+              name="form"
+              novalidate>
+            <div class="form-group">
+                <label>Jira host:</label>
+                <input type="url"
+                       class="form-control"
+                       placeholder="Enter Jira host"
+                       ng-model="configurationData.ServerUrl"
+                       name="serverUrl"
+                       ng-disabled="serverError"
+                       required>
+            </div>
+            <div ng-show="form.serverUrl.$dirty && form.serverUrl.$invalid"
+                 id="hostError">
+                <span ng-show="form.serverUrl.$error.required">Please provide Jira host</span>
+                <span ng-show="form.serverUrl.$error.url">Invalid Jira host</span>
+            </div>
+            <div class="form-group">
+                <label>Project name:</label>
+                <input type="text"
+                       class="form-control"
+                       placeholder="Enter project name"
+                       ng-model="configurationData.ProjectName"
+                       name="projectName"
+                       ng-disabled="serverError"
+                       project-name required>
+                <div ng-messages="form.projectName.$error" class="error"
+                     ng-hide="serverError">
+                    <div ng-message="uppercaseValidator">Project name has to contain only uppercase letters</div>
+                    <div ng-message="symbolsValidator">Project name can not contain special symbols</div>
+                </div>
+            </div>
+            <button class="btn btn-default"
+                    ng-click="SendConfigurationDataToServer();"
+                    ng-disabled="form.$invalid && serverError">
+                Save
+            </button>
+            <div id="sendDataProgressIndicator">
+                <md-progress-circular md-mode="indeterminate"
+                                      ng-show="postRequestIsLoading"
+                                      md-diameter="96">
+                </md-progress-circular>
+            </div>
+            <div class="alert alert-info"
+                 ng-show="isConfigurationFileError">
+                {{fileStatusMessage}}
+            </div>
+            <div class="alert alert-warning"
+                 ng-show="fileSavingError">
+                {{fileNotSavedMessage}}
+            </div>
+            <div class="alert alert-danger"
+                 ng-show="serverError">
+                {{serverErrorMessage}}
+            </div>
+        </form>
+    </div>
+</section>

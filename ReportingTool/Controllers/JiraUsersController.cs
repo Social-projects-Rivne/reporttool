@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using ReportingTool.DAL.DataAccessLayer.Jira;
+using ReportingTool.DAL.DataAccessLayer;
 using ReportingTool.DAL.Entities;
+using ReportingTool.Models;
 
 namespace ReportingTool.Controllers
 {
@@ -12,11 +13,17 @@ namespace ReportingTool.Controllers
     {
         // GET: JiraUsers
         [HttpGet]
-        public ActionResult GetAllUsers(string project, string username, string password)
+        public JsonResult GetAllUsers(string username, string password)
         {
-            JiraClient client = new JiraClient("http://ssu-jira.softserveinc.com", username, password);
-            List<JiraUser> users = client.GetAllUsers(project);
-            return new JsonResult { Data = users, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            /*---------------------- Remove hardcode!!! ---------------------------------*/
+
+            JiraClient client = new JiraClient("http://ssu-jira.softserveinc.com", "ofeodtc", "jss-em}t");
+            List<JiraUser> users = client.GetAllUsers("RVNETJAN");
+            List<TempMemberModel> members = new List<TempMemberModel>();
+            foreach(JiraUser user in users){
+                members.Add(new TempMemberModel(user.name, user.displayName));
+            }
+            return new JsonResult { Data = members, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
     }
 }

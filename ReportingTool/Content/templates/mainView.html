@@ -1,0 +1,27 @@
+<section id="MainView">
+    <section id="Menu">
+        <div class="row fluid">
+            <div class="col-sm-2 sidebar">
+                <ul class="list-unstyled">
+                    <li>Administration</li>
+                    <li>
+                        <ul class="list">
+                            <li ng-class="{ active: $state.includes('mainView.teamsManager') }"><a ng-class="{ active: $state.includes('mainView.teamsManager') }" ui-sref=".teamsManager">Manage Teams</a></li>
+                            <li><a href="#">Create Template</a></li>
+                        </ul>
+                    </li>
+                    <li> Reporting</li>
+                    <li>
+                        <ul class="list">
+                            <li><a href="#">Manage Teams</a></li>
+                            <li><a href="#">Create Template</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <section id="Content">
+        <div ui-view></div>
+    </section>
+</section>
