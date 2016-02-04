@@ -14,10 +14,13 @@ factory('TeamFactory', ['$http', function ($http) {
 		    return teams;
 		}
 
-		function createTeam(data) {
-		    return $http.post("Teams/AddNewTeam", {
-				data: data
-			});
+		function createTeam(newTeam) {
+		    return $http({
+		        url: 'Teams/AddNewTeam',
+		        method: 'POST',
+		        data: newTeam,
+		        headers: { 'content-type': 'application/json' }
+		    });
 		}
 
 		function editTeam(data) {

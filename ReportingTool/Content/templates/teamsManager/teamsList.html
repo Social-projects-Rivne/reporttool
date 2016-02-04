@@ -29,7 +29,7 @@
                 <td ng-bind="team.teamName + team.teamID"></td>
                 <td>
                     <a class="glyph-link" ui-sref="mainView.teamsManager.editTeam({id:team.teamID})"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> </a>
-                    <a class="glyph-link" ng-click="delTeam(team.teamID)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a>
+                    <a class="glyph-link" ng-click="deleteTeam(team.teamID)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a>
                 </td>
             </tr>
         </tbody>

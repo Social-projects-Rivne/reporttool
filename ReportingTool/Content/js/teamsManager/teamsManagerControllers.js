@@ -10,7 +10,7 @@ teamsManagerModule.controller('teamsManagerController',
 
         var DeleteTeam = null;
 
-        $scope.delTeam = function (id) {
+        $scope.deleteTeam = function (id) {
             TeamFactory.del(id).then(delSuccess, delFail);
             id_team_to_del = id;
         }
@@ -178,8 +178,8 @@ teamsManagerModule.controller('NewTeamController',
             };
         }
 
-        $scope.save = function (editedTeam) {
-            TeamFactory.createTeam(editedTeam).then(createSuccess, createFail);
+        $scope.save = function () {
+            TeamFactory.createTeam($scope.editTeam).then(createSuccess, createFail);
         }
 
         $scope.cancel = function () {

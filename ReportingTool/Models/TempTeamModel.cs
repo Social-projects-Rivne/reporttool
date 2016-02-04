@@ -8,17 +8,27 @@ namespace ReportingTool.Models
 {
     public class TempTeamModel
     {
-        public TempTeamModel() { }
-        public TempTeamModel(int teamID, string teamName) {
-            this.teamID = teamID;
-            this.teamName = teamName;
-        }
-
         public int teamID;
         [Required]
         public string teamName;
         [Required]
         public List<TempMemberModel> members = new List<TempMemberModel>();
+        
+        public TempTeamModel() { }
+        
+        public TempTeamModel(string teamID, string teamName)
+        {
+            this.teamID = int.Parse(teamID);
+            this.teamName = teamName;
+        }
+
+        public TempTeamModel(string teamID, string teamName, List<TempMemberModel> members)
+        {
+            this.teamID = int.Parse(teamID);
+            this.teamName = teamName;
+            this.members = members;
+        }
+
     }
 
     public class TempMemberModel
