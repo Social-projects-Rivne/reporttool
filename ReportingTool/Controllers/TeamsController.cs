@@ -14,18 +14,19 @@ namespace ReportingTool.Controllers
 {
     public class TeamsController : Controller
     {
-        public enum Answer { Exists, Created};
+        public enum Answer { Exists, Created };
         /*------------------------  It should be moved to some JiraHelper ---------------------------------*/
-        private string FILE_NAME = HostingEnvironment.MapPath("~/Configurations.ini"); 
+        private string FILE_NAME = HostingEnvironment.MapPath("~/Configurations.ini");
         private const string SECTION = "GeneralConfiguration";
         private const string PROJECT_NAME_KEY = "ProjectName";
         /*-------------------------------------------------------------------------------------------------*/
         [HttpGet]
-        public JsonResult GetAllTeams() {
+        public JsonResult GetAllTeams()
+        {
             var temp = new List<TempTeamModel>();
-           TempTeamModel TempTeam = new TempTeamModel();
+            TempTeamModel TempTeam = new TempTeamModel();
             TempTeam.teamID = 5;
-            TempTeam.teamName= "Test Team 1";
+            TempTeam.teamName = "Test Team 1";
             TempTeam.members.Add(new TempMemberModel("1_feodtc", "1_Feol"));
             TempTeam.members.Add(new TempMemberModel("1_loginName_1", "1_fullName_1"));
             TempTeam.members.Add(new TempMemberModel("1_loginName_2", "1_fullName_2"));
@@ -37,7 +38,7 @@ namespace ReportingTool.Controllers
             TempTeam.members.Add(new TempMemberModel("2_loginName_3", "2_fullName_3"));
             TempTeam.members.Add(new TempMemberModel("2_loginName_4", "2_fullName_4"));
             temp.Add(TempTeam);
-            
+
             TempTeam = new TempTeamModel("11", "Test Team 3");
             TempTeam.members.Add(new TempMemberModel("3_loginName_1", "3_fullName_1"));
             TempTeam.members.Add(new TempMemberModel("3_loginName_2", "3_fullName_2"));
@@ -49,6 +50,8 @@ namespace ReportingTool.Controllers
         [HttpPost]
         public ActionResult AddNewTeam(TempTeamModel newTeam)
         {
+            
+
             Answer answer;
 
             FileIniDataParser fileIniData = new FileIniDataParser();

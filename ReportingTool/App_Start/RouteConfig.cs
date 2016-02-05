@@ -15,8 +15,8 @@ namespace ReportingTool
 
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Authentication", action = "Index", id = UrlParameter.Optional }
+                url: "{controller}/{action}/{parameters}",
+                defaults: new { controller = "Authentication", action = "Index", parameters = UrlParameter.Optional }
             );
         }
     }
