@@ -71,6 +71,7 @@ namespace ReportingTool.Controllers
 
             //  works
             string ouputJSON = JsonConvert.SerializeObject(teamList, Formatting.Indented);
+            //string ouputJSON = JsonConvert.SerializeObject(teamList);
             return ouputJSON;
         }
 
@@ -86,7 +87,8 @@ namespace ReportingTool.Controllers
         /// <param name="teamFromJSON">A serialized team with a current list of members</param>
         /// <returns>HttpStatusCode for the client</returns>
         [HttpPut]
-        public HttpStatusCode Edit(team teamFromJSON)
+        public HttpStatusCode Edit([ModelBinder(typeof(JsonNetModelBinder))] team teamFromJSON)
+        //public HttpStatusCode Edit(team teamFromJSON) //  OK up to 2016-02-05
         //public JsonResult Edit(team teamFromJSON)         //  OK
         {
             team teamForUpdate = new team();
@@ -114,37 +116,29 @@ namespace ReportingTool.Controllers
                 {
                     #region  1st run from DB thru JSON - members of the team from DB which are not present in JSON must be deleted
                     bool deleteMember = true;
-                    member[] memberArrayDelete = new member[teamForUpdate.members.Count];
+                    member[] memberArrayDelete = teamForUpdate.members.ToArray<member>();
                     int index = 0;
 
-                    foreach (var itemFromDB in teamForUpdate.members)
+                    for (int i = memberArrayDelete.GetLowerBound(0), upper = memberArrayDelete.GetUpperBound(0); i <= upper; i++)
                     {
                         deleteMember = true;
                         foreach (var itemFromJSON in teamFromJSON.members)
                         {
                             // found in JSON ?
-                            if (itemFromDB.username == itemFromJSON.username)
+                            if (memberArrayDelete[i].username == itemFromJSON.username)
                             {
                                 deleteMember = false;
                                 break;
                             }
                         }
-
-                        // the member from DB is not found in JSON ---> add to delete array
+                        // the member from DB is not found in JSON ---> delete 
                         if (deleteMember == true)
                         {
-                            memberArrayDelete[index++] = itemFromDB;
+                            teamForUpdate.members.Remove(memberArrayDelete[i]);
+                            ctx.SaveChanges();
                         }
                     }
-
-                    // members from delete array are deleted
-                    for (int k = 0; k < teamForUpdate.members.Count; k++)
-                    {
-                        if (memberArrayDelete[k] != null)
-                        {
-                            teamForUpdate.members.Remove(memberArrayDelete[k]);
-                        }
-                    }
+                    
                     #endregion
 
                     #region 2nd run from JSON thru DB - members of the team from JSON which are not present in DB must be added
@@ -205,6 +199,7 @@ namespace ReportingTool.Controllers
                         if (memberArrayAdd[k] != null)
                         {
                             teamForUpdate.members.Add(memberArrayAdd[k]);
+                            ctx.SaveChanges();
                         }
                     }
 
@@ -216,7 +211,7 @@ namespace ReportingTool.Controllers
                 {
                     return HttpStatusCode.NotModified;
                 }
-               
+
             }
 
             MemberCheck();
