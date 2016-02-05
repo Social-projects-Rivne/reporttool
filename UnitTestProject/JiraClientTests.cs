@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ReportingTool.DAL.DataAccessLayer.Jira;
+using ReportingTool.DAL.DataAccessLayer;
 
 namespace ReportingTool.UnitTests
 {

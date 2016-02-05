@@ -9,7 +9,7 @@ using System.Net;
 using ReportingTool.DAL.Entities;
 
 
-namespace ReportingTool.DAL.DataAccessLayer.Jira
+namespace ReportingTool.DAL.DataAccessLayer
 {
     public class JiraClient
     {

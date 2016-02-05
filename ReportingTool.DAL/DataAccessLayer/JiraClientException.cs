@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 
-namespace ReportingTool.DAL.DataAccessLayer.Jira
+namespace ReportingTool.DAL.DataAccessLayer
 {
         [Serializable]
         class JiraClientException : Exception
