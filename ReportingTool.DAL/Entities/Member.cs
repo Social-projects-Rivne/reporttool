@@ -5,36 +5,36 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ReportingTool.DAL.Entities
 {
     [Table("members", Schema = "public")]
-    public partial class member
+    public partial class Member
     {
-        public member()
+        public Member()
         {
-            this.teams = new HashSet<team>();
+            this.Teams = new HashSet<Team>();
         }
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
         [Column("id")]
-        public int id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [Column("username")]
         [MinLength(4)]
         [MaxLength(50)]
-        public string username { get; set; }
+        public string Username { get; set; }
 
         [Required]
         [Column("fullname")]
         [MinLength(4)]
         [MaxLength(100)]
-        public string fullname { get; set; }
+        public string Fullname { get; set; }
 
         [Required]
         [Column("isactive")]
-        public bool isactive { get; set; }
+        public bool IsActive { get; set; }
 
-        public virtual ICollection<team> teams { get; set; }
+        public virtual ICollection<Team> Teams { get; set; }
 
     }
 }

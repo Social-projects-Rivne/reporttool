@@ -8,12 +8,17 @@ namespace ReportingTool.Models
 {
     public class TempTeamModel
     {
-        public int teamID;
+        public int teamID { get; set; }
         [Required]
-        public string teamName;
+        public string teamName { get; set; }
         [Required]
-        public List<TempMemberModel> members = new List<TempMemberModel>();
-        
+        private List<TempMemberModel> members = new List<TempMemberModel>();
+
+        public List<TempMemberModel> Members
+        {
+            get { return members; }
+            set { members = value; }
+        }
         public TempTeamModel() { }
         
         public TempTeamModel(string teamID, string teamName)
@@ -39,7 +44,7 @@ namespace ReportingTool.Models
             this.fullName = fullName;
         }
 
-        public string userName;
-        public string fullName;
+        public string userName { get; set; }
+        public string fullName { get; set; }
     }
 }

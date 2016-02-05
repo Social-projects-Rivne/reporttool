@@ -11,9 +11,9 @@ namespace ReportingTool.DAL.Entities
     {
         Database.SetInitializer<DB2>(null);
 
-        modelBuilder.Entity<team>()
-                    .HasMany<member>(t => t.members)
-                    .WithMany(m => m.teams)
+        modelBuilder.Entity<Team>()
+                    .HasMany<Member>(t => t.Members)
+                    .WithMany(m => m.Teams)
                     .Map(mt =>
                     {
                         mt.MapLeftKey("team_id");
@@ -24,8 +24,8 @@ namespace ReportingTool.DAL.Entities
         modelBuilder.HasDefaultSchema("public");
     }
 
-    public DbSet<member> members { get; set; }
-    public DbSet<team> teams { get; set; }
+    public DbSet<Member> Members { get; set; }
+    public DbSet<Team> Teams { get; set; }
   }
 
 }

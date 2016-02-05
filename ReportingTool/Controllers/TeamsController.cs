@@ -27,21 +27,21 @@ namespace ReportingTool.Controllers
             TempTeamModel TempTeam = new TempTeamModel();
             TempTeam.teamID = 5;
             TempTeam.teamName = "Test Team 1";
-            TempTeam.members.Add(new TempMemberModel("1_feodtc", "1_Feol"));
-            TempTeam.members.Add(new TempMemberModel("1_loginName_1", "1_fullName_1"));
-            TempTeam.members.Add(new TempMemberModel("1_loginName_2", "1_fullName_2"));
+            TempTeam.Members.Add(new TempMemberModel("1_feodtc", "1_Feol"));
+            TempTeam.Members.Add(new TempMemberModel("1_loginName_1", "1_fullName_1"));
+            TempTeam.Members.Add(new TempMemberModel("1_loginName_2", "1_fullName_2"));
             temp.Add(TempTeam);
 
             TempTeam = new TempTeamModel("7", "Test Team 2");
-            TempTeam.members.Add(new TempMemberModel("2_loginName_1", "2_fullName_1"));
-            TempTeam.members.Add(new TempMemberModel("2_loginName_2", "2_fullName_2"));
-            TempTeam.members.Add(new TempMemberModel("2_loginName_3", "2_fullName_3"));
-            TempTeam.members.Add(new TempMemberModel("2_loginName_4", "2_fullName_4"));
+            TempTeam.Members.Add(new TempMemberModel("2_loginName_1", "2_fullName_1"));
+            TempTeam.Members.Add(new TempMemberModel("2_loginName_2", "2_fullName_2"));
+            TempTeam.Members.Add(new TempMemberModel("2_loginName_3", "2_fullName_3"));
+            TempTeam.Members.Add(new TempMemberModel("2_loginName_4", "2_fullName_4"));
             temp.Add(TempTeam);
 
             TempTeam = new TempTeamModel("11", "Test Team 3");
-            TempTeam.members.Add(new TempMemberModel("3_loginName_1", "3_fullName_1"));
-            TempTeam.members.Add(new TempMemberModel("3_loginName_2", "3_fullName_2"));
+            TempTeam.Members.Add(new TempMemberModel("3_loginName_1", "3_fullName_1"));
+            TempTeam.Members.Add(new TempMemberModel("3_loginName_2", "3_fullName_2"));
             temp.Add(TempTeam);
 
             return Json(temp, JsonRequestBehavior.AllowGet);
@@ -50,8 +50,6 @@ namespace ReportingTool.Controllers
         [HttpPost]
         public ActionResult AddNewTeam(TempTeamModel newTeam)
         {
-            
-
             Answer answer;
 
             FileIniDataParser fileIniData = new FileIniDataParser();
@@ -60,46 +58,37 @@ namespace ReportingTool.Controllers
 
             using (var db = new DB2())
             {
-                db.Database.Log = Console.WriteLine;
-                var allmembers = new List<member>
-                {
-                    new member {username = "ssund", fullname = "sergiy"},
-                    new member {username = "oldv", fullname = "oldv"},
-                    new member {username = "newv", fullname = "newv"}
-                };
 
-                string teamname = "newteama";
-
-                if (db.teams.Any(p => p.name == teamname & p.projectkey == project & p.isactive))
+                if (db.Teams.Any(p => p.Name == newTeam.teamName & p.ProjectKey == project & p.IsActive))
                 {
                     answer = Answer.Exists;
                 }
                 else
                 {
-                    var newteam = new team { name = teamname, projectkey = project, isactive = true };
+                    var team = new Team { Name = newTeam.teamName, ProjectKey = project, IsActive = true };
 
-                    foreach (var memb in allmembers)
+                    foreach (var member in newTeam.Members)
                     {
-                        var newmember = db.members.SingleOrDefault(p => p.username == memb.username);
-                        if (newmember != null)
+                        var newMember = db.Members.SingleOrDefault(p => p.Username == member.userName);
+                        if (newMember != null)
                         {
-                            if (newmember.isactive)
+                            if (newMember.IsActive)
                             {
-                                newteam.members.Add(newmember);
+                                team.Members.Add(newMember);
                             }
                             else
                             {
-                                newmember.isactive = true;
-                                newteam.members.Add(newmember);
+                                newMember.IsActive = true;
+                                team.Members.Add(newMember);
                             }
                         }
                         else
                         {
-                            newmember = new member { username = memb.username, fullname = memb.fullname, isactive = true };
-                            newteam.members.Add(newmember);
+                            newMember = new Member { Username = member.userName, Fullname = member.fullName, IsActive = true };
+                            team.Members.Add(newMember);
                         }
                     }
-                    db.teams.Add(newteam);
+                    db.Teams.Add(team);
                     db.SaveChanges();
                     answer = Answer.Created;
                 }
