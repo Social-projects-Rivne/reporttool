@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Runtime.Serialization;
 
 namespace ReportingTool.DAL.DataAccessLayer
 {
         [Serializable]
-        class JiraClientException : Exception
+        public class JiraClientException : Exception
         {
             private readonly string response;
             public JiraClientException() { }

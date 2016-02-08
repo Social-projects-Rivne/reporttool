@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportingTool.DAL", "Report
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportingTool.Core", "ReportingTool.Core\ReportingTool.Core.csproj", "{53C551BF-3712-41B0-AD4E-E4BF95FB8C87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportingTool.UnitTests", "UnitTestProject\ReportingTool.UnitTests.csproj", "{394B59DA-C14E-4894-BCA9-709E34DDAF54}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportingToolUnitTests", "ReportingToolTest\ReportingToolUnitTests.csproj", "{DDA733B6-40BD-4EBE-B930-41CCA822FE23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

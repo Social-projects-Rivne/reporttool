@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using RestSharp;
 using RestSharp.Deserializers;
 using System.Net;
 using ReportingTool.DAL.Entities;
-
 
 namespace ReportingTool.DAL.DataAccessLayer
 {
