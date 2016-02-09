@@ -8,7 +8,7 @@ using ReportingTool.DAL.Entities;
 
 namespace ReportingTool.DAL.DataAccessLayer
 {
-    public class JiraClient
+    public class JiraClient : IJiraClient
     {
         private string username;
         private string password;

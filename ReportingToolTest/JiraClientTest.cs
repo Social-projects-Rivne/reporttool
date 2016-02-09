@@ -6,38 +6,28 @@ namespace ReportingToolTest
     [TestClass]
     public class JiraClientTest
     {
-        [TestMethod]
-        public void JiraClientConstructor_ValidVales_ReturnedIsNotNull()
+        public IJiraClient Client { get; set; }
+
+        [TestInitialize]
+        public void InitializeJiraClientTest() 
         {
-            JiraClient instance =new JiraClient();
-            Assert.IsNotNull(instance);
+            Client = new JiraClientMock();
         }
 
         [TestMethod]
-        public void GetUsers_ValidVales_ReturnedListOfUsers()
+        public void JiraClientConstructor_ValidVales_ReturnedIsNotNull()
         {
-            // arrange
-            JiraClient client=new JiraClient();
-
-            //act
-            var users = client.GetUsers("RVNETJAN", 0);
-
-            //assert
-            //Assert.IsNotNull(users.Select(u=>u.name));
-            users.ForEach(u=>Assert.IsNotNull(u.name));
+            JiraClient instance = new JiraClient("http://ssu-jira.softserveinc.com","name","pass");
+            Assert.IsNotNull(instance);
         }
 
         [TestMethod]
         public void GetAllUsers_ValidVales_ReturnedListOfAllUsers()
         {
-            // arrange
-            JiraClient client = new JiraClient();
-
             //act
-            var users = client.GetAllUsers("RVNETJAN");
+            var users = Client.GetAllUsers("RVNETJAN");
 
             //assert
-            //Assert.IsNotNull(users.Select(u=>u.name));
             users.ForEach(u => Assert.IsNotNull(u.name));
         }
 
@@ -46,12 +36,8 @@ namespace ReportingToolTest
 
         public void AssertStatus_InvalidValues_ThrowExeption()
         {
-            // arrange
-            JiraClient client = new JiraClient();
-
             //act
-            var users = client.GetAllUsers("FAILED_NAME");
-
+            var users = Client.GetAllUsers("FAILED_NAME");
             // assert is handled by ExpectedException
         }
     }

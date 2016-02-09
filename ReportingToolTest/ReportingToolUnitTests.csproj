@@ -56,7 +56,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="ConfigurationTest.cs" />
+    <Compile Include="JiraClientMock.cs" />
     <Compile Include="JiraClientTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -74,17 +74,7 @@
       <Name>ReportingTool</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="TestFiles\Configurations2.ini" />
-    <None Include="TestFiles\Configurations3.ini" />
-    <None Include="TestFiles\Configurations4.ini" />
-    <None Include="TestFiles\Configurations5.ini" />
-    <None Include="TestFiles\Configurations6.ini" />
-    <None Include="TestFiles\Configurations7.ini" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="TestFiles\CreatedByTest\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

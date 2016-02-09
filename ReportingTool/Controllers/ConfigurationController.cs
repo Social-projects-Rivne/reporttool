@@ -12,17 +12,17 @@ namespace ReportingTool.Controllers
     public enum Answer { NotExists, IsEmpty, NotValid, Exists, Created, NotCreated };
     public class ConfigurationController : Controller
     {
-
         private const string SECTION = "GeneralConfiguration";
         private const string SERVEL_URL_KEY = "ServerUrl";
         private const string PROJECT_NAME_KEY = "ProjectName";
+        private const string FILE_NAME = "Configurations.ini";
 
         public string FileName { get; set; }
 
         public ConfigurationController()
         {
             string directory = new DirectoryInfo(HostingEnvironment.MapPath("~")).Parent.FullName;
-            FileName=Path.Combine(directory, "Configurations.ini"); 
+            FileName = Path.Combine(directory, FILE_NAME); 
         }
 
         /// <summary>
@@ -70,7 +70,6 @@ namespace ReportingTool.Controllers
                         {
                             answer = Answer.IsEmpty;
                         }
-
                     }
                 }
                 catch (Exception e)
