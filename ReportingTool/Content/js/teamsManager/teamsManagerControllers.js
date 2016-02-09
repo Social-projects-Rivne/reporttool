@@ -131,12 +131,19 @@ teamsManagerModule.controller('EditTeamController',
 	}]);
 
 teamsManagerModule.controller('NewTeamController',
-    ['$stateParams', '$scope', '$state', 'TeamFactory', 'UserFactory', function ($stateParams, $scope, $state, TeamFactory, UserFactory) {
+    ['$stateParams', '$scope', '$state', 'TeamFactory', 'JiraUsersService', function ($stateParams, $scope, $state, TeamFactory, JiraUsersService) {
         $scope.editTeam = {
             teamID: "",
             teamName: "",
             members: []
         };
+
+        $scope.selectedMember = {
+            userName: '',
+            fullName: ''
+        };
+        debugger;
+        $scope.jiraUsers = JiraUsersService.getJiraUsers();
 
         $scope.showEditBlock = true;
 
