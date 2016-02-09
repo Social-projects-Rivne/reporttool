@@ -63,9 +63,12 @@
     <Compile Include="DataAccessLayer\JiraClient.cs" />
     <Compile Include="DataAccessLayer\JiraClientException.cs" />
     <Compile Include="Entities\DataDomain.cs" />
+    <Compile Include="Entities\FieldInTemplate.cs" />
+    <Compile Include="Entities\Field.cs" />
     <Compile Include="Entities\JiraUser.cs" />
     <Compile Include="Entities\Member.cs" />
     <Compile Include="Entities\Team.cs" />
+    <Compile Include="Entities\Template.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

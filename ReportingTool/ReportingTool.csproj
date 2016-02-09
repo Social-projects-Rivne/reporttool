@@ -184,6 +184,7 @@
     <Compile Include="Controllers\JiraUsersController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\TeamsController.cs" />
+    <Compile Include="Controllers\TemplatesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -207,6 +208,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Templates\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReportingTool.Core\ReportingTool.Core.csproj">
