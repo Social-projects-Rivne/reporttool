@@ -155,6 +155,9 @@
     <Content Include="Content\js\teamsManager\teamsManagerModule.js" />
     <Content Include="Content\js\teamsManager\teamsManagerServices.js" />
     <Content Include="Content\js\ReportingTool.js" />
+    <Content Include="Content\js\templatesManager\templatesManagerController.js" />
+    <Content Include="Content\js\templatesManager\templatesManagerModule.js" />
+    <Content Include="Content\js\templatesManager\templatesManagerServices.js" />
     <Content Include="Content\js\vendor\angular-animate.min.js" />
     <Content Include="Content\js\vendor\angular-aria.min.js" />
     <Content Include="Content\js\vendor\angular-material.min.js" />
@@ -162,6 +165,8 @@
     <Content Include="Content\js\vendor\angular-ui-router.min.js" />
     <Content Include="Content\js\vendor\angular.js" />
     <Content Include="Content\templates\teamsManager\teamsManagerView.html" />
+    <Content Include="Content\templates\templatesManager\templatesList.html" />
+    <Content Include="Content\templates\templatesManager\templatesManagerView.html" />
     <Content Include="Global.asax" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
@@ -184,6 +189,7 @@
     <Compile Include="Controllers\JiraUsersController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\TeamsController.cs" />
+    <Compile Include="Controllers\TemplatesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -207,6 +213,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Templates\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReportingTool.Core\ReportingTool.Core.csproj">

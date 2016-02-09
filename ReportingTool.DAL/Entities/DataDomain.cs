@@ -21,12 +21,29 @@ namespace ReportingTool.DAL.Entities
                         mt.ToTable("team_member");
                     });
 
+        modelBuilder.Entity<FieldInTemplate>()
+            .HasKey( c => new {  c.TemplateId, c.FieldId});
+
+        modelBuilder.Entity<Field>()
+            .HasMany(c => c.FieldsInTemplates)
+            .WithRequired()
+            .HasForeignKey(c => c.FieldId);
+
+        modelBuilder.Entity<Template>()
+                .HasMany(c => c.FieldsInTemplates)
+                .WithRequired()
+                .HasForeignKey(c => c.TemplateId);
+
         modelBuilder.HasDefaultSchema("public");
     }
 
     public DbSet<Member> Members { get; set; }
     public DbSet<Team> Teams { get; set; }
-  }
+
+    public DbSet<Template> Templates { get; set; }
+    public DbSet<Field> Fields { get; set; }
+    public DbSet<FieldInTemplate> FieldsInTemplates { get; set; }
+    }
 
 }
 
