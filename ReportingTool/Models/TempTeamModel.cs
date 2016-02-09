@@ -12,12 +12,12 @@ namespace ReportingTool.Models
         [Required]
         public string teamName { get; set; }
         [Required]
-        private List<TempMemberModel> members = new List<TempMemberModel>();
+        private List<TempMemberModel> _members = new List<TempMemberModel>();
 
-        public List<TempMemberModel> Members
+        public List<TempMemberModel> members
         {
-            get { return members; }
-            set { members = value; }
+            get { return _members; }
+            set { _members = value; }
         }
         public TempTeamModel() { }
         
@@ -31,7 +31,7 @@ namespace ReportingTool.Models
         {
             this.teamID = int.Parse(teamID);
             this.teamName = teamName;
-            this.members = members;
+            this._members = members;
         }
 
     }

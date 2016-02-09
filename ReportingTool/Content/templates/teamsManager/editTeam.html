@@ -1,4 +1,4 @@
-<section ng-controller="NewTeamController">
+<section >
     <div class="row">
         <div class="col-sm-9 center">
             <input class='form-control' id="change-team-name" ng-model="editTeam.teamName">
@@ -28,12 +28,12 @@
                         <td>&nbsp;</td>
                         <td>
                             <select class="form-control select-username"
-                                    ng-model="selectedMember" ng-options="member.userName for member in members"
+                                    ng-model="selectedMember" ng-options="jiraUser.userName for jiraUser in jiraUsers"
                                     name="memberSelection"></select>
                         </td>
                         <td>
                             <select class="form-control select-username"
-                                    ng-model="selectedMember" ng-options="member.fullName for member in members"
+                                    ng-model="selectedMember" ng-options="jiraUser.fullName for jiraUser in jiraUsers"
                                     name="memberSelection"></select>
                         </td>
                         <td><a class="glyph-link" ng-click="addMember(selectedMember)"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </a></td>

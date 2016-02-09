@@ -27,21 +27,21 @@ namespace ReportingTool.Controllers
             TempTeamModel TempTeam = new TempTeamModel();
             TempTeam.teamID = 5;
             TempTeam.teamName = "Test Team 1";
-            TempTeam.Members.Add(new TempMemberModel("1_feodtc", "1_Feol"));
-            TempTeam.Members.Add(new TempMemberModel("1_loginName_1", "1_fullName_1"));
-            TempTeam.Members.Add(new TempMemberModel("1_loginName_2", "1_fullName_2"));
+            TempTeam.members.Add(new TempMemberModel("1_feodtc", "1_Feol"));
+            TempTeam.members.Add(new TempMemberModel("1_loginName_1", "1_fullName_1"));
+            TempTeam.members.Add(new TempMemberModel("1_loginName_2", "1_fullName_2"));
             temp.Add(TempTeam);
 
             TempTeam = new TempTeamModel("7", "Test Team 2");
-            TempTeam.Members.Add(new TempMemberModel("2_loginName_1", "2_fullName_1"));
-            TempTeam.Members.Add(new TempMemberModel("2_loginName_2", "2_fullName_2"));
-            TempTeam.Members.Add(new TempMemberModel("2_loginName_3", "2_fullName_3"));
-            TempTeam.Members.Add(new TempMemberModel("2_loginName_4", "2_fullName_4"));
+            TempTeam.members.Add(new TempMemberModel("2_loginName_1", "2_fullName_1"));
+            TempTeam.members.Add(new TempMemberModel("2_loginName_2", "2_fullName_2"));
+            TempTeam.members.Add(new TempMemberModel("2_loginName_3", "2_fullName_3"));
+            TempTeam.members.Add(new TempMemberModel("2_loginName_4", "2_fullName_4"));
             temp.Add(TempTeam);
 
             TempTeam = new TempTeamModel("11", "Test Team 3");
-            TempTeam.Members.Add(new TempMemberModel("3_loginName_1", "3_fullName_1"));
-            TempTeam.Members.Add(new TempMemberModel("3_loginName_2", "3_fullName_2"));
+            TempTeam.members.Add(new TempMemberModel("3_loginName_1", "3_fullName_1"));
+            TempTeam.members.Add(new TempMemberModel("3_loginName_2", "3_fullName_2"));
             temp.Add(TempTeam);
 
             return Json(temp, JsonRequestBehavior.AllowGet);
@@ -67,7 +67,7 @@ namespace ReportingTool.Controllers
                 {
                     var team = new Team { Name = newTeam.teamName, ProjectKey = project, IsActive = true };
 
-                    foreach (var member in newTeam.Members)
+                    foreach (var member in newTeam.members)
                     {
                         var newMember = db.Members.SingleOrDefault(p => p.Username == member.userName);
                         if (newMember != null)
