@@ -1,0 +1,35 @@
+{ "members": [ { "id": 34, "username": "username51", "fullname": "fullname51", "isactive": true }, { "id": 36, "username": "username53", "fullname": "fullname53", "isactive": true }, { "id": 37, "username": "username101", "fullname": "fullname101", "isactive": true } ], "id": 18, "name": "teamNEW1", "projectkey": "projectkey1", "isactive": true } ]
+
+{ "members": [ { "id": 34, "username": "username51", "fullname": "fullname51", "isactive": true } ], "id": 18, "name": "teamNEW1", "projectkey": "projectkey1", "isactive": true } 
+
+{ "members": [ { "id": 0, "username": "username51", "fullname": "fullname51", "isactive": true }, { "id": 0, "username": "username53", "fullname": "fullname53", "isactive": true }, { "id": 0, "username": "username101", "fullname": "fullname101", "isactive": true } ], "id": 18, "name": "name5", "projectkey": "projectkey2", "isactive": true } 
+
+{"members":[{"memberID":2,"memberUserName":"username2","memberFullName":"fullname2","memberIsActive":true},{"memberID":0,"memberUserName":"username301","memberFullName":"fullname301","memberIsActive":true},{"memberID":0,"memberUserName":"username302","memberFullName":"fullname302","memberIsActive":true},{"memberID":44,"memberUserName":"username202","memberFullName":"fullname202","memberIsActive":true}],"teamID":1,"teamName":"name1","projectKey":"projectkey1","isActive":true}
+
+******
+{
+    "members": [
+      {
+        "memberID": 2,
+        "memberUserName": "username2",
+        "memberFullName": "fullname2",
+        "memberIsActive": true
+      },
+      {
+        "memberID": 0,
+        "memberUserName": "username901",
+        "memberFullName": "fullname901",
+        "memberIsActive": true
+      },
+      {
+        "memberID": 0,
+        "memberUserName": "username902",
+        "memberFullName": "fullname902",
+        "memberIsActive": true
+      }
+    ],
+    "teamID": 1,
+    "teamName": "name5",
+    "projectKey": "projectkey2",
+    "isActive": true
+  }
