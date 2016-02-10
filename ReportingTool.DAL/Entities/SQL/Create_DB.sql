@@ -72,3 +72,4 @@ ALTER TABLE "team_member"
 
 COMMENT ON TABLE "team_member"
   IS 'The table of team_member';
+
