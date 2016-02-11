@@ -19,14 +19,14 @@ namespace ReportingTool.DAL.Entities
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             Database.SetInitializer<DB2>(null);
-            //modelBuilder.Entity<team>().ToTable("teams");
+            //modelBuilder.Entity<Team>().ToTable("teams");
 
-            //modelBuilder.Entity<member>().ToTable("members");
-            //modelBuilder.Entity<member>().ToTable("members", "public");
+            //modelBuilder.Entity<Member>().ToTable("members");
+            //modelBuilder.Entity<Member>().ToTable("members", "public");
 
-            modelBuilder.Entity<team>()
-                        .HasMany<member>(t => t.members)
-                        .WithMany(m => m.teams)
+            modelBuilder.Entity<Team>()
+                        .HasMany<Member>(t => t.Members)
+                        .WithMany(m => m.Teams)
                         .Map(mt =>
                         {
                             mt.MapLeftKey("team_id");
@@ -39,9 +39,6 @@ namespace ReportingTool.DAL.Entities
             //Configure default schema
             modelBuilder.HasDefaultSchema("public");
         }
-
-        public DbSet<member> members { get; set; }
-        public DbSet<team> teams { get; set; }
 
         public DbSet<Member> Members { get; set; }
         public DbSet<Team> Teams { get; set; }
