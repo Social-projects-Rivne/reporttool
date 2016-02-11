@@ -191,7 +191,6 @@
     </Compile>
     <Compile Include="Models\ConfigurationParametersModel.cs" />
     <Compile Include="Models\Credentials.cs" />
-    <Compile Include="Models\TempTeamModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

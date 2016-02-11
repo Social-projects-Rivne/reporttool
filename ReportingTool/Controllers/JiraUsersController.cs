@@ -19,9 +19,9 @@ namespace ReportingTool.Controllers
 
             JiraClient client = new JiraClient("http://ssu-jira.softserveinc.com", "ofeodtc", "jss-em}t");
             List<JiraUser> users = client.GetAllUsers("RVNETJAN");
-            List<TempMemberModel> members = new List<TempMemberModel>();
+            List<Member> members = new List<Member>();
             foreach(JiraUser user in users){
-                members.Add(new TempMemberModel(user.name, user.displayName));
+                members.Add(new Member(user.name, user.displayName));
             }
             return new JsonResult { Data = members, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }

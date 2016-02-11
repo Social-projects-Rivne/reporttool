@@ -15,6 +15,11 @@ namespace ReportingTool.DAL.Entities
             this.Teams = new HashSet<Team>();
         }
 
+        public Member(string userName, string fullName) {
+            this.userName = userName;
+            this.fullName = fullName;
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
@@ -27,14 +32,14 @@ namespace ReportingTool.DAL.Entities
         [MinLength(4)]
         [MaxLength(50)]
         [JsonProperty("memberUserName")]
-        public string Username { get; set; }
+        public string userName { get; set; }
 
         [Required]
         [Column("fullname")]
         [MinLength(4)]
         [MaxLength(100)]
         [JsonProperty("memberFullName")]
-        public string Fullname { get; set; }
+        public string fullName { get; set; }
 
         [Required]
         [Column("isactive")]
