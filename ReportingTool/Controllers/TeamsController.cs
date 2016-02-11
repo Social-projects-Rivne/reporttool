@@ -61,8 +61,12 @@ namespace ReportingTool.Controllers
         /// <param name="projectKey">name of a project -  string</param>
         /// <returns>A serialized list of teams with their members included</returns>
         [HttpGet]
-        public string GetAll(string projectKey = "projectkey1")
+        public string GetAllTeams()
         {
+            FileIniDataParser fileIniData = new FileIniDataParser();
+            IniData parsedData = fileIniData.ReadFile(FILE_NAME);
+            string projectKey = parsedData[SECTION][PROJECT_NAME_KEY];
+
             List<team> teamList = new List<team>();
 
             using (var ctx = new DB2())
@@ -77,7 +81,7 @@ namespace ReportingTool.Controllers
 
             //  works
             string ouputJSON = JsonConvert.SerializeObject(teamList, Formatting.Indented);
-            //string ouputJSON = JsonConvert.SerializeObject(teamList);
+            // string ouputJSON = JsonConvert.SerializeObject(teamList);
             return ouputJSON;
         }
 

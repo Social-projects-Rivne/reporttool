@@ -1,7 +1,7 @@
 'use strict';
 
 teamsManagerModule.controller('teamsManagerController',
-    ['$scope', '$state', 'TeamFactory', function ($scope, $state, TeamFactory) {
+    ['$scope', '$state', 'TeamFactory', 'JiraUsersService', function ($scope, $state, TeamFactory, JiraUsersService) {
         $scope.message = "Loading...";
         $scope.showTeams = true;
         $scope.teams = {};
@@ -9,10 +9,12 @@ teamsManagerModule.controller('teamsManagerController',
         
         TeamFactory.GetAllTeams().then(teamsSuccess, teamsFail);
 
+        JiraUsersService.GetJiraUsersFromServer();
+
         var DeleteTeam = null;
 
         $scope.deleteTeam = function (id) {
-            TeamFactory.del(id).then(delSuccess, delFail);
+            TeamFactory.deleteTeam(id).then(delSuccess, delFail);
             id_team_to_del = id;
         }
 
@@ -142,7 +144,8 @@ teamsManagerModule.controller('NewTeamController',
             userName: '',
             fullName: ''
         };
-        debugger;
+
+
         $scope.jiraUsers = JiraUsersService.getJiraUsers();
 
         $scope.showEditBlock = true;

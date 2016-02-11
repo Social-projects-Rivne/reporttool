@@ -64,8 +64,12 @@ teamsManagerModule.factory('TemplatesFactory', ['$http', function ($http) {
 }]);
 
 teamsManagerModule.service('JiraUsersService', ['$http', function ($http) {
-    debugger;
-    var jiraUsers = $http.get("JiraUsers/GetAllUsers").then(Success, Fail);
+
+    var jiraUsers = [];
+
+    function GetJiraUsersFromServer() {
+        $http.get("JiraUsers/GetAllUsers").then(Success, Fail)
+    };
        
     function Success(response) {
         jiraUsers = response.data;
@@ -80,6 +84,7 @@ teamsManagerModule.service('JiraUsersService', ['$http', function ($http) {
     };
 
     return {
-        getJiraUsers: getJiraUsers
+        getJiraUsers: getJiraUsers,
+        GetJiraUsersFromServer: GetJiraUsersFromServer
     };
 }]);

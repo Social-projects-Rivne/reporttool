@@ -1,28 +1,14 @@
-﻿<section class="row" ng-controller="teamsManagerController">
-    <div class="col-sm-8 teamsList" ui-view="teamsList"></div>
-    <div class="col-sm-8" ui-view>
-        <div>
-            <table class="table table-striped">
-                <colgroup>
-                    <col width="5%" />
-                    <col width="45%" />
-                    <col width="45%" />
-                </colgroup>
-                <thead id="change-team-head">
-                    <tr>
-                        <th>#</th>
-                        <th>User Name</th>
-                        <th>Full Name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat='member in activeTeam.members'>
-                        <td> {{$index + 1}}</td>
-                        <td> {{member.userName}}</td>
-                        <td> {{member.fullName}}</td>
-                    </tr>
-                <tbody>
-            </table>
+﻿<section class="row">
+    <div id='teamsManagerHeader'>
+        <div class="col-sm-6">
+            <h2> Manage Teams </h2>
         </div>
+        <div class="col-sm-2">
+            <a ui-sref="mainView.teamsManager.createTeam" class="btn btn-flat">Add Team</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-8 teamsList" ui-view="teamsList"></div>
+        <div class="col-sm-8" ui-view></div>
     </div>
 </section>
