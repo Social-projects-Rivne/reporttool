@@ -2,6 +2,11 @@
 
 loginModule.controller("loginController", ['$scope', '$http', '$stateParams', '$state', function ($scope, $http, $stateParams, $state) {
 
+    angular.element(document).ready(function () {
+        $scope.showLogout = false;
+        $scope.CheckSession();
+    });
+
     $scope.credentials = {
         userName: '',
         password: '',
@@ -11,7 +16,7 @@ loginModule.controller("loginController", ['$scope', '$http', '$stateParams', '$
        showConnectionError : false
     };
     $scope.showElements = {
-        showLogout: true
+        showLogout: false
     };
     $scope.showErrors.showAuthentificationError = false;
     $scope.showErrors.showConnectionError = false;
@@ -23,6 +28,33 @@ loginModule.controller("loginController", ['$scope', '$http', '$stateParams', '$
         $scope.showErrors.showAuthentificationError = false;
         $scope.showErrors.showConnectionError = false;
     }
+
+    $scope.CheckSession = function () {
+
+        $http({
+            method: 'GET',
+            url: 'Login/CheckSession',
+            data: {},
+            headers: { 'content-type': 'application/json' }
+
+        }).then(function successCallback(response) {
+
+            if (response.data.Status == "sessionExists") {
+                //redirect on main page
+                $state.transitionTo('mainView');
+            }
+            else {
+                $scope.showElements.showLogout = true;
+                //redirect on main page
+                $state.transitionTo('loginView');
+            }
+        }, function errorCallback(response) {
+            $scope.validationIsInProgress = false;
+            $scope.errorText = "Server error";
+            $scope.showErrors.showConnectionError = true;
+        });
+    }
+
 
     $scope.SendData = function () {
 
@@ -73,6 +105,7 @@ loginModule.controller("loginController", ['$scope', '$http', '$stateParams', '$
         $http(req).then(
             function (r) {
                 if (r.data.Status == "loggedOut") {
+                    $scope.showElements.showLogout = false;
                     $state.transitionTo('loginView');
                 }
             },

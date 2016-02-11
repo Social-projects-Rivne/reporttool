@@ -27,8 +27,8 @@
                     <p class="white">Tool</p>
                 </a>
             </div>
-            <div class="navbar-header logout">
-                <a class="navbar-brand" ng-show='true'
+            <div class="navbar-header logout" ng-controller="loginController">
+                <a class="navbar-brand"  ng-show="showElements.showLogout"
                    ng-click="Logout();" ui-sref="configView">
                     <p class="white">Logout</p>
                 </a>
