@@ -63,6 +63,11 @@ namespace ReportingTool.Controllers
         [HttpGet]
         public string GetAll(string projectKey = "projectkey1")
         {
+            ////  pick projectKey from .INI file
+            //FileIniDataParser fileIniData = new FileIniDataParser();
+            //IniData parsedData = fileIniData.ReadFile(FILE_NAME);
+            //projectKey = parsedData[SECTION][PROJECT_NAME_KEY];
+
             List<Team> teamList = new List<Team>();
 
             using (var ctx = new DB2())
