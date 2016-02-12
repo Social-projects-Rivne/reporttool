@@ -87,7 +87,7 @@ namespace ReportingTool.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddNewTeam(Team newTeam)
+        public ActionResult AddNewTeam([ModelBinder(typeof(JsonNetModelBinder))] Team newTeam)
         {
             Answer answer;
 
