@@ -20,6 +20,7 @@ namespace ReportingTool.DAL.Entities
         [Required]
         [Column("id")]
         [JsonProperty("memberID")]
+        [JsonIgnore]        //  update
         public int Id { get; set; }
 
         [Required]
@@ -39,6 +40,7 @@ namespace ReportingTool.DAL.Entities
         [Required]
         [Column("isactive")]
         [JsonProperty("memberIsActive")]
+        [JsonIgnore]        //  update
         public bool IsActive { get; set; }
 
         [JsonIgnore]

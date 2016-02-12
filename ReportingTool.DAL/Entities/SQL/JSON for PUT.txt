@@ -33,3 +33,24 @@
     "projectKey": "projectkey2",
     "isActive": true
   }
+
+  // 2016-02-12
+
+  {
+    "members": [
+      {
+        "memberUserName": "username2",
+        "memberFullName": "fullname2"
+      },
+      {
+        "memberUserName": "username1001",
+        "memberFullName": "fullname1001"
+      },
+      {
+        "memberUserName": "username1002",
+        "memberFullName": "fullname1002"
+      }
+    ],
+    "teamID": 1,
+    "teamName": "name5"
+}

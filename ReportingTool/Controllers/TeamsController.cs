@@ -63,6 +63,12 @@ namespace ReportingTool.Controllers
         [HttpGet]
         public string GetAll(string projectKey = "projectkey1")
         {
+            //  projectKey from.INI file
+            FileIniDataParser fileIniData = new FileIniDataParser();
+            IniData parsedData = fileIniData.ReadFile(FILE_NAME);
+            projectKey = parsedData[SECTION][PROJECT_NAME_KEY];
+            //
+
             List<Team> teamList = new List<Team>();
 
             using (var ctx = new DB2())
@@ -142,12 +148,18 @@ namespace ReportingTool.Controllers
         {
             Team teamForUpdate = new Team();
 
+            //  projectKey from.INI file
+            FileIniDataParser fileIniData = new FileIniDataParser();
+            IniData parsedData = fileIniData.ReadFile(FILE_NAME);
+            var ProjectKey = parsedData[SECTION][PROJECT_NAME_KEY];
+            //
+
             using (var ctx = new DB2())
             {
-
+               
                 //  CHECK :   is a team with the specified projectkey and name present in DB ?
                 teamForUpdate = ctx.Teams.Include("members")
-                    .SingleOrDefault<Team>(t => t.Name == teamFromJSON.Name && t.ProjectKey == teamFromJSON.ProjectKey && t.IsActive == true);
+                    .SingleOrDefault<Team>(t => t.Name == teamFromJSON.Name && t.ProjectKey == ProjectKey && t.IsActive == true);
 
                 //  CHECK RESULT  : No  ---> send a NotFound error response + exit
                 if (teamForUpdate == null)
