@@ -18,22 +18,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat='member in editTeam.members | orderBy: member.userName'>
+                    <tr ng-repeat='member in editTeam.members | orderBy: member.UserName'>
                         <td> {{$index + 1}}</td>
-                        <td> {{member.userName}}</td>
-                        <td> {{member.fullName}}</td>
-                        <td> <a class="glyph-link" ng-click="removeMember(member.userName)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a></td>
+                        <td> {{member.UserName}}</td>
+                        <td> {{member.FullName}}</td>
+                        <td> <a class="glyph-link" ng-click="removeMember(member.UserName)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a></td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
                         <td>
                             <select class="form-control select-username"
-                                    ng-model="selectedMember" ng-options="jiraUser.userName for jiraUser in jiraUsers"
+                                    ng-model="selectedMember" ng-options="jiraUser.UserName for jiraUser in jiraUsers"
                                     name="memberSelection"></select>
                         </td>
                         <td>
                             <select class="form-control select-username"
-                                    ng-model="selectedMember" ng-options="jiraUser.fullName for jiraUser in jiraUsers"
+                                    ng-model="selectedMember" ng-options="jiraUser.FullName for jiraUser in jiraUsers"
                                     name="memberSelection"></select>
                         </td>
                         <td><a class="glyph-link" ng-click="addMember(selectedMember)"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </a></td>
