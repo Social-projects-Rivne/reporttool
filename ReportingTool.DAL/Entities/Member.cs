@@ -24,26 +24,27 @@ namespace ReportingTool.DAL.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
         [Column("id")]
-        [JsonProperty("memberID")]
+        //[JsonProperty("memberID")]
+        [JsonIgnore]
         public int Id { get; set; }
 
         [Required]
         [Column("username")]
         [MinLength(4)]
         [MaxLength(50)]
-        [JsonProperty("memberUserName")]
+        [JsonProperty("userName")]
         public string userName { get; set; }
 
         [Required]
         [Column("fullname")]
         [MinLength(4)]
         [MaxLength(100)]
-        [JsonProperty("memberFullName")]
+        [JsonProperty("fullName")]
         public string fullName { get; set; }
 
         [Required]
         [Column("isactive")]
-        [JsonProperty("memberIsActive")]
+        [JsonIgnore]
         public bool IsActive { get; set; }
 
         [JsonIgnore]

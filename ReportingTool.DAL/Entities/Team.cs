@@ -33,12 +33,14 @@ namespace ReportingTool.DAL.Entities
         [Column("projectkey")]
         [MinLength(4)]
         [MaxLength(50)]
-        [JsonProperty("projectKey")]
+        //[JsonProperty("projectKey")]
+        [JsonIgnore]
         public string ProjectKey { get; set; }
 
         [Required]
         [Column("isactive")]
-        [JsonProperty("isActive")]
+       // [JsonProperty("isActive")]
+        [JsonIgnore]
         public bool IsActive { get; set; }
 
         public virtual ICollection<Member> Members { get; set; }
