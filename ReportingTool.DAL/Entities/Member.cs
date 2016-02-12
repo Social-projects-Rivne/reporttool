@@ -16,21 +16,22 @@ namespace ReportingTool.DAL.Entities
             this.UserName = userName;
             this.FullName = fullName;
         }
-        [JsonProperty("memberID")]
+        //[JsonProperty("memberID")]
+        [JsonIgnore]
         public int Id { get; set; }
 
         [Required]
         [MaxLength(128)]
-        [JsonProperty("memberUserName")]
+        [JsonProperty("userName")]
         public string UserName { get; set; }
 
         [Required]
         [MaxLength(128)]
-        [JsonProperty("memberFullName")]
+        [JsonProperty("fullName")]
         public string FullName { get; set; }
 
         [Required]
-        [JsonProperty("memberIsActive")]
+        [JsonIgnore]
         public bool IsActive { get; set; }
 
         [JsonIgnore]

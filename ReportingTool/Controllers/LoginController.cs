@@ -94,9 +94,9 @@ namespace ReportingTool.Controllers
         [HttpGet]
         public JsonResult Logout()
         {
-            FormsAuthentication.SignOut();
-            System.Web.HttpContext.Current.User = null;
-            return Json(new { Status = "loggedOut" });
+            //FormsAuthentication.SignOut();
+           // System.Web.HttpContext.Current.User = null;
+            return Json(new { Status = "loggedOut" }, JsonRequestBehavior.AllowGet);
         }
 	}
 }
