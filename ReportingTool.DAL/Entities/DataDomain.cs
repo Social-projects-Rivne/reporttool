@@ -7,7 +7,7 @@ namespace ReportingTool.DAL.Entities
         public DB2()
             : base(nameOrConnectionString: "RTDB")
         {
-            Database.SetInitializer<DB2>(new DatabaseInitializer());
+             //Database.SetInitializer<DB2>(new DatabaseInitializer());
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

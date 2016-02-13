@@ -27,6 +27,7 @@ namespace ReportingTool.DAL.Entities
         [JsonIgnore]
         public string ProjectKey { get; set; }
 
+          [JsonProperty("members")]
         public virtual ICollection<Member> Members { get; set; }
     }
 }

@@ -9,6 +9,7 @@ using IniParser;
 using IniParser.Model;
 using System.Web.Hosting;
 
+using System.IO;
 using System.Data.Entity;
 using Newtonsoft.Json;
 using ReportingTool.DAL.Entities;
@@ -43,8 +44,13 @@ namespace ReportingTool.Controllers
                         if (memberVar.Teams.Count == 0)
                         {
                             memberVar.IsActive = false;
-                            ctx.SaveChanges();
                         }
+
+                        if (memberVar.Teams.Count > 0)
+                        {
+                            memberVar.IsActive = true;
+                        }
+                        ctx.SaveChanges();
                     }
                     return new HttpStatusCodeResult(HttpStatusCode.OK, "Member table checked successfully");
                 }
@@ -72,12 +78,31 @@ namespace ReportingTool.Controllers
 
             using (var ctx = new DB2())
             {
-                var query = from t in ctx.Teams.Include("members")
-                            orderby t.ProjectKey, t.Name
+                //  1
+                var query = from t in ctx.Teams.Include("Members")
+                            orderby t.Name
                             where t.IsActive == true && t.ProjectKey == projectKey
                             select t;
-
                 teamList = query.ToList();
+
+                //  2
+                //ctx.Database.Log = message => System.IO.File.AppendText("D:\\EFlog.txt").WriteLine(message);
+                //ctx.Database.Log = message => Trace.WriteLine(message);
+
+                //  3
+                //teamList = ctx.Teams
+                    // .Include(t => t.Members)
+                    //.OrderBy(t => t.Name)
+                     //.Where(t => (t.IsActive == true) && (t.ProjectKey == projectKey))
+                //.ToList();
+
+                //teamList = ctx.Teams.ToList();
+
+                //  4
+                //teamList = ctx.Teams
+                //          .Include("Members")
+                //          .ToList(); 
+
             }
 
             //  works
@@ -147,12 +172,18 @@ namespace ReportingTool.Controllers
         {
             Team teamForUpdate = new Team();
 
+            //  projectKey from.INI file
+            FileIniDataParser fileIniData = new FileIniDataParser();
+            IniData parsedData = fileIniData.ReadFile(FILE_NAME);
+            var ProjectKey = parsedData[SECTION][PROJECT_NAME_KEY];
+            //
+
             using (var ctx = new DB2())
             {
 
                 //  CHECK :   is a team with the specified projectkey and name present in DB ?
-                teamForUpdate = ctx.Teams.Include("members")
-                    .SingleOrDefault<Team>(t => t.Name == teamFromJSON.Name && t.ProjectKey == teamFromJSON.ProjectKey && t.IsActive == true);
+                teamForUpdate = ctx.Teams
+                    .SingleOrDefault<Team>(t => t.Name == teamFromJSON.Name && t.ProjectKey == ProjectKey && t.IsActive == true);
 
                 //  CHECK RESULT  : No  ---> send a NotFound error response + exit
                 if (teamForUpdate == null)
@@ -162,7 +193,8 @@ namespace ReportingTool.Controllers
                 }
 
                 //  CHECK RESULT  : Yes  ---> keep running
-
+                teamForUpdate = ctx.Teams.Include("Members")
+                   .SingleOrDefault<Team>(t => t.Name == teamFromJSON.Name && t.ProjectKey == ProjectKey && t.IsActive == true);
                 //  the team in DB -> active
                 teamForUpdate.IsActive = true;
 
@@ -210,6 +242,8 @@ namespace ReportingTool.Controllers
                             if (itemFromDB.UserName == itemFromJSON.UserName)
                             {
                                 addMember = false;
+                                itemFromDB.IsActive = true;
+                                ctx.SaveChanges();
                                 break;
                             }
                         }
@@ -217,6 +251,7 @@ namespace ReportingTool.Controllers
                         // the member from JSON is not found in DB ---> add to add_array
                         if (addMember == true)
                         {
+                            itemFromJSON.IsActive = true;
                             memberArrayAdd[idx++] = itemFromJSON;
                         }
                     }
