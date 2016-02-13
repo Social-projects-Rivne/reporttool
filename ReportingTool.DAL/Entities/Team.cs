@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 
 namespace ReportingTool.DAL.Entities
@@ -16,6 +17,7 @@ namespace ReportingTool.DAL.Entities
         [Required]
         [MaxLength(128)]
         [JsonProperty("teamName")]
+        [Index("IX_NameAndProjectKey", 1, IsUnique = true)]
         public string Name { get; set; }
 
         [Required]
@@ -25,6 +27,7 @@ namespace ReportingTool.DAL.Entities
         [Required]
         [MaxLength(128)]
         [JsonIgnore]
+        [Index("IX_NameAndProjectKey", 2, IsUnique = true)]
         public string ProjectKey { get; set; }
 
         public virtual ICollection<Member> Members { get; set; }

@@ -3,7 +3,7 @@ using System.Data.Entity;
 
 namespace ReportingTool.DAL.Entities
 {
-    class DatabaseInitializer : DropCreateDatabaseAlways<DB2>
+    class DatabaseInitializer : CreateDatabaseIfNotExists<DB2>
     {
         protected override void Seed(DB2 context)
         {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 
 namespace ReportingTool.DAL.Entities
@@ -16,13 +17,14 @@ namespace ReportingTool.DAL.Entities
             this.UserName = userName;
             this.FullName = fullName;
         }
-        
+
         [JsonIgnore]
         public int Id { get; set; }
 
         [Required]
         [MaxLength(128)]
         [JsonProperty("userName")]
+        [Index(IsUnique = true)]
         public string UserName { get; set; }
 
         [Required]
@@ -38,4 +40,3 @@ namespace ReportingTool.DAL.Entities
         public virtual ICollection<Team> Teams { get; set; }
     }
 }
-
