@@ -16,7 +16,7 @@ namespace ReportingTool.DAL.Entities
             this.UserName = userName;
             this.FullName = fullName;
         }
-        //[JsonProperty("memberID")]
+        
         [JsonIgnore]
         public int Id { get; set; }
 

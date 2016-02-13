@@ -19,13 +19,12 @@ namespace ReportingTool.DAL.Entities
         public string Name { get; set; }
 
         [Required]
-       // [JsonProperty("isActive")]
         [JsonIgnore]
         public bool IsActive { get; set; }
 
         [Required]
         [MaxLength(128)]
-        [JsonProperty("projectKey")]
+        [JsonIgnore]
         public string ProjectKey { get; set; }
 
         public virtual ICollection<Member> Members { get; set; }

@@ -61,8 +61,8 @@ teamsManagerModule.controller('EditTeamController',
 	    };
 
 	    $scope.selectedMember = {
-	        UserName: '',
-	        FullName: ''
+	        userName: '',
+	        fullName: ''
 	    }
 
 	    $scope.jiraUsers = JiraUsersService.getJiraUsers;
@@ -76,7 +76,7 @@ teamsManagerModule.controller('EditTeamController',
 
 	    $scope.addMember = function (member) {
 	        for (var i in $scope.editTeam.members) {
-	            if ($scope.editTeam.members[i].UserName === member.UserName) {
+	            if ($scope.editTeam.members[i].userName === member.userName) {
 	                return;
 	            }
 	        }
@@ -92,10 +92,10 @@ teamsManagerModule.controller('EditTeamController',
 	        $scope.editTeam = backupTeam;
 	    }
 
-	    $scope.removeMember = function (UserName) {
-	        console.log('del member ' + UserName);
+	    $scope.removeMember = function (userName) {
+	        console.log('del member ' + userName);
 	        for (var i in $scope.editTeam.members) {
-	            if ($scope.editTeam.members[i].UserName === UserName) {
+	            if ($scope.editTeam.members[i].userName === userName) {
 	                $scope.editTeam.members.splice(i, 1);
 	            }
 	        }
@@ -141,8 +141,8 @@ teamsManagerModule.controller('NewTeamController',
         };
 
         $scope.selectedMember = {
-            UserName: '',
-            FullName: ''
+            userName: '',
+            fullName: ''
         };
 
 
@@ -152,7 +152,7 @@ teamsManagerModule.controller('NewTeamController',
 
         $scope.addMember = function (member) {
             for (var i in $scope.editTeam.members) {
-                if ($scope.editTeam.members[i].UserName === member.UserName) {
+                if ($scope.editTeam.members[i].userName === member.userName) {
                     //---------------- TODO: Add duplicates exception ----------------------//
                     return;
                 }
@@ -172,9 +172,9 @@ teamsManagerModule.controller('NewTeamController',
             };
         }
 
-        $scope.removeMember = function (UserName) {
+        $scope.removeMember = function (userName) {
             for (var i in $scope.editTeam.members) {
-                if ($scope.editTeam.members[i].UserName === UserName) {
+                if ($scope.editTeam.members[i].userName === userName) {
                     $scope.editTeam.members.splice(i, 1);
                 }
             }
