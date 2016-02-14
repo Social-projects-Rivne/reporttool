@@ -79,22 +79,22 @@ namespace ReportingTool.Controllers
             using (var ctx = new DB2())
             {
                 //  1
-                var query = from t in ctx.Teams.Include("Members")
-                            orderby t.Name
-                            where t.IsActive == true && t.ProjectKey == projectKey
-                            select t;
-                teamList = query.ToList();
+                //var query = from t in ctx.Teams.Include("Members")
+                //            orderby t.Name
+                //            where t.IsActive == true && t.ProjectKey == projectKey
+                //            select t;
+                //teamList = query.ToList();
 
                 //  2
                 //ctx.Database.Log = message => System.IO.File.AppendText("D:\\EFlog.txt").WriteLine(message);
                 //ctx.Database.Log = message => Trace.WriteLine(message);
 
                 //  3
-                //teamList = ctx.Teams
-                    // .Include(t => t.Members)
-                    //.OrderBy(t => t.Name)
-                     //.Where(t => (t.IsActive == true) && (t.ProjectKey == projectKey))
-                //.ToList();
+                teamList = ctx.Teams
+                     .Include(t => t.Members)
+                    .OrderBy(t => t.Name)
+                     .Where(t => (t.IsActive == true) && (t.ProjectKey == projectKey))
+                .ToList();
 
                 //teamList = ctx.Teams.ToList();
 
@@ -182,19 +182,16 @@ namespace ReportingTool.Controllers
             {
 
                 //  CHECK :   is a team with the specified projectkey and name present in DB ?
-                teamForUpdate = ctx.Teams
-                    .SingleOrDefault<Team>(t => t.Name == teamFromJSON.Name && t.ProjectKey == ProjectKey && t.IsActive == true);
 
                 //  CHECK RESULT  : No  ---> send a NotFound error response + exit
-                if (teamForUpdate == null)
+                if (ctx.Teams.Any(t => t.Name == teamFromJSON.Name && t.ProjectKey == ProjectKey) == false)
                 {
                     return HttpStatusCode.NotFound;
-                    //return null;    //  OK
                 }
 
                 //  CHECK RESULT  : Yes  ---> keep running
                 teamForUpdate = ctx.Teams.Include("Members")
-                   .SingleOrDefault<Team>(t => t.Name == teamFromJSON.Name && t.ProjectKey == ProjectKey && t.IsActive == true);
+                   .SingleOrDefault<Team>(t => t.Name == teamFromJSON.Name && t.ProjectKey == ProjectKey );
                 //  the team in DB -> active
                 teamForUpdate.IsActive = true;
 
