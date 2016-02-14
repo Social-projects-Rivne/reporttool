@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ReportingTool.DAL.Entities
 {
     public class Template
     {
+        [JsonIgnore]
         public int Id { get; set; }
 
         [Required]
@@ -23,6 +25,7 @@ namespace ReportingTool.DAL.Entities
         [JsonProperty("owner")]
         public string Owner { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<FieldsInTemplate> FieldsInTemplate { get; set; }
     }
 }

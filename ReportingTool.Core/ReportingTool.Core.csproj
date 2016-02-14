@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validation\ConfigurationHelper.cs" />
+    <Compile Include="Validation\TemplatesValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\" />
@@ -54,6 +55,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ReportingTool.DAL\ReportingTool.DAL.csproj">
+      <Project>{a4388dbb-4998-41b9-97fa-7462bb37131a}</Project>
+      <Name>ReportingTool.DAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
