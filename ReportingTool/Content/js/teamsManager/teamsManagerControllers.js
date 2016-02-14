@@ -135,7 +135,7 @@ teamsManagerModule.controller('EditTeamController',
 teamsManagerModule.controller('NewTeamController',
     ['$stateParams', '$scope', '$state', 'TeamFactory', 'JiraUsersService', function ($stateParams, $scope, $state, TeamFactory, JiraUsersService) {
         $scope.editTeam = {
-            teamID: "",
+            teamID: "0",
             teamName: "",
             members: []
         };

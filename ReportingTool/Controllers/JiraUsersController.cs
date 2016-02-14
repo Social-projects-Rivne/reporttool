@@ -18,10 +18,12 @@ namespace ReportingTool.Controllers
             /*---------------------- Remove hardcode!!! ---------------------------------*/
 
             JiraClient client = new JiraClient("http://ssu-jira.softserveinc.com", "ofeodtc", "jss-em}t");
-            List<JiraUser> users = client.GetAllUsers("RVNETJAN");
-            List<Member> members = new List<Member>();
-            foreach(JiraUser user in users){
-                members.Add(new Member(user.name, user.displayName));
+            var JiraUsers = client.GetAllUsers("RVNETJAN").ToList();
+            var tempMember = new { userName = "", fullName = "" };
+            List<object> members = new List<object>();
+            foreach (var user in JiraUsers)
+            {
+                members.Add(new { userName = user.name, fullName = user.displayName } );
             }
             return new JsonResult { Data = members, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }

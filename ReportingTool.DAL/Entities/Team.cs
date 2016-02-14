@@ -1,49 +1,35 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-using System.Data.Entity;
 using Newtonsoft.Json;
 
 namespace ReportingTool.DAL.Entities
 {
-    [Table("teams", Schema = "public")]
-    public partial class Team
+    public class Team
     {
         public Team()
         {
             this.Members = new HashSet<Member>();
         }
-
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
-        [Column("id")]
         [JsonProperty("teamID")]
         public int Id { get; set; }
 
         [Required]
-        [Column("name")]
-        [MinLength(4)]
-        [MaxLength(50)]
+        [MaxLength(128)]
         [JsonProperty("teamName")]
+        [Index("IX_NameAndProjectKey", 1, IsUnique = true)]
         public string Name { get; set; }
 
         [Required]
-        [Column("projectkey")]
-        [MinLength(4)]
-        [MaxLength(50)]
-        [JsonProperty("projectKey")]
-        public string ProjectKey { get; set; }
-
-        [Required]
-        [Column("isactive")]
-        [JsonProperty("isActive")]
+        [JsonIgnore]
         public bool IsActive { get; set; }
 
+        [Required]
+        [MaxLength(128)]
+        [JsonIgnore]
+        [Index("IX_NameAndProjectKey", 2, IsUnique = true)]
+        public string ProjectKey { get; set; }
+
         public virtual ICollection<Member> Members { get; set; }
-
     }
-
 }
-

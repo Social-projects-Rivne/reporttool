@@ -87,7 +87,7 @@ namespace ReportingTool.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddNewTeam(Team newTeam)
+        public ActionResult AddNewTeam([ModelBinder(typeof(JsonNetModelBinder))] Team newTeam)
         {
             Answer answer;
 
@@ -108,7 +108,7 @@ namespace ReportingTool.Controllers
 
                     foreach (var member in newTeam.Members)
                     {
-                        var newMember = db.Members.SingleOrDefault(p => p.userName == member.userName);
+                        var newMember = db.Members.SingleOrDefault(p => p.UserName == member.UserName);
                         if (newMember != null)
                         {
                             if (newMember.IsActive)
@@ -123,7 +123,7 @@ namespace ReportingTool.Controllers
                         }
                         else
                         {
-                            newMember = new Member { userName = member.userName, fullName = member.fullName, IsActive = true };
+                            newMember = new Member { UserName = member.UserName, FullName = member.FullName, IsActive = true };
                             team.Members.Add(newMember);
                         }
                     }
@@ -179,7 +179,7 @@ namespace ReportingTool.Controllers
                         foreach (var itemFromJSON in teamFromJSON.Members)
                         {
                             // found in JSON ?
-                            if (memberArrayDelete[i].userName == itemFromJSON.userName)
+                            if (memberArrayDelete[i].UserName == itemFromJSON.UserName)
                             {
                                 deleteMember = false;
                                 break;
@@ -207,7 +207,7 @@ namespace ReportingTool.Controllers
                         foreach (var itemFromDB in teamForUpdate.Members)
                         {
                             // already present in DB -> not added to DB
-                            if (itemFromDB.userName == itemFromJSON.userName)
+                            if (itemFromDB.UserName == itemFromJSON.UserName)
                             {
                                 addMember = false;
                                 break;
@@ -231,7 +231,7 @@ namespace ReportingTool.Controllers
                             Member memberTmp = memberArrayAdd[k];
 
                             Member memberDup = ctx.Members.
-                                SingleOrDefault<Member>(m => m.userName == memberTmp.userName);
+                                SingleOrDefault<Member>(m => m.UserName == memberTmp.UserName);
 
                             // if a member with the same name exists he is activated
                             if (memberDup != null)

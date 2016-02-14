@@ -116,6 +116,7 @@ namespace ReportingTool.Controllers
             Session.Abandon();
             FormsAuthentication.SignOut();
             System.Web.HttpContext.Current.User = null;
+
             return Json(new { Status = "loggedOut" }, JsonRequestBehavior.AllowGet);
         }
 	}
