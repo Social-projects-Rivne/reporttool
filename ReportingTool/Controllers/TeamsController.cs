@@ -316,15 +316,23 @@ namespace ReportingTool.Controllers
 
                 try
                 {
-                    ctx.Teams.Remove(teamDelete);
+                    //  Insert Raw SQLcommand for team_member DB table
+                    //  DELETE FROM public."TeamMembers" WHERE "Team_Id" = 1;
+
+                    string SqlCommand = "DELETE FROM public.\"TeamMembers\" WHERE \"Team_Id\" = " + teamDelete.Id + ";";
+                    int noOfRowInserted = ctx.Database.ExecuteSqlCommand(SqlCommand);
+                
+                    //ctx.Teams.Remove(teamDelete);
+                    teamDelete.IsActive = false;
                     ctx.Teams.Attach(teamDelete);
-                    ctx.Entry(teamDelete).State = EntityState.Deleted;
+                    ctx.Entry(teamDelete).State = EntityState.Modified;
+
                     ctx.SaveChanges();
 
                     // now we add the deleted team to DB with isactive = false
-                    teamDelete.IsActive = false;
-                    ctx.Teams.Add(teamDelete);
-                    ctx.SaveChanges();
+                    //teamDelete.IsActive = false;
+                    //ctx.Teams.Add(teamDelete);
+                    //ctx.SaveChanges();
                 }
                 catch
                 {
