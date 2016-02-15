@@ -12,6 +12,10 @@ namespace ReportingTool.DAL.Entities
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.HasDefaultSchema("public");
+        }
+
+<<<<<<< HEAD
         modelBuilder.Entity<FieldInTemplate>()
             .HasKey( c => new {  c.TemplateId, c.FieldId});
 
@@ -25,17 +29,26 @@ namespace ReportingTool.DAL.Entities
                 .WithRequired()
                 .HasForeignKey(c => c.TemplateId);
 
-            modelBuilder.HasDefaultSchema("public");
-        }
+        modelBuilder.HasDefaultSchema("public");
+    }
 
-        public DbSet<Member> Members { get; set; }
-
-        public DbSet<Team> Teams { get; set; }
+    public DbSet<Member> Members { get; set; }
+    public DbSet<Team> Teams { get; set; }
 
     public DbSet<Template> Templates { get; set; }
     public DbSet<Field> Fields { get; set; }
-    public DbSet<FieldsInTemplate> FieldsInTemplates { get; set; }
+    public DbSet<FieldInTemplate> FieldsInTemplates { get; set; }
     }
+=======
+        public DbSet<Member> Members { get; set; }
 
+        public DbSet<Team> Teams { get; set; }
+>>>>>>> dev
+
+        public DbSet<Field> Fields { get; set; }
+
+        public DbSet<Template> Templates { get; set; }
+
+        public DbSet<FieldsInTemplate> FieldsInTemplates { get; set; }
+    }
 }
-

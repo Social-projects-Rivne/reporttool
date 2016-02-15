@@ -1,62 +1,75 @@
-﻿CREATE TABLE "templates"
+--DROP TABLE "members";
+
+CREATE TABLE "members"
 (
   "id" serial NOT NULL,
-  "name" character varying(50),
-  "owner" character varying(100),
-  "is_active" BOOLEAN NOT NULL,
-   UNIQUE ("name"),
-  CONSTRAINT "templates_pkey" PRIMARY KEY ("id")	
+  "username" character varying(50),
+  "fullname" character varying(100),
+  "isactive" BOOLEAN,
+   UNIQUE ("username"),
+  CONSTRAINT "members_pkey" PRIMARY KEY ("id")	
 )
 WITH (
   OIDS=FALSE
 );
 
-ALTER TABLE "templates"
+ALTER TABLE "members"
   OWNER TO postgres;
 
-COMMENT ON TABLE "templates"
-  IS 'The table of templates';
+COMMENT ON TABLE "members"
+  IS 'The table of members';
 
+--
+--DROP TABLE "teams";
 
-CREATE TABLE "fields"
+CREATE TABLE "teams"
 (
   "id" serial NOT NULL,
   "name" CHARACTER VARYING(50),
-  UNIQUE ("name"),
-  CONSTRAINT "fields_pkey" PRIMARY KEY ("id")	
+  "projectkey" CHARACTER VARYING(50),
+  "isactive" BOOLEAN,
+   UNIQUE ("name","projectkey"),
+  CONSTRAINT "teams_pkey" PRIMARY KEY ("id")	
 )
 WITH (
   OIDS=FALSE
 );
 
-ALTER TABLE "fields"
+ALTER TABLE "teams"
   OWNER TO postgres;
 
-COMMENT ON TABLE "fields"
-  IS 'The table of fields';
+COMMENT ON TABLE "teams"
+  IS 'The table of teams';
 	
+--
+--DROP TABLE "team_member"
 
-CREATE TABLE "field_in_template"
+CREATE TABLE "team_member"
 (
- "template_id" integer NOT NULL,
-  "field_id" integer NOT NULL,
-  "default" CHARACTER VARYING(100),
-   CONSTRAINT "tf_pkey" PRIMARY KEY("template_id","field_id"),
+ -- "id" serial NOT NULL,
+ --	"team_id" integer,
+ -- "member_id" integer,
+ --CONSTRAINT "tm_pkey" PRIMARY KEY ("id"),
+	"team_id" integer NOT NULL,
+  "member_id" integer NOT NULL,
+  UNIQUE ("team_id","member_id"),
+  CONSTRAINT "tm_pkey" PRIMARY KEY("team_id","member_id"),
 	
-	CONSTRAINT "tf_template_id_fkey" FOREIGN KEY ("template_id")
-      REFERENCES "templates" ("id") MATCH SIMPLE
+	CONSTRAINT "tm_team_id_fkey" FOREIGN KEY ("team_id")
+      REFERENCES "teams" ("id") MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE CASCADE,
 			
-	CONSTRAINT "tf_field_id_fkey" FOREIGN KEY ("field_id")
-	REFERENCES "fields" ("id") MATCH SIMPLE
+	CONSTRAINT "tm_member_id_fkey" FOREIGN KEY ("member_id")
+	REFERENCES "members" ("id") MATCH SIMPLE
 	ON UPDATE CASCADE ON DELETE CASCADE
 )
 WITH (
   OIDS=FALSE
 );
 
-ALTER TABLE "field_in_template"
+ALTER TABLE "team_member"
   OWNER TO postgres;
 
-COMMENT ON TABLE "field_in_template"
-  IS 'The table of field_in_template';
+COMMENT ON TABLE "team_member"
+  IS 'The table of team_member';
+

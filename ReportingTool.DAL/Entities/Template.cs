@@ -1,44 +1,28 @@
-using System;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace ReportingTool.DAL.Entities
 {
-    [Table("templates", Schema = "public")]
-    public partial class Template
+    public class Template
     {
-
-        public Template()
-        {
-            this.FieldsInTemplates = new HashSet<FieldInTemplate>();
-        }
-
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
-        [Column("id")]
         public int Id { get; set; }
 
         [Required]
-        [Column("name")]
-        [MinLength(4)]
-        [MaxLength(50)]
+        [MaxLength(128)]
+        [JsonProperty("templateName")]
         public string Name { get; set; }
 
         [Required]
-        [Column("owner")]
-        [MinLength(4)]
-        [MaxLength(50)]
-        public string Owner { get; set; }
-
-        [Required]
-        [Column("is_active")]
+        [JsonProperty("isActive")]
         public bool IsActive { get; set; }
 
-        public virtual ICollection<FieldInTemplate> FieldsInTemplates { get; set; }
+        [Required]
+        [MaxLength(128)]
+        [JsonProperty("owner")]
+        public string Owner { get; set; }
+
+        public virtual ICollection<FieldsInTemplate> FieldsInTemplate { get; set; }
     }
 }
