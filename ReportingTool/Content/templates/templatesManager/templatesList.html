@@ -26,11 +26,11 @@
         <tbody>
             <tr class="clickable-row" ng-repeat="template in templates" >
                 <td ng-bind="$index + 1"></td>
-                <td ng-bind="template.Name"></td>
-             <!--   <td>
-                    <a class="glyph-link" ui-sref="mainView.templatesManager.editTemlate({id:template.Id})"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> </a>
-                    <a class="glyph-link" ng-click="deleteTemplate(template.Id)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a>
-                </td> -->
+                <td ng-bind="template.templateName"></td>
+                <td>
+                    <a class="glyph-link"> <!-- ui-sref="mainView.templatesManager.editTemlate({id:template.Id})"  >--> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> </a>
+                    <a class="glyph-link"><!-- ng-click="deleteTemplate(template.Id)"> --> <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a>
+                </td> 
             </tr>
         </tbody>
     </table>

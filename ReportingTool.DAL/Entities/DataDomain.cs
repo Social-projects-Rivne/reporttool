@@ -12,20 +12,7 @@ namespace ReportingTool.DAL.Entities
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-        modelBuilder.Entity<FieldInTemplate>()
-            .HasKey( c => new {  c.TemplateId, c.FieldId});
-
-        modelBuilder.Entity<Field>()
-            .HasMany(c => c.FieldsInTemplates)
-            .WithRequired()
-            .HasForeignKey(c => c.FieldId);
-
-        modelBuilder.Entity<Template>()
-                .HasMany(c => c.FieldsInTemplates)
-                .WithRequired()
-                .HasForeignKey(c => c.TemplateId);
-
-            modelBuilder.HasDefaultSchema("public");
+        modelBuilder.HasDefaultSchema("public");
         }
 
         public DbSet<Member> Members { get; set; }

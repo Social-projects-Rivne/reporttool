@@ -7,6 +7,7 @@ namespace ReportingTool.DAL.Entities
 {
     public class Template
     {
+        [JsonProperty("id")]
         public int Id { get; set; }
 
         [Required]
@@ -15,14 +16,15 @@ namespace ReportingTool.DAL.Entities
         public string Name { get; set; }
 
         [Required]
-        [JsonProperty("isActive")]
+        [JsonIgnore]
         public bool IsActive { get; set; }
 
         [Required]
         [MaxLength(128)]
-        [JsonProperty("owner")]
+        [JsonIgnore]
         public string Owner { get; set; }
 
+        [JsonProperty("fieldsInTemplate")]
         public virtual ICollection<FieldsInTemplate> FieldsInTemplate { get; set; }
     }
 }
