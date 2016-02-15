@@ -32,7 +32,7 @@ namespace ReportingTool.Controllers
         }     
 
         [HttpPost]
-        public ActionResult AddNewTemplate(Template template)
+        public ActionResult AddNewTemplate([ModelBinder(typeof(JsonNetModelBinder))] Template template)
         {
             Answer answer;
 
