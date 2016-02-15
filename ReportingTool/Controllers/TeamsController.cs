@@ -85,23 +85,12 @@ namespace ReportingTool.Controllers
                 //            select t;
                 //teamList = query.ToList();
 
-                //  2
-                //ctx.Database.Log = message => System.IO.File.AppendText("D:\\EFlog.txt").WriteLine(message);
-                //ctx.Database.Log = message => Trace.WriteLine(message);
-
                 //  3
                 teamList = ctx.Teams
                      .Include(t => t.Members)
                     .OrderBy(t => t.Name)
                      .Where(t => (t.IsActive == true) && (t.ProjectKey == projectKey))
                 .ToList();
-
-                //teamList = ctx.Teams.ToList();
-
-                //  4
-                //teamList = ctx.Teams
-                //          .Include("Members")
-                //          .ToList(); 
 
             }
 

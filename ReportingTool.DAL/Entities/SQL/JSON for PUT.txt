@@ -13,3 +13,22 @@
     "teamName": "team4"
 }
 
+{
+    "members": [
+	  {
+        "userName": "amiletc",
+        "fullName": "Aleksandar Milev"
+      },
+      {
+        "userName": "userName001",
+        "fullName": "fullName001"
+      },
+      {
+        "userName": "userName002",
+        "fullName": "fullName002"
+      }
+    ],
+    "teamID": 1,
+    "teamName": "team1"
+  }
+
