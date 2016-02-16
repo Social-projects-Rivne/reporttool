@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var teamsManagerModule = angular.module("teamsManagerModule", ['ui.router']);
 

@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 var ReportingTool = angular.module('ReportingTool', ['ui.router', 'mainViewModule', 'configurationModule', 'loginModule']);
 

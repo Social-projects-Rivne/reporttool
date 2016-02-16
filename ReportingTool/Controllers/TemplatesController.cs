@@ -1,4 +1,4 @@
-
+﻿
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +6,8 @@ using System.Web;
 using System.Web.Mvc;
 using ReportingTool.DAL.Entities;
 using ReportingTool.Core.Validation;
+﻿using Newtonsoft.Json;
+
 
 namespace ReportingTool.Controllers
 {
@@ -14,7 +16,7 @@ namespace ReportingTool.Controllers
         private enum Answer { AlreadyExists, WrongName, Added, IsNull };
 
         [HttpGet]
-        public ActionResult GetAllTemplates()
+        public string GetAllTemplates()
         {
             List<Template> templates = new List<Template>();
             using (var db = new DB2())
@@ -28,7 +30,9 @@ namespace ReportingTool.Controllers
                     
                 }
             }
-            return new JsonResult { Data = templates, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            var alltemplates = templates.ToList();
+            var outputJSON = JsonConvert.SerializeObject(alltemplates, Formatting.Indented);
+            return outputJSON;
         }     
 
         [HttpPost]
@@ -62,6 +66,7 @@ namespace ReportingTool.Controllers
                 answer = Answer.Added;
                 return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
             }
+
         }
     }
 }
