@@ -11,7 +11,7 @@ namespace ReportingTool.Controllers
 {
     public class TemplatesController : Controller
     {
-        private enum Answer { AlreadyExists, WrongName, Added };
+        private enum Answer { AlreadyExists, WrongName, Added, IsNull };
 
         [HttpGet]
         public ActionResult GetAllTemplates()
@@ -35,6 +35,12 @@ namespace ReportingTool.Controllers
         public ActionResult AddNewTemplate([ModelBinder(typeof(JsonNetModelBinder))] Template template)
         {
             Answer answer;
+
+            if (template == null)
+            {
+                answer = Answer.IsNull;
+                return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
+            }
 
             using (var db = new DB2())
             {
