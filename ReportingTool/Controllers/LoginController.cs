@@ -23,12 +23,21 @@ namespace ReportingTool.Controllers
         private string FILE_NAME = HostingEnvironment.MapPath("~/Configurations.ini"); 
         private const string SECTION = "GeneralConfiguration";
         private const string SERVEL_URL_KEY = "ServerUrl";
+        private const string PROJECT_NAME_KEY = "ProjectName";
+
 
         private string getServerUrl()
         {
             FileIniDataParser fileIniData = new FileIniDataParser();
             IniData parsedData = fileIniData.ReadFile(FILE_NAME);
             return parsedData[SECTION][SERVEL_URL_KEY];
+        }
+
+        private string getProjectKey()
+        {
+            FileIniDataParser fileIniData = new FileIniDataParser();
+            IniData parsedData = fileIniData.ReadFile(FILE_NAME);
+            return parsedData[SECTION][PROJECT_NAME_KEY];
         }
 
         private bool IsUserValid(string userName, string password)
@@ -92,6 +101,7 @@ namespace ReportingTool.Controllers
                 {
                     FormsAuthentication.SetAuthCookie(credentials.UserName, false);
                     Session.Add("currentUser", credentials.UserName);
+                    Session.Add("projectKey", getProjectKey());
                     return Json(new { Status = "validCredentials" });
                 }
                 return Json(new { Status = "invalidCredentials" });
