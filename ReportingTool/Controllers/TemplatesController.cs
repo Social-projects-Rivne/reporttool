@@ -26,11 +26,11 @@ namespace ReportingTool.Controllers
                     }
                     if (template.Owner == value)
                     {
-                        buttons.Add(new OpenButtons(template.Id, true));
+                        buttons.Add(new OpenButtons { Id = template.Id, Button = true});
                     }
                     else
                     {
-                        buttons.Add(new OpenButtons(template.Id, false));
+                        buttons.Add(new OpenButtons { Id = template.Id, Button = false});
                     }
                 }
             }
@@ -45,17 +45,9 @@ namespace ReportingTool.Controllers
     {
 
         [JsonIgnore]
-        public int Id;
+        public int Id { get; set; }
 
         [JsonProperty("button")]
-        public bool Button;
-
-        public OpenButtons() { }
-
-        public OpenButtons(int id, bool button)
-        {
-            this.Id = id;
-            this.Button = button;
-        }
+        public bool Button { get; set; }
     }
 }
