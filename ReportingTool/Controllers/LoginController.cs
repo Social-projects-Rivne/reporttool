@@ -12,6 +12,7 @@ using System.Threading;
 using IniParser;
 using IniParser.Model;
 using System.Web.Hosting;
+using System.Security.Principal;
 
 
 namespace ReportingTool.Controllers
@@ -84,8 +85,10 @@ namespace ReportingTool.Controllers
             else
             {
                 bool isUserValid = IsUserValid(credentials.UserName, credentials.Password);
+                bool isUserAuthenticated = (System.Web.HttpContext.Current.User != null) && 
+                     System.Web.HttpContext.Current.User.Identity.IsAuthenticated;
 
-                if (isUserValid)
+                if (isUserValid || isUserAuthenticated)
                 {
                     FormsAuthentication.SetAuthCookie(credentials.UserName, false);
                     Session.Add("currentUser", credentials.UserName);
@@ -116,7 +119,6 @@ namespace ReportingTool.Controllers
             Session.Abandon();
             FormsAuthentication.SignOut();
             System.Web.HttpContext.Current.User = null;
-
             return Json(new { Status = "loggedOut" }, JsonRequestBehavior.AllowGet);
         }
 	}

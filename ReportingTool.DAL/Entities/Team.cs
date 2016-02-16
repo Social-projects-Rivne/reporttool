@@ -30,6 +30,7 @@ namespace ReportingTool.DAL.Entities
         [Index("IX_NameAndProjectKey", 2, IsUnique = true)]
         public string ProjectKey { get; set; }
 
+         [JsonProperty("members")]
         public virtual ICollection<Member> Members { get; set; }
     }
 }
