@@ -73,7 +73,6 @@ namespace ReportingTool.Controllers
             IniData parsedData = fileIniData.ReadFile(FILE_NAME);
             string projectKey = parsedData[SECTION][PROJECT_NAME_KEY];
 
-
             List<Team> teamList = new List<Team>();
 
             using (var ctx = new DB2())
@@ -173,14 +172,14 @@ namespace ReportingTool.Controllers
                 //  CHECK :   is a team with the specified projectkey and name present in DB ?
 
                 //  CHECK RESULT  : No  ---> send a NotFound error response + exit
-                if (ctx.Teams.Any(t => t.Name == teamFromJSON.Name && t.ProjectKey == ProjectKey) == false)
+                if (ctx.Teams.Any(t => t.Name == teamFromJSON.Name && t.ProjectKey == ProjectKey && t.IsActive == true) == false)
                 {
                     return HttpStatusCode.NotFound;
                 }
 
                 //  CHECK RESULT  : Yes  ---> keep running
                 teamForUpdate = ctx.Teams.Include("Members")
-                   .SingleOrDefault<Team>(t => t.Name == teamFromJSON.Name && t.ProjectKey == ProjectKey );
+                   .SingleOrDefault<Team>(t => t.Name == teamFromJSON.Name && t.ProjectKey == ProjectKey && t.IsActive == true);
                 //  the team in DB -> active
                 teamForUpdate.IsActive = true;
 
@@ -259,8 +258,9 @@ namespace ReportingTool.Controllers
                             {
                                 memberDup.IsActive = true;
 
-                                //  Insert Raw SQLcommand for team_member DB table
-                                string SqlCommand = "insert into team_member(team_id, member_id) values(" +
+                                //  Insert Raw SQLcommand for team_member DB table :
+                                // INSERT INTO public."TeamMembers"("Team_Id", "Member_Id") VALUES (?, ?);
+                                string SqlCommand = "INSERT INTO public.\"TeamMembers\"(\"Team_Id\", \"Member_Id\") VALUES (" +
                                     teamForUpdate.Id  + ", " +
                                     memberDup.Id + ")";
 
@@ -305,7 +305,7 @@ namespace ReportingTool.Controllers
         {
             using (var ctx = new DB2())
             {
-                Team teamDelete = ctx.Teams.Include("members")
+                Team teamDelete = ctx.Teams.Include("Members")
                 .FirstOrDefault<Team>(t => t.Id == id);
 
                 if (teamDelete == null)
@@ -316,7 +316,7 @@ namespace ReportingTool.Controllers
 
                 try
                 {
-                    //  Insert Raw SQLcommand for team_member DB table
+                    //  Insert Raw SQLcommand for team_member DB table :
                     //  DELETE FROM public."TeamMembers" WHERE "Team_Id" = 1;
 
                     string SqlCommand = "DELETE FROM public.\"TeamMembers\" WHERE \"Team_Id\" = " + teamDelete.Id + ";";
