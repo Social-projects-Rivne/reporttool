@@ -4,7 +4,6 @@ templatesManagerModule.controller("templatesManagerController",
     ['$scope', '$stateParams', '$state', 'TemplateFactory', function($scope, $stateParams, $state, TemplateFactory) {
 
         $scope.templates = {};
-
         TemplateFactory.GetAllTemplates().then(templatesSuccess, templatesFail);
 
         function templatesSuccess(response) {

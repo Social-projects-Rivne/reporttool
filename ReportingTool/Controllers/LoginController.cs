@@ -16,7 +16,7 @@ using System.Web.Hosting;
 
 namespace ReportingTool.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class LoginController : Controller
     {
         private string FILE_NAME = HostingEnvironment.MapPath("~/Configurations.ini"); 
@@ -65,11 +65,15 @@ namespace ReportingTool.Controllers
             }
             return true;
         }
-    
-        [HttpGet]
-        public ActionResult Index() { 
-            return View(); }
 
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult Index() 
+        { 
+            return View(); 
+        }
+
+        [AllowAnonymous]
         [HttpPost]
         public JsonResult CheckCredentials(Credentials credentials)
         {
@@ -80,22 +84,38 @@ namespace ReportingTool.Controllers
             else
             {
                 bool isUserValid = IsUserValid(credentials.UserName, credentials.Password);
-                bool isUserAuthenticated = (System.Web.HttpContext.Current.User != null) && 
-                     System.Web.HttpContext.Current.User.Identity.IsAuthenticated;
-                if (isUserValid || isUserAuthenticated)
+
+                if (isUserValid)
                 {
                     FormsAuthentication.SetAuthCookie(credentials.UserName, false);
+                    Session.Add("currentUser", credentials.UserName);
                     return Json(new { Status = "validCredentials" });
                 }
                 return Json(new { Status = "invalidCredentials" });
             }
         }
+        [AllowAnonymous]
+        [HttpGet]
+        public JsonResult CheckSession()
+        {
+            string value = Session["currentUser"] as string;
 
+            if (String.IsNullOrEmpty(value))
+            {
+                // null or empty
+                return Json(new { Status = "sessionNotExists" }, JsonRequestBehavior.AllowGet);
+            }
+            else
+                return Json(new { Status = "sessionExists" }, JsonRequestBehavior.AllowGet);
+        }
+
+        [AllowAnonymous]
         [HttpGet]
         public JsonResult Logout()
         {
-            //FormsAuthentication.SignOut();
-           // System.Web.HttpContext.Current.User = null;
+            Session.Abandon();
+            FormsAuthentication.SignOut();
+            System.Web.HttpContext.Current.User = null;
             return Json(new { Status = "loggedOut" }, JsonRequestBehavior.AllowGet);
         }
 	}
