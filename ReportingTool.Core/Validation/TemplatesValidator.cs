@@ -21,6 +21,18 @@ namespace ReportingTool.Core.Validation
                 return true;
             }
         }
+
+        public static bool TemplateOwnerNameIsCorrect(string owner)
+        {
+            if (String.IsNullOrWhiteSpace(owner) || owner.Length > 128)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
     }
 
 

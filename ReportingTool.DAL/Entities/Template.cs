@@ -18,12 +18,12 @@ namespace ReportingTool.DAL.Entities
         public string Name { get; set; }
 
         [Required]
-        [JsonIgnore]
+        [JsonProperty("isActive")]
         public bool IsActive { get; set; }
 
         [Required]
         [MaxLength(128)]
-        [JsonIgnore]
+        [JsonProperty("owner")]
         public string Owner { get; set; }
 
         [JsonProperty("fieldsInTemplate")]

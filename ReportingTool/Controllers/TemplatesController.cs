@@ -13,7 +13,7 @@ namespace ReportingTool.Controllers
 {
     public class TemplatesController : Controller
     {
-        private enum Answer { AlreadyExists, WrongName, Added, IsNull };
+        private enum Answer { AlreadyExists, WrongName, WrongOwnerName, Added, IsNull };
 
         [HttpGet]
         public string GetAllTemplates()
@@ -46,6 +46,18 @@ namespace ReportingTool.Controllers
                 return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
             }
 
+            if (!TemplatesValidator.TemplateNameIsCorrect(template.Name))
+            {
+                answer = Answer.WrongName;
+                return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
+            }
+
+            if (!TemplatesValidator.TemplateOwnerNameIsCorrect(template.Owner))
+            {
+                answer = Answer.WrongOwnerName;
+                return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
+            }
+
             using (var db = new DB2())
             {
                 //Check if template with incoming name already exists in database
@@ -53,13 +65,7 @@ namespace ReportingTool.Controllers
                 {
                     answer = Answer.AlreadyExists;
                     return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
-                }
-                else
-                    if (!TemplatesValidator.TemplateNameIsCorrect(template.Name))
-                    {
-                        answer = Answer.WrongName;
-                        return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
-                    }
+                }                 
 
                 db.Templates.Add(template);
                 db.SaveChanges();
