@@ -58,6 +58,13 @@ namespace ReportingTool.Controllers
             return true;     
         }
 
+        private void DefinePrincipal(string login)
+        {
+            IIdentity id = new GenericIdentity(login);
+            string[] roles = new string[] { "existing user" };
+            System.Web.HttpContext.Current.User = new GenericPrincipal(id, roles);
+        }
+
         private bool ConnectionExists(string server)
         {
             Jira.SDK.Jira jira = new Jira.SDK.Jira();
@@ -99,6 +106,7 @@ namespace ReportingTool.Controllers
 
                 if (isUserValid || isUserAuthenticated)
                 {
+                    DefinePrincipal(credentials.UserName);
                     FormsAuthentication.SetAuthCookie(credentials.UserName, false);
                     Session.Add("currentUser", credentials.UserName);
                     Session.Add("projectKey", getProjectKey());
@@ -111,15 +119,22 @@ namespace ReportingTool.Controllers
         [HttpGet]
         public JsonResult CheckSession()
         {
-            string value = Session["currentUser"] as string;
+            string userInSession = Session["currentUser"] as string;
+            string userInHTTPContext = System.Web.HttpContext.Current.User.Identity.Name;
 
-            if (String.IsNullOrEmpty(value))
+            if (String.IsNullOrEmpty(userInSession) || String.IsNullOrEmpty(userInHTTPContext))
             {
-                // null or empty
                 return Json(new { Status = "sessionNotExists" }, JsonRequestBehavior.AllowGet);
             }
-            else
+
+            if (userInSession.Equals(userInHTTPContext))
+            {
                 return Json(new { Status = "sessionExists" }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { Status = "sessionNotExists" }, JsonRequestBehavior.AllowGet); 
+            }
         }
 
         [AllowAnonymous]
