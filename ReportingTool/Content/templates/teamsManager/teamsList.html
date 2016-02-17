@@ -1,5 +1,5 @@
 <section id="teamsList">
-    <div class="message" ng-show="!teams.length">
+    <div class="message" ng-show="!teams.length" style="display:none;">
         <h3>There are no teams yet. Please, do something with that!</h3>
     </div>
     <div class="teamsList-content" ng-show="teams.length">
@@ -27,7 +27,7 @@
                 </tr>
             </tbody>
         </table>
-        <table class="table table-striped" ng-show="activeTeam.members.length > 0">
+        <table class="table table-striped" ng-if="activeTeam.members.length > 0">
             <colgroup>
                 <col width="5%" />
                 <col width="45%" />
@@ -41,7 +41,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat='member in activeTeam.Members'>
+                <tr ng-repeat='member in activeTeam.members'>
                     <td> {{$index + 1}}</td>
                     <td> {{member.userName}}</td>
                     <td> {{member.fullName}}</td>

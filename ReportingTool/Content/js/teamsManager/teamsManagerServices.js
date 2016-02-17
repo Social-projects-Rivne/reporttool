@@ -4,7 +4,7 @@ teamsManagerModule.
 factory('TeamFactory', ['$http', function ($http) {
     var teamFactory = {
         GetAllTeams: GetAllTeams,
-        editTeam: editTeam,
+        updateTeam: updateTeam,
         deleteTeam: deleteTeam,
         createTeam: createTeam
     };
@@ -23,10 +23,9 @@ factory('TeamFactory', ['$http', function ($http) {
         });
     }
 
-    function editTeam(data) {
-        return $http.put("Teams/EditTeam", {
-            data: data
-        });
+    function updateTeam(data) {
+        return $http.put("Teams/EditTeam",  data
+        );
     }
 
     function deleteTeam(id) {

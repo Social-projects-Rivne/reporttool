@@ -156,7 +156,7 @@ namespace ReportingTool.Controllers
         /// <param name="teamFromJSON">A serialized team with a current list of members</param>
         /// <returns>HttpStatusCode for the client</returns>
         [HttpPut]
-        public HttpStatusCode Edit([ModelBinder(typeof(JsonNetModelBinder))] Team teamFromJSON)
+        public HttpStatusCode EditTeam([ModelBinder(typeof(JsonNetModelBinder))] Team teamFromJSON)
         {
             Team teamForUpdate = new Team();
 
@@ -301,7 +301,7 @@ namespace ReportingTool.Controllers
         /// <param name="id">team id</param>
         /// <returns>HttpStatusCode for the client</returns>
         [HttpDelete]
-        public HttpStatusCodeResult Delete(int id)
+        public HttpStatusCodeResult DeleteTeam(int id)
         {
             using (var ctx = new DB2())
             {
