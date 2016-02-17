@@ -18,7 +18,7 @@ namespace ReportingTool.Controllers
 {
     public class TeamsController : Controller
     {
-        public enum Answer { NotExists, IsEmpty, NotValid, Exists, Created, NotCreated, Deleted, NotFound, NotModified, Modified };
+        public enum Answer { NotExists, IsEmpty, NotValid, Exists, Created, NotCreated, NotDeleted, Deleted, NotFound, NotModified, Modified };
         /*------------------------  It should be moved to some JiraHelper ---------------------------------*/
         private string FILE_NAME = HostingEnvironment.MapPath("~/Configurations.ini");
         private const string SECTION = "GeneralConfiguration";
@@ -346,7 +346,9 @@ namespace ReportingTool.Controllers
                 }
                 catch
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.NotModified, "Team is not deleted");
+                    //return new HttpStatusCodeResult(HttpStatusCode.NotModified, "Team is not deleted");
+                    answer = Answer.NotDeleted;
+                    return Json(new { Answer = Enum.GetName(typeof(Answer), answer) }, JsonRequestBehavior.AllowGet);
                 }
             }
 
