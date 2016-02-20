@@ -1,7 +1,7 @@
 ﻿<section>
     <div id='title'>
         <div class="col-sm-10">
-            <h2> Manage Templates </h2>
+            <h2>Manage Templates</h2>
         </div>
         <div class="col-sm-2">
             <a class="btn btn-flat">Add Template</a>
@@ -22,13 +22,9 @@
             </tr>
         </thead>
         <tbody>
-            <tr class="clickable-row" ng-repeat="temp in templates" >
+            <tr class="clickable-row" ng-repeat="template in templates" >
                 <td ng-bind="$index + 1"></td>
-                <td ng-bind="temp.template.templateName"></td>
-                <td >
-                    <a ng-show="temp.Button" class="glyph-link"> <!-- ui-sref="mainView.templatesManager.editTemlate({id:template.Id})"  >--> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> </a>
-                    <a ng-show="temp.Button" class="glyph-link"><!-- ng-click="deleteTemplate(template.Id)"> --> <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a>
-                </td> 
+                <td  ng-bind="template.templateName"></td>
             </tr>
         </tbody>
     </table>
