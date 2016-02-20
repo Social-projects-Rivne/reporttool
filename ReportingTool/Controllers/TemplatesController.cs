@@ -3,14 +3,15 @@ using System.Collections.Generic;
 ﻿using System.Linq;
 ﻿using System.Web.Mvc;
 ﻿using Newtonsoft.Json;
-﻿using ReportingTool.DAL.Entities;
+using ReportingTool.Core.Validation;
+using ReportingTool.DAL.Entities;
 ﻿using ReportingTool.Models;
 
 namespace ReportingTool.Controllers
 {
     public class TemplatesController : Controller
     {
-        public enum Answer { Edited };
+        public enum Answer { WrongTemplate, WrongName, WrongId, FieldsIsEmpty, FieldIsNotCorrect, Edited };
 
         [HttpGet]
         public string GetAllTemplates()
@@ -36,23 +37,81 @@ namespace ReportingTool.Controllers
         public ActionResult EditTemplate([ModelBinder(typeof(JsonNetModelBinder))] Template editTemplate)
         {
             Answer answer;
+
+                if (!TemplatesValidator.TemplateIsCorrect(editTemplate))
+                {
+                    answer = Answer.WrongTemplate;
+                    return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
+                }
+
+                if (!TemplatesValidator.IfTemplateIdExists(editTemplate.Id))
+                {
+                    answer = Answer.WrongId;
+                    return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
+                }
+
+                if (!TemplatesValidator.TemplateNameIsCorrect(editTemplate.Name))
+                {
+                    answer = Answer.WrongName;
+                    return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
+                }
+
+                if (!TemplatesValidator.FieldsInTemplateIsNull(editTemplate.FieldsInTemplate))
+                {
+                    
+                    answer = Answer.FieldsIsEmpty;
+                    return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
+                }
+
+                if (!TemplatesValidator.FieldInFieldsInTemplateIsCorrect(editTemplate.FieldsInTemplate))
+                {
+                    answer = Answer.FieldIsNotCorrect;
+                    return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
+                }
+            
             using (var db = new DB2())
             {
                 var editedTemplate = db.Templates.SingleOrDefault(p => p.Id == editTemplate.Id);
+                var delete = editedTemplate.FieldsInTemplate.ToArray();
 
-                editedTemplate.Name = editTemplate.Name;
-                
-                foreach (var newfield in editTemplate.FieldsInTemplate)
+                for (int i = 0; i < delete.Count(); i++)
                 {
-                    foreach (var field in editedTemplate.FieldsInTemplate)
+                    var deletefield = true;
+                    foreach (var fields in editTemplate.FieldsInTemplate)
                     {
-                        if (field.FieldId == newfield.FieldId)
+
+                        if (delete[i].FieldId == fields.FieldId)
                         {
-                            field.Default = newfield.Default;
+                            deletefield = false;
                         }
                     }
-                } 
+                    if (deletefield)
+                    {
+                        db.FieldsInTemplates.Remove(delete[i]);
+                    }
+
+                }
+
+                foreach (var fields in editTemplate.FieldsInTemplate)
+                {
+                    var field = editedTemplate.FieldsInTemplate.SingleOrDefault(p => p.FieldId == fields.FieldId);
+                    if (field != null)
+                    {
+                        field.Default = fields.Default;
+                    }
+                    else
+                    {
+                        fields.Field = db.Fields.SingleOrDefault(p => p.Id == fields.FieldId);
+                        editedTemplate.FieldsInTemplate.Add(fields);
+                    }
+                }
+
+                if (editedTemplate.Name != editTemplate.Name)
+                {
+                    editedTemplate.Name = editTemplate.Name;
+                }
                 
+
                 db.SaveChanges();
                 answer = Answer.Edited;
             }

@@ -197,8 +197,6 @@
     </Compile>
     <Compile Include="Models\ConfigurationParametersModel.cs" />
     <Compile Include="Models\Credentials.cs" />
-    <Compile Include="Models\OwnerCheck.cs" />
-    <Compile Include="Models\TestOwner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
