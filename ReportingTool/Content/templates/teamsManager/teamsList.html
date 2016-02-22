@@ -27,7 +27,7 @@
                 </tr>
             </tbody>
         </table>
-        <table class="table table-striped" ng-if="activeTeam.members.length > 0">
+        <table class="table table-striped" ng-show="$state.current.name === 'mainView.teamsManager'">
             <colgroup>
                 <col width="5%" />
                 <col width="45%" />
