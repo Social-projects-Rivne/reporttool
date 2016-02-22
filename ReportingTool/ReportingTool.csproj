@@ -166,6 +166,7 @@
     <Content Include="Content\js\vendor\angular-ui-router.min.js" />
     <Content Include="Content\js\vendor\angular.js" />
     <Content Include="Content\templates\teamsManager\teamsManagerView.html" />
+    <Content Include="Content\templates\templatesManager\viewFields.html" />
     <Content Include="Content\templates\templatesManager\templatesList.html" />
     <Content Include="Content\templates\templatesManager\templatesManagerView.html" />
     <Content Include="Global.asax" />
@@ -198,6 +199,7 @@
     </Compile>
     <Compile Include="Models\ConfigurationParametersModel.cs" />
     <Compile Include="Models\Credentials.cs" />
+    <Compile Include="Models\TemplateFieldsDataModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

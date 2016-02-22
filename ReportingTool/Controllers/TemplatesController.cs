@@ -1,13 +1,12 @@
-﻿
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using ReportingTool.DAL.Entities;
 using ReportingTool.Core.Validation;
 ﻿using Newtonsoft.Json;
-
+﻿using ReportingTool.DAL.Entities;
+﻿using ReportingTool.Models;
 
 namespace ReportingTool.Controllers
 {
@@ -27,7 +26,7 @@ namespace ReportingTool.Controllers
                     {
                         templates.Add(new Template { Name = template.Name, Id = template.Id, Owner = template.Owner });
                     }
-                    
+
                 }
             }
             var alltemplates = templates.ToList();
@@ -73,6 +72,30 @@ namespace ReportingTool.Controllers
                 return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
             }
 
+        }
+
+        [HttpGet]
+        public string GetTemplateFields(int templateId)
+        {
+            List<TemplateFieldsDataModel> fields;
+            string owner, temaplateName;
+            using (var db = new DB2())
+            {
+                var template = db.Templates.FirstOrDefault(t => t.Id == templateId);
+                if (template == null)
+                {
+                    return JsonConvert.SerializeObject(Json(new { Answer = "False" }));
+                }
+                owner = template.Owner;
+                temaplateName = template.Name;
+                var getFields = from filedsInTemplate in db.FieldsInTemplates
+                                join field in db.Fields on filedsInTemplate.FieldId equals field.Id
+                                where filedsInTemplate.TemplateId == templateId
+                                select new TemplateFieldsDataModel { FieldName = field.Name, DefaultValue = filedsInTemplate.DefaultValue };
+                fields = getFields.ToList();
+            }
+            TemplateData templateData = new TemplateData { Fields = fields, Owner = owner, TemplateName = temaplateName };
+            return JsonConvert.SerializeObject(templateData, Formatting.Indented);
         }
     }
 }

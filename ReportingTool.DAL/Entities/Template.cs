@@ -9,7 +9,7 @@ namespace ReportingTool.DAL.Entities
     public class Template
     {
 
-        [JsonProperty("id")]
+        [JsonProperty("templateId")]
         public int Id { get; set; }
 
         [Required]

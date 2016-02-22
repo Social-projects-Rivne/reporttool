@@ -12,17 +12,18 @@ namespace ReportingTool.DAL.Entities
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-        modelBuilder.HasDefaultSchema("public");
+            modelBuilder.HasDefaultSchema("public");
         }
 
         public DbSet<Member> Members { get; set; }
 
         public DbSet<Team> Teams { get; set; }
 
-    public DbSet<Template> Templates { get; set; }
-    public DbSet<Field> Fields { get; set; }
-    public DbSet<FieldsInTemplate> FieldsInTemplates { get; set; }
-    }
+        public DbSet<Template> Templates { get; set; }
 
+        public DbSet<Field> Fields { get; set; }
+
+        public DbSet<FieldsInTemplate> FieldsInTemplates { get; set; }
+    }
 }
 

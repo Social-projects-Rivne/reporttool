@@ -4,7 +4,7 @@ teamsManagerModule.
 factory('TeamFactory', ['$http', function ($http) {
     var teamFactory = {
         GetAllTeams: GetAllTeams,
-        editTeam: editTeam,
+        updateTeam: updateTeam,
         deleteTeam: deleteTeam,
         createTeam: createTeam
     };
@@ -23,68 +23,73 @@ factory('TeamFactory', ['$http', function ($http) {
         });
     }
 
-    function editTeam(data) {
-        return $http.put("Teams/EditTeam", {
-            data: data
-        });
+    function updateTeam(data) {
+        return $http.put("Teams/EditTeam",  data
+        );
     }
 
     function deleteTeam(id) {
-        return $http.put("Teams/DeleteTeam/" + id);
+        return $http.delete("Teams/Delete", { params: { id: id } });
     }
 
     return teamFactory;
 }]);
 
-teamsManagerModule.factory('TemplatesFactory', ['$http', function ($http) {
-    var template = {
-        all: all,
-        create: create,
-        update: update,
-        del: del
+teamsManagerModule.factory('UserFactory', ['$http', function ($http) {
+    var jiraUsers = {
+        getJiraUsers: getJiraUsers
     };
 
-    function all() {
-        return $http.get("http://localhost:3000/templates/");
+    function getJiraUsers() {
+        return $http.get("JiraUsers/GetAllUsers");
     }
 
-    function create(data) {
-        return $http.post("http://localhost:3000/templates/", data = data);
-    }
-
-    function update(data) {
-        return $http.put("http://localhost:3000/templates/", data = data);
-    }
-
-    function del(id) {
-        return $http.delete("http://localhost:3000/templates/" + id);
-    }
-
-    return template;
+    return jiraUsers;
 }]);
 
-teamsManagerModule.service('JiraUsersService', ['$http', function ($http) {
+//teamsManagerModule.factory('TemplatesFactory', ['$http', function ($http) {
+//    var template = {
+//        all: all,
+//        create: create,
+//        update: update,
+//        del: del
+//    };
 
-    var jiraUsers = [];
+//    function all() {
+//        return $http.get("http://localhost:3000/templates/");
+//    }
 
-    function GetJiraUsersFromServer() {
-        $http.get("JiraUsers/GetAllUsers").then(Success, Fail)
+//    function create(data) {
+//        return $http.post("http://localhost:3000/templates/", data = data);
+//    }
+
+//    function update(data) {
+//        return $http.put("http://localhost:3000/templates/", data = data);
+//    }
+
+//    function del(id) {
+//        return $http.delete("http://localhost:3000/templates/" + id);
+//    }
+
+//    return template;
+//}]);
+
+teamsManagerModule.factory('TempTeamFactory', function () {
+
+    var tempTeam = {};
+
+    var tempTeamProp = {
+            setTempTeam: set,
+            getTempTeam: get
     };
-       
-    function Success(response) {
-        jiraUsers = response.data;
+
+    function set(selectedTeam) {
+        tempTeam = selectedTeam;
     }
 
-    function Fail(response) {
-        console.error("getUsers error!");
+    function get() {
+        return tempTeam;
     }
 
-    var getJiraUsers = function () {
-        return jiraUsers;
-    };
-
-    return {
-        getJiraUsers: getJiraUsers,
-        GetJiraUsersFromServer: GetJiraUsersFromServer
-    };
-}]);
+    return tempTeamProp;
+});

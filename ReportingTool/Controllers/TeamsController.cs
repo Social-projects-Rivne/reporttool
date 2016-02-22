@@ -18,7 +18,7 @@ namespace ReportingTool.Controllers
 {
     public class TeamsController : Controller
     {
-        public enum Answer { Exists, Created };
+        public enum Answer { NotExists, IsEmpty, NotValid, Exists, Created, NotCreated, NotDeleted, Deleted, NotFound, NotModified, Modified };
         /*------------------------  It should be moved to some JiraHelper ---------------------------------*/
         private string FILE_NAME = HostingEnvironment.MapPath("~/Configurations.ini");
         private const string SECTION = "GeneralConfiguration";
@@ -156,8 +156,11 @@ namespace ReportingTool.Controllers
         /// <param name="teamFromJSON">A serialized team with a current list of members</param>
         /// <returns>HttpStatusCode for the client</returns>
         [HttpPut]
-        public HttpStatusCode Edit([ModelBinder(typeof(JsonNetModelBinder))] Team teamFromJSON)
+        //public HttpStatusCode EditTeam([ModelBinder(typeof(JsonNetModelBinder))] Team teamFromJSON)
+        public ActionResult EditTeam([ModelBinder(typeof(JsonNetModelBinder))] Team teamFromJSON)
         {
+            Answer answer;
+
             Team teamForUpdate = new Team();
 
             //  projectKey from.INI file
@@ -174,7 +177,9 @@ namespace ReportingTool.Controllers
                 //  CHECK RESULT  : No  ---> send a NotFound error response + exit
                 if (ctx.Teams.Any(t => t.Name == teamFromJSON.Name && t.ProjectKey == ProjectKey && t.IsActive == true) == false)
                 {
-                    return HttpStatusCode.NotFound;
+                    //return HttpStatusCode.NotFound;
+                    answer = Answer.NotFound;
+                    return Json(new { Answer = Enum.GetName(typeof(Answer), answer) }, JsonRequestBehavior.AllowGet);
                 }
 
                 //  CHECK RESULT  : Yes  ---> keep running
@@ -284,7 +289,8 @@ namespace ReportingTool.Controllers
                 }
                 catch
                 {
-                    return HttpStatusCode.NotModified;
+                    answer = Answer.NotModified;
+                    return Json(new { Answer = Enum.GetName(typeof(Answer), answer) }, JsonRequestBehavior.AllowGet);
                 }
 
             }
@@ -292,7 +298,8 @@ namespace ReportingTool.Controllers
             MemberCheck();
 
             //return Json("TEAM UPDATED");    //  OK
-            return HttpStatusCode.OK;
+            answer = Answer.Modified;
+            return Json(new { Answer = Enum.GetName(typeof(Answer), answer) }, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -301,8 +308,10 @@ namespace ReportingTool.Controllers
         /// <param name="id">team id</param>
         /// <returns>HttpStatusCode for the client</returns>
         [HttpDelete]
-        public HttpStatusCodeResult Delete(int id)
+        //public HttpStatusCodeResult DeleteTeam(int id)
+        public ActionResult DeleteTeam(int id)
         {
+            Answer answer;
             using (var ctx = new DB2())
             {
                 Team teamDelete = ctx.Teams.Include("Members")
@@ -310,8 +319,9 @@ namespace ReportingTool.Controllers
 
                 if (teamDelete == null)
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Team is not found");
-                    //return null;    //  OK
+                    answer = Answer.NotFound;
+                    return Json(new { Answer = Enum.GetName(typeof(Answer), answer) }, JsonRequestBehavior.AllowGet);
+                    //return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Team is not found");
                 }
 
                 try
@@ -336,12 +346,17 @@ namespace ReportingTool.Controllers
                 }
                 catch
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.NotModified, "Team is not deleted");
+                    //return new HttpStatusCodeResult(HttpStatusCode.NotModified, "Team is not deleted");
+                    answer = Answer.NotDeleted;
+                    return Json(new { Answer = Enum.GetName(typeof(Answer), answer) }, JsonRequestBehavior.AllowGet);
                 }
             }
 
             MemberCheck();
-            return new HttpStatusCodeResult(HttpStatusCode.OK, "Team deleted successfully");
+            //return new HttpStatusCodeResult(HttpStatusCode.OK, "Team deleted successfully");
+            answer = Answer.Deleted;
+            return Json(new { Answer = Enum.GetName(typeof(Answer), answer) }, JsonRequestBehavior.AllowGet);
+
         }
     }
 }

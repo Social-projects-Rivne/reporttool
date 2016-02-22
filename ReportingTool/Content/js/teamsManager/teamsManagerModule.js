@@ -7,7 +7,7 @@ teamsManagerModule.config(['$stateProvider', '$urlRouterProvider', function ($st
     var teamsManager = {
         name: 'mainView.teamsManager',
         url: '/teamsManager',
-
+        cache: false,
         views: {
             '': {
                 templateUrl: 'Content/templates/teamsManager/teamsManagerView.html',
@@ -22,13 +22,16 @@ teamsManagerModule.config(['$stateProvider', '$urlRouterProvider', function ($st
     var editTeam = {
         name: 'mainView.teamsManager.editTeam',
         url: '/editTeam/:teamID',
-        templateUrl: 'Content/templates/teamsManager/editTeam.html'
+        templateUrl: 'Content/templates/teamsManager/editTeam.html',
+        controller: 'EditTeamController',
+        cache: false
     };
     var createTeam = {
         name: 'mainView.teamsManager.createTeam',
         url: '/createTeam',
         templateUrl: 'Content/templates/teamsManager/editTeam.html',
-        controller: 'NewTeamController'
+        controller: 'NewTeamController',
+        cache: false
     };
 
     $stateProvider.state(teamsManager);
