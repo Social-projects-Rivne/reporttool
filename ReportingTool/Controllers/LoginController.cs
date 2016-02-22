@@ -83,7 +83,7 @@ namespace ReportingTool.Controllers
             else
             {
                 bool isUserValid = IsUserValid(credentials.UserName, credentials.Password);
-                bool isUserAuthenticated = (System.Web.HttpContext.Current.User != null) && 
+                bool isUserAuthenticated = (System.Web.HttpContext.Current.User != null) &&
                      System.Web.HttpContext.Current.User.Identity.IsAuthenticated;
 
                 if (isUserValid || isUserAuthenticated)

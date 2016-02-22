@@ -110,7 +110,6 @@ namespace ReportingTool.Controllers
 
             using (var db = new DB2())
             {
-
                 if (db.Teams.Any(p => p.Name == newTeam.Name & p.ProjectKey == project & p.IsActive))
                 {
                     answer = Answer.Exists;

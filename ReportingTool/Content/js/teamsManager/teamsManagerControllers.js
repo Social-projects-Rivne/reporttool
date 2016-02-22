@@ -12,9 +12,7 @@ teamsManagerModule.controller('teamsManagerController',
         var DeleteTeam = null;
 
         $scope.deleteTeam = function (deletedTeamID) {
-            TeamFactory.deleteTeam(deletedTeamID).then(function (response) {
-                
-            }, delFail);
+            TeamFactory.deleteTeam(deletedTeamID).then(delSuccess, delFail);
         }
 
         $scope.showTeamMembers = function (selectedTeam) {
@@ -25,6 +23,12 @@ teamsManagerModule.controller('teamsManagerController',
             TempTeamFactory.setTempTeam(updateTeam);
             $scope.activeTeam = {};
             $state.go('mainView.teamsManager.editTeam');
+        }
+
+        function delSuccess(response) {
+            if (response.data.Answer == 'Deleted') {
+                $state.go('mainView.teamsManager', {}, { reload: true });
+            }
         }
 
         function delFail(response) {
@@ -71,7 +75,7 @@ teamsManagerModule.controller('EditTeamController',
             $scope.message = "Loading...";
             $scope.showEditBlock = true;
 
-            var backupTeam = {};
+            //var backupTeam = {};
 
 
             $scope.addMember = function (member) {

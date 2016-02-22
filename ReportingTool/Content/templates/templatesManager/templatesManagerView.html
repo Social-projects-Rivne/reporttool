@@ -1,28 +1,16 @@
-﻿<section class="row" ng-controller="templatesManagerController">
-    <div class="col-sm-8 teamsList" ui-view="templatesList"></div>
-    <div class="col-sm-8" ui-view>
-        <div>
-            <table class="table table-striped">
-                <colgroup>
-                    <col width="5%" />
-                    <col width="45%" />
-                    <col width="45%" />
-                </colgroup>
-              <!-- <thead id="change-team-head">
-                    <tr>
-                        <th>#</th>
-                        <th>User Name</th>
-                        <th>Full Name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat='member in activeTeam.members'>
-                        <td> {{$index + 1}}</td>
-                        <td> {{member.userName}}</td>
-                        <td> {{member.fullName}}</td>
-                    </tr>
-                <tbody>  -->
-            </table>
+﻿<section class="row">
+    <div id='teamsManagerHeader'>
+        <div class="col-sm-5">
+            <h2> Manage Templates </h2>
         </div>
+        <div class="col-sm-4">
+            <!--TODO: Need to implement-->
+            <a ui-sref="mainView.templatesManager.createTemplate" class="btn btn-flat">Add Template</a>
+        </div>
+    </div>
+    <div style="height: 50px;"></div>
+    <div class="row">
+        <div class="col-sm-3 teamsList" ui-view="templatesList"></div>
+        <div class="col-sm-7" ui-view></div>
     </div>
 </section>
