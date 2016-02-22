@@ -3,10 +3,7 @@ using IniParser.Model;
 using ReportingTool.Core.Validation;
 using ReportingTool.Models;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
 using System.Web.Hosting;
 using System.Web.Mvc;
 
@@ -19,25 +16,6 @@ namespace ReportingTool.Controllers
         private const string SECTION = "GeneralConfiguration";
         private const string SERVEL_URL_KEY = "ServerUrl";
         private const string PROJECT_NAME_KEY = "ProjectName";
-        private const string DB_SECTION = "DataBaseConfiguration";
-        private const string DB_ID_KEY = "UserId";
-        private const string DB_PASSWORD_KEY = "Password";
-        private const string DB_DATABASE_KEY = "Database";
-        private const string DB_ID_VALUE = "postgres";
-        private const string DB_PASSWORD_VALUE = "postgres";
-        private const string DB_DATABASE_VALUE = "rtdb";
-
-        public string FileName
-        {
-            get
-            {
-                return FILE_NAME;
-            }
-            set
-            {
-                FILE_NAME = value;
-            }
-        }
 
         /// <summary>
         /// Checks if configuration file exists, empty and valid

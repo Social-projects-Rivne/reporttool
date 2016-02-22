@@ -10,8 +10,8 @@ namespace ReportingTool.DAL.Entities
         public int Id { get; set; }
 
         [Required]
-        [JsonProperty("isDefault")]
-        public bool IsDefault { get; set; }
+        [JsonProperty("defaultValue")]
+        public string DefaultValue { get; set; }
 
         [ForeignKey("Field")]
         public int FieldId { get; set; }
