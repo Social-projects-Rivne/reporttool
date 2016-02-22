@@ -1,14 +1,16 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ReportingTool.DAL.Entities
 {
+    [JsonObject]
     public class JiraUser
     {
-        public string userName { get; set; }
-        public string fullName { get; set; }
+        public string name { get; set; }
+
+        public string displayName { get; set; }
     }
 }

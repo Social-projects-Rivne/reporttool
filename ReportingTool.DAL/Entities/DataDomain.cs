@@ -1,50 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-
+﻿using System.Data.Entity;
 
 namespace ReportingTool.DAL.Entities
 {
-
-  public partial class DB2 : DbContext
-  {
-    public DB2() : base(nameOrConnectionString: "RTDB") { }
-
-    protected override void OnModelCreating(DbModelBuilder modelBuilder)
+    public class DB2 : DbContext
     {
-        Database.SetInitializer<DB2>(null);
-        //modelBuilder.Entity<team>().ToTable("teams");
+        public DB2()
+            : base(nameOrConnectionString: "RTDB")
+        {
+            Database.SetInitializer<DB2>(new DatabaseInitializer());
+        }
 
-        //modelBuilder.Entity<member>().ToTable("members");
-        //modelBuilder.Entity<member>().ToTable("members", "public");
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.HasDefaultSchema("public");
+        }
 
-        modelBuilder.Entity<team>()
-                    .HasMany<member>(t => t.members)
-                    .WithMany(m => m.teams)
-                    .Map(mt =>
-                    {
-                        mt.MapLeftKey("team_id");
-                        mt.MapRightKey("member_id");
-                        mt.ToTable("team_member");
-                    });
+        public DbSet<Member> Members { get; set; }
 
-        //throw new UnintentionalCodeFirstException();
+        public DbSet<Team> Teams { get; set; }
 
-        //Configure default schema
-        modelBuilder.HasDefaultSchema("public");
+        public DbSet<Template> Templates { get; set; }
+
+        public DbSet<Field> Fields { get; set; }
+
+        public DbSet<FieldsInTemplate> FieldsInTemplates { get; set; }
     }
-
-    public DbSet<member> members { get; set; }
-    public DbSet<team> teams { get; set; }
-    //public DbSet<TeamMember> TeamMembers { get; set; }
-  }
-
 }
 

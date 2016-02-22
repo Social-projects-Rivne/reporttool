@@ -22,14 +22,14 @@
     <nav class="navbar navbar-default" role="navigation">
         <div class="container-fluid nav-container">
             <div class="navbar-header brand">
-                <a class="navbar-brand" href="/">
+                <a class="navbar-brand" ui-sref="mainView">
                     <p class="blue">Reporting</p>
                     <p class="white">Tool</p>
                 </a>
             </div>
-            <div class="navbar-header logout" ng-show={{showElements.showLogout}}
-                 ng-click="Logout();">
-                <a class="navbar-brand" href="/">
+            <div class="navbar-header logout" ng-controller="loginController">
+                <a class="navbar-brand" ng-show='true'
+                   ng-click="Logout();" ui-sref="configView">
                     <p class="white">Logout</p>
                 </a>
             </div>
@@ -50,10 +50,13 @@
     <script src="~/Content/js/configuration/configViewModule.js"></script>
     <script src="~/Content/js/login/loginModule.js"></script>
     <script src="~/Content/js/teamsManager/teamsManagerModule.js"></script>
+    <script src="~/Content/js/templatesManager/templatesManagerModule.js"></script>
     <script src="~/Content/js/mainViewModule.js"></script>
     <script src="~/Content/js/ReportingTool.js"></script>
 
     @*ReportingTool app controllers/services/directives*@
+    <script src="~/Content/js/templatesManager/templatesManagerController.js"></script>
+    <script src="~/Content/js/templatesManager/templatesManagerServices.js"></script>
     <script src="~/Content/js/teamsManager/teamsManagerControllers.js"></script>
     <script src="~/Content/js/teamsManager/teamsManagerServices.js"></script>
     <script src="~/Content/js/configuration/configurationController.js"></script>

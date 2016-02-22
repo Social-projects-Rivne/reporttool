@@ -1,212 +1,212 @@
 'use strict';
 
-teamsManagerModule
-	.controller('teamsManagerController', ['$scope', '$stateParams', '$state', 'TeamFactory', function ($scope,$stateParams,$state, TeamFactory) {
-	    $scope.message = "Loading...";
-		$scope.showTeams = true;
-		$scope.teams = {};
-		$scope.activeTeam = {};
-		TeamFactory.GetAllTeams().then(teamsSuccess, teamsFail);
+teamsManagerModule.controller('teamsManagerController',
+    ['$scope', '$state', 'TeamFactory', 'TempTeamFactory', function ($scope, $state, TeamFactory, TempTeamFactory) {
+        $scope.message = "Loading...";
+        $scope.showTeams = true;
+        $scope.teams = {};
+        $scope.activeTeam = {};
 
-		var id_team_to_del = null;
+        TeamFactory.GetAllTeams().then(teamsSuccess, teamsFail);
 
-		$scope.delTeam = function (id) {
-			TeamFactory.del(id).then(delSuccess, delFail);
-			id_team_to_del = id;
-		}
+        var DeleteTeam = null;
 
-		$scope.AddTeam = function () {
-		    $state.go('.createTeam');
-		}
+        $scope.deleteTeam = function (id) {
+            TeamFactory.deleteTeam(id).then(delSuccess, delFail);
+            id_team_to_del = id;
+        }
 
-		$scope.teamSelect = function (selectedTeam) {
-		    $scope.activeTeam = selectedTeam;
-		}
+        $scope.showTeamMembers = function (selectedTeam) {
+            $scope.activeTeam = selectedTeam;
+        }
 
-		function delSuccess(response) {
-			for (var i in $scope.teams) {
-				if ($scope.teams[i].teamID === id_team_to_del) {
-					$scope.teams.splice(i, 1);
-				}
-			}
-		}
+        $scope.editTeam = function (updateTeam) {
+            TempTeamFactory.setTempTeam(updateTeam);
+            $scope.activeTeam = {};
+            $state.go('mainView.teamsManager.editTeam');
+        }
 
-		function delFail(response) {
-			console.error("Epic fail!");
-			// delete with working backend
-			for (var i in $scope.teams) {
-				if ($scope.teams[i].teamID === id_team_to_del) {
-					$scope.teams.splice(i, 1);
-				}
-			}
-		}
+        function delSuccess(response) {
+            for (var i in $scope.teams) {
+                if ($scope.teams[i].teamID === id_team_to_del) {
+                    $scope.teams.splice(i, 1);
+                }
+            }
+        }
 
-		function teamsSuccess(response) {
-			$scope.teams = response.data;
-			$scope.showTeams = true;
-		}
+        function delFail(response) {
+            console.error("Delete failed!");
+        }
 
-		function teamsFail(response) {
-			alert("Error: " + response.code + " " + response.statusText);
-		}
+        function teamsSuccess(response) {
+            $scope.teams = response.data;
+            $scope.showTeams = true;
+        }
 
-    }])
-	.controller('EditTeamController', ['$scope', '$stateParams', '$state', 'TeamFactory', 'UserFactory', function ($scope, $stateParams, $state, TeamFactory, UserFactory) {
-		$scope.editTeam = {
-			teamName: ""
-		};
-		$scope.users = [{
-			userName: 'Loading...',
-			fullName: 'Loading...'
-		}];
-		$scope.selectedUser = {
-			userName: "",
-			fullName: ""
-		};
-		$scope.message = "Loading...";
-		$scope.showEditBlock = true;
+        function teamsFail(response) {
+            alert("Error: " + response.code + " " + response.statusText);
+        }
 
-		var id_team_to_del = parseInt($stateParams.id, 10);
-		var backupTeam = {};
+    }]);
 
-		TeamFactory.get(parseInt($stateParams.id, 10)).then(getSuccess, getFail);
-		UserFactory.all().then(getUsersSuccess, getUsersFail);
+teamsManagerModule.controller('EditTeamController',
+    ['$scope', '$stateParams', '$state', 'TeamFactory', 'UserFactory', 'TempTeamFactory',
+        function ($scope, $stateParams, $state, TeamFactory, UserFactory, TempTeamFactory) {
 
-		$scope.addUser = function (member) {
-			for (var i in $scope.editTeam.members) {
-			    if ($scope.editTeam.members[i].userName === user.userName) {
-					return;
-				}
-			}
-			$scope.editTeam.members.push(member);
-			$scope.selectedUser = {
-				userName: "",
-				fullName: ""
-			};
-		}
+            $scope.jiraUsers = [{
+                loginName: 'Loading...',
+                fullName: 'Loading...'
+            }];
 
-		$scope.save = function (editedTeam) {
-			TeamFactory.update(editedTeam).then(updateSuccess, updateFail);
-		}
+            $scope.editTeam = TempTeamFactory.getTempTeam();
 
-		$scope.cancel = function () {
-			console.log($scope.editTeam + " = " + backupTeam);
-			$scope.editTeam = backupTeam;
-		}
+            $scope.selectedMember = {
+                userName: '',
+                fullName: ''
+            }
 
-		$scope.removeMember = function (userName) {
-		    console.log('del member ' + userName);
-			for (var i in $scope.editTeam.members) {
-			    if ($scope.editTeam.members[i].userName === userName) {
-					$scope.editTeam.members.splice(i, 1);
-				}
-			}
-		}
+            UserFactory.getJiraUsers().then(getJiraUsersSuccess, getJiraUsersFail);
 
-		function updateSuccess(response) {
-			$state.go('teams');
-		}
+            function getJiraUsersSuccess(response) {
+                $scope.jiraUsers = response.data;
+            }
 
-		function updateFail(response) {
-			console.error("error during saving edited team");
-		}
+            function getJiraUsersFail(response) {
+                console.error("getUsers error!");
+            };
 
-		function getSuccess(response) {
-			//delete with working backend:
-			var teams = response.data;
-			for (var team in teams) {
-				if (teams[team].teamID === parseInt($stateParams.id, 10)) {
-					$scope.editTeam = angular.copy(teams[team]);
-					backupTeam = angular.copy(teams[team]);
-					$scope.showEditBlock = true;
-					$scope.message = "";
-				}
-			}
-			// remain this:
-			// $scope.editTeam = response.data
-			// backupTeam = angular.copy(teams[team]);
-			// $scope.showEditBlock = true;
-		}
+            $scope.message = "Loading...";
+            $scope.showEditBlock = true;
 
-		function getFail(response) {
-			$scope.message = "Loading team error! " + response.code;
-		}
+            var id_team_to_del = parseInt($stateParams.id, 10);
+            var backupTeam = {};
 
-		function getUsersSuccess(response) {
-			$scope.users = response.data;
-		}
 
-		function getUsersFail(response) {
-			console.error("getUsers error!");
-		}
+            $scope.addMember = function (member) {
+                for (var i in $scope.editTeam.members) {
+                    if ($scope.editTeam.members[i].userName === member.userName) {
+                        return;
+                    }
+                }
+                $scope.editTeam.members.push(member);
+            }
 
-    }])
+            $scope.save = function () {
+                TeamFactory.updateTeam($scope.editTeam).then(updateSuccess, updateFail);
+                TempTeamFactory.setTempTeam({});
+            }
 
-.controller('NewTeamController', ['$stateParams', '$scope', '$state', 'TeamFactory', 'UserFactory', function ($stateParams, $scope, $state, TeamFactory, UserFactory) {
-	$scope.editTeam = {
-		teamID: "",
-		teamName: "Python Django team",
-		members: []
-	};
-	$scope.users = [{
-		userName: 'Loading...',
-		fullName: 'Loading...'
-	}];
-	$scope.selectedUser = {
-		userName: "",
-		fullName: ""
-	};
-	$scope.showEditBlock = true;
+            $scope.cancel = function () {
+                console.log($scope.editTeam + " = " + backupTeam);
+                $scope.editTeam = backupTeam;
+                TempTeamFactory.setTempTeam({});
+            }
 
-	UserFactory.all().then(getUsersSuccess, getUsersFail);
+            $scope.removeMember = function (userName) {
+                console.log('del member ' + userName);
+                for (var i in $scope.editTeam.members) {
+                    if ($scope.editTeam.members[i].userName === userName) {
+                        $scope.editTeam.members.splice(i, 1);
+                    }
+                }
+            }
 
-	$scope.addUser = function (user) {
-		for (var i in $scope.editTeam.members) {
-		    if ($scope.editTeam.members[i].userName === user.userName) {
-				return;
-			}
-		}
-		$scope.editTeam.members.push(user);
-		$scope.selectedUser = {
-			userName: "",
-			fullName: ""
-		};
-	}
+            function updateSuccess(response) {
+                $state.go('mainView.teamsManager');
+            }
 
-	$scope.save = function (editedTeam) {
-		TeamFactory.create(editedTeam).then(createSuccess, createFail);
-	}
+            function updateFail(response) {
+                console.error("error during saving edited team");
+            }
 
-	$scope.cancel = function () {
-		$scope.editTeam = {
-			teamID: "",
-			teamName: "",
-			members: []
-		};
-	}
+            function getSuccess(response) {
+                //delete with working backend:
+                var teams = response.data;
+                for (var team in teams) {
+                    if (teams[team].teamID === parseInt($stateParams.id, 10)) {
+                        $scope.editTeam = angular.copy(teams[team]);
+                        backupTeam = angular.copy(teams[team]);
+                        $scope.showEditBlock = true;
+                        $scope.message = "";
+                    }
+                }
+                // remain this:
+                // $scope.editTeam = response.data
+                // backupTeam = angular.copy(teams[team]);
+                // $scope.showEditBlock = true;
+            }
 
-	$scope.removeMember = function (userName) {
-		for (var i in $scope.editTeam.members) {
-		    if ($scope.editTeam.members[i].userName === userName) {
-				$scope.editTeam.members.splice(i, 1);
-			}
-		}
-	}
+            function getFail(response) {
+                $scope.message = "Loading team error! " + response.code;
+            }
 
-	function getUsersSuccess(response) {
-		$scope.users = response.data;
-	}
+        }]);
 
-	function getUsersFail(response) {
-		console.error("getUsers error!");
-	}
+teamsManagerModule.controller('NewTeamController',
+    ['$stateParams', '$scope', '$state', 'TeamFactory', 'UserFactory', function ($stateParams, $scope, $state, TeamFactory, UserFactory) {
+        $scope.editTeam = {
+            teamID: "0",
+            teamName: "",
+            members: []
+        };
 
-	function createSuccess(response) {
-		$state.go('teams');
-	}
+        $scope.selectedMember = {
+            userName: '',
+            fullName: ''
+        };
 
-	function createFail(response) {
-		console.error('create team fail!');
-		$state.go('teams');
-	}
-    }])
+        $scope.jiraUsers = [{
+            userName: 'Loading...',
+            fullName: 'Loading...'
+        }];
+
+        UserFactory.getJiraUsers().then(getJiraUsersSuccess, getJiraUsersFail);
+
+        function getJiraUsersSuccess(response) {
+            $scope.jiraUsers = response.data;
+        }
+
+        function getJiraUsersFail(response) {
+            console.error("getUsers error!");
+        };
+
+        $scope.showEditBlock = true;
+
+        $scope.addMember = function (member) {
+            for (var i in $scope.editTeam.members) {
+                if ($scope.editTeam.members[i].userName === member.userName) {
+                    //---------------- TODO: Add duplicates exception ----------------------//
+                    return;
+                }
+            }
+            $scope.editTeam.members.push(member);
+        }
+
+        $scope.save = function () {
+            TeamFactory.createTeam($scope.editTeam).then(createSuccess, createFail);
+        }
+
+        $scope.cancel = function () {
+            $scope.editTeam = {
+                teamID: "",
+                teamName: "",
+                members: []
+            };
+        }
+
+        $scope.removeMember = function (userName) {
+            for (var i in $scope.editTeam.members) {
+                if ($scope.editTeam.members[i].userName === userName) {
+                    $scope.editTeam.members.splice(i, 1);
+                }
+            }
+        }
+
+        function createSuccess(response) {
+            $state.go('mainView.teamsManager');
+        }
+
+        function createFail(response) {
+            console.error('create team fail!');
+        }
+    }]);
