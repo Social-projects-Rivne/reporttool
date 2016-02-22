@@ -13,6 +13,7 @@ using IniParser;
 using IniParser.Model;
 using System.Web.Hosting;
 using System.Security.Principal;
+using ReportingTool.DAL.DataAccessLayer;
 
 
 namespace ReportingTool.Controllers
@@ -106,10 +107,15 @@ namespace ReportingTool.Controllers
 
                 if (isUserValid || isUserAuthenticated)
                 {
+                    ReportingTool.DAL.DataAccessLayer.JiraClient client = new DAL.DataAccessLayer.JiraClient(getServerUrl(), credentials.UserName, credentials.Password);
+
                     DefinePrincipal(credentials.UserName);
                     FormsAuthentication.SetAuthCookie(credentials.UserName, false);
+
                     Session.Add("currentUser", credentials.UserName);
                     Session.Add("projectKey", getProjectKey());
+                    Session.Add("jiraClient", client);
+
                     return Json(new { Status = "validCredentials" });
                 }
                 return Json(new { Status = "invalidCredentials" });
