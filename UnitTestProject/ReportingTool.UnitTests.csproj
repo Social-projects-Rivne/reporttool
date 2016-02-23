@@ -36,7 +36,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -53,11 +61,16 @@
   <ItemGroup>
     <Compile Include="JiraClientTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TemplatesControllerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReportingTool.DAL\ReportingTool.DAL.csproj">
       <Project>{a4388dbb-4998-41b9-97fa-7462bb37131a}</Project>
       <Name>ReportingTool.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReportingTool\ReportingTool.csproj">
+      <Project>{35bfb6db-920f-40f6-812a-0a1f072e3799}</Project>
+      <Name>ReportingTool</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

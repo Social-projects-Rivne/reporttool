@@ -150,6 +150,8 @@
     <Content Include="Content\js\configuration\projectNameDirective.js" />
     <Content Include="Content\js\login\loginController.js" />
     <Content Include="Content\js\login\loginModule.js" />
+    <Content Include="Content\js\login\loginService.js" />
+    <Content Include="Content\js\login\logoutController.js" />
     <Content Include="Content\js\mainViewModule.js" />
     <Content Include="Content\js\teamsManager\teamsManagerControllers.js" />
     <Content Include="Content\js\teamsManager\teamsManagerModule.js" />
@@ -165,6 +167,7 @@
     <Content Include="Content\js\vendor\angular-ui-router.min.js" />
     <Content Include="Content\js\vendor\angular.js" />
     <Content Include="Content\templates\teamsManager\teamsManagerView.html" />
+    <Content Include="Content\templates\templatesManager\viewFields.html" />
     <Content Include="Content\templates\templatesManager\templatesList.html" />
     <Content Include="Content\templates\templatesManager\templatesManagerView.html" />
     <Content Include="Global.asax" />

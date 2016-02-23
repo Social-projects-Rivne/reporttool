@@ -13,14 +13,16 @@ namespace ReportingTool.Controllers
     {
         public enum Answer { WrongTemplate, WrongName, WrongId, FieldsIsEmpty, FieldIsNotCorrect, Edited };
 
+        
+
         [HttpGet]
         public string GetAllTemplates()
         {
             List<Template> templates = new List<Template>();
             List<FieldsInTemplate> fields = new List<FieldsInTemplate>();
+
             using (var db = new DB2())
             {
-                
                 foreach (var template in db.Templates)
                 {
                     if (template.IsActive)
