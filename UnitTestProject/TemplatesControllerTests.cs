@@ -16,7 +16,7 @@ namespace UnitTestProject
         [TestMethod]
         public void AddNewTemplete_ValidateReturnedResult_TemplateIsNull()
         {
-            var TemplatesController = new TemplatesController();
+            //svar TemplatesController = new TemplatesController();
             Template template = null;
         }
     }

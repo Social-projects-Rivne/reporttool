@@ -1,9 +1,9 @@
 ﻿'use strict'
 
-loginModule.controller("loginController", ['$scope', '$state', '$http', '$stateParams', 'LoginService', '$rootScope', function ($scope, $state, $http, $stateParams, LoginService, $rootScope) {
+loginModule.controller("loginController", ['$scope', '$state', '$http', '$stateParams', 'LoginService',
+    function ($scope, $state, $http, $stateParams, LoginService) {
 
     angular.element(document).ready(function () {
-        $scope.showLogout = LoginService.GetShowLogoutStatus();
         $scope.CheckSession();
     });
 
@@ -15,9 +15,6 @@ loginModule.controller("loginController", ['$scope', '$state', '$http', '$stateP
        showAuthentificationError : false,
        showConnectionError : false
     };
-
-    $rootScope.showLogout = false;
-    $scope.showLogout = $rootScope.showLogout;
 
     $scope.showErrors.showAuthentificationError = false;
     $scope.showErrors.showConnectionError = false;
@@ -43,12 +40,10 @@ loginModule.controller("loginController", ['$scope', '$state', '$http', '$stateP
             if (response.data.Status == "sessionExists") {
                 //redirect on main page
                 LoginService.SetShowLogoutStatus(true);
-                $scope.showLogout = LoginService.GetShowLogoutStatus();
                 $state.transitionTo('mainView');
             }
             else {
                 LoginService.SetShowLogoutStatus(false);
-                $scope.showLogout = LoginService.GetShowLogoutStatus();
                 //redirect on main page
                 $state.transitionTo('loginView');
             }
@@ -80,8 +75,6 @@ loginModule.controller("loginController", ['$scope', '$state', '$http', '$stateP
                 else
                     if (r.data.Status == "validCredentials") {
                         LoginService.SetShowLogoutStatus(true);
-                        $scope.showLogout = LoginService.GetShowLogoutStatus();
-                        alert($scope.showLogout);
                         //redirect on main page
                         $state.transitionTo('mainView');
                     }
@@ -112,8 +105,6 @@ loginModule.controller("loginController", ['$scope', '$state', '$http', '$stateP
             function (r) {
                 if (r.data.Status == "loggedOut") {
                     LoginService.SetShowLogoutStatus(false);
-                    $scope.showLogout = LoginService.GetShowLogoutStatus();
-                    alert($scope.showLogout);
                     $state.transitionTo('loginView');
                 }
             },
