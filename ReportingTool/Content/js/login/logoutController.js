@@ -1,12 +1,14 @@
 ﻿'use strict'
 
-loginModule.controller("logoutController", ['$scope', '$state', '$http', '$stateParams', 'LoginService', '$rootScope', function ($scope, $state, $http, $stateParams, LoginService, $rootScope) {
+loginModule.controller("logoutController", ['$scope', '$state', '$http', '$stateParams', 'LoginService', 
+    function ($scope, $state, $http, $stateParams, LoginService) {
 
-    angular.element(document).ready(function () {
-        $scope.showLogout = LoginService.GetShowLogoutStatus();
-    });
+    $scope.showLogout = LoginService.GetShowLogoutStatus();
 
-    $rootScope.showLogout = false;
+    //angular.element(document).ready(function () {
+    //    $scope.showLogout.show = LoginService.GetShowLogoutStatus();
+    //});
+
 
     $scope.Logout = function () {
 
@@ -20,8 +22,7 @@ loginModule.controller("logoutController", ['$scope', '$state', '$http', '$state
             function (r) {
                 if (r.data.Status == "loggedOut") {
                     LoginService.SetShowLogoutStatus(false);
-                    $scope.showLogout = LoginService.GetShowLogoutStatus();
-                    //alert($scope.showLogout);
+                    $scope.showLogout= LoginService.GetShowLogoutStatus();
                     $state.transitionTo('loginView');
                 }
             },
