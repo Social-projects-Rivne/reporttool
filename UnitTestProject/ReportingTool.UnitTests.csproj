@@ -75,6 +75,7 @@
     <Compile Include="DbModifyTests.cs" />
     <Compile Include="JiraClientTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TemplatesControllerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReportingTool.DAL\ReportingTool.DAL.csproj">

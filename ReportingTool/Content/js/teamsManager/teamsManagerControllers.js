@@ -11,9 +11,8 @@ teamsManagerModule.controller('teamsManagerController',
 
         var DeleteTeam = null;
 
-        $scope.deleteTeam = function (id) {
-            TeamFactory.deleteTeam(id).then(delSuccess, delFail);
-            id_team_to_del = id;
+        $scope.deleteTeam = function (deletedTeamID) {
+            TeamFactory.deleteTeam(deletedTeamID).then(delSuccess, delFail);
         }
 
         $scope.showTeamMembers = function (selectedTeam) {
@@ -27,10 +26,8 @@ teamsManagerModule.controller('teamsManagerController',
         }
 
         function delSuccess(response) {
-            for (var i in $scope.teams) {
-                if ($scope.teams[i].teamID === id_team_to_del) {
-                    $scope.teams.splice(i, 1);
-                }
+            if (response.data.Answer == 'Deleted') {
+                $state.go('mainView.teamsManager', {}, { reload: true });
             }
         }
 
@@ -78,8 +75,7 @@ teamsManagerModule.controller('EditTeamController',
             $scope.message = "Loading...";
             $scope.showEditBlock = true;
 
-            var id_team_to_del = parseInt($stateParams.id, 10);
-            var backupTeam = {};
+            //var backupTeam = {};
 
 
             $scope.addMember = function (member) {
@@ -97,9 +93,10 @@ teamsManagerModule.controller('EditTeamController',
             }
 
             $scope.cancel = function () {
-                console.log($scope.editTeam + " = " + backupTeam);
-                $scope.editTeam = backupTeam;
+                //console.log($scope.editTeam + " = " + backupTeam);
+                //$scope.editTeam = backupTeam;
                 TempTeamFactory.setTempTeam({});
+                $state.go('mainView.teamsManager');
             }
 
             $scope.removeMember = function (userName) {
@@ -192,6 +189,7 @@ teamsManagerModule.controller('NewTeamController',
                 teamName: "",
                 members: []
             };
+            $state.go('mainView.teamsManager');
         }
 
         $scope.removeMember = function (userName) {
@@ -203,7 +201,10 @@ teamsManagerModule.controller('NewTeamController',
         }
 
         function createSuccess(response) {
-            $state.go('mainView.teamsManager');
+            if (response.data.Answer == 'Created') {
+                $state.go('mainView.teamsManager', {}, { reload: true });
+                //$state.go('mainView.teamsManager.serverResponseView({})');
+            }
         }
 
         function createFail(response) {

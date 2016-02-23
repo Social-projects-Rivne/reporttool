@@ -1,6 +1,11 @@
 ﻿'use strict'
 
-loginModule.controller("loginController", ['$scope', '$http', '$stateParams', '$state', function ($scope, $http, $stateParams, $state) {
+loginModule.controller("loginController", ['$scope', '$state', '$http', '$stateParams', 'LoginService',
+    function ($scope, $state, $http, $stateParams, LoginService) {
+
+    angular.element(document).ready(function () {
+        $scope.CheckSession();
+    });
 
     $scope.credentials = {
         userName: '',
@@ -10,9 +15,7 @@ loginModule.controller("loginController", ['$scope', '$http', '$stateParams', '$
        showAuthentificationError : false,
        showConnectionError : false
     };
-    $scope.showElements = {
-        showLogout: true
-    };
+
     $scope.showErrors.showAuthentificationError = false;
     $scope.showErrors.showConnectionError = false;
     $scope.errorText = "";
@@ -23,6 +26,34 @@ loginModule.controller("loginController", ['$scope', '$http', '$stateParams', '$
         $scope.showErrors.showAuthentificationError = false;
         $scope.showErrors.showConnectionError = false;
     }
+
+    $scope.CheckSession = function () {
+
+        $http({
+            method: 'GET',
+            url: 'Login/CheckSession',
+            data: {},
+            headers: { 'content-type': 'application/json' }
+
+        }).then(function successCallback(response) {
+
+            if (response.data.Status == "sessionExists") {
+                //redirect on main page
+                LoginService.SetShowLogoutStatus(true);
+                $state.transitionTo('mainView');
+            }
+            else {
+                LoginService.SetShowLogoutStatus(false);
+                //redirect on main page
+                $state.transitionTo('loginView');
+            }
+        }, function errorCallback(response) {
+            $scope.validationIsInProgress = false;
+            $scope.errorText = "Server error";
+            $scope.showErrors.showConnectionError = true;
+        });
+    }
+
 
     $scope.SendData = function () {
 
@@ -43,7 +74,7 @@ loginModule.controller("loginController", ['$scope', '$http', '$stateParams', '$
                 }
                 else
                     if (r.data.Status == "validCredentials") {
-                        $scope.showElements.showLogout = true;
+                        LoginService.SetShowLogoutStatus(true);
                         //redirect on main page
                         $state.transitionTo('mainView');
                     }
@@ -73,6 +104,7 @@ loginModule.controller("loginController", ['$scope', '$http', '$stateParams', '$
         $http(req).then(
             function (r) {
                 if (r.data.Status == "loggedOut") {
+                    LoginService.SetShowLogoutStatus(false);
                     $state.transitionTo('loginView');
                 }
             },
@@ -81,5 +113,4 @@ loginModule.controller("loginController", ['$scope', '$http', '$stateParams', '$
             }
          );
     }
-
 }]);

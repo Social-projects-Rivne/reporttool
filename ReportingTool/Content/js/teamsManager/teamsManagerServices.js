@@ -29,7 +29,7 @@ factory('TeamFactory', ['$http', function ($http) {
     }
 
     function deleteTeam(id) {
-        return $http.delete("Teams/Delete", { params: { id: id } });
+        return $http.delete("Teams/DeleteTeam", { params: { id: id } });
     }
 
     return teamFactory;
