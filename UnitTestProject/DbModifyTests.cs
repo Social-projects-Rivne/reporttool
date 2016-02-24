@@ -79,7 +79,8 @@ namespace UnitTestProject
 
             //// Act - try add a template
             ActionResult result = target.AddNewTemplate(t1);
-            #region  manual delete
+
+            #region  manual delete - commented out
             //using (var db = new DB2())
             //{
             //    db.Templates.Add(t1);
@@ -87,8 +88,8 @@ namespace UnitTestProject
             //} 
             #endregion
 
-            //// Assert - check that a template exists
-            #region ver 1 of assert
+            #region Assert - check that a template exists
+                #region ver 1 of assert
             //using (var db = new DB2())
             //{
             //    Assert.IsNotNull(
@@ -101,17 +102,66 @@ namespace UnitTestProject
             {
                 temp = await db.Templates.FirstOrDefaultAsync<Template>(t => t.Name == name && t.IsActive == true);
                 Assert.IsNotNull(temp);
-            }
+            } 
+            #endregion
+
+            #region Act - add 2 records of FieldsInTemplate
+            using (var db = new DB2())
+            {
+                FieldsInTemplate fit1 = new FieldsInTemplate { TemplateId = temp.Id, FieldId = 1, DefaultValue = "d1" };
+                FieldsInTemplate fit2 = new FieldsInTemplate { TemplateId = temp.Id, FieldId = 2, DefaultValue = "d2" };
+                db.FieldsInTemplates.Add(fit1);
+                db.FieldsInTemplates.Add(fit2);
+                db.SaveChanges();
+            } 
+            #endregion
+
+            #region Assert - check that 2 records of FieldsInTemplate exist
+            using (var db = new DB2())
+            {
+                var tempFit1 =
+                    await db.FieldsInTemplates.FirstOrDefaultAsync<FieldsInTemplate>(
+                        f =>
+                            //(f.Id == temp.Id) && (f.FieldId == 1) && 
+                            f.DefaultValue == "d1");
+                Assert.IsNotNull(tempFit1);
+
+                var tempFit2 =
+                    await db.FieldsInTemplates.FirstOrDefaultAsync<FieldsInTemplate>(
+                        f =>
+                            //(f.Id == temp.Id) && (f.FieldId == 2) && 
+                            f.DefaultValue == "d2");
+                Assert.IsNotNull(tempFit2);
+            } 
+            #endregion
+
+            // ---------------------------------------------------------------------------------------------
 
             //// Act - try delete a template
             result = target.DeleteTemplate(temp.Id);
 
-            //// Assert - check that a template is not active
+            #region Assert - check that a template is not active and 2 records of FieldsInTemplate are deleted
             using (var db = new DB2())
             {
                 temp = await db.Templates.FirstOrDefaultAsync<Template>(t => t.Name == name && t.IsActive == true);
                 Assert.IsNull(temp);
-            }
+
+                var tempFit1 =
+                   await db.FieldsInTemplates.FirstOrDefaultAsync<FieldsInTemplate>(
+                       f =>
+                           //(f.Id == temp.Id) && (f.FieldId == 1) && 
+                           f.DefaultValue == "d1");
+                Assert.IsNull(tempFit1);
+
+                var tempFit2 =
+                    await db.FieldsInTemplates.FirstOrDefaultAsync<FieldsInTemplate>(
+                        f =>
+                            //(f.Id == temp.Id) && (f.FieldId == 2) && 
+                            f.DefaultValue == "d2");
+                Assert.IsNull(tempFit2);
+
+            } 
+            #endregion
 
         }
 
