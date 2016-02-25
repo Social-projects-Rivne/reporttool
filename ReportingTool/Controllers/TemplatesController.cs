@@ -75,6 +75,19 @@ namespace ReportingTool.Controllers
         }
 
         [HttpGet]
+        public string GetAllFields() {
+            var temp = new List<object>();
+            //temp.Add(new { fieldName = "Field_1", fieldType = "text", fieldDefaultValue = " " });
+            //temp.Add(new { fieldName = "Field_2", fieldType = "text", fieldDefaultValue = "qwertyui qwertyuio" });
+            //temp.Add(new { fieldName = "Field_3", fieldType = "combobox", fieldDefaultValue = ["value_1", "value_2", "value_3"] });
+            //temp.Add(new { fieldName = "Field_4", fieldType = "combobox", fieldDefaultValue = " " });
+            //temp.Add(new { fieldName = "Field_5", fieldType = "text", fieldDefaultValue = " " });
+            //temp.Add(new { fieldName = "Field_6", fieldType = "combobox", fieldDefaultValue = "lkjhgsdfghjkkjhg fgcvjhbk" });
+
+            return JsonConvert.SerializeObject(temp, Formatting.Indented);
+        }
+
+        [HttpGet]
         public string GetTemplateFields(int templateId)
         {
             List<TemplateFieldsDataModel> fields;

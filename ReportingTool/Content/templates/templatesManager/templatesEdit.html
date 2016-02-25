@@ -1,0 +1,14 @@
+﻿<section id="templatesEdit" class="row">
+    <div class="col-sm-9">
+        <input class='form-control' id="change-team-name" ng-model="editTeam.teamName" autofocus>
+        <container>
+            <div ng-repeat="field in fields">
+                <input id="field" class="styled" type="checkbox" checked>
+                <label for="field" ng-bind="field.fieldName"></label>
+                <input type="text" ng-if="field.fieldType === 'text'" />
+                <input type="text" ng-if="field.fieldType === 'combobox'" />
+
+            </div>
+        </container>
+    </div>
+</section>

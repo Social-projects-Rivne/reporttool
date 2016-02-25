@@ -46,7 +46,7 @@ teamsManagerModule.controller('teamsManagerController',
 
     }]);
 
-teamsManagerModule.controller('EditTeamController',
+teamsManagerModule.controller('teamsEditController',
     ['$scope', '$stateParams', '$state', 'TeamFactory', 'UserFactory', 'TempTeamFactory',
         function ($scope, $stateParams, $state, TeamFactory, UserFactory, TempTeamFactory) {
 

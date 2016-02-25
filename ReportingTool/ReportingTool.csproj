@@ -167,7 +167,8 @@
     <Content Include="Content\js\vendor\angular-ui-router.min.js" />
     <Content Include="Content\js\vendor\angular.js" />
     <Content Include="Content\templates\teamsManager\teamsManagerView.html" />
-    <Content Include="Content\templates\templatesManager\viewFields.html" />
+    <Content Include="Content\templates\templatesManager\templatesEdit.html" />
+    <Content Include="Content\templates\templatesManager\templateDetails.html" />
     <Content Include="Content\templates\templatesManager\templatesList.html" />
     <Content Include="Content\templates\templatesManager\templatesManagerView.html" />
     <Content Include="Global.asax" />
@@ -178,7 +179,7 @@
     <Content Include="Content\templates\configView.html" />
     <Content Include="Content\templates\loginView.html" />
     <Content Include="Content\templates\mainView.html" />
-    <Content Include="Content\templates\teamsManager\editTeam.html" />
+    <Content Include="Content\templates\teamsManager\teamsEdit.html" />
     <Content Include="Content\templates\teamsManager\teamsList.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
