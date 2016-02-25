@@ -10,7 +10,8 @@ templatesManagerModule.config(['$stateProvider', '$urlRouterProvider', function 
 
         views: {
             '': {
-                templateUrl: 'Content/templates/templatesManager/templatesManagerView.html'
+                templateUrl: 'Content/templates/templatesManager/templatesManagerView.html',
+                controller: 'templatesManagerController'
             },
             'templatesList@mainView.templatesManager': {
                 templateUrl: 'Content/templates/templatesManager/templatesList.html'
@@ -18,5 +19,13 @@ templatesManagerModule.config(['$stateProvider', '$urlRouterProvider', function 
         }
     };
 
-   $stateProvider.state(templatesManager);
+    var templateFieldsView = {
+        name: 'mainView.templatesManager.templateFieldsView',
+        url: '/viewFields/{templateId:int}',
+        templateUrl: 'Content/templates/templatesManager/viewFields.html',
+        controller: 'templatesFieldsManagerController'
+    };
+
+    $stateProvider.state(templatesManager);
+    $stateProvider.state(templateFieldsView);
 }]);

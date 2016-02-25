@@ -1,8 +1,13 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using ReportingTool.DAL.DataAccessLayer;
 
 namespace ReportingTool.DAL.Entities
 {
-    public class DB2 : DbContext
+    public class DB2 : DbContext, IDB2
     {
         public DB2()
             : base(nameOrConnectionString: "RTDB")
@@ -12,17 +17,18 @@ namespace ReportingTool.DAL.Entities
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-        modelBuilder.HasDefaultSchema("public");
+            modelBuilder.HasDefaultSchema("public");
         }
 
         public DbSet<Member> Members { get; set; }
 
         public DbSet<Team> Teams { get; set; }
 
-    public DbSet<Template> Templates { get; set; }
-    public DbSet<Field> Fields { get; set; }
-    public DbSet<FieldsInTemplate> FieldsInTemplates { get; set; }
-    }
+        public DbSet<Template> Templates { get; set; }
 
+        public DbSet<Field> Fields { get; set; }
+
+        public DbSet<FieldsInTemplate> FieldsInTemplates { get; set; }
+    }
 }
 

@@ -6,7 +6,6 @@ using System.Text;
 
 namespace ReportingTool.DAL.Entities
 {
-    [JsonObject]
     public class JiraUser
     {
         public string name { get; set; }
