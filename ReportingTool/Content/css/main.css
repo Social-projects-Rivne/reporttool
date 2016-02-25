@@ -8,6 +8,7 @@ h1, h2, h3 {
 
 #Menu {
     float: left;
+    min-height: 300px;
 }
 
 #teamsManagerHeader {
@@ -252,4 +253,64 @@ th:nth-child(3) {
     left: 50%;
     margin-top: -60px;
     margin-left: -25px;
+}
+
+/*-------------- Templates --------------*/
+
+.table-striped>tbody>tr:nth-child(even)>td,
+.table-striped>tbody>tr:nth-child(even)>th {
+	background-color: #f9f9f9;
+}
+.table-striped>tbody>tr:nth-child(odd)>td,
+.table-striped>tbody>tr:nth-child(odd)>th {
+	background-color: white;
+}
+
+.selected {
+    text-decoration: underline;
+    color: #00BCD4;
+}
+
+.cellName {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.cellValue {
+    font-style: italic; 
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.templateButtons {
+    width: 150px; 
+    margin-top: -95px;
+}
+.margin-left-m84 {
+    margin-left: -84px;
+}
+
+#templateContainerBorder {
+    border: 1px solid black;
+    margin-top: -20px;
+}
+
+#templateContainer {
+    width: 100%; 
+    padding-left: 40px; 
+    padding-right: 40px;
+}
+
+.font-weight-bold {
+    font-weight: bold;
+}
+
+.margin-top-40 {
+    margin-top: 40px;
+}
+
+.center-in-div {
+    width: 100%;
+    text-align: center;
 }

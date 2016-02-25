@@ -200,6 +200,7 @@
     </Compile>
     <Compile Include="Models\ConfigurationParametersModel.cs" />
     <Compile Include="Models\Credentials.cs" />
+    <Compile Include="Models\TemplateFieldsDataModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

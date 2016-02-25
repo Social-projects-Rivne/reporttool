@@ -11,8 +11,8 @@ namespace ReportingTool.DAL.Entities
         public int Id { get; set; }
 
         [Required]
-        [JsonProperty("default")]
-        public string Default { get; set; }
+        [JsonProperty("defaultValue")]
+        public string DefaultValue { get; set; }
 
         [ForeignKey("Field")]
         [JsonProperty("fieldId")]
