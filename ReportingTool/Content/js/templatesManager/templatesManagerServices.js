@@ -3,7 +3,9 @@
 templatesManagerModule.factory('TemplateFactory', ['$http', function ($http) {
     var templateFactory = {
         GetAllTemplates: GetAllTemplates,
-        GetAllTemplateFields: GetAllTemplateFields
+        GetAllTemplateFields: GetAllTemplateFields,
+        //  deletetemplate
+        DeleteTemplate: DeleteTemplate
     };
 
     function GetAllTemplates() {
@@ -32,5 +34,11 @@ templatesManagerModule.factory('TemplateFactory', ['$http', function ($http) {
             return $q.reject(response.data);
         });
     }
+
+    //  deletetemplate
+    function DeleteTemplate(id) {
+        return $http.delete("Templates/DeleteTemplate", { params: { id: id } });
+    }
+
     return templateFactory;
 }]);

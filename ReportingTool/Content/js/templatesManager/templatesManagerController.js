@@ -13,6 +13,29 @@ templatesManagerModule.controller("templatesManagerController",
 
         TemplateFactory.GetAllTemplates().then(templatesSuccess, templatesFail);
 
+        //  deletetemplate
+        var DeleteTemplate = null;
+
+        //  deletetemplate
+        $scope.deleteTemplate = function (deletedTemplateID) {
+            TemplateFactory
+                .deleteTemplate(deletedTemplateID)
+                .then(
+                    deleteTemplateSuccess,
+                    deleteTemplateFail);
+        }
+
+        //  deletetemplate
+        function deleteTemplateSuccess(response) {
+            if (response.data.Answer == 'Deleted') {
+                $state.go('mainView.templateManager', {}, { reload: true });
+            }
+        }
+        //  deletetemplate
+        function deleteTemplateFail(response) {
+            console.error("deleteTemplate failed!");
+        }
+
         function templatesSuccess(response) {
             $scope.templates = response.data;
         };
