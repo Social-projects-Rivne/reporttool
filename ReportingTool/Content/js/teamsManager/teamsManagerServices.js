@@ -47,33 +47,6 @@ teamsManagerModule.factory('UserFactory', ['$http', function ($http) {
     return jiraUsers;
 }]);
 
-//teamsManagerModule.factory('TemplatesFactory', ['$http', function ($http) {
-//    var template = {
-//        all: all,
-//        create: create,
-//        update: update,
-//        del: del
-//    };
-
-//    function all() {
-//        return $http.get("http://localhost:3000/templates/");
-//    }
-
-//    function create(data) {
-//        return $http.post("http://localhost:3000/templates/", data = data);
-//    }
-
-//    function update(data) {
-//        return $http.put("http://localhost:3000/templates/", data = data);
-//    }
-
-//    function del(id) {
-//        return $http.delete("http://localhost:3000/templates/" + id);
-//    }
-
-//    return template;
-//}]);
-
 teamsManagerModule.factory('TempTeamFactory', function () {
 
     var tempTeam = {};

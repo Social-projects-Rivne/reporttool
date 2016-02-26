@@ -30,8 +30,7 @@ templatesManagerModule.controller("templatesFieldsManagerController",
         $scope.templateId = $stateParams.templateId;
         $scope.fields = getFields();
         $scope.existData = false;
-        //TODO: set a value from Session object
-        $scope.userNameFromSession = 'oharitc';
+        $scope.isOwner = false;
 
         var fieldEnum = {
             Reporter: "Reporter",
@@ -68,20 +67,13 @@ templatesManagerModule.controller("templatesFieldsManagerController",
             $scope.templateData = data;
             $scope.fields = data.Fields;
             $scope.existData = true;
+            $scope.isOwner = data.IsOwner;
         };
 
         function templateFieldsFail(error) {
             // promise rejected, could log the error with: console.log('error', error);
             alert("Error: " + error.code + " " + error.statusText);
         };
-
-        $scope.isOwner = function () {
-            if ($scope.templateData.Owner === $scope.userNameFromSession) {
-                return true;
-            } else {
-                return false;
-            }
-        }
 
         $scope.getFieldValue = function (field) {
             if (field.DefaultValue)
@@ -97,3 +89,47 @@ templatesManagerModule.controller("templatesFieldsManagerController",
             }
         }
     }]);
+
+templatesManagerModule.controller('AddTemplateController',
+    ['$scope', '$state', 'FieldsFactory', function ($scope, $state, FieldsFactory) {
+        $scope.newTemplate = {
+            templateName: '',
+            fields: [{
+                fieldID: '',
+                fieldValue: ''
+            }]
+        };
+        $scope.fields = {};
+
+        FieldsFactory.getAllFields().then(getFieldsSuccess, getFieldsFail);
+
+        function getFieldsSuccess(responce) {
+            $scope.fields = responce.data;
+        }
+
+        function getFieldsFail (responce) {
+            console.log('FAIL: ' + responce.message);
+        }
+
+        // DATEPICKER
+        $scope.popup1 = {
+            opened: false
+        };
+
+        $scope.open1 = function () {
+            $scope.popup1.opened = true;
+        };
+
+        $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+        $scope.format = $scope.formats[0];
+        $scope.altInputFormats = ['M!/d!/yyyy'];
+
+        $scope.today = function () {
+            $scope.dt = new Date();
+        };
+        $scope.today();
+
+        $scope.clear = function () {
+            $scope.dt = null;
+        };
+}]);

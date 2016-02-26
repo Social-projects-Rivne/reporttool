@@ -1,14 +1,39 @@
 ﻿<section id="templatesEdit" class="row">
     <div class="col-sm-9">
-        <input class='form-control' id="change-team-name" ng-model="editTeam.teamName" autofocus>
-        <container>
-            <div ng-repeat="field in fields">
-                <input id="field" class="styled" type="checkbox" checked>
-                <label for="field" ng-bind="field.fieldName"></label>
-                <input type="text" ng-if="field.fieldType === 'text'" />
-                <input type="text" ng-if="field.fieldType === 'combobox'" />
+        <form>
+            <input class='form-control' id="change-template-name" ng-model="newTemplate.templateName" autofocus>
+            <container>
+                <div ng-repeat="field in fields | orderBy:'fieldID'">
 
-            </div>
-        </container>
+                    <span flex-xs="" flex="50">
+                        <md-checkbox md-no-ink="" aria-label="" class="md-primary"></md-checkbox>
+                    </span>
+
+                    <label ng-bind="field.fieldName"></label>
+
+                    <!--TEXT INPUT-->
+                    <input type="text" ng-if="field.fieldType === 'text'" ng-model="field.fieldDefaultValue" />
+
+                    <!--COMBOBOX-->
+                    <div class="btn-group" uib-dropdown ng-if="field.fieldType === 'combobox'">
+                        <!-- Options shoud be filled from separate request -->
+                        <select >
+                            <option ng-repeat="option in field.fieldDefaultValue">{{option}}</option>
+                        </select>
+                    </div>
+
+                    <!--DATEPICKER-->
+                    <span class="btn-group" ng-if="field.fieldType === 'date'" style="width: 200px;">
+                        
+                                <p class="input-group">
+                                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </p>
+                         
+                    </span>
+            </container>
+        </form>
     </div>
 </section>

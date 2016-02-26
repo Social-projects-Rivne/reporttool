@@ -140,7 +140,7 @@ teamsManagerModule.controller('teamsEditController',
         }]);
 
 teamsManagerModule.controller('NewTeamController',
-    ['$stateParams', '$scope', '$state', 'TeamFactory', 'UserFactory', function ($stateParams, $scope, $state, TeamFactory, UserFactory) {
+    ['$scope', '$state', 'TeamFactory', 'UserFactory', function ($scope, $state, TeamFactory, UserFactory) {
         $scope.editTeam = {
             teamID: "0",
             teamName: "",

@@ -77,12 +77,13 @@ namespace ReportingTool.Controllers
         [HttpGet]
         public string GetAllFields() {
             var temp = new List<object>();
-            //temp.Add(new { fieldName = "Field_1", fieldType = "text", fieldDefaultValue = " " });
-            //temp.Add(new { fieldName = "Field_2", fieldType = "text", fieldDefaultValue = "qwertyui qwertyuio" });
-            //temp.Add(new { fieldName = "Field_3", fieldType = "combobox", fieldDefaultValue = ["value_1", "value_2", "value_3"] });
-            //temp.Add(new { fieldName = "Field_4", fieldType = "combobox", fieldDefaultValue = " " });
-            //temp.Add(new { fieldName = "Field_5", fieldType = "text", fieldDefaultValue = " " });
-            //temp.Add(new { fieldName = "Field_6", fieldType = "combobox", fieldDefaultValue = "lkjhgsdfghjkkjhg fgcvjhbk" });
+            string[] arr1 = new string[]{"value_1", "value_2", "value_3"};
+            temp.Add(new { fieldID = 4, fieldName = "Reasons", fieldType = "text", fieldDefaultValue = "qwertyui qwertyuio" });
+            temp.Add(new { fieldID = 5, fieldName = "Field_2", fieldType = "date", fieldDefaultValue = "" });
+            temp.Add(new { fieldID = 1, fieldName = "Receiver", fieldType = "combobox", fieldDefaultValue =  arr1});
+            temp.Add(new { fieldID = 0, fieldName = "Reporter", fieldType = "combobox", fieldDefaultValue = arr1 });
+            temp.Add(new { fieldID = 2, fieldName = "Usual Tasks", fieldType = "text", fieldDefaultValue = "wesrdths sdrhtd srghdg" });
+            temp.Add(new { fieldID = 3, fieldName = "Risk and Issues", fieldType = "combobox", fieldDefaultValue = arr1 });
 
             return JsonConvert.SerializeObject(temp, Formatting.Indented);
         }
@@ -91,7 +92,8 @@ namespace ReportingTool.Controllers
         public string GetTemplateFields(int templateId)
         {
             List<TemplateFieldsDataModel> fields;
-            string owner, temaplateName;
+            string temaplateName;
+            bool isOwner;
             using (var db = new DB2())
             {
                 var template = db.Templates.FirstOrDefault(t => t.Id == templateId);
@@ -99,7 +101,8 @@ namespace ReportingTool.Controllers
                 {
                     return JsonConvert.SerializeObject(Json(new { Answer = "False" }));
                 }
-                owner = template.Owner;
+                string templateOwner = template.Owner;
+                isOwner = CheckIfCurrentUserIsOwnerOfTemplate(templateOwner);
                 temaplateName = template.Name;
                 var getFields = from filedsInTemplate in db.FieldsInTemplates
                                 join field in db.Fields on filedsInTemplate.FieldId equals field.Id
@@ -107,8 +110,16 @@ namespace ReportingTool.Controllers
                                 select new TemplateFieldsDataModel { FieldName = field.Name, DefaultValue = filedsInTemplate.DefaultValue };
                 fields = getFields.ToList();
             }
-            TemplateData templateData = new TemplateData { Fields = fields, Owner = owner, TemplateName = temaplateName };
+            TemplateData templateData = new TemplateData { Fields = fields, IsOwner = isOwner, TemplateName = temaplateName };
             return JsonConvert.SerializeObject(templateData, Formatting.Indented);
+        }
+
+        private bool CheckIfCurrentUserIsOwnerOfTemplate(string templateOwner)
+        {
+            string currentUser = Session["currentUser"] as string;
+            if (currentUser == null)
+                return false;
+            return currentUser.Equals(templateOwner);
         }
     }
 }

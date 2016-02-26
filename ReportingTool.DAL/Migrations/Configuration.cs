@@ -9,7 +9,7 @@ namespace ReportingTool.DAL.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(ReportingTool.DAL.Entities.DB2 context)
