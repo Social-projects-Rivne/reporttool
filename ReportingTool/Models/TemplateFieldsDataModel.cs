@@ -13,7 +13,7 @@ namespace ReportingTool.Models
     {
         public List<TemplateFieldsDataModel> Fields { get; set; }
 
-        public string Owner { get; set; }
+        public bool IsOwner { get; set; }
 
         public string TemplateName { get; set; }
     }

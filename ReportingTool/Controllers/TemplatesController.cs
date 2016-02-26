@@ -78,7 +78,8 @@ namespace ReportingTool.Controllers
         public string GetTemplateFields(int templateId)
         {
             List<TemplateFieldsDataModel> fields;
-            string owner, temaplateName;
+            string temaplateName;
+            bool isOwner;
             using (var db = new DB2())
             {
                 var template = db.Templates.FirstOrDefault(t => t.Id == templateId);
@@ -86,7 +87,8 @@ namespace ReportingTool.Controllers
                 {
                     return JsonConvert.SerializeObject(Json(new { Answer = "False" }));
                 }
-                owner = template.Owner;
+                string templateOwner = template.Owner;
+                isOwner = CheckIfCurrentUserIsOwnerOfTemplate(templateOwner);
                 temaplateName = template.Name;
                 var getFields = from filedsInTemplate in db.FieldsInTemplates
                                 join field in db.Fields on filedsInTemplate.FieldId equals field.Id
@@ -94,8 +96,16 @@ namespace ReportingTool.Controllers
                                 select new TemplateFieldsDataModel { FieldName = field.Name, DefaultValue = filedsInTemplate.DefaultValue };
                 fields = getFields.ToList();
             }
-            TemplateData templateData = new TemplateData { Fields = fields, Owner = owner, TemplateName = temaplateName };
+            TemplateData templateData = new TemplateData { Fields = fields, IsOwner = isOwner, TemplateName = temaplateName };
             return JsonConvert.SerializeObject(templateData, Formatting.Indented);
+        }
+
+        private bool CheckIfCurrentUserIsOwnerOfTemplate(string templateOwner)
+        {
+            string currentUser = Session["currentUser"] as string;
+            if (currentUser == null)
+                return false;
+            return currentUser.Equals(templateOwner);
         }
     }
 }
