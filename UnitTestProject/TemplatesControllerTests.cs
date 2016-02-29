@@ -8,6 +8,8 @@ using ReportingTool.Controllers;
 using ReportingTool.DAL.Entities;
 using System.Web.Mvc;
 using System.Diagnostics;
+using ReportingTool.Core.Services;
+using System.Web;
 
 
 namespace UnitTestProject
@@ -109,54 +111,27 @@ namespace UnitTestProject
         }
 
         [TestMethod]
-        public void AddNewTemplete_ValidateReturnedResult_OwnerNameIsEmpty()
-        {
-            //Arrange
-            var templatesController = new TemplatesController();
-            Template template = new Template { Name = "testTemplate", IsActive = true, Owner = "" };
-            JsonResult expectedJson = new JsonResult { Data = (new { Answer = "WrongOwnerName" }) };
-
-            //Act
-            JsonResult result = (JsonResult)templatesController.AddNewTemplate(template);
-
-            //Assert
-            Assert.IsTrue(String.Equals(expectedJson.Data.ToString(), result.Data.ToString(),
-                          StringComparison.Ordinal));
-        }
-
-        [TestMethod]
-        public void AddNewTemplete_ValidateReturnedResult_OwnerNameIsMoreThan128chars()
-        {
-            //Arrange
-            var templatesController = new TemplatesController();
-
-            StringBuilder ownerName = new StringBuilder();
-            for (int i = 0; i < 129; i++)
-            {
-                ownerName.Append("n");
-            }
-
-            Template template = new Template { Name = "testTemplate", IsActive = true, Owner = ownerName.ToString() };
-            JsonResult expectedJson = new JsonResult { Data = (new { Answer = "WrongOwnerName" }) };
-
-            //Act
-            JsonResult result = (JsonResult)templatesController.AddNewTemplate(template);
-
-            //Assert
-            Assert.IsTrue(String.Equals(expectedJson.Data.ToString(), result.Data.ToString(),
-                          StringComparison.Ordinal));
-        }
-
-        [TestMethod]
         public void AddNewTemplete_ValidateReturnedResult_CorrectTemplateAdded()
         {
             //Arrange
             var templatesController = new TemplatesController();
+            List<FieldsInTemplate> fieldsInTemplate = new List<FieldsInTemplate>();
+            fieldsInTemplate.Add(new FieldsInTemplate { FieldId = 1, DefaultValue = "default value" });
+            fieldsInTemplate.Add(new FieldsInTemplate { FieldId = 2, DefaultValue = "default value" });
+            fieldsInTemplate.Add(new FieldsInTemplate { FieldId = 3, DefaultValue = "default value" });
+            fieldsInTemplate.Add(new FieldsInTemplate { FieldId = 4, DefaultValue = "default value" });
+            fieldsInTemplate.Add(new FieldsInTemplate { FieldId = 5, DefaultValue = "default value" });
+            fieldsInTemplate.Add(new FieldsInTemplate { FieldId = 6, DefaultValue = "default value" });
+            fieldsInTemplate.Add(new FieldsInTemplate { FieldId = 7, DefaultValue = "default value" });
+            fieldsInTemplate.Add(new FieldsInTemplate { FieldId = 8, DefaultValue = "default value" });
+
+            //TODO: assign some fake session to SessionHelper
+            SessionHelper.Session = templatesController.Session;
+
             Template testTemplate = new Template
                 {
                     Name = "SomeStrangeTemplateNameThatWillNeverBeUsed",
-                    Owner = "SomeStrangeOwnerNameThatWillNeverBeUsed",
-                    IsActive = false
+                    FieldsInTemplate = fieldsInTemplate
                 };        
 
             JsonResult expectedJson = new JsonResult { Data = (new { Answer = "Added" }) };

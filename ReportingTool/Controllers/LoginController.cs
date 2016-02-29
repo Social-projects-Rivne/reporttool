@@ -14,6 +14,7 @@ using IniParser.Model;
 using System.Web.Hosting;
 using System.Security.Principal;
 using ReportingTool.DAL.DataAccessLayer;
+using ReportingTool.Core.Services;
 
 
 namespace ReportingTool.Controllers
@@ -116,6 +117,7 @@ namespace ReportingTool.Controllers
                     Session.Add("projectKey", getProjectKey());
                     Session.Add("jiraClient", client);
 
+                    SessionHelper.Session = Session;
                     return Json(new { Status = "validCredentials" });
                 }
                 return Json(new { Status = "invalidCredentials" });

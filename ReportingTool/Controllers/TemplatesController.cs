@@ -7,12 +7,14 @@ using ReportingTool.Core.Validation;
 ﻿using Newtonsoft.Json;
 ﻿using ReportingTool.DAL.Entities;
 ﻿using ReportingTool.Models;
+using System.Web.Security;
+using ReportingTool.Core.Services;
 
 namespace ReportingTool.Controllers
 {
     public class TemplatesController : Controller
     {
-        private enum Answer { AlreadyExists, WrongName, WrongOwnerName, Added, IsNull };
+        private enum Answer { AlreadyExists, WrongName, WrongOwnerName, Added, IsNull, FieldsAreNull, DBConnectionError };
 
         [HttpGet]
         public string GetAllTemplates()
@@ -51,9 +53,9 @@ namespace ReportingTool.Controllers
                 return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
             }
 
-            if (!TemplatesValidator.TemplateOwnerNameIsCorrect(template.Owner))
+            if (template.FieldsInTemplate == null)
             {
-                answer = Answer.WrongOwnerName;
+                answer = Answer.FieldsAreNull;
                 return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
             }
 
@@ -64,14 +66,19 @@ namespace ReportingTool.Controllers
                 {
                     answer = Answer.AlreadyExists;
                     return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
-                }                 
+                }
+
+                //string owner = Session["currentUser"] as string;
+                var owner = SessionHelper.Session["currentUser"] as string;             
+                template.Owner = owner;
+                template.IsActive = true;
 
                 db.Templates.Add(template);
                 db.SaveChanges();
+
                 answer = Answer.Added;
                 return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
             }
-
         }
 
         [HttpGet]
