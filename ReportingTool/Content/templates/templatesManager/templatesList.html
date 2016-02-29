@@ -1,25 +1,45 @@
 ﻿<section id="templatesList">
+
     <div class="message" ng-show="!templates.length">
         <h3>There are no templates yet. You can create first one</h3>
     </div>
+
     <div class="templatesList-content" ng-show="templates.length">
+
         <table class="table table-striped">
             <colgroup>
                 <col width="5%" />
                 <col width="70%" />
             </colgroup>
+
             <thead id="manage-teams-head">
                 <tr>
                     <th>#</th>
                     <th>Template</th>
                 </tr>
             </thead>
+
             <tbody>
                 <tr class="clickable-row" ng-repeat="template in templates">
+
                     <td ng-bind="$index + 1"></td>
-                    <td ng-bind="template.templateName" ui-sref="mainView.templatesManager.templateFieldsView({templateId:template.templateId})" ng-click="setSelected(template.templateId)" ng-class="{selected : template.templateId === idSelectedTemplate}"></td>
+
+                    <td ng-bind="template.templateName"
+                        ui-sref="mainView.templatesManager.templateFieldsView({templateId:template.templateId})"
+                        ng-click="setSelected(template.templateId)"
+                        ng-class="{selected : template.templateId === idSelectedTemplate}">
+                    </td>
+
+                    <td>
+                        <a class="glyph-link" ng-click="deleteTemplate(template.templateId)">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            <!--DELETE-->
+                        </a>
+                    </td>
+
                 </tr>
             </tbody>
+
         </table>
     </div>
 </section>

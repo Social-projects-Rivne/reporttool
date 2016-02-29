@@ -2,7 +2,9 @@
     <div class="message ng-hide" ng-show="!existData">
         <h3>Could't get template data</h3>
     </div>
+
     <div class="fieldsList-content" ng-show="existData">
+
         <div class="col-sm-offset-7">
             <!--TODO: Need to add functionality with edit template-->
             <button type="button" class="btn btn-flat templateButtons margin-left-m84" ng-disabled="!isOwner()">
@@ -15,6 +17,7 @@
                 Delete
             </button>
         </div>
+
         <div id="templateContainerBorder">
             <div id="templateContainer" class="container">
                 <h3 ng-bind="templateData.TemplateName" class="font-weight-bold"></h3>
@@ -26,9 +29,11 @@
                 </div>
             </div>
         </div>
+
         <div class="center-in-div">
             <!--TODO: Need to implement-->
             <a class="btn btn-flat">Generate Report</a>
         </div>
+
     </div>
 </section>

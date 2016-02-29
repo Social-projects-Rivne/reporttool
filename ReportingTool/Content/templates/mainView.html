@@ -3,20 +3,29 @@
         <div class="row fluid">
             <div class="col-sm-2 sidebar">
                 <ul class="list-unstyled">
+
                     <li>Administration</li>
                     <li style="margin-left: -15px;">
                         <ul class="list">
-                            <li ng-class="{ active: $state.includes('mainView.teamsManager') }"><a ng-class="{ active: $state.includes('mainView.teamsManager') }" ui-sref=".teamsManager">Manage Teams</a></li>
-                            <li ng-class="{ active: $state.includes('mainView.templatesManager') }"><a ng-class="{ active: $state.includes('mainView.templatesManager') }" ui-sref=".templatesManager">Manage Templates</a></li>
+                            <li ng-class="{ active: $state.includes('mainView.teamsManager') }">
+                                <a ng-class="{ active: $state.includes('mainView.teamsManager') }" 
+                                    ui-sref=".teamsManager">Manage Teams</a>
+                            </li>
+                            <li ng-class="{ active: $state.includes('mainView.templatesManager') }">
+                                <a ng-class="{ active: $state.includes('mainView.templatesManager') }" 
+                                    ui-sref=".templatesManager">Manage Templates</a>
+                            </li>
                         </ul>
                     </li>
-                    <li> Reporting</li>
+
+                    <li>Reporting</li>
                     <li style="margin-left: -15px;">
                         <ul class="list">
                             <li><a href="#">Manage Teams</a></li>
                             <li><a href="#">Create Template</a></li>
                         </ul>
                     </li>
+
                 </ul>
             </div>
         </div>

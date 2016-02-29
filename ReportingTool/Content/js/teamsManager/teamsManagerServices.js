@@ -1,51 +1,54 @@
 'use strict';
 
 teamsManagerModule.
-factory('TeamFactory', ['$http', function ($http) {
-    var teamFactory = {
-        GetAllTeams: GetAllTeams,
-        updateTeam: updateTeam,
-        deleteTeam: deleteTeam,
-        createTeam: createTeam
-    };
+    factory('TeamFactory', ['$http',
+    function ($http) {
+        var teamFactory = {
+            GetAllTeams: GetAllTeams,
+            updateTeam: updateTeam,
+            deleteTeam: deleteTeam,
+            createTeam: createTeam
+        };
 
-    function GetAllTeams() {
-        var teams = $http.get("Teams/GetAllTeams");
-        return teams;
-    }
+        function GetAllTeams() {
+            var teams = $http.get("Teams/GetAllTeams");
+            return teams;
+        }
 
-    function createTeam(newTeam) {
-        return $http({
-            url: 'Teams/AddNewTeam',
-            method: 'POST',
-            data: newTeam,
-            headers: { 'content-type': 'application/json' }
-        });
-    }
+        function createTeam(newTeam) {
+            return $http({
+                url: 'Teams/AddNewTeam',
+                method: 'POST',
+                data: newTeam,
+                headers: { 'content-type': 'application/json' }
+            });
+        }
 
-    function updateTeam(data) {
-        return $http.put("Teams/EditTeam",  data
-        );
-    }
+        function updateTeam(data) {
+            return $http.put("Teams/EditTeam", data
+            );
+        }
 
-    function deleteTeam(id) {
-        return $http.delete("Teams/DeleteTeam", { params: { id: id } });
-    }
+        function deleteTeam(id) {
+            return $http.delete("Teams/DeleteTeam", { params: { id: id } });
+        }
 
-    return teamFactory;
-}]);
+        return teamFactory;
+    }]);
 
-teamsManagerModule.factory('UserFactory', ['$http', function ($http) {
-    var jiraUsers = {
-        getJiraUsers: getJiraUsers
-    };
+teamsManagerModule.
+    factory('UserFactory', ['$http',
+    function ($http) {
+        var jiraUsers = {
+            getJiraUsers: getJiraUsers
+        };
 
-    function getJiraUsers() {
-        return $http.get("JiraUsers/GetAllUsers");
-    }
+        function getJiraUsers() {
+            return $http.get("JiraUsers/GetAllUsers");
+        }
 
-    return jiraUsers;
-}]);
+        return jiraUsers;
+    }]);
 
 //teamsManagerModule.factory('TemplatesFactory', ['$http', function ($http) {
 //    var template = {
@@ -74,22 +77,23 @@ teamsManagerModule.factory('UserFactory', ['$http', function ($http) {
 //    return template;
 //}]);
 
-teamsManagerModule.factory('TempTeamFactory', function () {
+teamsManagerModule.factory('TempTeamFactory',
+    function () {
 
-    var tempTeam = {};
+        var tempTeam = {};
 
-    var tempTeamProp = {
+        var tempTeamProp = {
             setTempTeam: set,
             getTempTeam: get
-    };
+        };
 
-    function set(selectedTeam) {
-        tempTeam = selectedTeam;
-    }
+        function set(selectedTeam) {
+            tempTeam = selectedTeam;
+        }
 
-    function get() {
-        return tempTeam;
-    }
+        function get() {
+            return tempTeam;
+        }
 
-    return tempTeamProp;
-});
+        return tempTeamProp;
+    });

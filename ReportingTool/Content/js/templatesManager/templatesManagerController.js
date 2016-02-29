@@ -1,50 +1,50 @@
 ﻿'use strict';
 
 templatesManagerModule.controller("templatesManagerController",
-    ['$scope', '$stateParams', '$state', 'TemplateFactory', function ($scope, $stateParams, $state, TemplateFactory) {
+    ['$scope', '$stateParams', '$state', 'TemplateFactory',
+        function ($scope, $stateParams, $state, TemplateFactory) {
 
-        $scope.templates = {};
+            $scope.templates = {};
 
-        $scope.idSelectedTemplate = null;
-        $scope.setSelected = function (idSelectedTemplate) {
-            $scope.idSelectedTemplate = idSelectedTemplate;
-            console.log(idSelectedTemplate);
-        }
-
-        TemplateFactory.GetAllTemplates().then(templatesSuccess, templatesFail);
-
-        //  deletetemplate
-        var DeleteTemplate = null;
-
-        //  deletetemplate
-        $scope.deleteTemplate = function (deletedTemplateID) {
-            TemplateFactory
-                .deleteTemplate(deletedTemplateID)
-                .then(
-                    deleteTemplateSuccess,
-                    deleteTemplateFail);
-        }
-
-        //  deletetemplate
-        function deleteTemplateSuccess(response) {
-            if (response.data.Answer == 'Deleted') {
-                $state.go('mainView.templateManager', {}, { reload: true });
+            $scope.idSelectedTemplate = null;
+            $scope.setSelected = function (idSelectedTemplate) {
+                $scope.idSelectedTemplate = idSelectedTemplate;
+                console.log(idSelectedTemplate);
             }
-        }
-        //  deletetemplate
-        function deleteTemplateFail(response) {
-            console.error("deleteTemplate failed!");
-        }
 
-        function templatesSuccess(response) {
-            $scope.templates = response.data;
-        };
+            TemplateFactory.GetAllTemplates().then(templatesSuccess, templatesFail);
+            function templatesSuccess(response) {
+                $scope.templates = response.data;
+            };
+            function templatesFail(response) {
+                alert("Error: " + response.code + " " + response.statusText);
+            };
 
-        function templatesFail(response) {
-            alert("Error: " + response.code + " " + response.statusText);
-        };
+            //  deletetemplate
+            var DeleteTemplate = null;
 
-    }]);
+            //  deletetemplate
+            $scope.deleteTemplate = function (deletedTemplateID) {
+                TemplateFactory
+                    .deleteTemplate(deletedTemplateID)
+                    .then(
+                        deleteTemplateSuccess,
+                        deleteTemplateFail);
+            }
+
+            //  deletetemplate
+            function deleteTemplateSuccess(response) {
+                if (response.data.Answer == 'Deleted') {
+                    $state.go('mainView.templateManager', {}, { reload: true });
+                }
+            }
+            //  deletetemplate
+            function deleteTemplateFail(response) {
+                console.error("deleteTemplate failed!");
+            }
+            
+
+        }]);
 
 templatesManagerModule.controller("templatesFieldsManagerController",
     ['$scope', '$stateParams', '$state', 'TemplateFactory', function ($scope, $stateParams, $state, TemplateFactory) {

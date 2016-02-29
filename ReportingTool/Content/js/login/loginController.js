@@ -1,116 +1,122 @@
 ﻿'use strict'
 
-loginModule.controller("loginController", ['$scope', '$state', '$http', '$stateParams', 'LoginService',
+loginModule.controller("loginController",
+    ['$scope', '$state', '$http', '$stateParams', 'LoginService',
     function ($scope, $state, $http, $stateParams, LoginService) {
 
-    angular.element(document).ready(function () {
-        $scope.CheckSession();
-    });
+        angular.element(document).ready(function () {
+            $scope.CheckSession();
+        });
 
-    $scope.credentials = {
-        userName: '',
-        password: '',
-    };
-    $scope.showErrors = {
-       showAuthentificationError : false,
-       showConnectionError : false
-    };
+        $scope.credentials = {
+            userName: '',
+            password: '',
+        };
 
-    $scope.showErrors.showAuthentificationError = false;
-    $scope.showErrors.showConnectionError = false;
-    $scope.errorText = "";
-    $scope.validationIsInProgress = false;
+        $scope.showErrors = {
+            showAuthentificationError: false,
+            showConnectionError: false
+        };
 
-    $scope.HideErrors = function () {
-        $scope.errorText = "";
         $scope.showErrors.showAuthentificationError = false;
         $scope.showErrors.showConnectionError = false;
-    }
+        $scope.errorText = "";
+        $scope.validationIsInProgress = false;
 
-    $scope.CheckSession = function () {
+        $scope.HideErrors = function () {
+            $scope.errorText = "";
+            $scope.showErrors.showAuthentificationError = false;
+            $scope.showErrors.showConnectionError = false;
+        }
 
-        $http({
-            method: 'GET',
-            url: 'Login/CheckSession',
-            data: {},
-            headers: { 'content-type': 'application/json' }
+        $scope.CheckSession = function () {
 
-        }).then(function successCallback(response) {
+            $http({
+                method: 'GET',
+                url: 'Login/CheckSession',
+                data: {},
+                headers: { 'content-type': 'application/json' }
 
-            if (response.data.Status == "sessionExists") {
-                //redirect on main page
-                LoginService.SetShowLogoutStatus(true);
-                $state.transitionTo('mainView');
-            }
-            else {
-                LoginService.SetShowLogoutStatus(false);
-                //redirect on main page
-                $state.transitionTo('loginView');
-            }
-        }, function errorCallback(response) {
-            $scope.validationIsInProgress = false;
-            $scope.errorText = "Server error";
-            $scope.showErrors.showConnectionError = true;
-        });
-    }
+            })
+                    .then(function successCallback(response) {
 
-
-    $scope.SendData = function () {
-
-        var req = {
-            url: 'Login/CheckCredentials',
-            method: 'POST',
-            data: $scope.credentials,
-            headers: { 'content-type': 'application/json' }
-        };
-
-        $scope.validationIsInProgress = true;
-        $http(req).then(
-            function (r) {
-                $scope.validationIsInProgress = false;
-                if (r.data.Status == "connectionError") {
-                    $scope.errorText = "Can not connect to Jira host";
-                    $scope.showErrors.showConnectionError = true;
-                }
-                else
-                    if (r.data.Status == "validCredentials") {
-                        LoginService.SetShowLogoutStatus(true);
-                        //redirect on main page
-                        $state.transitionTo('mainView');
-                    }
-                    else
-                        if (r.data.Status == "invalidCredentials") {
-                            $scope.errorText = "Wrong user name or password";
-                            $scope.showErrors.showAuthentificationError = true;
+                        if (response.data.Status == "sessionExists") {
+                            //redirect on main page
+                            LoginService.SetShowLogoutStatus(true);
+                            $state.transitionTo('mainView');
+                        } else {
+                            LoginService.SetShowLogoutStatus(false);
+                            //redirect on main page
+                            $state.transitionTo('loginView');
                         }
+                    },
 
-            },
-            function (response) {
-                $scope.validationIsInProgress = false;
-                $scope.errorText = "Server error";
-                $scope.showErrors.showConnectionError = true;
-            }
-         );
-    }
+                    function errorCallback(response) {
+                        $scope.validationIsInProgress = false;
+                        $scope.errorText = "Server error";
+                        $scope.showErrors.showConnectionError = true;
+                    });
+        }
 
-    $scope.Logout = function () {
+        $scope.SendData = function () {
 
-        var req = {
-            url: 'Login/Logout',
-            method: 'GET',
-            headers: { 'content-type': 'application/json' }
-        };
+            var req = {
+                url: 'Login/CheckCredentials',
+                method: 'POST',
+                data: $scope.credentials,
+                headers: { 'content-type': 'application/json' }
+            };
 
-        $http(req).then(
-            function (r) {
-                if (r.data.Status == "loggedOut") {
-                    LoginService.SetShowLogoutStatus(false);
-                    $state.transitionTo('loginView');
-                }
-            },
-            function (response) {
-                alert("Server error");
-            }
-         );
-    }
-}]);
+            $scope.validationIsInProgress = true;
+
+            $http(req).then(
+
+                    function (r) {
+                        $scope.validationIsInProgress = false;
+                        if (r.data.Status == "connectionError") {
+                            $scope.errorText = "Can not connect to Jira host";
+                            $scope.showErrors.showConnectionError = true;
+                        } else
+                            if (r.data.Status == "validCredentials") {
+                                LoginService.SetShowLogoutStatus(true);
+                                //redirect on main page
+                                $state.transitionTo('mainView');
+                            } else
+                                if (r.data.Status == "invalidCredentials") {
+                                    $scope.errorText = "Wrong user name or password";
+                                    $scope.showErrors.showAuthentificationError = true;
+                                }
+
+                    },
+
+                    function (response) {
+                        $scope.validationIsInProgress = false;
+                        $scope.errorText = "Server error";
+                        $scope.showErrors.showConnectionError = true;
+                    }
+            );
+        }
+
+        $scope.Logout = function () {
+
+            var req = {
+                url: 'Login/Logout',
+                method: 'GET',
+                headers: { 'content-type': 'application/json' }
+            };
+
+            $http(req).then(
+
+                    function (r) {
+                        if (r.data.Status == "loggedOut") {
+                            LoginService.SetShowLogoutStatus(false);
+                            $state.transitionTo('loginView');
+                        }
+                    },
+
+                    function (response) {
+                        alert("Server error");
+                    }
+            );
+        }
+    }]);
