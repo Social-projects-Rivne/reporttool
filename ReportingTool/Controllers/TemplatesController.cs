@@ -30,12 +30,7 @@ namespace ReportingTool.Controllers
         [HttpGet]
         public string GetAllFields()
         {
-            var fields = new List<Field>();
-
-            foreach (var field in _db.Fields)
-            {
-                fields.Add(new Field { Name = field.Name, Id = field.Id });
-            }
+            var fields = _db.Fields.Select(field => new Field { Name = field.Name, Id = field.Id }).ToList();
 
             var outputJSON = JsonConvert.SerializeObject(fields, Formatting.Indented);
             return outputJSON;
@@ -44,15 +39,7 @@ namespace ReportingTool.Controllers
         [HttpGet]
         public string GetAllTemplates()
         {
-            var templates = new List<Template>();
-
-            foreach (var template in _db.Templates)
-            {
-                if (template.IsActive)
-                {
-                    templates.Add(new Template { Name = template.Name, Id = template.Id });
-                }
-            }
+            var templates = (from template in _db.Templates where template.IsActive select new Template { Name = template.Name, Id = template.Id }).ToList();
 
             var outputJSON = JsonConvert.SerializeObject(templates, Formatting.Indented);
             return outputJSON;
