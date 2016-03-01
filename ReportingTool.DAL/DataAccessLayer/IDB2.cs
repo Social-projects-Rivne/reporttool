@@ -11,6 +11,7 @@ namespace ReportingTool.DAL.DataAccessLayer
         DbSet<Template> Templates { get; }
         DbSet<Field> Fields { get; }
         DbSet<FieldsInTemplate> FieldsInTemplates { get; }
+        DbSet<FieldType> FieldTypes { get; }
         int SaveChanges();
     }
 }

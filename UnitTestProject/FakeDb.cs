@@ -17,7 +17,7 @@ namespace UnitTestProject
         public DbSet<Template> Templates { get; private set; }
         public DbSet<Field> Fields { get; private set; }
         public DbSet<FieldsInTemplate> FieldsInTemplates { get; private set; }
-
+        public DbSet<FieldType> FieldTypes { get; set; }
         public FakeDb()
         {
             Members = new FakeDbSet<Member>();
@@ -25,6 +25,7 @@ namespace UnitTestProject
             Templates = new FakeDbSet<Template>();
             Fields = new FakeDbSet<Field>();
             FieldsInTemplates = new FakeDbSet<FieldsInTemplate>();
+            FieldTypes = new FakeDbSet<FieldType>();
         }
 
     }

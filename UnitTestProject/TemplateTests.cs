@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using ReportingTool.Controllers;
+using ReportingTool.Core.Models;
 using ReportingTool.DAL.Entities;
 using ReportingTool.Models;
 
@@ -27,10 +28,10 @@ namespace UnitTestProject
             db.Templates.Add(testTemplate3);
             db.Templates.Add(testTemplate4);
 
-            var testresult = new List<Template>
+            var testresult = new List<TemplateModel>
             {
-                new Template {Name = testTemplate1.Name, Id = testTemplate1.Id},
-                new Template {Name = testTemplate3.Name, Id = testTemplate3.Id},
+                new TemplateModel {templateName = testTemplate1.Name, templateId = testTemplate1.Id},
+                new TemplateModel {templateName = testTemplate3.Name, templateId = testTemplate3.Id},
             };
 
             var expected = JsonConvert.SerializeObject(testresult, Formatting.Indented);
@@ -243,7 +244,8 @@ namespace UnitTestProject
             var testTemplate5 = new Template
             {
                 Id = 5,
-                Name = "TestTemplate"
+                Name = "TestTemplate",
+                FieldsInTemplate = new List<FieldsInTemplate>()
             };
             testTemplate5.FieldsInTemplate.Add(new FieldsInTemplate { FieldId = 1 });
 

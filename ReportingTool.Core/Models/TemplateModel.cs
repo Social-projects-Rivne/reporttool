@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ReportingTool.Core.Models
 {
-    class TemplateModel
+    public class TemplateModel
     {
+        public int templateId { get; set; }
+        public string templateName { get; set; }
+        public List<FieldModel> fieldsInTemplate;
     }
 }

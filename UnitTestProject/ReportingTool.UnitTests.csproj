@@ -86,6 +86,10 @@
     <Compile Include="TemplatesControllerTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ReportingTool.Core\ReportingTool.Core.csproj">
+      <Project>{53C551BF-3712-41B0-AD4E-E4BF95FB8C87}</Project>
+      <Name>ReportingTool.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ReportingTool.DAL\ReportingTool.DAL.csproj">
       <Project>{a4388dbb-4998-41b9-97fa-7462bb37131a}</Project>
       <Name>ReportingTool.DAL</Name>

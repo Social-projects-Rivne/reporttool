@@ -7,6 +7,7 @@ using ReportingTool.Core.Validation;
 using ReportingTool.DAL.DataAccessLayer;
 using ReportingTool.DAL.Entities;
 using ReportingTool.Models;
+using ReportingTool.Core.Models;
 
 namespace ReportingTool.Controllers
 {
@@ -30,9 +31,7 @@ namespace ReportingTool.Controllers
         [HttpGet]
         public string GetAllFields()
         {
-
-            var fields = _db.Fields.Select(field => new Field { Name = field.Name, Id = field.Id, FieldType = field.FieldType }).ToList();
-
+            var fields = _db.Fields.Select(field => new FieldModel { fieldID = field.Id, fieldName = field.Name, fieldType = field.FieldType.Type }).ToList();
             var outputJSON = JsonConvert.SerializeObject(fields, Formatting.Indented);
             return outputJSON;
         }
@@ -40,8 +39,14 @@ namespace ReportingTool.Controllers
         [HttpGet]
         public string GetAllTemplates()
         {
-            var templates = (from template in _db.Templates where template.IsActive select new Template { Name = template.Name, Id = template.Id }).ToList();
-
+            var templates = new List<TemplateModel>();
+            foreach (var template in _db.Templates)
+            {
+                if (template.IsActive)
+                {
+                    templates.Add(new TemplateModel { templateId = template.Id, templateName = template.Name });
+                }
+            }
             var outputJSON = JsonConvert.SerializeObject(templates, Formatting.Indented);
             return outputJSON;
         }
@@ -259,9 +264,9 @@ namespace ReportingTool.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && _db != null)
+            if (disposing)
             {
-                _db.Dispose();
+                _db?.Dispose();
             }
             base.Dispose(disposing);
         }
