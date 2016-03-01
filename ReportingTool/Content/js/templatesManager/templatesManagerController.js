@@ -28,8 +28,7 @@ templatesManagerModule.controller("templatesFieldsManagerController",
         $scope.templateId = $stateParams.templateId;
         $scope.fields = getFields();
         $scope.existData = false;
-        //TODO: set a value from Session object
-        $scope.userNameFromSession = 'oharitc';
+        $scope.isOwner = false;
 
         var fieldEnum = {
             Reporter: "Reporter",
@@ -66,20 +65,13 @@ templatesManagerModule.controller("templatesFieldsManagerController",
             $scope.templateData = data;
             $scope.fields = data.Fields;
             $scope.existData = true;
+            $scope.isOwner = data.IsOwner;
         };
 
         function templateFieldsFail(error) {
             // promise rejected, could log the error with: console.log('error', error);
             alert("Error: " + error.code + " " + error.statusText);
         };
-
-        $scope.isOwner = function () {
-            if ($scope.templateData.Owner === $scope.userNameFromSession) {
-                return true;
-            } else {
-                return false;
-            }
-        }
 
         $scope.getFieldValue = function (field) {
             if (field.DefaultValue)

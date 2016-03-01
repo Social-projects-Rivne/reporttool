@@ -78,7 +78,7 @@ namespace UnitTestProject
             var fields = new List<TemplateFieldsDataModel>
                 { testFieldsDataModel1, testFieldsDataModel2 };
             var testresult = new TemplateData
-            { Fields = fields, Owner = testTemplate.Owner, TemplateName = testTemplate.Name };
+            { Fields = fields, IsOwner = true, TemplateName = testTemplate.Name };
 
             var expected = JsonConvert.SerializeObject(testresult, Formatting.Indented);
             var actual = controller.GetTemplateFields(1);

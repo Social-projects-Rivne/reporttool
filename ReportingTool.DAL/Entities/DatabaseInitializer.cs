@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 
 namespace ReportingTool.DAL.Entities
 {
@@ -7,21 +6,21 @@ namespace ReportingTool.DAL.Entities
     {
         protected override void Seed(DB2 context)
         {
-            var defaultFieldValues = new List<Field>
-            {
-                new Field {Name = "Reporter"},
-                new Field {Name = "Receiver"},
-                new Field {Name = "UsualTasks"},
-                new Field {Name = "RisksAndIssues"},
-                new Field {Name = "PlannedActivities"},
-                new Field {Name = "PlannedVacations"},
-                new Field {Name = "UserActivities"},
-                new Field {Name = "Reasons"}
-            };
-            foreach (var name in defaultFieldValues)
-            {
-                context.Fields.Add(name);
-            }
+
+            var fieldTypeComboBox = context.FieldTypes.Add(new FieldType { Type = "ComboBox" });
+            var fieldTypeText = context.FieldTypes.Add(new FieldType { Type = "Text" });
+            var fieldTypeListBox = context.FieldTypes.Add(new FieldType { Type = "ListBox" });
+            var fieldTypeDate = context.FieldTypes.Add(new FieldType { Type = "Date" });
+            context.SaveChanges();
+
+            context.Fields.Add(new Field { Name = "Reporter", FieldType = fieldTypeComboBox });
+            context.Fields.Add(new Field { Name = "Receiver", FieldType = fieldTypeComboBox });
+            context.Fields.Add(new Field { Name = "UsualTasks", FieldType = fieldTypeText });
+            context.Fields.Add(new Field { Name = "RisksAndIssues", FieldType = fieldTypeListBox });
+            context.Fields.Add(new Field { Name = "PlannedActivities", FieldType = fieldTypeListBox });
+            context.Fields.Add(new Field { Name = "PlannedVacations", FieldType = fieldTypeListBox });
+            context.Fields.Add(new Field { Name = "UserActivities", FieldType = fieldTypeListBox });
+            context.Fields.Add(new Field { Name = "Reasons", FieldType = fieldTypeText });
             base.Seed(context);
         }
     }

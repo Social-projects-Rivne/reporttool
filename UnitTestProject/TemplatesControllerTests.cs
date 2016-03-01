@@ -6,71 +6,169 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReportingTool.Controllers;
 using ReportingTool.DAL.Entities;
+using System.Web.Mvc;
+using System.Diagnostics;
 
 
 namespace UnitTestProject
 {
     [TestClass]
-    class TemplatesControllerTests
+    public class TemplatesControllerTests
     {
+        private static void deleteTestTemplateFromDB()
+        {
+            try
+            {
+                using (var db = new DB2())
+                {
+                    Template templateToRemove = db.Templates.Where(t =>
+                    t.Name == "SomeStrangeTemplateNameThatWillNeverBeUsed" &&
+                    t.Owner == "SomeStrangeOwnerNameThatWillNeverBeUsed" &&
+                    t.IsActive == false).FirstOrDefault();
+
+                    if (templateToRemove != null)
+                    {
+                        db.Templates.Remove(templateToRemove);
+                        db.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+        }
+
+       [ClassInitialize()]
+       public static void TemplatesControllerTestsInitialize(TestContext testContext) 
+       {
+           //Check if template which will be used for test exists in database.
+           //If it exists then it should be deleted.
+           deleteTestTemplateFromDB();
+       }
+
+       [ClassCleanup()]
+       public static void TemplatesControllerTestsCleanup() 
+       { 
+           //Remove added to database test template
+           deleteTestTemplateFromDB();
+       }
         [TestMethod]
         public void GetAllTemplates_and_GetTemplateFields_Testing()
         {
-            TemplatesController controller = new TemplatesController();
-            Template testTemplate = new Template { Id = 999, Name = "TestTemplate", IsActive = true, Owner = "testowner" };
-            FieldsInTemplate testfield1 = new FieldsInTemplate
-            {
-                Id = 998,
-                DefaultValue = "testvalue",
-                FieldId = 1,
-                TemplateId = 999
-            };
-            FieldsInTemplate testfield2 = new FieldsInTemplate
-            {
-                Id = 999,
-                DefaultValue = "testvalue",
-                FieldId = 1,
-                TemplateId = 999
-            };
-            TemplateFieldsDataModel testFieldsDataModel1 = new TemplateFieldsDataModel
-            {
-                DefaultValue = testfield1.DefaultValue,
-                FieldName = testfield1.Field.Name
-            };
-            TemplateFieldsDataModel testFieldsDataModel2 = new TemplateFieldsDataModel
-            {
-                DefaultValue = testfield2.DefaultValue,
-                FieldName = testfield2.Field.Name
-            };
+            //Arrange
+            var templatesController = new TemplatesController();
+            Template template = null;
+            JsonResult expectedJson = new JsonResult { Data = (new { Answer = "IsNull"}) };
 
-            List<TemplateFieldsDataModel> fields = new List<TemplateFieldsDataModel>
+            //Act
+            JsonResult result = (JsonResult)templatesController.AddNewTemplate(template);
+
+            //Assert
+            Assert.IsTrue(String.Equals(expectedJson.Data.ToString(), result.Data.ToString(), 
+                          StringComparison.Ordinal));
+        }
+
+        [TestMethod]
+        public void AddNewTemplete_ValidateReturnedResult_TemplateNameIsEmpty()
+        {
+            //Arrange
+            var templatesController = new TemplatesController();
+            Template template = new Template {  Name = "", IsActive = true, Owner = "testOwner"};
+            JsonResult expectedJson = new JsonResult { Data = (new { Answer = "WrongName" }) };
+
+            //Act
+            JsonResult result = (JsonResult)templatesController.AddNewTemplate(template);
+
+            //Assert
+            Assert.IsTrue(String.Equals(expectedJson.Data.ToString(), result.Data.ToString(),
+                          StringComparison.Ordinal));
+        }
+
+        [TestMethod]
+        public void AddNewTemplete_ValidateReturnedResult_TemplateNameIsMoreThan128chars()
+        {
+            //Arrange
+            var templatesController = new TemplatesController();
+
+            StringBuilder templateName = new StringBuilder();
+            for (int i = 0; i < 129; i++)
             {
-                testFieldsDataModel1,
-                testFieldsDataModel2
-            };
-            TemplateData testresult = new TemplateData
-            {
-                Fields = fields,
-                Owner = testTemplate.Owner,
-                TemplateName = testTemplate.Name
-            };
-            using (var db = new DB2())
-            {
-                db.Templates.Add(testTemplate);
-                db.FieldsInTemplates.Add(testfield1);
-                db.FieldsInTemplates.Add(testfield2);
-                db.SaveChanges();
+                templateName.Append("n");
             }
-            var expected = JsonConvert.SerializeObject(testresult, Formatting.Indented);
-            var actual = controller.GetTemplateFields(999);
-            Assert.AreEqual(expected, actual);
-            using (var db = new DB2())
+
+            Template template = new Template { Name = templateName.ToString(), IsActive = true, Owner = "testOwner" };
+            JsonResult expectedJson = new JsonResult { Data = (new { Answer = "WrongName" }) };
+
+            //Act
+            JsonResult result = (JsonResult)templatesController.AddNewTemplate(template);
+
+            //Assert
+            Assert.IsTrue(String.Equals(expectedJson.Data.ToString(), result.Data.ToString(),
+                          StringComparison.Ordinal));
+        }
+
+        [TestMethod]
+        public void AddNewTemplete_ValidateReturnedResult_OwnerNameIsEmpty()
+        {
+            //Arrange
+            var templatesController = new TemplatesController();
+            Template template = new Template { Name = "testTemplate", IsActive = true, Owner = "" };
+            JsonResult expectedJson = new JsonResult { Data = (new { Answer = "WrongOwnerName" }) };
+
+            //Act
+            JsonResult result = (JsonResult)templatesController.AddNewTemplate(template);
+
+            //Assert
+            Assert.IsTrue(String.Equals(expectedJson.Data.ToString(), result.Data.ToString(),
+                          StringComparison.Ordinal));
+        }
+
+        [TestMethod]
+        public void AddNewTemplete_ValidateReturnedResult_OwnerNameIsMoreThan128chars()
+        {
+            //Arrange
+            var templatesController = new TemplatesController();
+
+            StringBuilder ownerName = new StringBuilder();
+            for (int i = 0; i < 129; i++)
             {
-                db.Templates.Remove(testTemplate);
-                db.FieldsInTemplates.Remove(testfield1);
-                db.FieldsInTemplates.Remove(testfield2);
-                db.SaveChanges();
+                ownerName.Append("n");
             }
+
+            Template template = new Template { Name = "testTemplate", IsActive = true, Owner = ownerName.ToString() };
+            JsonResult expectedJson = new JsonResult { Data = (new { Answer = "WrongOwnerName" }) };
+
+            //Act
+            JsonResult result = (JsonResult)templatesController.AddNewTemplate(template);
+
+            //Assert
+            Assert.IsTrue(String.Equals(expectedJson.Data.ToString(), result.Data.ToString(),
+                          StringComparison.Ordinal));
+        }
+
+        [TestMethod]
+        public void AddNewTemplete_ValidateReturnedResult_CorrectTemplateAdded()
+        {
+            //Arrange
+            var templatesController = new TemplatesController();
+            Template testTemplate = new Template
+                {
+                    Name = "SomeStrangeTemplateNameThatWillNeverBeUsed",
+                    Owner = "SomeStrangeOwnerNameThatWillNeverBeUsed",
+                    IsActive = false
+                };        
+
+            JsonResult expectedJson = new JsonResult { Data = (new { Answer = "Added" }) };
+
+            //Act
+            JsonResult result = (JsonResult)templatesController.AddNewTemplate(testTemplate);
+
+            //Assert
+            Assert.IsTrue(String.Equals(expectedJson.Data.ToString(), result.Data.ToString(),
+                          StringComparison.Ordinal));
         }
     }
+
+
 }

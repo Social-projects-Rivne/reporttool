@@ -30,7 +30,8 @@ namespace ReportingTool.Controllers
         [HttpGet]
         public string GetAllFields()
         {
-            var fields = _db.Fields.Select(field => new Field { Name = field.Name, Id = field.Id }).ToList();
+
+            var fields = _db.Fields.Select(field => new Field { Name = field.Name, Id = field.Id, FieldType = field.FieldType }).ToList();
 
             var outputJSON = JsonConvert.SerializeObject(fields, Formatting.Indented);
             return outputJSON;
@@ -227,24 +228,33 @@ namespace ReportingTool.Controllers
         public string GetTemplateFields(int templateId)
         {
             List<TemplateFieldsDataModel> fields;
-            string owner, temaplateName;
-            //using (var db = new DB2())
-            //{
+            string temaplateName;
+            bool isOwner;
+
             var template = _db.Templates.FirstOrDefault(t => t.Id == templateId);
             if (template == null)
             {
                 return JsonConvert.SerializeObject(Json(new { Answer = "False" }));
             }
-            owner = template.Owner;
+            string templateOwner = template.Owner;
+            isOwner = CheckIfCurrentUserIsOwnerOfTemplate(templateOwner);
             temaplateName = template.Name;
             var getFields = from filedsInTemplate in _db.FieldsInTemplates
                             join field in _db.Fields on filedsInTemplate.FieldId equals field.Id
                             where filedsInTemplate.TemplateId == templateId
                             select new TemplateFieldsDataModel { FieldName = field.Name, DefaultValue = filedsInTemplate.DefaultValue };
             fields = getFields.ToList();
-            //}
-            TemplateData templateData = new TemplateData { Fields = fields, Owner = owner, TemplateName = temaplateName };
+
+            TemplateData templateData = new TemplateData { Fields = fields, IsOwner = isOwner, TemplateName = temaplateName };
             return JsonConvert.SerializeObject(templateData, Formatting.Indented);
+        }
+
+        private bool CheckIfCurrentUserIsOwnerOfTemplate(string templateOwner)
+        {
+            string currentUser = Session["currentUser"] as string;
+            if (currentUser == null)
+                return false;
+            return currentUser.Equals(templateOwner);
         }
 
         protected override void Dispose(bool disposing)
