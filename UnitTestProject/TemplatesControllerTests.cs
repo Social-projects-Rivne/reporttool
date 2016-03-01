@@ -23,13 +23,12 @@ namespace UnitTestProject
             {
                 using (var db = new DB2())
                 {
-                    Template templateToRemove = db.Templates.Where(t =>
-                    t.Name == "SomeStrangeTemplateNameThatWillNeverBeUsed" &&
-                    t.Owner == "SomeStrangeOwnerNameThatWillNeverBeUsed" &&
-                    t.IsActive == false).FirstOrDefault();
+                    Template templateToRemove = db.Templates.Where(t => t.Name == "SomeStrangeTemplateNameThatWillNeverBeUsed" ).FirstOrDefault();
 
                     if (templateToRemove != null)
                     {
+                        List<FieldsInTemplate> fieldsInTemplate = db.FieldsInTemplates.Where(f => f.TemplateId == templateToRemove.Id).ToList();
+                        db.FieldsInTemplates.RemoveRange(fieldsInTemplate);
                         db.Templates.Remove(templateToRemove);
                         db.SaveChanges();
                     }
@@ -115,6 +114,7 @@ namespace UnitTestProject
         {
             //Arrange
             var templatesController = new TemplatesController();
+
             List<FieldsInTemplate> fieldsInTemplate = new List<FieldsInTemplate>();
             fieldsInTemplate.Add(new FieldsInTemplate { FieldId = 1, DefaultValue = "default value" });
             fieldsInTemplate.Add(new FieldsInTemplate { FieldId = 2, DefaultValue = "default value" });
@@ -125,8 +125,7 @@ namespace UnitTestProject
             fieldsInTemplate.Add(new FieldsInTemplate { FieldId = 7, DefaultValue = "default value" });
             fieldsInTemplate.Add(new FieldsInTemplate { FieldId = 8, DefaultValue = "default value" });
 
-            //TODO: assign some fake session to SessionHelper
-            SessionHelper.Session = templatesController.Session;
+            SessionHelper.Context = MockHelper.GetFakeHttpContext();
 
             Template testTemplate = new Template
                 {
@@ -139,9 +138,24 @@ namespace UnitTestProject
             //Act
             JsonResult result = (JsonResult)templatesController.AddNewTemplate(testTemplate);
 
+            Template addedTemplate;
+            int addedFieldsCount = 0;
+
+            using (var db = new DB2())
+            {
+                addedTemplate = db.Templates.Where(t => t.Name == "SomeStrangeTemplateNameThatWillNeverBeUsed").FirstOrDefault();
+                if (addedTemplate != null)
+                {
+                    addedFieldsCount = db.FieldsInTemplates.Where(t => t.TemplateId == addedTemplate.Id).Count();
+                }
+            }
             //Assert
-            Assert.IsTrue(String.Equals(expectedJson.Data.ToString(), result.Data.ToString(),
-                          StringComparison.Ordinal));
+            Assert.IsTrue(  String.Equals(expectedJson.Data.ToString(), 
+                            result.Data.ToString(), StringComparison.Ordinal) && 
+                            addedTemplate != null &&
+                            addedTemplate.Owner == "testUser" &&
+                            addedTemplate.IsActive == true &&
+                            addedFieldsCount == 8);
         }
     }
 

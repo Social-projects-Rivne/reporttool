@@ -10,19 +10,19 @@ namespace ReportingTool.Core.Services
 {
    public static class SessionHelper
     {
-        private static HttpSessionStateBase session;
+        private static HttpContext context;
 
 
-        public static HttpSessionStateBase Session
+        public static HttpContext Context
         {
             set 
             {
-                session = value;
+                context = value;
             }
 
             get
             {
-                return session;
+                return context;
             }
         }
     }
