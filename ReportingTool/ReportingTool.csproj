@@ -159,12 +159,14 @@
     <Content Include="Content\js\teamsManager\teamsManagerServices.js" />
     <Content Include="Content\js\ReportingTool.js" />
     <Content Include="Content\js\templatesManager\templatesManagerController.js" />
+    <Content Include="Content\js\templatesManager\templatesManagerFilters.js" />
     <Content Include="Content\js\templatesManager\templatesManagerModule.js" />
     <Content Include="Content\js\templatesManager\templatesManagerServices.js" />
     <Content Include="Content\js\vendor\angular-animate.min.js" />
     <Content Include="Content\js\vendor\angular-aria.min.js" />
     <Content Include="Content\js\vendor\angular-material.min.js" />
     <Content Include="Content\js\vendor\angular-messages.js" />
+    <Content Include="Content\js\vendor\angular-sanitize.min.js" />
     <Content Include="Content\js\vendor\angular-ui-router.min.js" />
     <Content Include="Content\js\vendor\angular.js" />
     <Content Include="Content\js\vendor\select.min.js" />

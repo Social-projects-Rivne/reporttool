@@ -1,8 +1,9 @@
 ﻿'use strict'
 
-var loginModule = angular.module("loginModule", ['ngMaterial', 'ngMessages', 'ui.router']);
+var loginModule = angular.module("loginModule", [ 'ngMessages', 'ui.router']);
 
-loginModule.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+loginModule.config(['$stateProvider', '$urlRouterProvider',
+    function ($stateProvider, $urlRouterProvider, $animateProvider) {
     var loginView = {
         name: 'loginView',
         url: 'Login',

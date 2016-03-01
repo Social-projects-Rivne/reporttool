@@ -8,5 +8,9 @@ namespace ReportingTool.Core.Models
 {
     class FieldModel
     {
+        public int fieldID { get; set; }
+        public int fieldName { get; set; }
+        public int fieldType { get; set; }
+        public int fieldDefaultValue { get; set; }
     }
 }

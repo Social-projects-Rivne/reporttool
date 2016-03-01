@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var templatesManagerModule = angular.module("templatesManagerModule", ['ui.router', 'ui.bootstrap']);
+var templatesManagerModule = angular.module("templatesManagerModule", ['ui.router', 'ui.bootstrap', 'ui.select', 'ngSanitize']);
 
 templatesManagerModule.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
@@ -47,4 +47,7 @@ templatesManagerModule.config(['$stateProvider', '$urlRouterProvider', function 
     $stateProvider.state(editTemplate);
     $stateProvider.state(addTemplate);
     $stateProvider.state(templateDetailsView);
+
 }]);
+
+templatesManagerModule.run(function ($animate) { $animate.enabled(false); });

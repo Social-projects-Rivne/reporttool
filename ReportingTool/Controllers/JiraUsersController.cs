@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using ReportingTool.Core.Services;
 using ReportingTool.DAL.DataAccessLayer;
 using ReportingTool.DAL.Entities;
 
@@ -20,7 +21,7 @@ namespace ReportingTool.Controllers
             List<object> members = new List<object>();
             foreach (var user in UsersStorage)
             {
-                members.Add(new { userName = user.name, fullName = user.displayName });
+                members.Add(JiraUserService.CreateModelFromEntity(user));
             }
             return new JsonResult { Data = members, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }

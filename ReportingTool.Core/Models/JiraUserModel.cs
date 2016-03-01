@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ReportingTool.Core.Models
 {
-    class JiraUserModel
+   public class JiraUserModel
     {
         public string userName { get; set; }
         public string fullName { get; set; }
