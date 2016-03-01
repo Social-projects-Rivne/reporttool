@@ -21,16 +21,13 @@ namespace UnitTestProject
             {
                 using (var db = new DB2())
                 {
-                    if (db.Templates.Where(t =>
-                        t.Name == "SomeStrangeTemplateNameThatWillNeverBeUsed" &&
-                        t.Owner == "SomeStrangeOwnerNameThatWillNeverBeUsed" &&
-                        t.IsActive == false).Count() != 0)
-                    {
-                        Template templateToRemove = db.Templates.Where(t =>
-                        t.Name == "SomeStrangeTemplateNameThatWillNeverBeUsed" &&
-                        t.Owner == "SomeStrangeOwnerNameThatWillNeverBeUsed" &&
-                        t.IsActive == false).FirstOrDefault();
+                    Template templateToRemove = db.Templates.Where(t =>
+                    t.Name == "SomeStrangeTemplateNameThatWillNeverBeUsed" &&
+                    t.Owner == "SomeStrangeOwnerNameThatWillNeverBeUsed" &&
+                    t.IsActive == false).FirstOrDefault();
 
+                    if (templateToRemove != null)
+                    {
                         db.Templates.Remove(templateToRemove);
                         db.SaveChanges();
                     }
