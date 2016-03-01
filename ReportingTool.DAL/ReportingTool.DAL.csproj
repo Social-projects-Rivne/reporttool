@@ -102,6 +102,7 @@
     <Compile Include="Entities\DataDomain.cs" />
     <Compile Include="Entities\Field.cs" />
     <Compile Include="Entities\FieldsInTemplate.cs" />
+    <Compile Include="Entities\FieldType.cs" />
     <Compile Include="Entities\Template.cs" />
     <Compile Include="Entities\JiraUser.cs" />
     <Compile Include="Entities\JsonNetModelBinder.cs" />
