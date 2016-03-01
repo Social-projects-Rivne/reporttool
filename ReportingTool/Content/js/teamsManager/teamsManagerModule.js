@@ -22,14 +22,14 @@ teamsManagerModule.config(['$stateProvider', '$urlRouterProvider', function ($st
     var editTeam = {
         name: 'mainView.teamsManager.editTeam',
         url: '/editTeam/:teamID',
-        templateUrl: 'Content/templates/teamsManager/editTeam.html',
-        controller: 'EditTeamController',
+        templateUrl: 'Content/templates/teamsManager/teamsEdit.html',
+        controller: 'teamsEditController',
         cache: false
     };
     var createTeam = {
         name: 'mainView.teamsManager.createTeam',
         url: '/createTeam',
-        templateUrl: 'Content/templates/teamsManager/editTeam.html',
+        templateUrl: 'Content/templates/teamsManager/teamsEdit.html',
         controller: 'NewTeamController',
         cache: false
     };
