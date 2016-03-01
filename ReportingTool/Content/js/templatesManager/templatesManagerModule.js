@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var templatesManagerModule = angular.module("templatesManagerModule", ['ui.router']);
+var templatesManagerModule = angular.module("templatesManagerModule", ['ui.router', 'ui.bootstrap']);
 
 templatesManagerModule.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
@@ -12,20 +12,39 @@ templatesManagerModule.config(['$stateProvider', '$urlRouterProvider', function 
             '': {
                 templateUrl: 'Content/templates/templatesManager/templatesManagerView.html',
                 controller: 'templatesManagerController'
-            },
-            'templatesList@mainView.templatesManager': {
-                templateUrl: 'Content/templates/templatesManager/templatesList.html'
             }
         }
     };
 
-    var templateFieldsView = {
-        name: 'mainView.templatesManager.templateFieldsView',
-        url: '/viewFields/{templateId:int}',
-        templateUrl: 'Content/templates/templatesManager/viewFields.html',
+    var templatesList = {
+        name: 'mainView.templatesManager.templatesList',
+        url: '/templatesList',
+        templateUrl: 'Content/templates/templatesManager/templateDetails.html'
+    };
+
+    var templateDetailsView = {
+        name: 'mainView.templatesManager.templatesList.templateDetailsView',
+        url: '/templateDetails/{templateId:int}',
+        templateUrl: 'Content/templates/templatesManager/templateDetails.html',
         controller: 'templatesFieldsManagerController'
     };
 
+    //                                 ------- add controllers -------
+    var editTemplate = {
+        name: 'mainView.templatesManager.editTemplate',
+        url: '/editTemplate/{templateId:int}',
+        templateUrl: 'Content/templates/templatesManager/templatesEdit.html'
+    };
+    var addTemplate = {
+        name: 'mainView.templatesManager.addTemplate',
+        url: '/addTemplate',
+        templateUrl: 'Content/templates/templatesManager/templatesEdit.html',
+        controller: 'AddTemplateController'
+    };
+
     $stateProvider.state(templatesManager);
-    $stateProvider.state(templateFieldsView);
+    $stateProvider.state(templatesList);
+    $stateProvider.state(editTemplate);
+    $stateProvider.state(addTemplate);
+    $stateProvider.state(templateDetailsView);
 }]);

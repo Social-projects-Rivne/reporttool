@@ -34,3 +34,15 @@ templatesManagerModule.factory('TemplateFactory', ['$http', function ($http) {
     }
     return templateFactory;
 }]);
+
+templatesManagerModule.factory('FieldsFactory', ['$http', function ($http) {
+    var fields = {
+        getAllFields: getAllFields
+    };
+
+    function getAllFields() {
+        return $http.get("Templates/GetAllFields");
+    }
+
+    return fields;
+}]);

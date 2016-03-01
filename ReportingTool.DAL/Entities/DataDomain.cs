@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
+﻿using System.Data.Entity;
 using ReportingTool.DAL.DataAccessLayer;
 
 namespace ReportingTool.DAL.Entities

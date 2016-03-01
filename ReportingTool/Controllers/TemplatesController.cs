@@ -7,6 +7,7 @@ using ReportingTool.Core.Validation;
 using ReportingTool.DAL.DataAccessLayer;
 using ReportingTool.DAL.Entities;
 using ReportingTool.Models;
+using ReportingTool.Core.Models;
 
 namespace ReportingTool.Controllers
 {
@@ -30,9 +31,7 @@ namespace ReportingTool.Controllers
         [HttpGet]
         public string GetAllFields()
         {
-
-            var fields = _db.Fields.Select(field => new Field { Name = field.Name, Id = field.Id, FieldType = field.FieldType }).ToList();
-
+            var fields = _db.Fields.Select(field => new FieldModel { fieldID = field.Id, fieldName = field.Name, fieldType = field.FieldType.Type }).ToList();
             var outputJSON = JsonConvert.SerializeObject(fields, Formatting.Indented);
             return outputJSON;
         }
