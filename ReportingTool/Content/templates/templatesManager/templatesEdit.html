@@ -17,21 +17,23 @@
                     <!--COMBOBOX-->
                     <div class="btn-group" uib-dropdown ng-if="field.fieldType === 'combobox'">
                         <!-- Options shoud be filled from separate request -->
-                        <select >
-                            <option ng-repeat="option in field.fieldDefaultValue">{{option}}</option>
-                        </select>
+                        <ui-select>
+                            <options>
+                                <li ng-repeat="option in field.fieldDefaultValue">{{option}}</li>
+                            </options>
+                        </ui-select>
                     </div>
 
                     <!--DATEPICKER-->
                     <span class="btn-group" ng-if="field.fieldType === 'date'" style="width: 200px;">
-                        
-                                <p class="input-group">
-                                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
-                                    </span>
-                                </p>
-                         
+
+                        <p class="input-group">
+                            <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </p>
+
                     </span>
             </container>
         </form>

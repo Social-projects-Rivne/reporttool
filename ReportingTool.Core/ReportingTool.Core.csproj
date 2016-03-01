@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\FieldModel.cs" />
     <Compile Include="Models\JiraUserModel.cs" />
     <Compile Include="Models\MemberModel.cs" />
     <Compile Include="Models\TeamModel.cs" />
