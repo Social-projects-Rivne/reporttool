@@ -65,7 +65,6 @@
     <Compile Include="Services\SessionHelper.cs" />
     <Compile Include="Validation\ConfigurationHelper.cs" />
     <Compile Include="Validation\TemplatesValidator.cs" />
-    <Compile Include="Validation\ValidationExtensions.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

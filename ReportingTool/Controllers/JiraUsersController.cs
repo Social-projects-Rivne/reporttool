@@ -19,21 +19,13 @@ namespace ReportingTool.Controllers
         [HttpGet]
         public JsonResult GetAllUsers(string searchValue)
         {
-            //List<object> members = new List<object>();
-            //foreach (var user in UsersStorage)
-            //{
-            //    members.Add(u => JiraUserService.CreateModelFromEntity(user));
-            //}
-
-
             List<JiraUserModel> members = new List<JiraUserModel>();
             if (!string.IsNullOrEmpty(searchValue))
             {
-                IEnumerable<JiraUserModel> temp =  UsersStorage.Where(user => user.displayName.ToLower().StartsWith(searchValue))
+                IEnumerable<JiraUserModel> temp =  UsersStorage.Where(user => user.displayName.ToLower().Contains(searchValue))
                     .Select(user => JiraUserService.CreateModelFromEntity(user));
                 members = temp.ToList();
             }
-
 
             return new JsonResult { Data = members, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }

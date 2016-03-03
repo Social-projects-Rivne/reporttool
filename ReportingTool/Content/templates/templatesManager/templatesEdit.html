@@ -12,39 +12,23 @@
                     <label ng-bind="field.fieldName"></label>
 
                     <!--TEXT INPUT-->
-                    <input type="text" ng-if="field.fieldType === 'text'" ng-model="field.fieldDefaultValue" />
+                    <input type="text" ng-if="field.fieldType === 'Text'" ng-model="field.fieldDefaultValue" />
 
                     <!--COMBOBOX-->
-                    <div class="btn-group" uib-dropdown ng-if="field.fieldType === 'combobox'">
-                        <!-- Options shoud be filled from separate request -->
-                        <!--<ui-select ng-model="value"
-                                   theme="bootstrap"
-                                   ng-disabled="disabled"
-                                   reset-search-input="false"
-                                   style="width: 200px;"
-                                   >
-                            <ui-select-match placeholder="{{'Enter a ' + field.fieldName + '...'}}"></ui-select-match>
-                            <ui-select-choices repeat="item in field.fieldDefaultValue">
-                                <div ng-bind="item"></div>
-                            </ui-select-choices>
-                        </ui-select>-->
-
-
+                    <div class="btn-group" uib-dropdown ng-if="field.fieldType === 'ComboBox'">
 
                         <input type="text" ng-model="asyncSelected" placeholder="{{'Enter a ' + field.fieldName + '...'}}"
                                uib-typeahead="JiraUser.fullName for JiraUser in getJiraUsers($viewValue)" typeahead-loading="loadingLocations"
-                               typeahead-no-results="noResults" class="form-control">
+                               typeahead-no-results="noResults" class="form-control" typeahead-wait-ms="2000">
                         <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                         <div ng-show="noResults">
                             <i class="glyphicon glyphicon-remove"></i> No Results Found
                         </div>
 
-
-
                     </div>
 
                     <!--DATEPICKER-->
-                    <span class="btn-group" ng-if="field.fieldType === 'date'" style="width: 200px;">
+                    <span class="btn-group" ng-if="field.fieldType === 'ListBox'" style="width: 200px;">
 
                         <p class="input-group">
                             <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
@@ -54,6 +38,16 @@
                         </p>
 
                     </span>
+                </div>
+            </container>
+
+            <container class="btn-group row">
+                <div class="col-sm-6">
+                    <button id="btn-save" class="btn btn-flat" ng-click='save()'>Save</button>
+                </div>
+                <div class="col-sm-6">
+                    <button id="btn-cancel" class="btn btn-flat" ng-click='cancel()' type="reset">Cancel</button>
+                </div>
             </container>
         </form>
     </div>
