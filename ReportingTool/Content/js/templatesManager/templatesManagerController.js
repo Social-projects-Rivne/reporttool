@@ -115,30 +115,7 @@ templatesManagerModule.controller('AddTemplateController',
             console.log('FAIL: ' + responce.message);
         }
 
-        // DATEPICKER
-        $scope.popup1 = {
-            opened: false
-        };
-
-        $scope.open1 = function () {
-            $scope.popup1.opened = true;
-        };
-
-        $scope.format = 'dd-MMMM-yyyy';
-        $scope.altInputFormats = ['M!/d!/yyyy'];
-
-        $scope.today = function () {
-            $scope.dt = new Date();
-        };
-        $scope.today();
-
-        $scope.clear = function () {
-            $scope.dt = null;
-        };
-
-
-
-        // ------------------------------------------------------ //
+        // -- Typeahead -- //
 
         var _selected;
 
@@ -148,21 +125,5 @@ templatesManagerModule.controller('AddTemplateController',
            return UserFactory.getJiraUsers(searchValue).then(function (response) {
                 return response.data
             });
-        };
-
-        $scope.ngModelOptionsSelected = function (value) {
-            if (arguments.length) {
-                _selected = value;
-            } else {
-                return _selected;
-            }
-        };
-
-        $scope.modelOptions = {
-            debounce: {
-                default: 500,
-                blur: 250
-            },
-            getterSetter: true
         };
 }]);

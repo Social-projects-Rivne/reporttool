@@ -19,6 +19,8 @@ namespace ReportingTool.Controllers
         [HttpGet]
         public JsonResult GetAllUsers(string searchValue)
         {
+            searchValue = searchValue.Replace('+', ' ');
+
             List<JiraUserModel> members = new List<JiraUserModel>();
             if (!string.IsNullOrEmpty(searchValue))
             {

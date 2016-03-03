@@ -19,7 +19,7 @@
 
                         <input type="text" ng-model="asyncSelected" placeholder="{{'Enter a ' + field.fieldName + '...'}}"
                                uib-typeahead="JiraUser.fullName for JiraUser in getJiraUsers($viewValue)" typeahead-loading="loadingLocations"
-                               typeahead-no-results="noResults" class="form-control" typeahead-wait-ms="2000">
+                               typeahead-no-results="noResults" class="form-control" typeahead-wait-ms="1500" typeahead-min-length="2">
                         <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                         <div ng-show="noResults">
                             <i class="glyphicon glyphicon-remove"></i> No Results Found
@@ -27,14 +27,11 @@
 
                     </div>
 
-                    <!--DATEPICKER-->
-                    <span class="btn-group" ng-if="field.fieldType === 'ListBox'" style="width: 200px;">
+                    <!--LABLE-->
+                    <span class="btn-group" ng-if="field.fieldType === 'ListBox'">
 
                         <p class="input-group">
-                            <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
-                            </span>
+                            <label type="text" >Will be configured during Report generation</label>
                         </p>
 
                     </span>
@@ -46,7 +43,7 @@
                     <button id="btn-save" class="btn btn-flat" ng-click='save()'>Save</button>
                 </div>
                 <div class="col-sm-6">
-                    <button id="btn-cancel" class="btn btn-flat" ng-click='cancel()' type="reset">Cancel</button>
+                    <button id="btn-cancel" ui-sref="mainView.templatesManager.templatesList" class="btn btn-flat" ng-click='cancel()' type="reset">Cancel</button>
                 </div>
             </container>
         </form>

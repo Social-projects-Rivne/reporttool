@@ -119,27 +119,6 @@ teamsManagerModule.controller('teamsEditController',
                 console.error("error during saving edited team");
             }
 
-            function getSuccess(response) {
-                //delete with working backend:
-                var teams = response.data;
-                for (var team in teams) {
-                    if (teams[team].teamID === parseInt($stateParams.id, 10)) {
-                        $scope.editTeam = angular.copy(teams[team]);
-                        backupTeam = angular.copy(teams[team]);
-                        $scope.showEditBlock = true;
-                        $scope.message = "";
-                    }
-                }
-                // remain this:
-                // $scope.editTeam = response.data
-                // backupTeam = angular.copy(teams[team]);
-                // $scope.showEditBlock = true;
-            }
-
-            function getFail(response) {
-                $scope.message = "Loading team error! " + response.code;
-            }
-
         }]);
 
 teamsManagerModule.controller('NewTeamController',
