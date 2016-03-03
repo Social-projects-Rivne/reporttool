@@ -16,20 +16,6 @@
 
                     <!--COMBOBOX-->
                     <div class="btn-group" uib-dropdown ng-if="field.fieldType === 'combobox'">
-                        <!-- Options shoud be filled from separate request -->
-                        <!--<ui-select ng-model="value"
-                                   theme="bootstrap"
-                                   ng-disabled="disabled"
-                                   reset-search-input="false"
-                                   style="width: 200px;"
-                                   >
-                            <ui-select-match placeholder="{{'Enter a ' + field.fieldName + '...'}}"></ui-select-match>
-                            <ui-select-choices repeat="item in field.fieldDefaultValue">
-                                <div ng-bind="item"></div>
-                            </ui-select-choices>
-                        </ui-select>-->
-
-
 
                         <input type="text" ng-model="asyncSelected" placeholder="{{'Enter a ' + field.fieldName + '...'}}"
                                uib-typeahead="JiraUser.fullName for JiraUser in getJiraUsers($viewValue)" typeahead-loading="loadingLocations"
@@ -38,8 +24,6 @@
                         <div ng-show="noResults">
                             <i class="glyphicon glyphicon-remove"></i> No Results Found
                         </div>
-
-
 
                     </div>
 
