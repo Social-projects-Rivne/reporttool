@@ -29,6 +29,7 @@ templatesManagerModule.config(['$stateProvider', '$urlRouterProvider', function 
         controller: 'templatesFieldsManagerController'
     };
 
+    //                                 ------- add controllers -------
     var editTemplate = {
         name: 'mainView.templatesManager.editTemplate',
         url: '/editTemplate/{templateId:int}',

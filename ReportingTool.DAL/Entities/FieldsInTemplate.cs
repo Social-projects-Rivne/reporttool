@@ -7,6 +7,7 @@ namespace ReportingTool.DAL.Entities
 {
     public class FieldsInTemplate
     {
+        [JsonIgnore]
         public int Id { get; set; }
 
         [Required]
@@ -14,9 +15,11 @@ namespace ReportingTool.DAL.Entities
         public string DefaultValue { get; set; }
 
         [ForeignKey("Field")]
+        [JsonProperty("fieldId")]
         public int FieldId { get; set; }
 
         [ForeignKey("Template")]
+        [JsonProperty("templateId")]
         public int TemplateId { get; set; }
 
         public virtual Field Field { get; set; }
