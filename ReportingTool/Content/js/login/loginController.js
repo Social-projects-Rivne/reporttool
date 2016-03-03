@@ -16,8 +16,8 @@ loginModule.controller("loginController", ['$scope', '$state', '$http', '$stateP
             showConnectionError: false
         };
 
-        $scope.showErrors.showAuthentificationError = false;
-        $scope.showErrors.showConnectionError = false;
+        $scope.showLogin = LoginService.GetShowLoginStatus();
+
         $scope.errorText = "";
         $scope.validationIsInProgress = false;
 
@@ -25,7 +25,7 @@ loginModule.controller("loginController", ['$scope', '$state', '$http', '$stateP
             $scope.errorText = "";
             $scope.showErrors.showAuthentificationError = false;
             $scope.showErrors.showConnectionError = false;
-        }
+        };
 
         $scope.CheckSession = function () {
 
@@ -45,6 +45,7 @@ loginModule.controller("loginController", ['$scope', '$state', '$http', '$stateP
                 else {
                     LoginService.SetShowLogoutStatus(false);
                     //redirect on main page
+                    LoginService.SetShowLoginStatus(true);
                     $state.transitionTo('loginView');
                 }
             }, function errorCallback(response) {
@@ -52,7 +53,7 @@ loginModule.controller("loginController", ['$scope', '$state', '$http', '$stateP
                 $scope.errorText = "Server error";
                 $scope.showErrors.showConnectionError = true;
             });
-        }
+        };
 
 
         $scope.SendData = function () {
@@ -90,7 +91,8 @@ loginModule.controller("loginController", ['$scope', '$state', '$http', '$stateP
                                         alert("Can not get correct data from Jira");                                     
                                         console.log(res.data);
                                         LoginService.SetShowLogoutStatus(true);
-                                        $state.transitionTo('mainView');
+                                        LoginService.SetShowLoginStatus(false);
+                                                                                $state.transitionTo('mainView');
                                     });
                         }
                         else
@@ -109,24 +111,4 @@ loginModule.controller("loginController", ['$scope', '$state', '$http', '$stateP
              );
         }
 
-        $scope.Logout = function () {
-
-            var req = {
-                url: 'Login/Logout',
-                method: 'GET',
-                headers: { 'content-type': 'application/json' }
-            };
-
-            $http(req).then(
-                function (r) {
-                    if (r.data.Status == "loggedOut") {
-                        LoginService.SetShowLogoutStatus(false);
-                        $state.transitionTo('loginView');
-                    }
-                },
-                function (response) {
-                    alert("Server error");
-                }
-             );
-        }
     }]);
