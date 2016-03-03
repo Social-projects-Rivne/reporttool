@@ -3,9 +3,7 @@
 templatesManagerModule.controller("templatesManagerController",
     ['$scope', '$stateParams', '$state', 'TemplateFactory', function ($scope, $stateParams, $state, TemplateFactory) {
 
-        $scope.templates = {};
         $scope.validationIsInProgress = true;
-
         $scope.idSelectedTemplate = null;
         $scope.setSelected = function (idSelectedTemplate) {
             $scope.idSelectedTemplate = idSelectedTemplate;

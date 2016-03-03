@@ -1,8 +1,9 @@
 ﻿using System.Data.Entity;
+using ReportingTool.DAL.DataAccessLayer;
 
 namespace ReportingTool.DAL.Entities
 {
-    public class DB2 : DbContext
+    public class DB2 : DbContext, IDB2
     {
         public DB2()
             : base(nameOrConnectionString: "RTDB")

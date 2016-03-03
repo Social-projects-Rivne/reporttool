@@ -55,7 +55,7 @@ namespace UnitTestProject
            deleteTestTemplateFromDB();
        }
         [TestMethod]
-        public void AddNewTemplete_ValidateReturnedResult_TemplateIsNull()
+        public void GetAllTemplates_and_GetTemplateFields_Testing()
         {
             //Arrange
             var templatesController = new TemplatesController();

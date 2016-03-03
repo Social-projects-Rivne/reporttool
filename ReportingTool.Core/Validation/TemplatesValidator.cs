@@ -1,26 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ReportingTool.DAL;
 using ReportingTool.DAL.Entities;
 
 namespace ReportingTool.Core.Validation
 {
     public static class TemplatesValidator
     {
-        public static bool TemplateNameIsCorrect(string templateName)
+        public static bool TemplateIsNotNull(Template template)
         {
-            if (String.IsNullOrWhiteSpace(templateName) || templateName.Length > 128)
-            {
-                return false;                   
-            }
-            else
-            {
-                return true;
-            }
+            return template != null;
         }
 
+        public static bool TemplateNameIsCorrect(string templateName)
+        {
+            return !String.IsNullOrWhiteSpace(templateName) && templateName.Length <= 128;
+        }
+
+        public static bool TemplateOwnerNameIsCorrect(string owner)
+        {
+            return !String.IsNullOrWhiteSpace(owner) && owner.Length <= 128;
+        }
+
+        public static bool FieldsInTemplateIsNull(ICollection<FieldsInTemplate> fieldsInTemplate)
+        {
+            return fieldsInTemplate != null && fieldsInTemplate.Count != 0;
+        }
+
+        public static bool FieldInFieldsInTemplateIsCorrect(ICollection<FieldsInTemplate> fieldsInTemplate)
+        {
+            var isnull = false;
+            foreach (var field in fieldsInTemplate)
+            {
+                if (field == null || field.FieldId == 0)
+                {
+                    isnull = false;
+                }
+                else
+                {
+                    isnull = true;
+                }
+            }
+            return isnull;
+        }
     }
+
+
 }
