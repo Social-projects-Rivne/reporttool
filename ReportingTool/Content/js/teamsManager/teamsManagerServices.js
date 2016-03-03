@@ -40,8 +40,8 @@ teamsManagerModule.factory('UserFactory', ['$http', function ($http) {
         getJiraUsers: getJiraUsers
     };
 
-    function getJiraUsers() {
-        return $http.get("JiraUsers/GetAllUsers");
+    function getJiraUsers(param) {
+        return $http.get("JiraUsers/GetAllUsers", {params:{"searchValue": param}});
     }
 
     return jiraUsers;
