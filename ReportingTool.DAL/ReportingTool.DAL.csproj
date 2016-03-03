@@ -96,6 +96,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccessLayer\IDB2.cs" />
     <Compile Include="DataAccessLayer\JiraClient.cs" />
     <Compile Include="DataAccessLayer\JiraClientException.cs" />
     <Compile Include="Entities\DatabaseInitializer.cs" />
@@ -114,6 +115,7 @@
   <ItemGroup>
     <Content Include="Entities\SQL\Create_DB.sql" />
     <Content Include="Entities\SQL\Insert.sql" />
+    <Content Include="Entities\SQL\InsertTemplates.sql" />
     <Content Include="Entities\SQL\JSON for PUT.txt" />
   </ItemGroup>
   <ItemGroup>
