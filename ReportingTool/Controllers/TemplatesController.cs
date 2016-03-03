@@ -41,66 +41,17 @@ namespace ReportingTool.Controllers
         [HttpGet]
         public string GetAllTemplates()
         {
-            var templates = (from template in _db.Templates where template.IsActive select new Template { Name = template.Name, Id = template.Id }).ToList();
-
+            var templates = new List<Template>();
+            foreach (var template in _db.Templates)
+            {
+                if (template.IsActive)
+                {
+                    templates.Add(new Template { Id = template.Id, Name = template.Name });
+                }
+            }
             var outputJSON = JsonConvert.SerializeObject(templates, Formatting.Indented);
             return outputJSON;
         }
-        //[HttpPut]
-        //public ActionResult EditTemplate([ModelBinder(typeof(JsonNetModelBinder))] Template template)
-        //{
-
-        //    Answer answer;
-        //    if (!template.IsValid()) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-        //    if (!TemplatesValidator.FieldsInTemplateIsNull(template.FieldsInTemplate))
-        //    {
-        //        answer = Answer.FieldsIsEmpty;
-        //        return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
-        //    }
-
-        //    if (!TemplatesValidator.FieldInFieldsInTemplateIsCorrect(template.FieldsInTemplate))
-        //    {
-        //        answer = Answer.FieldIsNotCorrect;
-        //        return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
-        //    }
-
-        //    var templateFromDb = _db.Templates.SingleOrDefault(p => p.Id == template.Id);
-        //    if (templateFromDb == null) return HttpNotFound();
-
-        //    var fieldsToRemove = templateFromDb.FieldsInTemplate.ToList();
-
-        //    foreach (var field in fieldsToRemove)
-        //    {
-        //        var deletefield = true;
-        //        foreach (var fields in template.FieldsInTemplate)
-        //        {
-        //            if (field.FieldId == fields.FieldId) deletefield = false;
-        //        }
-        //        if (deletefield) _db.FieldsInTemplates.Remove(field);
-        //    }
-
-        //    foreach (var fields in template.FieldsInTemplate)
-        //    {
-        //        var field = templateFromDb.FieldsInTemplate.SingleOrDefault(p => p.FieldId == fields.FieldId);
-        //        if (field != null)
-        //        {
-        //            field.DefaultValue = fields.DefaultValue;
-        //        }
-        //        else
-        //        {
-        //            fields.Field = _db.Fields.SingleOrDefault(p => p.Id == fields.FieldId);
-        //            templateFromDb.FieldsInTemplate.Add(fields);
-        //        }
-        //    }
-
-        //    templateFromDb.Name = template.Name;
-
-        //    _db.SaveChanges();
-        //    answer = Answer.Edited;
-
-        //    return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
-        //}
 
         [HttpPut]
         public ActionResult EditTemplate([ModelBinder(typeof(JsonNetModelBinder))] Template template)
