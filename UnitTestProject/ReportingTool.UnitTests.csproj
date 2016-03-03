@@ -59,7 +59,9 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Web.Mvc">
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
@@ -86,6 +88,10 @@
     <Compile Include="TemplatesControllerTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ReportingTool.Core\ReportingTool.Core.csproj">
+      <Project>{53c551bf-3712-41b0-ad4e-e4bf95fb8c87}</Project>
+      <Name>ReportingTool.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ReportingTool.DAL\ReportingTool.DAL.csproj">
       <Project>{a4388dbb-4998-41b9-97fa-7462bb37131a}</Project>
       <Name>ReportingTool.DAL</Name>

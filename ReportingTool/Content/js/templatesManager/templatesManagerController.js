@@ -3,6 +3,7 @@
 templatesManagerModule.controller("templatesManagerController",
     ['$scope', '$stateParams', '$state', 'TemplateFactory', function ($scope, $stateParams, $state, TemplateFactory) {
 
+        $scope.validationIsInProgress = true;
         $scope.idSelectedTemplate = null;
         $scope.setSelected = function (idSelectedTemplate) {
             $scope.idSelectedTemplate = idSelectedTemplate;
@@ -13,9 +14,11 @@ templatesManagerModule.controller("templatesManagerController",
 
         function templatesSuccess(response) {
             $scope.templates = response.data;
+            $scope.validationIsInProgress = false;
         };
 
         function templatesFail(response) {
+            $scope.validationIsInProgress = false;
             alert("Error: " + response.code + " " + response.statusText);
         };
 
@@ -29,6 +32,7 @@ templatesManagerModule.controller("templatesFieldsManagerController",
         $scope.fields = getFields();
         $scope.existData = false;
         $scope.isOwner = false;
+        $scope.validationIsInProgress = true;
 
         var fieldEnum = {
             Reporter: "Reporter",
@@ -66,10 +70,12 @@ templatesManagerModule.controller("templatesFieldsManagerController",
             $scope.fields = data.Fields;
             $scope.existData = true;
             $scope.isOwner = data.IsOwner;
+            $scope.validationIsInProgress = false;
         };
 
         function templateFieldsFail(error) {
             // promise rejected, could log the error with: console.log('error', error);
+            $scope.validationIsInProgress = false;
             alert("Error: " + error.code + " " + error.statusText);
         };
 

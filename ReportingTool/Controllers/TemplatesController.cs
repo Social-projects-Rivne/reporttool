@@ -7,7 +7,9 @@ using ReportingTool.Core.Validation;
 using ReportingTool.DAL.DataAccessLayer;
 using ReportingTool.DAL.Entities;
 using ReportingTool.Models;
+using System.Web.Security;
 using ReportingTool.Core.Models;
+using ReportingTool.Core.Services;
 
 namespace ReportingTool.Controllers
 {
@@ -15,7 +17,7 @@ namespace ReportingTool.Controllers
     {
         private enum Answer
         {
-            WrongTemplate, WrongName, WrongId,
+            FieldsAreNull, DBConnectionError, WrongTemplate, WrongName, WrongId,
             FieldsIsEmpty, FieldIsNotCorrect, Edited, AlreadyExists, WrongOwnerName, Added, IsNull
         };
 
@@ -200,9 +202,9 @@ namespace ReportingTool.Controllers
                 return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
             }
 
-            if (!TemplatesValidator.TemplateOwnerNameIsCorrect(template.Owner))
+            if (template.FieldsInTemplate == null)
             {
-                answer = Answer.WrongOwnerName;
+                answer = Answer.FieldsAreNull;
                 return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
             }
 
@@ -215,12 +217,16 @@ namespace ReportingTool.Controllers
                     return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
                 }
 
+                var owner = SessionHelper.Context.Session["currentUser"] as string;
+                template.Owner = owner;
+                template.IsActive = true;
+
                 db.Templates.Add(template);
                 db.SaveChanges();
+
                 answer = Answer.Added;
                 return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
             }
-
         }
 
         [HttpGet]
@@ -229,28 +235,29 @@ namespace ReportingTool.Controllers
             List<TemplateFieldsDataModel> fields;
             string temaplateName;
             bool isOwner;
-
-            var template = _db.Templates.FirstOrDefault(t => t.Id == templateId);
-            if (template == null)
+            using (var db = new DB2())
             {
-                return JsonConvert.SerializeObject(Json(new { Answer = "False" }));
+                var template = db.Templates.FirstOrDefault(t => t.Id == templateId);
+                if (template == null)
+                {
+                    return JsonConvert.SerializeObject(Json(new { Answer = "False" }));
+                }
+                string templateOwner = template.Owner;
+                isOwner = CheckIfCurrentUserIsOwnerOfTemplate(templateOwner);
+                temaplateName = template.Name;
+                var getFields = from filedsInTemplate in db.FieldsInTemplates
+                                join field in db.Fields on filedsInTemplate.FieldId equals field.Id
+                                where filedsInTemplate.TemplateId == templateId
+                                select new TemplateFieldsDataModel { FieldName = field.Name, DefaultValue = filedsInTemplate.DefaultValue };
+                fields = getFields.ToList();
             }
-            string templateOwner = template.Owner;
-            isOwner = CheckIfCurrentUserIsOwnerOfTemplate(templateOwner);
-            temaplateName = template.Name;
-            var getFields = from filedsInTemplate in _db.FieldsInTemplates
-                            join field in _db.Fields on filedsInTemplate.FieldId equals field.Id
-                            where filedsInTemplate.TemplateId == templateId
-                            select new TemplateFieldsDataModel { FieldName = field.Name, DefaultValue = filedsInTemplate.DefaultValue };
-            fields = getFields.ToList();
-
             TemplateData templateData = new TemplateData { Fields = fields, IsOwner = isOwner, TemplateName = temaplateName };
             return JsonConvert.SerializeObject(templateData, Formatting.Indented);
         }
 
         private bool CheckIfCurrentUserIsOwnerOfTemplate(string templateOwner)
         {
-            string currentUser = Session["currentUser"] as string;
+            string currentUser = SessionHelper.Context.Session["currentUser"] as string;
             if (currentUser == null)
                 return false;
             return currentUser.Equals(templateOwner);
