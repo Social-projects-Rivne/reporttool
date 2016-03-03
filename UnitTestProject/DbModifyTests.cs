@@ -75,10 +75,15 @@ namespace UnitTestProject
             // Arrange - create a template
             //  string inputJSON = "{ \"templateName\": \"testtemplate01\", \"isActive\": true, \"owner\": \"testowner01\" }";
             string name = "testtemplate01";
-            Template t1 = new Template { Name = name, Owner = "testowner01", IsActive = true };
+            Template t1 = new Template { Name = name, Owner = "amarutc", IsActive = true };
 
             //// Act - try add a template
-            ActionResult result = target.AddNewTemplate(t1);
+            // --- ActionResult result = target.AddNewTemplate(t1);
+             using (var db = new DB2())
+            {
+                db.Templates.Add (t1);
+                db.SaveChanges();
+             }
 
             #region  manual delete - commented out
             //using (var db = new DB2())
@@ -89,7 +94,7 @@ namespace UnitTestProject
             #endregion
 
             #region Assert - check that a template exists
-                #region ver 1 of assert
+            #region ver 1 of assert
             //using (var db = new DB2())
             //{
             //    Assert.IsNotNull(
@@ -100,9 +105,11 @@ namespace UnitTestProject
             Template temp = new Template();
             using (var db = new DB2())
             {
-                temp = await db.Templates.FirstOrDefaultAsync<Template>(t => t.Name == name && t.IsActive == true);
+
+                temp = await db.Templates.FirstOrDefaultAsync<Template>(
+                    t => t.Name == name && t.IsActive == true);
                 Assert.IsNotNull(temp);
-            } 
+            }
             #endregion
 
             #region Act - add 2 records of FieldsInTemplate
@@ -113,7 +120,7 @@ namespace UnitTestProject
                 db.FieldsInTemplates.Add(fit1);
                 db.FieldsInTemplates.Add(fit2);
                 db.SaveChanges();
-            } 
+            }
             #endregion
 
             #region Assert - check that 2 records of FieldsInTemplate exist
@@ -132,13 +139,13 @@ namespace UnitTestProject
                             //(f.Id == temp.Id) && (f.FieldId == 2) && 
                             f.DefaultValue == "d2");
                 Assert.IsNotNull(tempFit2);
-            } 
+            }
             #endregion
 
-            // ---------------------------------------------------------------------------------------------
+            //// ---------------------------------------------------------------------------------------------
 
             //// Act - try delete a template
-            result = target.DeleteTemplate(temp.Id);
+            ActionResult result = target.DeleteTemplate(temp.Id);
 
             #region Assert - check that a template is not active and 2 records of FieldsInTemplate are deleted
             using (var db = new DB2())
@@ -160,7 +167,7 @@ namespace UnitTestProject
                             f.DefaultValue == "d2");
                 Assert.IsNull(tempFit2);
 
-            } 
+            }
             #endregion
 
         }

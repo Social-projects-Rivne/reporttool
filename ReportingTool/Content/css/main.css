@@ -314,3 +314,7 @@ th:nth-child(3) {
     width: 100%;
     text-align: center;
 }
+
+[uib-typeahead-popup].dropdown-menu {
+  display: block;
+}

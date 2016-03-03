@@ -143,6 +143,7 @@
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\font-awesome.min.css" />
     <Content Include="Content\css\main.css" />
+    <Content Include="Content\css\select.min.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\img\logo.png" />
     <Content Include="Content\js\configuration\configurationController.js" />
@@ -158,16 +159,21 @@
     <Content Include="Content\js\teamsManager\teamsManagerServices.js" />
     <Content Include="Content\js\ReportingTool.js" />
     <Content Include="Content\js\templatesManager\templatesManagerController.js" />
+    <Content Include="Content\js\templatesManager\templatesManagerFilters.js" />
     <Content Include="Content\js\templatesManager\templatesManagerModule.js" />
     <Content Include="Content\js\templatesManager\templatesManagerServices.js" />
     <Content Include="Content\js\vendor\angular-animate.min.js" />
     <Content Include="Content\js\vendor\angular-aria.min.js" />
     <Content Include="Content\js\vendor\angular-material.min.js" />
     <Content Include="Content\js\vendor\angular-messages.js" />
+    <Content Include="Content\js\vendor\angular-sanitize.min.js" />
     <Content Include="Content\js\vendor\angular-ui-router.min.js" />
     <Content Include="Content\js\vendor\angular.js" />
+    <Content Include="Content\js\vendor\select.min.js" />
+    <Content Include="Content\js\vendor\ui-bootstrap-tpls-1.2.1.min.js" />
     <Content Include="Content\templates\teamsManager\teamsManagerView.html" />
-    <Content Include="Content\templates\templatesManager\viewFields.html" />
+    <Content Include="Content\templates\templatesManager\templatesEdit.html" />
+    <Content Include="Content\templates\templatesManager\templateDetails.html" />
     <Content Include="Content\templates\templatesManager\templatesList.html" />
     <Content Include="Content\templates\templatesManager\templatesManagerView.html" />
     <Content Include="Global.asax" />
@@ -178,7 +184,7 @@
     <Content Include="Content\templates\configView.html" />
     <Content Include="Content\templates\loginView.html" />
     <Content Include="Content\templates\mainView.html" />
-    <Content Include="Content\templates\teamsManager\editTeam.html" />
+    <Content Include="Content\templates\teamsManager\teamsEdit.html" />
     <Content Include="Content\templates\teamsManager\teamsList.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

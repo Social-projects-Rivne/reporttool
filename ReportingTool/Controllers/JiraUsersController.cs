@@ -4,8 +4,10 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using ReportingTool.Core.Services;
 using ReportingTool.DAL.DataAccessLayer;
 using ReportingTool.DAL.Entities;
+using ReportingTool.Core.Models;
 
 namespace ReportingTool.Controllers
 {
@@ -15,13 +17,24 @@ namespace ReportingTool.Controllers
 
         // GET: JiraUsers
         [HttpGet]
-        public JsonResult GetAllUsers(string username, string password)
+        public JsonResult GetAllUsers(string searchValue)
         {
-            List<object> members = new List<object>();
-            foreach (var user in UsersStorage)
+            //List<object> members = new List<object>();
+            //foreach (var user in UsersStorage)
+            //{
+            //    members.Add(u => JiraUserService.CreateModelFromEntity(user));
+            //}
+
+
+            List<JiraUserModel> members = new List<JiraUserModel>();
+            if (!string.IsNullOrEmpty(searchValue))
             {
-                members.Add(new { userName = user.name, fullName = user.displayName });
+                IEnumerable<JiraUserModel> temp =  UsersStorage.Where(user => user.displayName.ToLower().StartsWith(searchValue))
+                    .Select(user => JiraUserService.CreateModelFromEntity(user));
+                members = temp.ToList();
             }
+
+
             return new JsonResult { Data = members, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 

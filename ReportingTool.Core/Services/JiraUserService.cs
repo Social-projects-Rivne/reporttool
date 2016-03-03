@@ -8,23 +8,14 @@ using System.Threading.Tasks;
 
 namespace ReportingTool.Core.Services
 {
-    class JiraUserService
+  public static class JiraUserService
     {
-        public JiraUserModel CreateModelFromEntity(JiraUser entity)
+      public static JiraUserModel CreateModelFromEntity(JiraUser entity)
         {
             return new JiraUserModel
             {
                 userName = entity.name,
                 fullName = entity.displayName
-            };
-        }
-
-        public JiraUser CreateEntityFromModel(JiraUserModel model)
-        {
-            return new JiraUser
-            {
-                name = model.userName,
-                displayName = model.fullName
             };
         }
     }

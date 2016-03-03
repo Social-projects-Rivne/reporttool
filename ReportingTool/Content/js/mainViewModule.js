@@ -1,8 +1,13 @@
 ﻿'use strict';
 
-var mainViewModule = angular.module('mainViewModule', ['teamsManagerModule', 'templatesManagerModule', 'ui.router']);
+var mainViewModule = angular.module('mainViewModule',
+    ['teamsManagerModule',
+        'templatesManagerModule',
+        'ui.router']);
 
-mainViewModule.config(['$stateProvider', '$urlRouterProvider',
+mainViewModule
+    .config(['$stateProvider',
+                    '$urlRouterProvider',
     function ($stateProvider, $urlRouterProvider) {
         var mainView = {
             name: 'mainView',
