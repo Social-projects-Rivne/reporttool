@@ -6,6 +6,8 @@ using ReportingTool.DAL.Entities;
 using ReportingTool.Core.Validation;
 ﻿using Newtonsoft.Json;
 ﻿using ReportingTool.Models;
+using System.Web.Security;
+using ReportingTool.Core.Services;
 
 using System.Net;
 using System.Web.Hosting;
@@ -15,7 +17,7 @@ namespace ReportingTool.Controllers
 {
     public class TemplatesController : Controller
     {
-        private enum Answer { AlreadyExists, WrongName, WrongOwnerName, Added, IsNull, NotFound, NotDeleted, Deleted };
+        private enum Answer { AlreadyExists, WrongName, WrongOwnerName, Added, IsNull, FieldsAreNull, DBConnectionError, NotDeleted, Deleted, NotFound };
 
         [HttpGet]
         public string GetAllTemplates()
@@ -54,9 +56,9 @@ namespace ReportingTool.Controllers
                 return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
             }
 
-            if (!TemplatesValidator.TemplateOwnerNameIsCorrect(template.Owner))
+            if (template.FieldsInTemplate == null)
             {
-                answer = Answer.WrongOwnerName;
+                answer = Answer.FieldsAreNull;
                 return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
             }
 
@@ -67,21 +69,26 @@ namespace ReportingTool.Controllers
                 {
                     answer = Answer.AlreadyExists;
                     return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
-                }                 
+                }
+
+                var owner = SessionHelper.Context.Session["currentUser"] as string;             
+                template.Owner = owner;
+                template.IsActive = true;
 
                 db.Templates.Add(template);
                 db.SaveChanges();
+
                 answer = Answer.Added;
                 return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
             }
-
         }
 
         [HttpGet]
         public string GetTemplateFields(int templateId)
         {
             List<TemplateFieldsDataModel> fields;
-            string owner, temaplateName;
+            string temaplateName;
+            bool isOwner;
             using (var db = new DB2())
             {
                 var template = db.Templates.FirstOrDefault(t => t.Id == templateId);
@@ -89,7 +96,8 @@ namespace ReportingTool.Controllers
                 {
                     return JsonConvert.SerializeObject(Json(new { Answer = "False" }));
                 }
-                owner = template.Owner;
+                string templateOwner = template.Owner;
+                isOwner = CheckIfCurrentUserIsOwnerOfTemplate(templateOwner);
                 temaplateName = template.Name;
                 var getFields = from filedsInTemplate in db.FieldsInTemplates
                                 join field in db.Fields on filedsInTemplate.FieldId equals field.Id
@@ -97,9 +105,18 @@ namespace ReportingTool.Controllers
                                 select new TemplateFieldsDataModel { FieldName = field.Name, DefaultValue = filedsInTemplate.DefaultValue };
                 fields = getFields.ToList();
             }
-            TemplateData templateData = new TemplateData { Fields = fields, Owner = owner, TemplateName = temaplateName };
+            TemplateData templateData = new TemplateData { Fields = fields, IsOwner = isOwner, TemplateName = temaplateName };
             return JsonConvert.SerializeObject(templateData, Formatting.Indented);
         }
+
+		private bool CheckIfCurrentUserIsOwnerOfTemplate(string templateOwner)
+        {
+            string currentUser = SessionHelper.Context.Session["currentUser"] as string;
+            if (currentUser == null)
+                return false;
+            return currentUser.Equals(templateOwner);
+        }
+
 
         /// <summary>
         /// Delete a template with the specified id

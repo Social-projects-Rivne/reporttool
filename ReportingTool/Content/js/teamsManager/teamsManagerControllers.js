@@ -7,15 +7,9 @@ teamsManagerModule.controller('teamsManagerController',
             $scope.showTeams = true;
             $scope.teams = {};
             $scope.activeTeam = {};
+            $scope.validationIsInProgress = true;
 
             TeamFactory.GetAllTeams().then(teamsSuccess, teamsFail);
-            function teamsSuccess(response) {
-                $scope.teams = response.data;
-                $scope.showTeams = true;
-            }
-            function teamsFail(response) {
-                alert("Error: " + response.code + " " + response.statusText);
-            }
 
             var DeleteTeam = null;
             $scope.deleteTeam = function (deletedTeamID) {
@@ -40,8 +34,16 @@ teamsManagerModule.controller('teamsManagerController',
                 $state.go('mainView.teamsManager.editTeam');
             }
 
+            function teamsSuccess(response) {
+                $scope.teams = response.data;
+                $scope.validationIsInProgress = false;
+                $scope.showTeams = true;
+            }
 
-
+            function teamsFail(response) {
+                $scope.validationIsInProgress = false;
+                alert("Error: " + response.code + " " + response.statusText);
+            }
         }]);
 
 teamsManagerModule.controller('EditTeamController',
@@ -168,8 +170,7 @@ teamsManagerModule.controller('NewTeamController',
                 }
                 $scope.editTeam.members.push(member);
             }
-
-
+            
             $scope.save = function () {
                 TeamFactory.createTeam($scope.editTeam).then(createSuccess, createFail);
             }
@@ -199,6 +200,5 @@ teamsManagerModule.controller('NewTeamController',
                     }
                 }
             }
-
 
         }]);

@@ -54,6 +54,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -67,6 +68,8 @@
     <Compile Include="Models\TemplateModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\JiraUserService.cs" />
+    <Compile Include="Services\MockHelper.cs" />
+    <Compile Include="Services\SessionHelper.cs" />
     <Compile Include="Validation\ConfigurationHelper.cs" />
     <Compile Include="Validation\TemplatesValidator.cs" />
   </ItemGroup>

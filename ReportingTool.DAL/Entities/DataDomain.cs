@@ -24,6 +24,8 @@ namespace ReportingTool.DAL.Entities
         public DbSet<Field> Fields { get; set; }
 
         public DbSet<FieldsInTemplate> FieldsInTemplates { get; set; }
+
+        public DbSet<FieldType> FieldTypes { get; set; }
     }
 }
 

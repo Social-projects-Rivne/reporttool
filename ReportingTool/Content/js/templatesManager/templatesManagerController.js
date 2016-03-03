@@ -5,6 +5,7 @@ templatesManagerModule.controller("templatesManagerController",
         function ($scope, $stateParams, $state, TemplateFactory) {
 
             $scope.templates = {};
+            $scope.validationIsInProgress = true;
 
             $scope.idSelectedTemplate = null;
             $scope.setSelected = function (idSelectedTemplate) {
@@ -13,10 +14,14 @@ templatesManagerModule.controller("templatesManagerController",
             }
 
             TemplateFactory.GetAllTemplates().then(templatesSuccess, templatesFail);
+
             function templatesSuccess(response) {
                 $scope.templates = response.data;
+                $scope.validationIsInProgress = false;
             };
+
             function templatesFail(response) {
+                $scope.validationIsInProgress = false;
                 alert("Error: " + response.code + " " + response.statusText);
             };
 
@@ -29,18 +34,17 @@ templatesManagerModule.controller("templatesManagerController",
                     .then(
                         deleteTemplateSuccess,
                         deleteTemplateFail);
-            }
+            };
             //  deletetemplate
             function deleteTemplateSuccess(response) {
                 if (response.data.Answer == 'Deleted') {
                     $state.go('mainView.templatesManager', {}, { reload: true });
                 }
-            }
+            };
             //  deletetemplate
             function deleteTemplateFail(response) {
                 console.error("deleteTemplate failed!");
-            }
-            
+            };
 
         }]);
 
@@ -51,8 +55,8 @@ templatesManagerModule.controller("templatesFieldsManagerController",
         $scope.templateId = $stateParams.templateId;
         $scope.fields = getFields();
         $scope.existData = false;
-        //TODO: set a value from Session object
-        $scope.userNameFromSession = 'oharitc';
+        $scope.isOwner = false;
+        $scope.validationIsInProgress = true;
 
         var fieldEnum = {
             Reporter: "Reporter",
@@ -89,20 +93,15 @@ templatesManagerModule.controller("templatesFieldsManagerController",
             $scope.templateData = data;
             $scope.fields = data.Fields;
             $scope.existData = true;
+            $scope.isOwner = data.IsOwner;
+            $scope.validationIsInProgress = false;
         };
 
         function templateFieldsFail(error) {
             // promise rejected, could log the error with: console.log('error', error);
+            $scope.validationIsInProgress = false;
             alert("Error: " + error.code + " " + error.statusText);
         };
-
-        $scope.isOwner = function () {
-            if ($scope.templateData.Owner === $scope.userNameFromSession) {
-                return true;
-            } else {
-                return false;
-            }
-        }
 
         $scope.getFieldValue = function (field) {
             if (field.DefaultValue)
@@ -117,4 +116,5 @@ templatesManagerModule.controller("templatesFieldsManagerController",
                 }
             }
         }
+
     }]);
