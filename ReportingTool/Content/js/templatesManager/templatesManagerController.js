@@ -22,7 +22,6 @@ templatesManagerModule.controller("templatesManagerController",
 
             //  deletetemplate
             var DeleteTemplate = null;
-
             //  deletetemplate
             $scope.deleteTemplate = function (deletedTemplateID) {
                 TemplateFactory
@@ -31,11 +30,10 @@ templatesManagerModule.controller("templatesManagerController",
                         deleteTemplateSuccess,
                         deleteTemplateFail);
             }
-
             //  deletetemplate
             function deleteTemplateSuccess(response) {
                 if (response.data.Answer == 'Deleted') {
-                    $state.go('mainView.templateManager', {}, { reload: true });
+                    $state.go('mainView.templatesManager', {}, { reload: true });
                 }
             }
             //  deletetemplate

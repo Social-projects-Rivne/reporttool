@@ -36,6 +36,27 @@ teamsManagerModule.
         return teamFactory;
     }]);
 
+teamsManagerModule.factory('TempTeamFactory',
+    function () {
+
+        var tempTeam = {};
+
+        var tempTeamProp = {
+            setTempTeam: set,
+            getTempTeam: get
+        };
+
+        function set(selectedTeam) {
+            tempTeam = selectedTeam;
+        }
+
+        function get() {
+            return tempTeam;
+        }
+
+        return tempTeamProp;
+    });
+
 teamsManagerModule.
     factory('UserFactory', ['$http',
     function ($http) {
@@ -77,23 +98,3 @@ teamsManagerModule.
 //    return template;
 //}]);
 
-teamsManagerModule.factory('TempTeamFactory',
-    function () {
-
-        var tempTeam = {};
-
-        var tempTeamProp = {
-            setTempTeam: set,
-            getTempTeam: get
-        };
-
-        function set(selectedTeam) {
-            tempTeam = selectedTeam;
-        }
-
-        function get() {
-            return tempTeam;
-        }
-
-        return tempTeamProp;
-    });

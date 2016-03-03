@@ -27,8 +27,7 @@
                     <td ng-bind="template.templateName"
                         ui-sref="mainView.templatesManager.templateFieldsView({templateId:template.templateId})"
                         ng-click="setSelected(template.templateId)"
-                        ng-class="{selected : template.templateId === idSelectedTemplate}">
-                    </td>
+                        ng-class="{selected : template.templateId === idSelectedTemplate}"></td>
 
                     <td>
                         <a class="glyph-link" ng-click="deleteTemplate(template.templateId)">
