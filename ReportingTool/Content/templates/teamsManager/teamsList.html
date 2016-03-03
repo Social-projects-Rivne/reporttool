@@ -1,54 +1,63 @@
 <section id="teamsList">
-    <div class="message" ng-show="!teams.length" style="display:none;">
-        <h3>There are no teams yet. Please, do something with that!</h3>
-    </div>
-    <div class="teamsList-content" ng-show="teams.length">
-        <table class="table table-bordered table-hover">
-            <colgroup>
-                <col width="5%" />
-                <col width="70%" />
-                <col width="25%" />
-            </colgroup>
-            <thead id='manage-teams-head'>
-                <tr>
-                    <th>#</th>
-                    <th>Team</th>
-                    <th>&nbsp;</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="clickable-row" ng-repeat="team in teams" ng-click="showTeamMembers(team);">
-                    <td ng-bind="$index + 1"></td>
-                    <td ng-bind="team.teamName"></td>
-                    <td>
-                        <a class="glyph-link" ng-click="editTeam(team)"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> </a>
-                        <a class="glyph-link" ng-click="deleteTeam(team.teamID)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <div ng-show="!validationIsInProgress">
+        <div class="message" ng-show="!teams.length" style="display: none;">
+            <h3>There are no teams yet. Please, do something with that!</h3>
+        </div>
+        <div class="teamsList-content" ng-show="teams.length">
+            <table class="table table-bordered table-hover">
+                <colgroup>
+                    <col width="5%" />
+                    <col width="70%" />
+                    <col width="25%" />
+                </colgroup>
+                <thead id='manage-teams-head'>
+                    <tr>
+                        <th>#</th>
+                        <th>Team</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="clickable-row" ng-repeat="team in teams" ng-click="showTeamMembers(team);">
+                        <td ng-bind="$index + 1"></td>
+                        <td ng-bind="team.teamName"></td>
+                        <td>
+                            <a class="glyph-link" ng-click="editTeam(team)"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> </a>
+                            <a class="glyph-link" ng-click="deleteTeam(team.teamID)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
         <!--Move this table to separate view which should be shown on ng-click="showTeamMembers(team);" in unnamed ui-view in parent state-->
-        <table class="table table-striped" ng-show="$state.current.name === 'mainView.teamsManager'">
-            <colgroup>
-                <col width="5%" />
-                <col width="45%" />
-                <col width="45%" />
-            </colgroup>
-            <thead id="change-team-head">
-                <tr>
-                    <th>#</th>
-                    <th>User Name</th>
-                    <th>Full Name</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat='member in activeTeam.members'>
-                    <td> {{$index + 1}}</td>
-                    <td> {{member.userName}}</td>
-                    <td> {{member.fullName}}</td>
-                </tr>
-            <tbody>
-        </table>
+            <table class="table table-striped" ng-show="$state.current.name === 'mainView.teamsManager'">
+                <colgroup>
+                    <col width="5%" />
+                    <col width="45%" />
+                    <col width="45%" />
+                </colgroup>
+                <thead id="change-team-head">
+                    <tr>
+                        <th>#</th>
+                        <th>User Name</th>
+                        <th>Full Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat='member in activeTeam.members'>
+                        <td> {{$index + 1}}</td>
+                        <td> {{member.userName}}</td>
+                        <td> {{member.fullName}}</td>
+                    </tr>
+                <tbody>
+            </table>
+        </div>
+    </div>
+    <div id="progressIndicatorDB">
+        <md-progress-circular md-mode="indeterminate"
+                              md-diameter="96"
+                              ng-show="validationIsInProgress"
+                              style="margin: 0 auto">
+        </md-progress-circular>
     </div>
 </section>

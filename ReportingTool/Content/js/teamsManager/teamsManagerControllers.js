@@ -6,6 +6,7 @@ teamsManagerModule.controller('teamsManagerController',
         $scope.showTeams = true;
         $scope.teams = {};
         $scope.activeTeam = {};
+        $scope.validationIsInProgress = true;
 
         TeamFactory.GetAllTeams().then(teamsSuccess, teamsFail);
 
@@ -37,10 +38,12 @@ teamsManagerModule.controller('teamsManagerController',
 
         function teamsSuccess(response) {
             $scope.teams = response.data;
+            $scope.validationIsInProgress = false;
             $scope.showTeams = true;
         }
 
         function teamsFail(response) {
+            $scope.validationIsInProgress = false;
             alert("Error: " + response.code + " " + response.statusText);
         }
 

@@ -1,4 +1,5 @@
 ﻿<section id="templatesList" class="teamsList">
+    <div ng-show="!validationIsInProgress">
     <section id="list">
         <div class="message" ng-show="!templates.length">
             <h3>There are no templates yet. You can create first one</h3>
@@ -6,8 +7,8 @@
         <div class="templatesList-content" ng-show="templates.length">
             <table class="table table-striped">
                 <colgroup>
-                    <col width="5%" />
-                    <col width="70%" />
+                    <col width="5%"/>
+                    <col width="70%"/>
                 </colgroup>
                 <thead id="manage-teams-head">
                     <tr>
@@ -23,6 +24,14 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+    <div id="progressIndicatorDB" style="margin-top: 25px;">
+        <md-progress-circular md-mode="indeterminate"
+                              md-diameter="96"
+                              ng-show="validationIsInProgress"
+                              style="margin: 0 auto">
+        </md-progress-circular>
         </div>
     </section>
     <section id="details">
