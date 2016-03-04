@@ -6,10 +6,8 @@
                 <div ng-repeat="field in fields | orderBy:'fieldID'">
 
                     <span flex-xs="" flex="50">
-                        <md-checkbox md-no-ink="" aria-label="" class="md-primary"></md-checkbox>
+                        <md-checkbox md-no-ink="false" ng-true-value="field.fieldID" aria-label="field.fieldName" class="md-primary">{{field.fieldName}}</md-checkbox>
                     </span>
-
-                    <label ng-bind="field.fieldName"></label>
 
                     <!--TEXT INPUT-->
                     <input type="text" ng-if="field.fieldType === 'Text'" ng-model="field.fieldDefaultValue" />

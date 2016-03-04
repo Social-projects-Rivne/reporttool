@@ -1,40 +1,41 @@
 ﻿<section id="templatesList" class="teamsList">
     <div ng-show="!validationIsInProgress">
-    <section id="list">
-        <div class="message" ng-show="!templates.length">
-            <h3>There are no templates yet. You can create first one</h3>
-        </div>
-        <div class="templatesList-content" ng-show="templates.length">
-            <table class="table table-striped">
-                <colgroup>
-                    <col width="5%"/>
-                    <col width="70%"/>
-                </colgroup>
-                <thead id="manage-teams-head">
-                    <tr>
-                        <th>#</th>
-                        <th>Template</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="clickable-row" ng-repeat="template in templates">
-                        <td ng-bind="$index + 1"></td>
-                        <td ng-bind="template.templateName" ui-sref="mainView.templatesManager.templatesList.templateDetailsView({templateId:template.templateId})" 
-                            ng-click="setSelected(template.templateId)" ng-class="{selected : template.templateId === idSelectedTemplate}"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <section id="list">
+            <div class="message" ng-show="!templates.length">
+                <h3>There are no templates yet. You can create first one</h3>
+            </div>
+            <div class="templatesList-content col-sm-4" ng-show="templates.length" >
+                <table class="table table-striped" >
+                    <colgroup>
+                        <col width="5%" />
+                        <col width="70%" />
+                    </colgroup>
+                    <thead id="manage-teams-head">
+                        <tr>
+                            <th>#</th>
+                            <th>Template</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="clickable-row" ng-repeat="template in templates">
+                            <td ng-bind="$index + 1"></td>
+                            <td ng-bind="template.templateName" ui-sref="mainView.templatesManager.templatesList.templateDetailsView({templateId:template.templateId})"
+                                ng-click="setSelected(template.templateId)" ng-class="{selected : template.templateId === idSelectedTemplate}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="progressIndicatorDB" style="margin-top: 25px;">
+                <md-progress-circular md-mode="indeterminate"
+                                      md-diameter="96"
+                                      ng-show="validationIsInProgress"
+                                      style="margin: 0 auto">
+                </md-progress-circular>
+            </div>
+        </section>
+        <section id="details">
+            <div class="col-sm-8" ui-view></div>
+        </section>
     </div>
-    <div id="progressIndicatorDB" style="margin-top: 25px;">
-        <md-progress-circular md-mode="indeterminate"
-                              md-diameter="96"
-                              ng-show="validationIsInProgress"
-                              style="margin: 0 auto">
-        </md-progress-circular>
-        </div>
-    </section>
-    <section id="details">
-        <div class="col-sm-8" ui-view></div>
-    </section>
 </section>

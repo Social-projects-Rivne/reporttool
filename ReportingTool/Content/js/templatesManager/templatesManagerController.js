@@ -100,7 +100,7 @@ templatesManagerModule.controller('AddTemplateController',
             templateName: '',
             fields: [{
                 fieldID: '',
-                fieldValue: ''
+                fieldDefaultValue: ''
             }]
         };
         $scope.fields = {};
@@ -116,8 +116,6 @@ templatesManagerModule.controller('AddTemplateController',
         }
 
         // -- Typeahead -- //
-
-        var _selected;
 
         $scope.selected = undefined;
         

@@ -19,7 +19,7 @@ templatesManagerModule.config(['$stateProvider', '$urlRouterProvider', function 
     var templatesList = {
         name: 'mainView.templatesManager.templatesList',
         url: '/templatesList',
-        templateUrl: 'Content/templates/templatesManager/templateDetails.html'
+        templateUrl: 'Content/templates/templatesManager/templatesList.html'
     };
 
     var templateDetailsView = {
