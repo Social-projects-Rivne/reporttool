@@ -209,7 +209,7 @@ namespace ReportingTool.Controllers
         private bool CheckIfCurrentUserIsOwnerOfTemplate(string templateOwner)
         {
             //string currentUser = SessionHelper.Context.Session["currentUser"] as string;
-            string currentUser = Session["currentUser"] as string;
+            var currentUser = Session["currentUser"] as string;
             if (currentUser == null)
                 return false;
             return currentUser.Equals(templateOwner);
