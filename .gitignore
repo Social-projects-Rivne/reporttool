@@ -266,3 +266,18 @@ _Pvt_Extensions
 >>>>>>> 858f294facdd613c10e0170d3c4ee21fca8c0e73
 /ReportingTool.DAL.TestConsoleApp
 /ReportingTool.DAL.TestConsoleApp
+/ReportingTool\scripts
+ReportingTool/Views/Shared/nbproject/private/private.properties
+ReportingTool/Views/Shared/nbproject/private/private.xml
+ReportingTool/Views/Shared/nbproject/project.properties
+ReportingTool/Views/Shared/nbproject/project.xml
+ReportingTool/scripts/_componentDecorator.js
+ReportingTool/scripts/_moduleDecorator.js
+ReportingTool/scripts/_references.js
+ReportingTool/scripts/angular - 1_3_0 .js
+ReportingTool/scripts/angular - 1_4_8.js
+ReportingTool/scripts/angular-mocks.js
+ReportingTool/scripts/angular.intellisense.js
+ReportingTool/scripts/angular.js
+ReportingTool/scripts/angular.min.js
+ReportingTool/scripts/angular.min.js.map
