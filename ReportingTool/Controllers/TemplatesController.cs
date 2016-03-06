@@ -42,14 +42,16 @@ namespace ReportingTool.Controllers
         public string GetAllTemplates()
         {
             var templates = new List<Template>();
-            foreach (var template in _db.Templates)
-            {
-                if (template.IsActive)
-                {
-                    templates.Add(new Template { Id = template.Id, Name = template.Name });
-                }
-            }
-            var outputJSON = JsonConvert.SerializeObject(templates, Formatting.Indented);
+
+            var templating = _db.Templates.Where(x => x.IsActive == true).Select(x => new Template { Id = x.Id, Name = x.Name });
+            //foreach (var template in _db.Templates)
+            //{
+            //    if (template.IsActive)
+            //    {
+            //        templates.Add(new Template { Id = template.Id, Name = template.Name });
+            //    }
+            //}
+            var outputJSON = JsonConvert.SerializeObject(templating, Formatting.Indented);
             return outputJSON;
         }
 
@@ -186,30 +188,30 @@ namespace ReportingTool.Controllers
             List<TemplateFieldsDataModel> fields;
             string temaplateName;
             bool isOwner;
-            using (var db = new DB2())
+            //using (var db = new DB2())
+            //{
+            var template = _db.Templates.FirstOrDefault(t => t.Id == templateId);
+            if (template == null)
             {
-                var template = db.Templates.FirstOrDefault(t => t.Id == templateId);
-                if (template == null)
-                {
-                    return JsonConvert.SerializeObject(Json(new { Answer = "False" }));
-                }
-                string templateOwner = template.Owner;
-                isOwner = CheckIfCurrentUserIsOwnerOfTemplate(templateOwner);
-                temaplateName = template.Name;
-                var getFields = from filedsInTemplate in db.FieldsInTemplates
-                                join field in db.Fields on filedsInTemplate.FieldId equals field.Id
-                                where filedsInTemplate.TemplateId == templateId
-                                select new TemplateFieldsDataModel { FieldName = field.Name, DefaultValue = filedsInTemplate.DefaultValue };
-                fields = getFields.ToList();
+                return JsonConvert.SerializeObject(Json(new { Answer = "False" }));
             }
+            string templateOwner = template.Owner;
+            isOwner = CheckIfCurrentUserIsOwnerOfTemplate(templateOwner);
+            temaplateName = template.Name;
+            var getFields = from filedsInTemplate in _db.FieldsInTemplates
+                            join field in _db.Fields on filedsInTemplate.FieldId equals field.Id
+                            where filedsInTemplate.TemplateId == templateId
+                            select new TemplateFieldsDataModel { FieldName = field.Name, DefaultValue = filedsInTemplate.DefaultValue };
+            fields = getFields.ToList();
+            //}
             TemplateData templateData = new TemplateData { Fields = fields, IsOwner = isOwner, TemplateName = temaplateName };
             return JsonConvert.SerializeObject(templateData, Formatting.Indented);
         }
 
         private bool CheckIfCurrentUserIsOwnerOfTemplate(string templateOwner)
         {
-            //string currentUser = SessionHelper.Context.Session["currentUser"] as string;
-            var currentUser = Session["currentUser"] as string;
+            string currentUser = SessionHelper.Context.Session["currentUser"] as string;
+            //var currentUser = Session["currentUser"] as string;
             if (currentUser == null)
                 return false;
             return currentUser.Equals(templateOwner);

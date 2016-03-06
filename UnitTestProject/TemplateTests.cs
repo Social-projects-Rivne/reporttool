@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using ReportingTool.Controllers;
+using ReportingTool.Core.Services;
 using ReportingTool.DAL.Entities;
 using ReportingTool.Models;
 
@@ -44,8 +45,8 @@ namespace UnitTestProject
         {
             var db = new FakeDb();
             var controller = new TemplatesController(db);
-
-            var testTemplate = new Template { Id = 1, Name = "TestTemplate", IsActive = true, Owner = "testowner" };
+            SessionHelper.Context = MockHelper.GetFakeHttpContext();
+            var testTemplate = new Template { Id = 1, Name = "TestTemplate", IsActive = true, Owner = "testUser" };
             db.Templates.Add(testTemplate);
 
             var field1 = new Field { Id = 1, Name = "testfield1" };
@@ -243,7 +244,8 @@ namespace UnitTestProject
             var testTemplate5 = new Template
             {
                 Id = 5,
-                Name = "TestTemplate"
+                Name = "TestTemplate",
+                FieldsInTemplate = new List<FieldsInTemplate>()
             };
             testTemplate5.FieldsInTemplate.Add(new FieldsInTemplate { FieldId = 1 });
 
@@ -259,9 +261,8 @@ namespace UnitTestProject
             var db = new FakeDb();
             var controller = new TemplatesController(db);
 
-            var testTemplate = new Template { Id = 1, Name = "TestTemplate", IsActive = true, Owner = "testowner1" };
+            var testTemplate = new Template { Id = 1, Name = "TestTemplate", IsActive = true, Owner = "testowner1", FieldsInTemplate = new List<FieldsInTemplate>()};
             db.Templates.Add(testTemplate);
-
             var newField1 = new Field { Id = 1, Name = "testfield1" };
             var newField2 = new Field { Id = 2, Name = "testfield2" };
             var newField3 = new Field { Id = 3, Name = "testfield3" };
@@ -291,9 +292,9 @@ namespace UnitTestProject
                 TemplateId = 1,
                 DefaultValue = "testvalue3"
             };
-            db.FieldsInTemplates.Add(field1);
-            db.FieldsInTemplates.Add(field2);
-            db.FieldsInTemplates.Add(field3);
+            testTemplate.FieldsInTemplate.Add(field1);
+            testTemplate.FieldsInTemplate.Add(field2);
+            testTemplate.FieldsInTemplate.Add(field3);
             var expected = new JsonResult { Data = (new { Answer = "Edited" }) };
             var actual = (JsonResult)controller.EditTemplate(testTemplate);
             Assert.AreEqual(expected.Data.ToString(), actual.Data.ToString());

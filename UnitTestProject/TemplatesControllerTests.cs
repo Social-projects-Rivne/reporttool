@@ -54,21 +54,21 @@ namespace UnitTestProject
            //Remove added to database test template
            deleteTestTemplateFromDB();
        }
-        [TestMethod]
-        public void GetAllTemplates_and_GetTemplateFields_Testing()
-        {
-            //Arrange
-            var templatesController = new TemplatesController();
-            Template template = null;
-            JsonResult expectedJson = new JsonResult { Data = (new { Answer = "IsNull"}) };
+        //[TestMethod]
+        //public void GetAllTemplates_and_GetTemplateFields_Testing()
+        //{
+        //    //Arrange
+        //    var templatesController = new TemplatesController();
+        //    Template template = null;
+        //    JsonResult expectedJson = new JsonResult { Data = (new { Answer = "IsNull"}) };
 
-            //Act
-            JsonResult result = (JsonResult)templatesController.AddNewTemplate(template);
+        //    //Act
+        //    JsonResult result = (JsonResult)templatesController.AddNewTemplate(template);
 
-            //Assert
-            Assert.IsTrue(String.Equals(expectedJson.Data.ToString(), result.Data.ToString(), 
-                          StringComparison.Ordinal));
-        }
+        //    //Assert
+        //    Assert.IsTrue(String.Equals(expectedJson.Data.ToString(), result.Data.ToString(), 
+        //                  StringComparison.Ordinal));
+        //}
 
         [TestMethod]
         public void AddNewTemplete_ValidateReturnedResult_TemplateNameIsEmpty()
