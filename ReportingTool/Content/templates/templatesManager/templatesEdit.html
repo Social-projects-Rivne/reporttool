@@ -1,0 +1,60 @@
+﻿<section id="templatesEdit" class="row">
+    <div class="col-sm-9">
+        <form>
+            <input class='form-control' id="change-template-name" ng-model="newTemplate.templateName" autofocus>
+            <container>
+                <div ng-repeat="field in fields | orderBy:'fieldID'">
+
+                    <span flex-xs="" flex="50">
+                        <md-checkbox md-no-ink="" aria-label="" class="md-primary"></md-checkbox>
+                    </span>
+
+                    <label ng-bind="field.fieldName"></label>
+
+                    <!--TEXT INPUT-->
+                    <input type="text" ng-if="field.fieldType === 'text'" ng-model="field.fieldDefaultValue" />
+
+                    <!--COMBOBOX-->
+                    <div class="btn-group" uib-dropdown ng-if="field.fieldType === 'combobox'">
+                        <!-- Options shoud be filled from separate request -->
+                        <!--<ui-select ng-model="value"
+                                   theme="bootstrap"
+                                   ng-disabled="disabled"
+                                   reset-search-input="false"
+                                   style="width: 200px;"
+                                   >
+                            <ui-select-match placeholder="{{'Enter a ' + field.fieldName + '...'}}"></ui-select-match>
+                            <ui-select-choices repeat="item in field.fieldDefaultValue">
+                                <div ng-bind="item"></div>
+                            </ui-select-choices>
+                        </ui-select>-->
+
+
+
+                        <input type="text" ng-model="asyncSelected" placeholder="{{'Enter a ' + field.fieldName + '...'}}"
+                               uib-typeahead="JiraUser.fullName for JiraUser in getJiraUsers($viewValue)" typeahead-loading="loadingLocations"
+                               typeahead-no-results="noResults" class="form-control">
+                        <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                        <div ng-show="noResults">
+                            <i class="glyphicon glyphicon-remove"></i> No Results Found
+                        </div>
+
+
+
+                    </div>
+
+                    <!--DATEPICKER-->
+                    <span class="btn-group" ng-if="field.fieldType === 'date'" style="width: 200px;">
+
+                        <p class="input-group">
+                            <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </p>
+
+                    </span>
+            </container>
+        </form>
+    </div>
+</section>
