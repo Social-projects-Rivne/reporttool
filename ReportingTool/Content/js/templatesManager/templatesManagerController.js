@@ -27,16 +27,27 @@ templatesManagerModule.controller("templatesManagerController",
             var DeleteTemplate = null;
             //  deletetemplate
             $scope.deleteTemplate = function (deletedTemplateID) {
-                TemplateFactory
-                    .deleteTemplate(deletedTemplateID)
-                    .then(
-                        deleteTemplateSuccess,
-                        deleteTemplateFail);
+
+                var bAnswer = false;
+                //  console.log($scope.templates);  //  debug
+                var bAnswer =
+                    confirm("Are you sure you want to delete template : " + $scope.templates[deletedTemplateID - 1].templateName + " ?");
+
+                if (bAnswer == true) {
+                    TemplateFactory
+                        .deleteTemplate(deletedTemplateID)
+                        .then(
+                            deleteTemplateSuccess,
+                            deleteTemplateFail);
+                }
+                else {
+                   // $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
+                }
             };
             //  deletetemplate
             function deleteTemplateSuccess(response) {
                 if (response.data.Answer == 'Deleted') {
-                    //  $state.go('mainView.templatesManager', {}, { reload: true });
+                    //  $state.go('mainView.templatesManager', {}, { reload: true });   //  fix
                     $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
                 }
             }
