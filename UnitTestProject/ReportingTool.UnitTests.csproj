@@ -89,7 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReportingTool.Core\ReportingTool.Core.csproj">
-      <Project>{53c551bf-3712-41b0-ad4e-e4bf95fb8c87}</Project>
+      <Project>{53C551BF-3712-41B0-AD4E-E4BF95FB8C87}</Project>
       <Name>ReportingTool.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\ReportingTool.DAL\ReportingTool.DAL.csproj">

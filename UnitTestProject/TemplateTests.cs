@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using ReportingTool.Controllers;
@@ -45,7 +47,12 @@ namespace UnitTestProject
         {
             var db = new FakeDb();
             var controller = new TemplatesController(db);
-            SessionHelper.Context = MockHelper.GetFakeHttpContext();
+
+            HttpContext.Current = MockHelper.GetFakeHttpContext();
+            var wrapper = new HttpContextWrapper(HttpContext.Current);
+            controller.ControllerContext = new ControllerContext(wrapper, new RouteData(), controller);
+
+            //SessionHelper.Context = MockHelper.GetFakeHttpContext();
             var testTemplate = new Template { Id = 1, Name = "TestTemplate", IsActive = true, Owner = "testUser" };
             db.Templates.Add(testTemplate);
 
@@ -161,7 +168,7 @@ namespace UnitTestProject
         }
 
         [TestMethod]
-        public void EditTemplate_Tests_IfFieldsInTemplateIsCount()
+        public void EditTemplate_Tests_IfFieldsInTemplateIsEmpty()
         {
             var db = new FakeDb();
             var controller = new TemplatesController(db);

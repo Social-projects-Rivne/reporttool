@@ -22,10 +22,11 @@ namespace ReportingTool.Core.Validation
             return !String.IsNullOrWhiteSpace(owner) && owner.Length <= 128;
         }
 
-        public static bool FieldsInTemplateIsNull(ICollection<FieldsInTemplate> fieldsInTemplate)
+        public static bool FieldsInTemplateIsEmpty(ICollection<FieldsInTemplate> fieldsInTemplate)
         {
             return fieldsInTemplate != null && fieldsInTemplate.Count != 0;
         }
+
 
         public static bool FieldInFieldsInTemplateIsCorrect(ICollection<FieldsInTemplate> fieldsInTemplate)
         {

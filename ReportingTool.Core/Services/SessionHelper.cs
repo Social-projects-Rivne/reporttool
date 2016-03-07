@@ -8,14 +8,13 @@ using System.Web.SessionState;
 
 namespace ReportingTool.Core.Services
 {
-   public static class SessionHelper
+    public class SessionHelper
     {
         private static HttpContext context;
 
-
         public static HttpContext Context
         {
-            set 
+            set
             {
                 context = value;
             }

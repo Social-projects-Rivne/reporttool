@@ -6,9 +6,10 @@ using System.Web.Mvc;
 
 namespace ReportingTool.Controllers
 {
+    [RoutePrefix("authentication")]
     public class AuthenticationController : Controller
     {
-        [HttpGet]
+        [/*Route("login"),*/ HttpGet]
         public ActionResult Index()
         {
             return View();
