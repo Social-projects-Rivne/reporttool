@@ -3,13 +3,15 @@
 templatesManagerModule.factory('TemplateFactory', ['$http', function ($http) {
     var templateFactory = {
         GetAllTemplates: GetAllTemplates,
-        GetAllTemplateFields: GetAllTemplateFields
+        GetAllTemplateFields: GetAllTemplateFields,
+        //  deletetemplate
+        deleteTemplate: deleteTemplate
     };
 
     function GetAllTemplates() {
         var templates = $http.get("Templates/GetAllTemplates");
         return templates;
-    };
+    }
 
     function GetAllTemplateFields(templateId) {
         // TODO: check why not working?
@@ -32,6 +34,12 @@ templatesManagerModule.factory('TemplateFactory', ['$http', function ($http) {
             return $q.reject(response.data);
         });
     }
+
+    //  deletetemplate
+    function deleteTemplate(id) {
+        return $http.delete("Templates/DeleteTemplate", { params: { id: id } });
+    }
+
     return templateFactory;
 }]);
 

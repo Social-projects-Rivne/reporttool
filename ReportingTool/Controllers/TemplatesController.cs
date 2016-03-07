@@ -11,6 +11,10 @@ using System.Web.Security;
 using ReportingTool.Core.Models;
 using ReportingTool.Core.Services;
 
+using System.Net;
+using System.Web.Hosting;
+using System.Data.Entity;
+
 namespace ReportingTool.Controllers
 {
     public class TemplatesController : Controller
@@ -18,8 +22,10 @@ namespace ReportingTool.Controllers
         private enum Answer
         {
             FieldsAreNull, DBConnectionError, WrongTemplate, WrongName, WrongId,
-            FieldsIsEmpty, FieldIsNotCorrect, Edited, AlreadyExists, WrongOwnerName, Added, IsNull
+            FieldsIsEmpty, FieldIsNotCorrect, Edited, AlreadyExists, WrongOwnerName, Added, IsNull,
+            NotDeleted, Deleted, NotFound
         };
+
 
         private readonly IDB2 _db;
 
@@ -206,7 +212,7 @@ namespace ReportingTool.Controllers
             return JsonConvert.SerializeObject(templateData, Formatting.Indented);
         }
 
-        private bool CheckIfCurrentUserIsOwnerOfTemplate(string templateOwner)
+		private bool CheckIfCurrentUserIsOwnerOfTemplate(string templateOwner)
         {
             //string currentUser = SessionHelper.Context.Session["currentUser"] as string;
             string currentUser = Session["currentUser"] as string;
@@ -222,6 +228,62 @@ namespace ReportingTool.Controllers
                 _db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+
+
+        /// <summary>
+        /// Delete a template with the specified id
+        /// </summary>
+        /// <param name="id">template id</param>
+        /// <returns>result codes from - enum Answer</returns>
+        [HttpDelete]
+        //public HttpStatusCodeResult Delete(int id)
+        public ActionResult DeleteTemplate(int id)
+        {
+            Answer answer = Answer.NotDeleted;
+
+            using (var ctx = new DB2())
+            {
+                var item = ctx.Templates
+                      .Include(t => t.FieldsInTemplate)
+                     .FirstOrDefault<Template>(t => t.Id == id);
+
+                if (item == null)
+                {
+                    //return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Team is not found");
+                    answer = Answer.NotFound;
+                    return Json(new { Answer = Enum.GetName(typeof(Answer), answer) }, JsonRequestBehavior.AllowGet);
+                }
+                
+                Template templateDelete = (Template)item;
+
+                try
+                {
+                    FieldsInTemplate[] fitArray = templateDelete.FieldsInTemplate.ToArray<FieldsInTemplate>();
+
+                    for (int i = fitArray.GetLowerBound(0), upper = fitArray.GetUpperBound(0); i <= upper; i++)
+                    {
+                        if (fitArray[i].TemplateId == id)
+                        {
+                            ctx.FieldsInTemplates.Remove(fitArray[i]);
+                        }
+                    }
+
+                    templateDelete.IsActive = false;
+                    ctx.SaveChanges();
+                }
+                catch
+                {
+                    //  return new HttpStatusCodeResult(HttpStatusCode.NotModified, "Template is not deleted");
+                    answer = Answer.NotDeleted;
+                    return Json(new { Answer = Enum.GetName(typeof(Answer), answer) }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            
+            //  return new HttpStatusCodeResult(HttpStatusCode.OK, "Template deleted successfully");
+            answer = Answer.Deleted;
+            return Json(new { Answer = Enum.GetName(typeof(Answer), answer) }, JsonRequestBehavior.AllowGet);
         }
 
     }
