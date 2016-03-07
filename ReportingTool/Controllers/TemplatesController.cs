@@ -10,10 +10,10 @@ using ReportingTool.Core.Validation;
 using ReportingTool.DAL.DataAccessLayer;
 using ReportingTool.DAL.Entities;
 using ReportingTool.Models;
-
 using System.Net;
 using System.Web.Hosting;
 using System.Data.Entity;
+using ReportingTool.DAL.Models;
 
 namespace ReportingTool.Controllers
 {
@@ -21,24 +21,16 @@ namespace ReportingTool.Controllers
     {
         private enum Answer
         {
-            FieldsAreNull, DBConnectionError, WrongTemplate, WrongName, WrongId,
+            DBConnectionError, WrongTemplate, WrongName, WrongId,
             FieldsIsEmpty, FieldIsNotCorrect, Edited, AlreadyExists, WrongOwnerName, Added, IsNull,
             NotDeleted, Deleted, NotFound
         };
 
-
         private readonly IDB2 _db;
-        private readonly HttpContext _session;
 
         public TemplatesController(IDB2 db)
         {
             _db = db;
-        }
-
-        public TemplatesController(IDB2 db, HttpContext session)
-        {
-            _db = db;
-            _session = session;
         }
 
         public TemplatesController() : this(new DB2()) { }
@@ -46,26 +38,18 @@ namespace ReportingTool.Controllers
         [HttpGet]
         public string GetAllFields()
         {
-            var fields = _db.Fields.AsNoTracking().Select(field => new FieldModel { fieldID = field.Id, fieldName = field.Name, fieldType = field.FieldType.Type }).ToList();
-            var outputJSON = JsonConvert.SerializeObject(fields, Formatting.Indented);
-            return outputJSON;
+            var fields = _db.Fields.AsNoTracking().Select(field => new FieldDTO { fieldID = field.Id, fieldName = field.Name, fieldType = field.FieldType.Type }).ToList();
+
+            return JsonConvert.SerializeObject(fields, Formatting.Indented);
         }
 
         [HttpGet]
         public string GetAllTemplates()
         {
-            var templates = new List<Template>();
+            var templates = _db.Templates.Where(template => template.IsActive == true)
+                .Select(template => new TemplateDTO { templateId = template.Id, templateName = template.Name }).ToList();
 
-            //var templating = _db.Templates.Where(x => x.IsActive == true).Select(x => new Template { Id = x.Id, Name = x.Name });
-            foreach (var template in _db.Templates)
-            {
-                if (template.IsActive)
-                {
-                    templates.Add(new Template { Id = template.Id, Name = template.Name });
-                }
-            }
-            var outputJSON = JsonConvert.SerializeObject(templates, Formatting.Indented);
-            return outputJSON;
+            return JsonConvert.SerializeObject(templates, Formatting.Indented);
         }
 
         [HttpPut]
@@ -213,7 +197,7 @@ namespace ReportingTool.Controllers
             return JsonConvert.SerializeObject(templateData, Formatting.Indented);
         }
 
-		private bool CheckIfCurrentUserIsOwnerOfTemplate(string templateOwner)
+        private bool CheckIfCurrentUserIsOwnerOfTemplate(string templateOwner)
         {
             var currentUser = Session["currentUser"] as string;
             if (currentUser == null)
@@ -255,7 +239,7 @@ namespace ReportingTool.Controllers
                     answer = Answer.NotFound;
                     return Json(new { Answer = Enum.GetName(typeof(Answer), answer) }, JsonRequestBehavior.AllowGet);
                 }
-                
+
                 Template templateDelete = (Template)item;
 
                 try
@@ -280,7 +264,7 @@ namespace ReportingTool.Controllers
                     return Json(new { Answer = Enum.GetName(typeof(Answer), answer) }, JsonRequestBehavior.AllowGet);
                 }
             }
-            
+
             //  return new HttpStatusCodeResult(HttpStatusCode.OK, "Template deleted successfully");
             answer = Answer.Deleted;
             return Json(new { Answer = Enum.GetName(typeof(Answer), answer) }, JsonRequestBehavior.AllowGet);

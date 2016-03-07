@@ -1,6 +1,6 @@
-﻿namespace ReportingTool.Core.Models
+﻿namespace ReportingTool.DAL.Models
 {
-    public class TeamModel
+    public class TeamDTO
     {
         public int teamID { get; set; }
         public string teamName { get; set; }

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace ReportingTool.Core.Models
+namespace ReportingTool.DAL.Models
 {
-    public class TemplateModel
+    public class TemplateDTO
     {
         public int templateId { get; set; }
         public string templateName { get; set; }
-        public List<FieldModel> fieldsInTemplate;
+        public ICollection<FieldDTO> fieldsInTemplate;
     }
 }
