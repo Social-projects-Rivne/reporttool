@@ -30,9 +30,9 @@ templatesManagerModule.factory('TemplateFactory', ['$http', function ($http) {
 
     function AddNewTemplate(newTemplate) {
         return $http({
-            url: 'Templates/AddNewTeam',
+            url: 'Templates/AddNewTemplate',
             method: 'POST',
-            data: newTeam,
+            data: newTemplate,
             headers: { 'content-type': 'application/json' }
         });
     }

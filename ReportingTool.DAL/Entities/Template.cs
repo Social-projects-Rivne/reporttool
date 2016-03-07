@@ -26,7 +26,7 @@ namespace ReportingTool.DAL.Entities
         [JsonProperty("owner")]
         public string Owner { get; set; }
 
-        [JsonProperty("fieldsInTemplate")]
+        [JsonProperty("fields")]
         public virtual ICollection<FieldsInTemplate> FieldsInTemplate { get; set; }
     }
 }

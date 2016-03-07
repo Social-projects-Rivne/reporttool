@@ -19,9 +19,8 @@ namespace ReportingTool.Controllers
         [HttpGet]
         public JsonResult GetAllUsers(string searchValue)
         {
-            
-
             List<JiraUserModel> members = new List<JiraUserModel>();
+
             if (!string.IsNullOrEmpty(searchValue))
             {
                 searchValue = searchValue.Replace('+', ' ');
@@ -37,7 +36,6 @@ namespace ReportingTool.Controllers
                     members.Add(JiraUserService.CreateModelFromEntity(user));
                 }
             }
-
 
             return new JsonResult { Data = members, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }

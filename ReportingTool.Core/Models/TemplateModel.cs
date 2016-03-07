@@ -6,6 +6,6 @@ namespace ReportingTool.Core.Models
     {
         public int templateId { get; set; }
         public string templateName { get; set; }
-        public List<FieldModel> fieldsInTemplate;
+        public List<FieldModel> fields;
     }
 }
