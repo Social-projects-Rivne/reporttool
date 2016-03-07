@@ -125,7 +125,7 @@ namespace UnitTestProject
             fieldsInTemplate.Add(new FieldsInTemplate { FieldId = 7, DefaultValue = "default value" });
             fieldsInTemplate.Add(new FieldsInTemplate { FieldId = 8, DefaultValue = "default value" });
 
-            SessionHelper.Context = MockHelper.GetFakeHttpContext();
+            //SessionHelper.Context = MockHelper.GetFakeHttpContext();
 
             Template testTemplate = new Template
                 {

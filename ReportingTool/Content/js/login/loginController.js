@@ -1,6 +1,7 @@
 ﻿'use strict'
 
-loginModule.controller("loginController", ['$scope', '$state', '$http', '$stateParams', 'LoginService',
+loginModule.controller("loginController",
+    ['$scope', '$state', '$http', '$stateParams', 'LoginService',
     function ($scope, $state, $http, $stateParams, LoginService) {
 
         angular.element(document).ready(function () {

@@ -24,7 +24,7 @@ factory('TeamFactory', ['$http', function ($http) {
     }
 
     function updateTeam(data) {
-        return $http.put("Teams/EditTeam",  data
+        return $http.put("Teams/EditTeam", data
         );
     }
 
@@ -41,7 +41,7 @@ teamsManagerModule.factory('UserFactory', ['$http', function ($http) {
     };
 
     function getJiraUsers(param) {
-        return $http.get("JiraUsers/GetAllUsers", {params:{"searchValue": param}});
+        return $http.get("JiraUsers/GetAllUsers", { params: { "searchValue": param } });
     }
 
     return jiraUsers;
@@ -52,8 +52,8 @@ teamsManagerModule.factory('TempTeamFactory', function () {
     var tempTeam = {};
 
     var tempTeamProp = {
-            setTempTeam: set,
-            getTempTeam: get
+        setTempTeam: set,
+        getTempTeam: get
     };
 
     function set(selectedTeam) {
