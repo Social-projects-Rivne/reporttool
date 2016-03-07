@@ -168,12 +168,6 @@ namespace ReportingTool.Controllers
                 return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
             }
 
-            if (!TemplatesValidator.TemplateOwnerNameIsCorrect(template.Owner))
-            {
-                answer = Answer.WrongOwnerName;
-                return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
-            }
-
             using (var db = new DB2())
             {
                 //Check if template with incoming name already exists in database
@@ -182,6 +176,10 @@ namespace ReportingTool.Controllers
                     answer = Answer.AlreadyExists;
                     return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
                 }
+
+                var currentUser = this.Session["currentUser"] as string;
+                template.Owner = currentUser;
+                template.IsActive = true;
 
                 db.Templates.Add(template);
                 db.SaveChanges();
@@ -217,7 +215,6 @@ namespace ReportingTool.Controllers
 
 		private bool CheckIfCurrentUserIsOwnerOfTemplate(string templateOwner)
         {
-            //string currentUser = SessionHelper.Context.Session["currentUser"] as string;
             var currentUser = Session["currentUser"] as string;
             if (currentUser == null)
                 return false;
@@ -226,7 +223,7 @@ namespace ReportingTool.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
+            if (disposing && _db != null)
             {
                 _db.Dispose();
             }

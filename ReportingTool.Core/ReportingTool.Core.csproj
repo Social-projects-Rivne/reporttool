@@ -71,7 +71,6 @@
     <Compile Include="Services\FieldsService.cs" />
     <Compile Include="Services\JiraUserService.cs" />
     <Compile Include="Services\MockHelper.cs" />
-    <Compile Include="Services\SessionHelper.cs" />
     <Compile Include="Validation\ConfigurationHelper.cs" />
     <Compile Include="Validation\TemplatesValidator.cs" />
   </ItemGroup>
