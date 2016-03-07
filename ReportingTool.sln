@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportingTool", "ReportingTool\ReportingTool.csproj", "{35BFB6DB-920F-40F6-812A-0A1F072E3799}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportingTool.DAL", "ReportingTool.DAL\ReportingTool.DAL.csproj", "{A4388DBB-4998-41B9-97FA-7462BB37131A}"

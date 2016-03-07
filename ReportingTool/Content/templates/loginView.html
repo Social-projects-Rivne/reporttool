@@ -1,45 +1,57 @@
 <section id="Login" class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 form-box" 
          ng-controller="loginController"
          ng-show="showLogin.show">
+
     <form class="form-horizontal css-form" name="loginForm">
         <div class="form-top">
             <div class="form-top-left">
                 <h2>Log in</h2>
             </div>
         </div>
+
         <div class="form-bottom">
             <div class="form-group">
                 <label class="sr-only" for="form-loginname">Username</label>
                 <input type="text" name="form-loginname" placeholder="Username..."
-                       class="form-username form-control" id="form-username"
-                       ng-model="credentials.userName"
-                       ng-focus="HideErrors();"
-                       required autofocus>
+                    class="form-username form-control" id="form-username"
+                    ng-model="credentials.userName"
+                    ng-focus="HideErrors();"
+                    required autofocus>
             </div>
+
             <div class="form-group">
                 <label class="sr-only" for="form-password">Password</label>
                 <input type="password" name="form-password" placeholder="Password..."
-                       class="form-password form-control" id="form-password"
-                       ng-model="credentials.password"
-                       ng-focus="HideErrors();"
-                       required>
+                    class="form-password form-control" id="form-password"
+                    ng-model="credentials.password"
+                    ng-focus="HideErrors();"
+                    required>
             </div>
+
             <div class="form-group">
                 <button type="submit"
-                        class="btn btn-block"
-                        ng-disabled="loginForm.$invalid"
-                        ng-click="SendData()">Log In</button>
+                    class="btn btn-block"
+                    ng-disabled="loginForm.$invalid"
+                    ng-click="SendData()">
+                    Log In</button>
             </div>
+
         </div>
     </form>
+
     <div class="alert alert-warning" id="AuthentificationError"
-         ng-show="showErrors.showAuthentificationError" ng-bind="errorText"></div>
+        ng-show="showErrors.showAuthentificationError" ng-bind="errorText">
+    </div>
+
     <div class="alert alert-danger" id="ConnectionError"
-         ng-show="showErrors.showConnectionError" ng-bind="errorText"></div>
+        ng-show="showErrors.showConnectionError" ng-bind="errorText">
+    </div>
+
     <div id="progressIndicator">
         <md-progress-circular md-mode="indeterminate"
-                              md-diameter="96"
-                              ng-show="validationIsInProgress">
+            md-diameter="96"
+            ng-show="validationIsInProgress">
         </md-progress-circular>
     </div>
+
 </section>

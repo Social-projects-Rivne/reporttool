@@ -5,11 +5,11 @@ loginModule.service('LoginService', function () {
     this.showLogout = { show: false };
     this.showLogin = { show: false };
 
-    this.SetShowLogoutStatus =  function (showLogout) {
+    this.SetShowLogoutStatus = function (showLogout) {
         this.showLogout.show = showLogout;
     };
 
-    this.GetShowLogoutStatus = function() {
+    this.GetShowLogoutStatus = function () {
         return this.showLogout;
     };
 

@@ -3,19 +3,21 @@
         <form>
             <input class='form-control' id="change-template-name" ng-model="newTemplate.templateName" autofocus>
             <container>
-                <div ng-repeat="field in fields | orderBy:'fieldID'">
+                <div class="row" ng-repeat="field in newTemplate.fields | orderBy:'fieldID'">
 
-                    <span flex-xs="" flex="50">
-                        <md-checkbox md-no-ink="false" ng-true-value="field.fieldID" aria-label="field.fieldName" class="md-primary">{{field.fieldName}}</md-checkbox>
+                    <span class="col-md-6">
+                        <md-checkbox md-no-ink="false" ng-model="field.isSelected" aria-label="field.fieldName" class="md-primary">{{field.fieldName}}</md-checkbox>
                     </span>
 
                     <!--TEXT INPUT-->
-                    <input type="text" ng-if="field.fieldType === 'Text'" ng-model="field.fieldDefaultValue" />
+                    <span class="col-md-6">
+                        <input class="form-control" type="text" ng-if="field.fieldType === 'Text'" ng-model="field.fieldDefaultValue" />
+                    </span>
 
                     <!--COMBOBOX-->
-                    <div class="btn-group" uib-dropdown ng-if="field.fieldType === 'ComboBox'">
+                    <div class="btn-group col-md-6" uib-dropdown ng-if="field.fieldType === 'ComboBox'">
 
-                        <input type="text" ng-model="asyncSelected" placeholder="{{'Enter a ' + field.fieldName + '...'}}"
+                        <input type="text" ng-model="field.fieldDefaultValue" placeholder="{{'Enter a ' + field.fieldName + '...'}}"
                                uib-typeahead="JiraUser.fullName for JiraUser in getJiraUsers($viewValue)" typeahead-loading="loadingLocations"
                                typeahead-no-results="noResults" class="form-control" typeahead-wait-ms="1500" typeahead-min-length="2">
                         <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
@@ -26,12 +28,10 @@
                     </div>
 
                     <!--LABLE-->
-                    <span class="btn-group" ng-if="field.fieldType === 'ListBox'">
-
+                    <span class="btn-group col-md-6" ng-if="field.fieldType === 'ListBox'">
                         <p class="input-group">
-                            <label type="text" >Will be configured during Report generation</label>
+                            <label type="text">Will be configured during Report generation</label>
                         </p>
-
                     </span>
                 </div>
             </container>
@@ -43,6 +43,8 @@
                 <div class="col-sm-6">
                     <button id="btn-cancel" ui-sref="mainView.templatesManager.templatesList" class="btn btn-flat" ng-click='cancel()' type="reset">Cancel</button>
                 </div>
+
+                <button onclick="function(){alert('test');}">test</button>
             </container>
         </form>
     </div>

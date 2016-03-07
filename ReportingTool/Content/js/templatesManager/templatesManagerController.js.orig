@@ -136,25 +136,85 @@ templatesManagerModule.controller("templatesFieldsManagerController",
         }]);
 
 templatesManagerModule.controller('AddTemplateController',
+<<<<<<< HEAD
+    ['$scope', '$state', 'FieldsFactory', '$http', 'UserFactory', function ($scope, $state, FieldsFactory, $http, UserFactory) {
+        $scope.newTemplate = {
+            templateName: '',
+            fields: [{
+                fieldID: '',
+                fieldDefaultValue: ''
+            }]
+        };
+        $scope.fields = {};
+
+        FieldsFactory.getAllFields().then(getFieldsSuccess, getFieldsFail);
+
+        function getFieldsSuccess(responce) {
+            $scope.fields = responce.data;
+        }
+
+        function getFieldsFail (responce) {
+            console.log('FAIL: ' + responce.message);
+        }
+
+        // -- Typeahead -- //
+
+        $scope.selected = undefined;
+        
+        $scope.getJiraUsers = function (searchValue) {
+           return UserFactory.getJiraUsers(searchValue).then(function (response) {
+                return response.data
+            });
+        };
+}]);
+=======
     ['$scope', '$state', 'FieldsFactory', '$http', 'UserFactory',
         function ($scope, $state, FieldsFactory, $http, UserFactory) {
             $scope.newTemplate = {
                 templateName: '',
-                fields: []
+                fields: [{
+                    fieldID: '',
+                    fieldValue: ''
+                }]
             };
             $scope.fields = {};
 
             FieldsFactory.getAllFields().then(getFieldsSuccess, getFieldsFail);
 
             function getFieldsSuccess(responce) {
-                $scope.newTemplate.fields = responce.data;
+                $scope.fields = responce.data;
             }
 
             function getFieldsFail(responce) {
                 console.log('FAIL: ' + responce.message);
             }
 
-        // -- Typeahead -- //
+            // DATEPICKER
+            $scope.popup1 = {
+                opened: false
+            };
+
+            $scope.open1 = function () {
+                $scope.popup1.opened = true;
+            };
+
+            $scope.format = 'dd-MMMM-yyyy';
+            $scope.altInputFormats = ['M!/d!/yyyy'];
+
+            $scope.today = function () {
+                $scope.dt = new Date();
+            };
+            $scope.today();
+
+            $scope.clear = function () {
+                $scope.dt = null;
+            };
+
+
+
+            // ------------------------------------------------------ //
+
+            var _selected;
 
             $scope.selected = undefined;
 
@@ -163,4 +223,22 @@ templatesManagerModule.controller('AddTemplateController',
                     return response.data
                 });
             };
-}]);
+
+            $scope.ngModelOptionsSelected = function (value) {
+                if (arguments.length) {
+                    _selected = value;
+                } else {
+                    return _selected;
+                }
+            };
+
+            $scope.modelOptions = {
+                debounce: {
+                    default: 500,
+                    blur: 250
+                },
+                getterSetter: true
+            };
+        }]);
+
+>>>>>>> dev

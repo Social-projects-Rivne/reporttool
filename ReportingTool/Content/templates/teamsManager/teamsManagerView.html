@@ -1,14 +1,23 @@
 ﻿<section class="row">
     <div id='teamsManagerHeader'>
         <div class="col-sm-6">
-            <h2> Manage Teams </h2>
+            <h2>Manage Teams </h2>
         </div>
+
         <div class="col-sm-2">
             <a ui-sref="mainView.teamsManager.createTeam" class="btn btn-flat">Add Team</a>
         </div>
+
     </div>
+
     <div class="row">
-        <div class="col-sm-8 teamsList" ui-view="teamsList"></div>
-        <div class="col-sm-8" ui-view></div>
+        <div class="col-sm-8 teamsList"
+            ui-view="teamsList">
+        </div>
+
+        <div class="col-sm-8"
+            ui-view>
+        </div>
     </div>
+
 </section>
