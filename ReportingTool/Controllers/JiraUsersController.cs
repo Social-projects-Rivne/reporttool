@@ -26,13 +26,13 @@ namespace ReportingTool.Controllers
             //}
 
 
-            List<JiraUserModel> members = new List<JiraUserModel>();
-            if (!string.IsNullOrEmpty(searchValue))
-            {
-                IEnumerable<JiraUserModel> temp =  UsersStorage.Where(user => user.displayName.ToLower().StartsWith(searchValue))
-                    .Select(user => JiraUserService.CreateModelFromEntity(user));
-                members = temp.ToList();
-            }
+            List<JiraUserModel> members = UsersStorage.Select(user => new JiraUserModel {userName = user.name, fullName = user.displayName}).ToList();
+            //if (!string.IsNullOrEmpty(searchValue))
+            //{
+            //    IEnumerable<JiraUserModel> temp =  UsersStorage.Where(user => user.displayName.ToLower().StartsWith(searchValue))
+            //        .Select(user => JiraUserService.CreateModelFromEntity(user));
+            //    members = temp.ToList();
+            //}
 
 
             return new JsonResult { Data = members, JsonRequestBehavior = JsonRequestBehavior.AllowGet };

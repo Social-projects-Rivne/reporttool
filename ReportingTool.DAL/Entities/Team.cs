@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
@@ -30,7 +30,7 @@ namespace ReportingTool.DAL.Entities
         [Index("IX_NameAndProjectKey", 2, IsUnique = true)]
         public string ProjectKey { get; set; }
 
-         [JsonProperty("members")]
+        [JsonProperty("members")]
         public virtual ICollection<Member> Members { get; set; }
     }
 }

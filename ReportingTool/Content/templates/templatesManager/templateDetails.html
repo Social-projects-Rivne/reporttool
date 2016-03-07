@@ -2,6 +2,7 @@
     <div ng-show="!validationIsInProgress">
         <div class="message ng-hide" ng-show="!existData">
             <h3>Could't get template data</h3>
+
         </div>
         <div class="fieldsList-content" ng-show="existData">
             <div class="col-sm-offset-7" style="margin-top: -21px; margin-bottom: 21px">
@@ -11,7 +12,7 @@
                     Edit
                 </button>
                 <!--TODO: Need to add functionality with delete template-->
-                <button type="button" class="btn btn-flat templateButtons" ng-disabled="!isOwner">
+                <button type="button" class="btn btn-flat templateButtons" ng-disabled="!isOwner" ng-click="deleteTemplate(idSelectedTemplate)">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                     Delete
                 </button>
@@ -26,12 +27,14 @@
                         </div>
                     </div>
                 </div>
+
             </div>
             <div class="center-in-div">
                 <!--TODO: Need to implement-->
                 <a class="btn btn-flat">Generate Report</a>
             </div>
         </div>
+
     </div>
     <div id="progressIndicatorDB" style="margin-top: 50px;">
         <md-progress-circular md-mode="indeterminate"
