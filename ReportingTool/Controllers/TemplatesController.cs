@@ -168,12 +168,6 @@ namespace ReportingTool.Controllers
                 return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
             }
 
-            if (!TemplatesValidator.TemplateOwnerNameIsCorrect(template.Owner))
-            {
-                answer = Answer.WrongOwnerName;
-                return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
-            }
-
             using (var db = new DB2())
             {
                 //Check if template with incoming name already exists in database
@@ -183,11 +177,20 @@ namespace ReportingTool.Controllers
                     return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
                 }
 
+                var currentUser = Session["currentUser"] as string;
+                template.Owner = currentUser;
+                template.IsActive = true;
+
                 db.Templates.Add(template);
                 db.SaveChanges();
                 answer = Answer.Added;
                 return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
             }
+        }
+
+        private string getCurrentUser()
+        {
+            return Session["currentUser"] as string;
         }
 
         public string GetTemplateFields(int templateId)
