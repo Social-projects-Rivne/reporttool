@@ -117,8 +117,6 @@ namespace ReportingTool.Controllers
                     Session.Add("projectKey", getProjectKey());
                     Session.Add("jiraClient", client);
 
-                    //SessionHelper.Context = System.Web.HttpContext.Current;
-
                     return Json(new { Status = "validCredentials" });
                 }
                 return Json(new { Status = "invalidCredentials" });

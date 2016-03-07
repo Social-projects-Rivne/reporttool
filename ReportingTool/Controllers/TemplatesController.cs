@@ -177,7 +177,7 @@ namespace ReportingTool.Controllers
                     return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
                 }
 
-                var currentUser = Session["currentUser"] as string;
+                var currentUser = this.Session["currentUser"] as string;
                 template.Owner = currentUser;
                 template.IsActive = true;
 
@@ -220,7 +220,6 @@ namespace ReportingTool.Controllers
 
 		private bool CheckIfCurrentUserIsOwnerOfTemplate(string templateOwner)
         {
-            //string currentUser = SessionHelper.Context.Session["currentUser"] as string;
             var currentUser = Session["currentUser"] as string;
             if (currentUser == null)
                 return false;
