@@ -188,11 +188,6 @@ namespace ReportingTool.Controllers
             }
         }
 
-        private string getCurrentUser()
-        {
-            return Session["currentUser"] as string;
-        }
-
         public string GetTemplateFields(int templateId)
         {
             List<TemplateFieldsDataModel> fields;
