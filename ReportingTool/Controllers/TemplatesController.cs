@@ -226,9 +226,9 @@ namespace ReportingTool.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
+            if (disposing && _db != null)
             {
-                _db?.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
