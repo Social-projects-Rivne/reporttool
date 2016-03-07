@@ -163,4 +163,14 @@ templatesManagerModule.controller('AddTemplateController',
                     return response.data
                 });
             };
+
+            $scope.save = function () {
+                for (var i = 0; i <= $scope.newTemplate.fields.length; i++) {
+                    if (!$scope.newTemplate.fields[i].isSelected) {
+                        $scope.newTemplate.fieldd.splice(i, 1);
+                    }
+                }
+
+                $http.post()
+            };
 }]);

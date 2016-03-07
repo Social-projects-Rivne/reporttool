@@ -22,7 +22,7 @@ namespace ReportingTool.Controllers
     [Authorize]
     public class LoginController : Controller
     {
-        private string FILE_NAME = HostingEnvironment.MapPath("~/Configurations.ini"); 
+        private string FILE_NAME = HostingEnvironment.MapPath("~/Configurations.ini");
         private const string SECTION = "GeneralConfiguration";
         private const string SERVEL_URL_KEY = "ServerUrl";
         private const string PROJECT_NAME_KEY = "ProjectName";
@@ -57,7 +57,7 @@ namespace ReportingTool.Controllers
                 return false;
             }
 
-            return true;     
+            return true;
         }
 
         private void DefinePrincipal(string login)
@@ -87,9 +87,9 @@ namespace ReportingTool.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult Index() 
-        { 
-            return View(); 
+        public ActionResult Index()
+        {
+            return View();
         }
 
         [AllowAnonymous]
@@ -112,12 +112,13 @@ namespace ReportingTool.Controllers
 
                     DefinePrincipal(credentials.UserName);
                     FormsAuthentication.SetAuthCookie(credentials.UserName, false);
-
+                   
                     Session.Add("currentUser", credentials.UserName);
                     Session.Add("projectKey", getProjectKey());
                     Session.Add("jiraClient", client);
 
-                    SessionHelper.Context = System.Web.HttpContext.Current;
+                    //SessionHelper.Context = System.Web.HttpContext.Current;
+
                     return Json(new { Status = "validCredentials" });
                 }
                 return Json(new { Status = "invalidCredentials" });
@@ -141,7 +142,7 @@ namespace ReportingTool.Controllers
             }
             else
             {
-                return Json(new { Status = "sessionNotExists" }, JsonRequestBehavior.AllowGet); 
+                return Json(new { Status = "sessionNotExists" }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -154,5 +155,5 @@ namespace ReportingTool.Controllers
             System.Web.HttpContext.Current.User = null;
             return Json(new { Status = "loggedOut" }, JsonRequestBehavior.AllowGet);
         }
-	}
+    }
 }

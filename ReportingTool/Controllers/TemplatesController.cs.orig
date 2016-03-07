@@ -46,7 +46,11 @@ namespace ReportingTool.Controllers
         [HttpGet]
         public string GetAllFields()
         {
-            var fields = _db.Fields.AsNoTracking().Select(field => new FieldModel { fieldID = field.Id, fieldName = field.Name, fieldType = field.FieldType.Type, isSelected = true }).ToList();
+<<<<<<< HEAD
+            var fields = _db.Fields.Select(field => new FieldModel { fieldID = field.Id, fieldName = field.Name, fieldType = field.FieldType.Type, isSelected = true }).ToList();
+=======
+            var fields = _db.Fields.AsNoTracking().Select(field => new FieldModel { fieldID = field.Id, fieldName = field.Name, fieldType = field.FieldType.Type }).ToList();
+>>>>>>> dev
             var outputJSON = JsonConvert.SerializeObject(fields, Formatting.Indented);
             return outputJSON;
         }
@@ -228,7 +232,7 @@ namespace ReportingTool.Controllers
         {
             if (disposing)
             {
-                _db.Dispose();
+                _db?.Dispose();
             }
             base.Dispose(disposing);
         }

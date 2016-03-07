@@ -19,25 +19,30 @@ namespace ReportingTool.Controllers
         [HttpGet]
         public JsonResult GetAllUsers(string searchValue)
         {
-            
-
+<<<<<<< HEAD
             List<JiraUserModel> members = new List<JiraUserModel>();
             if (!string.IsNullOrEmpty(searchValue))
             {
-                searchValue = searchValue.Replace('+', ' ');
-
-                IEnumerable<JiraUserModel> temp = UsersStorage.Where(user => user.displayName.ToLower().Contains(searchValue))
+                IEnumerable<JiraUserModel> temp =  UsersStorage.Where(user => user.displayName.ToLower().Contains(searchValue))
                     .Select(user => JiraUserService.CreateModelFromEntity(user));
-
                 members = temp.ToList();
             }
-            else {
-                foreach (var user in UsersStorage)
-                {
-                    members.Add(JiraUserService.CreateModelFromEntity(user));
-                }
-            }
+=======
+            //List<object> members = new List<object>();
+            //foreach (var user in UsersStorage)
+            //{
+            //    members.Add(u => JiraUserService.CreateModelFromEntity(user));
+            //}
 
+
+            List<JiraUserModel> members = UsersStorage.Select(user => new JiraUserModel {userName = user.name, fullName = user.displayName}).ToList();
+            //if (!string.IsNullOrEmpty(searchValue))
+            //{
+            //    IEnumerable<JiraUserModel> temp =  UsersStorage.Where(user => user.displayName.ToLower().StartsWith(searchValue))
+            //        .Select(user => JiraUserService.CreateModelFromEntity(user));
+            //    members = temp.ToList();
+            //}
+>>>>>>> 99f2212dd169b9daf9d8b6523a102566b5d38428
 
             return new JsonResult { Data = members, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
