@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using System.Diagnostics;
 using ReportingTool.Core.Services;
 using System.Web;
+using System.Web.Routing;
 
 
 namespace UnitTestProject
@@ -125,7 +126,9 @@ namespace UnitTestProject
             fieldsInTemplate.Add(new FieldsInTemplate { FieldId = 7, DefaultValue = "default value" });
             fieldsInTemplate.Add(new FieldsInTemplate { FieldId = 8, DefaultValue = "default value" });
 
-            //SessionHelper.Context = MockHelper.GetFakeHttpContext();
+            HttpContext.Current = MockHelper.GetFakeHttpContext();
+            var wrapper = new HttpContextWrapper(HttpContext.Current);
+            templatesController.ControllerContext = new ControllerContext(wrapper, new RouteData(), templatesController);
 
             Template testTemplate = new Template
                 {
