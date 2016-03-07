@@ -7,7 +7,7 @@ templatesManagerModule.controller("templatesManagerController",
             $scope.validationIsInProgress = true;
             $scope.idSelectedTemplate = null;
             $scope.setSelected = function (idSelectedTemplate) {
-                //$scope.idSelectedTemplate = idSelectedTemplate;
+                $scope.idSelectedTemplate = idSelectedTemplate;
                 console.log(idSelectedTemplate);
             }
 
@@ -23,38 +23,7 @@ templatesManagerModule.controller("templatesManagerController",
                 alert("Error: " + response.code + " " + response.statusText);
             };
 
-            //  deletetemplate
-            var DeleteTemplate = null;
-            //  deletetemplate
-            $scope.deleteTemplate = function (deletedTemplateID) {
-
-                var bAnswer = false;
-                //  console.log($scope.templates);  //  debug
-                var bAnswer =
-                    confirm("Are you sure you want to delete template : " + $scope.templates[deletedTemplateID - 1].templateName + " ?");
-
-                if (bAnswer == true) {
-                    TemplateFactory
-                        .deleteTemplate(deletedTemplateID)
-                        .then(
-                            deleteTemplateSuccess,
-                            deleteTemplateFail);
-                }
-                else {
-                   // $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
-                }
-            };
-            //  deletetemplate
-            function deleteTemplateSuccess(response) {
-                if (response.data.Answer == 'Deleted') {
-                    //  $state.go('mainView.templatesManager', {}, { reload: true });   //  fix
-                    $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
-                }
-            }
-            //  deletetemplate
-            function deleteTemplateFail(response) {
-                console.error("deleteTemplate failed!");
-            }
+           
 
         }]);
 
@@ -128,6 +97,42 @@ templatesManagerModule.controller("templatesFieldsManagerController",
                     }
                 }
             }
+
+            //  deletetemplate
+            var DeleteTemplate = null;
+            //  deletetemplate
+            $scope.deleteTemplate = function (deletedTemplateID) {
+
+                var bAnswer = false;
+                //  console.log($scope.templates);  //  debug
+                console.log("deletedTemplateID = " + deletedTemplateID);  //  debug
+                var bAnswer =
+                    confirm("Are you sure you want to delete this template ?");
+                //  + $scope.templates[deletedTemplateID - 1].templateName + 
+
+                if (bAnswer == true) {
+                    TemplateFactory
+                        .deleteTemplate(deletedTemplateID)
+                        .then(
+                            deleteTemplateSuccess,
+                            deleteTemplateFail);
+                }
+                else {
+                    // $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
+                }
+            };
+            //  deletetemplate
+            function deleteTemplateSuccess(response) {
+                if (response.data.Answer == 'Deleted') {
+                    //  $state.go('mainView.templatesManager', {}, { reload: true });   //  fix
+                    $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
+                }
+            }
+            //  deletetemplate
+            function deleteTemplateFail(response) {
+                console.error("deleteTemplate failed!");
+            }
+
         }]);
 
 templatesManagerModule.controller('AddTemplateController',
