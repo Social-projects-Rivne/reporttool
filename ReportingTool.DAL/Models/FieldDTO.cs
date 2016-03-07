@@ -1,6 +1,6 @@
 ﻿namespace ReportingTool.Core.Models
 {
-    public class FieldModel
+    public class FieldDTO
     {
         public int fieldID { get; set; }
         public string fieldName { get; set; }
