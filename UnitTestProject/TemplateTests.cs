@@ -8,6 +8,7 @@ using ReportingTool.Controllers;
 using ReportingTool.Core.Models;
 using ReportingTool.Core.Services;
 using ReportingTool.DAL.Entities;
+using ReportingTool.DAL.Models;
 using ReportingTool.Models;
 
 namespace UnitTestProject

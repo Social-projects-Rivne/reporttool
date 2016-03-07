@@ -13,6 +13,7 @@ using ReportingTool.Models;
 using System.Net;
 using System.Web.Hosting;
 using System.Data.Entity;
+using ReportingTool.DAL.Models;
 
 namespace ReportingTool.Controllers
 {

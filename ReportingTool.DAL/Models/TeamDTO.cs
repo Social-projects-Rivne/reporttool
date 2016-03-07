@@ -1,4 +1,4 @@
-﻿namespace ReportingTool.Core.Models
+﻿namespace ReportingTool.DAL.Models
 {
     public class TeamDTO
     {
