@@ -136,8 +136,8 @@ templatesManagerModule.controller("templatesFieldsManagerController",
         }]);
 
 templatesManagerModule.controller('AddTemplateController',
-    ['$scope', '$state', 'FieldsFactory', '$http', 'UserFactory',
-        function ($scope, $state, FieldsFactory, $http, UserFactory) {
+    ['$scope', '$state', 'FieldsFactory', '$http', 'UserFactory', 'TemplateFactory',
+        function ($scope, $state, FieldsFactory, $http, UserFactory, TemplateFactory) {
             $scope.newTemplate = {
                 templateName: '',
                 fields: []
@@ -164,13 +164,23 @@ templatesManagerModule.controller('AddTemplateController',
                 });
             };
 
+            $scope.templateForServer = {
+                templateName: '',
+                fields: []
+            };
+
             $scope.save = function () {
-                for (var i = 0; i <= $scope.newTemplate.fields.length; i++) {
-                    if (!$scope.newTemplate.fields[i].isSelected) {
-                        $scope.newTemplate.fieldd.splice(i, 1);
+                $scope.templateForServer.templateName = $scope.newTemplate.templateName;
+                for (var i in $scope.newTemplate.fields) {
+
+                    if ($scope.newTemplate.fields[i].isSelected) {
+                        $scope.templateForServer.fields.push({
+                            fieldID: $scope.newTemplate.fields[i].fieldID,
+                            defaultValue: $scope.newTemplate.fields[i].fieldDefaultValue
+                        });
                     }
                 }
 
-                $http.post()
+                TemplateFactory.AddNewTemplate($scope.templateForServer);
             };
 }]);

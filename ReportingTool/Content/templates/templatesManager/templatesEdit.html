@@ -6,7 +6,9 @@
                 <div class="row" ng-repeat="field in newTemplate.fields | orderBy:'fieldID'">
 
                     <span class="col-md-6">
-                        <md-checkbox md-no-ink="false" ng-model="field.isSelected" aria-label="field.fieldName" class="md-primary">{{field.fieldName}}</md-checkbox>
+                        <md-checkbox md-no-ink="false" ng-model="field.isSelected" aria-label="field.fieldName" class="md-primary">
+                            {{field.fieldName}}
+                        </md-checkbox>
                     </span>
 
                     <!--TEXT INPUT-->
@@ -17,9 +19,13 @@
                     <!--COMBOBOX-->
                     <div class="btn-group col-md-6" uib-dropdown ng-if="field.fieldType === 'ComboBox'" ng-disabled="!field.isSelected">
 
-                        <input type="text" ng-model="field.fieldDefaultValue" placeholder="{{'Enter a ' + field.fieldName + '...'}} ng-disabled=" !field.isselected""
-                               uib-typeahead="JiraUser.fullName for JiraUser in getJiraUsers($viewValue)" typeahead-loading="loadingLocations"
-                               typeahead-no-results="noResults" class="form-control" typeahead-wait-ms="1500" typeahead-min-length="2">
+                        <input type="text" ng-model="field.fieldDefaultValue"
+                               placeholder="{{'Enter a ' + field.fieldName + '...'}}"
+                               uib-typeahead="JiraUser.fullName for JiraUser in getJiraUsers($viewValue)"
+                               typeahead-loading="loadingLocations"
+                               typeahead-no-results="noResults" class="form-control"
+                               typeahead-wait-ms="1500"
+                               typeahead-min-length="2">
                         <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                         <div ng-show="noResults">
                             <i class="glyphicon glyphicon-remove"></i> No Results Found
@@ -28,9 +34,9 @@
                     </div>
 
                     <!--LABLE-->
-                    <span class="btn-group col-md-6" ng-if="field.fieldType === 'ListBox'" ng-disabled="!field.isSelected">
-                        <p class="input-group">
-                            <label type="text">Will be configured during Report generation</label>
+                    <span class="btn-group col-md-6" ng-if="field.fieldType === 'ListBox'">
+                        <p class="input-group" ng-disabled="!field.isSelected">
+                            Will be configured during Report generation
                         </p>
                     </span>
                 </div>
@@ -45,8 +51,5 @@
                 </div>
             </container>
         </form>
-        <pre>
-        {{ newTemplate }}
-    </pre>
-    </div>
+            </div>
 </section>
