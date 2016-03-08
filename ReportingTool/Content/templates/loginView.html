@@ -2,6 +2,13 @@
          ng-controller="loginController"
          ng-show="showLogin.show">
 
+    <script type="text/ng-template" id="modalContentLogin.html">
+        <div class="modal-body" style="text-align:center">
+            Can not successfully get users from Jira.</br>
+            To fixed that, please try to login again.
+        </div>
+    </script>
+
     <form class="form-horizontal css-form" name="loginForm">
         <div class="form-top">
             <div class="form-top-left">

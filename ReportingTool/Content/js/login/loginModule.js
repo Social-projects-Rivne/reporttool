@@ -1,6 +1,6 @@
 ﻿'use strict'
 
-var loginModule = angular.module("loginModule", ['ngMaterial', 'ngMessages', 'ui.router']);
+var loginModule = angular.module("loginModule", ['ngMaterial', 'ngMessages', 'ui.router', 'ui.bootstrap', 'ngAnimate']);
 
 loginModule.config(['$stateProvider', '$urlRouterProvider',
     function ($stateProvider, $urlRouterProvider, $animateProvider) {

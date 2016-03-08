@@ -1,8 +1,8 @@
 ﻿'use strict'
 
 loginModule.controller("loginController",
-    ['$scope', '$state', '$http', '$stateParams', 'LoginService',
-    function ($scope, $state, $http, $stateParams, LoginService) {
+    ['$scope', '$state', '$http', '$stateParams', 'LoginService', '$uibModal',
+    function ($scope, $state, $http, $stateParams, LoginService,  $uibModal) {
 
         angular.element(document).ready(function () {
             $scope.CheckSession();
@@ -89,11 +89,11 @@ loginModule.controller("loginController",
                                     },
                                     function (res) {
                                         $scope.validationIsInProgress = false;
-                                        alert("Can not get correct data from Jira");                                     
+                                        $scope.open();                                    
                                         console.log(res.data);
                                         LoginService.SetShowLogoutStatus(true);
                                         LoginService.SetShowLoginStatus(false);
-                                                                                $state.transitionTo('mainView');
+                                        $state.transitionTo('mainView');
                                     });
                         }
                         else
@@ -111,5 +111,16 @@ loginModule.controller("loginController",
                 }
              );
         }
+
+        $scope.animationsEnabled = true;
+
+        $scope.open = function (size) {
+
+            var modalInstance = $uibModal.open({
+                animation: $scope.animationsEnabled,
+                templateUrl: 'modalContentLogin.html',
+                size: size
+            });
+        };
 
     }]);
