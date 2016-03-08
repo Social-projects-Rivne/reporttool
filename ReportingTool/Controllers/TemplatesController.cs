@@ -45,7 +45,7 @@ namespace ReportingTool.Controllers
         [HttpGet]
         public string GetAllTemplates()
         {
-            var templates = _db.Templates.Where(template => template.IsActive == true)
+            var templates = _db.Templates.AsNoTracking().Where(template => template.IsActive)
                 .Select(template => new TemplateModel { templateId = template.Id, templateName = template.Name }).ToList();
 
             return JsonConvert.SerializeObject(templates, Formatting.Indented);
