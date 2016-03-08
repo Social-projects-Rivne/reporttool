@@ -138,25 +138,25 @@ templatesManagerModule.controller("templatesFieldsManagerController",
 templatesManagerModule.controller('AddTemplateController',
     ['$scope', '$state', 'FieldsFactory', '$http', 'UserFactory', 'TemplateFactory',
         function ($scope, $state, FieldsFactory, $http, UserFactory, TemplateFactory) {
+            $scope.tempTemplate = {
+                templateName: '',
+                fields: []
+            };
+
             $scope.newTemplate = {
                 templateName: '',
                 fields: []
             };
-            $scope.fields = {};
 
             FieldsFactory.getAllFields().then(getFieldsSuccess, getFieldsFail);
 
             function getFieldsSuccess(responce) {
-                $scope.newTemplate.fields = responce.data;
+                $scope.tempTemplate.fields = responce.data;
             }
 
             function getFieldsFail(responce) {
                 console.log('FAIL: ' + responce.message);
             }
-
-        // -- Typeahead -- //
-
-            $scope.selected = undefined;
 
             $scope.getJiraUsers = function (searchValue) {
                 return UserFactory.getJiraUsers(searchValue).then(function (response) {
@@ -164,23 +164,27 @@ templatesManagerModule.controller('AddTemplateController',
                 });
             };
 
-            $scope.templateForServer = {
-                templateName: '',
-                fields: []
-            };
-
             $scope.save = function () {
-                $scope.templateForServer.templateName = $scope.newTemplate.templateName;
-                for (var i in $scope.newTemplate.fields) {
+                $scope.newTemplate.templateName = $scope.tempTemplate.templateName;
+                for (var i in $scope.tempTemplate.fields) {
 
-                    if ($scope.newTemplate.fields[i].isSelected) {
-                        $scope.templateForServer.fields.push({
-                            fieldID: $scope.newTemplate.fields[i].fieldID,
-                            defaultValue: $scope.newTemplate.fields[i].fieldDefaultValue
+                    if ($scope.tempTemplate.fields[i].isSelected) {
+                        $scope.newTemplate.fields.push({
+                            fieldID: $scope.tempTemplate.fields[i].fieldID,
+                            defaultValue: $scope.tempTemplate.fields[i].fieldDefaultValue
                         });
                     }
                 }
 
-                TemplateFactory.AddNewTemplate($scope.templateForServer);
+                TemplateFactory.AddNewTemplate($scope.newTemplate);
+            };
+
+
+
+            $scope.disableElement = function (isSelected, element) {
+                if (isSelected) {
+                    $(element).removeAttr("disabled");
+                }
+                else $(element).attr("disabled", 'true');
             };
 }]);

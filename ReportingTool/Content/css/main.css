@@ -109,6 +109,18 @@ li a {
     margin-top: 10px;
 }
 
+.readonly-input[readonly] {
+    text-align: center;
+    background-color: white;
+}
+
+    .readonly-input[disabled] {
+        font-style: italic;
+        color: InactiveCaptionText !important;
+    background-color: #eee;
+
+    }
+
 #title div {
     margin: auto 0;
 }
@@ -257,13 +269,14 @@ th:nth-child(3) {
 
 /*-------------- Templates --------------*/
 
-.table-striped>tbody>tr:nth-child(even)>td,
-.table-striped>tbody>tr:nth-child(even)>th {
-	background-color: #f9f9f9;
+.table-striped > tbody > tr:nth-child(even) > td,
+.table-striped > tbody > tr:nth-child(even) > th {
+    background-color: #f9f9f9;
 }
-.table-striped>tbody>tr:nth-child(odd)>td,
-.table-striped>tbody>tr:nth-child(odd)>th {
-	background-color: white;
+
+.table-striped > tbody > tr:nth-child(odd) > td,
+.table-striped > tbody > tr:nth-child(odd) > th {
+    background-color: white;
 }
 
 .selected {
@@ -278,15 +291,16 @@ th:nth-child(3) {
 }
 
 .cellValue {
-    font-style: italic; 
+    font-style: italic;
     font-size: 18px;
     margin-bottom: 20px;
 }
 
 .templateButtons {
-    width: 150px; 
+    width: 150px;
     margin-top: -95px;
 }
+
 .margin-left-m84 {
     margin-left: -84px;
 }
@@ -297,8 +311,8 @@ th:nth-child(3) {
 }
 
 #templateContainer {
-    width: 100%; 
-    padding-left: 40px; 
+    width: 100%;
+    padding-left: 40px;
     padding-right: 40px;
 }
 
@@ -316,5 +330,5 @@ th:nth-child(3) {
 }
 
 [uib-typeahead-popup].dropdown-menu {
-  display: block;
+    display: block;
 }

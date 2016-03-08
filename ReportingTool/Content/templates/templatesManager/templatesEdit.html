@@ -1,9 +1,9 @@
 ﻿<section id="templatesEdit" class="row">
     <div class="col-sm-9">
         <form>
-            <input class='form-control' id="change-template-name" ng-model="newTemplate.templateName" placeholder="Enter a Template name..." autofocus required>
+            <input class='form-control' id="change-template-name" ng-model="tempTemplate.templateName" placeholder="Enter a Template name..." autofocus required>
             <container>
-                <div class="row" ng-repeat="field in newTemplate.fields | orderBy:'fieldID'">
+                <div class="row" ng-repeat="field in tempTemplate.fields | orderBy:'fieldID'">
 
                     <span class="col-md-6">
                         <md-checkbox md-no-ink="false" ng-model="field.isSelected" aria-label="field.fieldName" class="md-primary">
@@ -25,7 +25,8 @@
                                typeahead-loading="loadingLocations"
                                typeahead-no-results="noResults" class="form-control"
                                typeahead-wait-ms="1500"
-                               typeahead-min-length="2">
+                               typeahead-min-length="2"
+                               ng-disabled="field.isSelected === false">
                         <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                         <div ng-show="noResults">
                             <i class="glyphicon glyphicon-remove"></i> No Results Found
@@ -35,9 +36,9 @@
 
                     <!--LABLE-->
                     <span class="btn-group col-md-6" ng-if="field.fieldType === 'ListBox'">
-                        <p class="input-group" ng-disabled="!field.isSelected">
-                            Will be configured during Report generation
-                        </p>
+                        <input type="text" class="form-control readonly-input" ng-disabled="field.isSelected === false"
+                               value="Will be configured during Report generation" readonly>
+                        </input>
                     </span>
                 </div>
             </container>
