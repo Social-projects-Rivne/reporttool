@@ -13,7 +13,6 @@ using ReportingTool.Models;
 using System.Net;
 using System.Web.Hosting;
 using System.Data.Entity;
-using ReportingTool.DAL.Models;
 
 namespace ReportingTool.Controllers
 {
@@ -38,7 +37,7 @@ namespace ReportingTool.Controllers
         [HttpGet]
         public string GetAllFields()
         {
-            var fields = _db.Fields.AsNoTracking().Select(field => new FieldDTO { fieldID = field.Id, fieldName = field.Name, fieldType = field.FieldType.Type }).ToList();
+            var fields = _db.Fields.AsNoTracking().Select(field => new FieldModel { fieldID = field.Id, fieldName = field.Name, fieldType = field.FieldType.Type }).ToList();
 
             return JsonConvert.SerializeObject(fields, Formatting.Indented);
         }
@@ -47,7 +46,7 @@ namespace ReportingTool.Controllers
         public string GetAllTemplates()
         {
             var templates = _db.Templates.Where(template => template.IsActive == true)
-                .Select(template => new TemplateDTO { templateId = template.Id, templateName = template.Name }).ToList();
+                .Select(template => new TemplateModel { templateId = template.Id, templateName = template.Name }).ToList();
 
             return JsonConvert.SerializeObject(templates, Formatting.Indented);
         }
@@ -213,8 +212,6 @@ namespace ReportingTool.Controllers
             }
             base.Dispose(disposing);
         }
-
-
 
         /// <summary>
         /// Delete a template with the specified id

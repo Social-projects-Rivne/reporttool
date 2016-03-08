@@ -8,7 +8,6 @@ using ReportingTool.Controllers;
 using ReportingTool.Core.Models;
 using ReportingTool.Core.Services;
 using ReportingTool.DAL.Entities;
-using ReportingTool.DAL.Models;
 using ReportingTool.Models;
 
 namespace UnitTestProject
@@ -32,10 +31,10 @@ namespace UnitTestProject
             db.Templates.Add(testTemplate3);
             db.Templates.Add(testTemplate4);
 
-            var testresult = new List<TemplateDTO>
+            var testresult = new List<TemplateModel>
             {
-                new TemplateDTO {templateName = testTemplate1.Name, templateId = testTemplate1.Id},
-                new TemplateDTO {templateName = testTemplate3.Name, templateId = testTemplate3.Id},
+                new TemplateModel {templateName = testTemplate1.Name, templateId = testTemplate1.Id},
+                new TemplateModel {templateName = testTemplate3.Name, templateId = testTemplate3.Id},
             };
 
             var expected = JsonConvert.SerializeObject(testresult, Formatting.Indented);

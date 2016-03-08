@@ -136,53 +136,25 @@ templatesManagerModule.controller("templatesFieldsManagerController",
         }]);
 
 templatesManagerModule.controller('AddTemplateController',
-    ['$scope', '$state', 'FieldsFactory', '$http', 'UserFactory',
-        function ($scope, $state, FieldsFactory, $http, UserFactory) {
+    ['$scope', '$state', 'FieldsFactory', '$http', 'UserFactory', 'TemplateFactory',
+        function ($scope, $state, FieldsFactory, $http, UserFactory, TemplateFactory) {
             $scope.newTemplate = {
                 templateName: '',
-                fields: [{
-                    fieldID: '',
-                    fieldValue: ''
-                }]
+                fields: []
             };
             $scope.fields = {};
 
             FieldsFactory.getAllFields().then(getFieldsSuccess, getFieldsFail);
 
             function getFieldsSuccess(responce) {
-                $scope.fields = responce.data;
+                $scope.newTemplate.fields = responce.data;
             }
 
             function getFieldsFail(responce) {
                 console.log('FAIL: ' + responce.message);
             }
 
-            // DATEPICKER
-            $scope.popup1 = {
-                opened: false
-            };
-
-            $scope.open1 = function () {
-                $scope.popup1.opened = true;
-            };
-
-            $scope.format = 'dd-MMMM-yyyy';
-            $scope.altInputFormats = ['M!/d!/yyyy'];
-
-            $scope.today = function () {
-                $scope.dt = new Date();
-            };
-            $scope.today();
-
-            $scope.clear = function () {
-                $scope.dt = null;
-            };
-
-
-
-            // ------------------------------------------------------ //
-
-            var _selected;
+        // -- Typeahead -- //
 
             $scope.selected = undefined;
 
@@ -192,20 +164,23 @@ templatesManagerModule.controller('AddTemplateController',
                 });
             };
 
-            $scope.ngModelOptionsSelected = function (value) {
-                if (arguments.length) {
-                    _selected = value;
-                } else {
-                    return _selected;
+            $scope.templateForServer = {
+                templateName: '',
+                fields: []
+            };
+
+            $scope.save = function () {
+                $scope.templateForServer.templateName = $scope.newTemplate.templateName;
+                for (var i in $scope.newTemplate.fields) {
+
+                    if ($scope.newTemplate.fields[i].isSelected) {
+                        $scope.templateForServer.fields.push({
+                            fieldID: $scope.newTemplate.fields[i].fieldID,
+                            defaultValue: $scope.newTemplate.fields[i].fieldDefaultValue
+                        });
+                    }
                 }
-            };
 
-            $scope.modelOptions = {
-                debounce: {
-                    default: 500,
-                    blur: 250
-                },
-                getterSetter: true
+                TemplateFactory.AddNewTemplate($scope.templateForServer);
             };
-        }]);
-
+}]);

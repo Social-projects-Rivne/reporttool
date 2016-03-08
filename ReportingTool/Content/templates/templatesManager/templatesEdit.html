@@ -1,25 +1,31 @@
 ﻿<section id="templatesEdit" class="row">
     <div class="col-sm-9">
         <form>
-            <input class='form-control' id="change-template-name" ng-model="newTemplate.templateName" autofocus>
+            <input class='form-control' id="change-template-name" ng-model="newTemplate.templateName" placeholder="Enter a Template name..." autofocus required>
             <container>
-                <div ng-repeat="field in fields | orderBy:'fieldID'">
+                <div class="row" ng-repeat="field in newTemplate.fields | orderBy:'fieldID'">
 
-                    <span flex-xs="" flex="50">
-                        <md-checkbox md-no-ink="" aria-label="" class="md-primary"></md-checkbox>
+                    <span class="col-md-6">
+                        <md-checkbox md-no-ink="false" ng-model="field.isSelected" aria-label="field.fieldName" class="md-primary">
+                            {{field.fieldName}}
+                        </md-checkbox>
                     </span>
 
-                    <label ng-bind="field.fieldName"></label>
-
                     <!--TEXT INPUT-->
-                    <input type="text" ng-if="field.fieldType === 'text'" ng-model="field.fieldDefaultValue" />
+                    <span class="col-md-6">
+                        <input class="form-control" type="text" ng-if="field.fieldType === 'Text'" ng-model="field.fieldDefaultValue" ng-disabled="!field.isSelected" />
+                    </span>
 
                     <!--COMBOBOX-->
-                    <div class="btn-group" uib-dropdown ng-if="field.fieldType === 'combobox'">
+                    <div class="btn-group col-md-6" uib-dropdown ng-if="field.fieldType === 'ComboBox'" ng-disabled="!field.isSelected">
 
-                        <input type="text" ng-model="asyncSelected" placeholder="{{'Enter a ' + field.fieldName + '...'}}"
-                               uib-typeahead="JiraUser.fullName for JiraUser in getJiraUsers($viewValue)" typeahead-loading="loadingLocations"
-                               typeahead-no-results="noResults" class="form-control">
+                        <input type="text" ng-model="field.fieldDefaultValue"
+                               placeholder="{{'Enter a ' + field.fieldName + '...'}}"
+                               uib-typeahead="JiraUser.fullName for JiraUser in getJiraUsers($viewValue)"
+                               typeahead-loading="loadingLocations"
+                               typeahead-no-results="noResults" class="form-control"
+                               typeahead-wait-ms="1500"
+                               typeahead-min-length="2">
                         <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                         <div ng-show="noResults">
                             <i class="glyphicon glyphicon-remove"></i> No Results Found
@@ -27,18 +33,23 @@
 
                     </div>
 
-                    <!--DATEPICKER-->
-                    <span class="btn-group" ng-if="field.fieldType === 'date'" style="width: 200px;">
-
-                        <p class="input-group">
-                            <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
-                            </span>
+                    <!--LABLE-->
+                    <span class="btn-group col-md-6" ng-if="field.fieldType === 'ListBox'">
+                        <p class="input-group" ng-disabled="!field.isSelected">
+                            Will be configured during Report generation
                         </p>
-
                     </span>
+                </div>
+            </container>
+
+            <container class="btn-group row">
+                <div class="col-sm-6">
+                    <button id="btn-save" class="btn btn-flat" ng-click='save()'>Save</button>
+                </div>
+                <div class="col-sm-6">
+                    <button id="btn-cancel" ui-sref="mainView.templatesManager.templatesList" class="btn btn-flat" ng-click='cancel()' type="reset">Cancel</button>
+                </div>
             </container>
         </form>
-    </div>
+            </div>
 </section>

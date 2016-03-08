@@ -1,6 +1,6 @@
-﻿namespace ReportingTool.DAL.Models
+﻿namespace ReportingTool.Core.Models
 {
-    public class MemberDTO
+    public class MemberModel
     {
         public string userName { get; set; }
         public string fullName { get; set; }
