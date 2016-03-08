@@ -23,13 +23,13 @@ templatesManagerModule.controller("templatesManagerController",
                 alert("Error: " + response.code + " " + response.statusText);
             };
 
-           
+
 
         }]);
 
 templatesManagerModule.controller("templatesFieldsManagerController",
-    ['$scope', '$stateParams', '$state', 'TemplateFactory',
-        function ($scope, $stateParams, $state, TemplateFactory) {
+    ['$scope', '$stateParams', '$state', 'TemplateFactory', 'TempObjectFactory',
+        function ($scope, $stateParams, $state, TemplateFactory, TempObjectFactory) {
 
             $scope.templateData = {};
             $scope.templateId = $stateParams.templateId;
@@ -96,6 +96,12 @@ templatesManagerModule.controller("templatesFieldsManagerController",
                         return $scope.fieldValueSetManually;
                     }
                 }
+            }
+
+            $scope.edit = function (editTemplate) {
+                TempObjectFactory.set(editTemplate);
+                $scope.activeTeam = {};
+                $state.go('mainView.teamsManager.editTeam');
             }
 
             //  deletetemplate
@@ -179,12 +185,50 @@ templatesManagerModule.controller('AddTemplateController',
                 TemplateFactory.AddNewTemplate($scope.newTemplate);
             };
 
+        }]);
 
-
-            $scope.disableElement = function (isSelected, element) {
-                if (isSelected) {
-                    $(element).removeAttr("disabled");
-                }
-                else $(element).attr("disabled", 'true');
+templatesManagerModule.controller('EditTemplateController',
+    ['$scope', '$state', 'FieldsFactory', '$http', 'UserFactory', 'TemplateFactory', 'TempObjectFactory',
+        function ($scope, $state, FieldsFactory, $http, UserFactory, TemplateFactory, TempObjectFactory) {
+            $scope.tempTemplate = {
+                templateName: '',
+                fields: []
             };
-}]);
+
+            $scope.editedTemplate = {
+                templateName: '',
+                fields: []
+            };
+
+            FieldsFactory.getAllFields().then(getFieldsSuccess, getFieldsFail);
+
+            function getFieldsSuccess(responce) {
+                $scope.tempTemplate.fields = responce.data;
+            }
+
+            function getFieldsFail(responce) {
+                console.log('FAIL: ' + responce.message);
+            }
+
+            $scope.getJiraUsers = function (searchValue) {
+                return UserFactory.getJiraUsers(searchValue).then(function (response) {
+                    return response.data
+                });
+            };
+
+            $scope.save = function () {
+                $scope.editedTemplate.templateName = $scope.tempTemplate.templateName;
+                for (var i in $scope.tempTemplate.fields) {
+
+                    if ($scope.tempTemplate.fields[i].isSelected) {
+                        $scope.editedTemplate.fields.push({
+                            fieldID: $scope.tempTemplate.fields[i].fieldID,
+                            defaultValue: $scope.tempTemplate.fields[i].fieldDefaultValue
+                        });
+                    }
+                }
+
+                TemplateFactory.EditTemplate($scope.editedTemplate);
+            };
+
+        }]);

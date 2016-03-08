@@ -37,7 +37,13 @@ namespace ReportingTool.Controllers
         [HttpGet]
         public string GetAllFields()
         {
-            var fields = _db.Fields.AsNoTracking().Select(field => new FieldModel { fieldID = field.Id, fieldName = field.Name, fieldType = field.FieldType.Type }).ToList();
+            var fields = _db.Fields.AsNoTracking().Select(field => new FieldModel
+            {
+                fieldID = field.Id,
+                fieldName = field.Name,
+                fieldType = field.FieldType.Type,
+                isSelected = false
+            }).ToList();
 
             return JsonConvert.SerializeObject(fields, Formatting.Indented);
         }
@@ -55,6 +61,8 @@ namespace ReportingTool.Controllers
         public ActionResult EditTemplate([ModelBinder(typeof(JsonNetModelBinder))] Template template)
         {
             Answer answer;
+
+            //----- Move all validation to Core.Validation -----//
 
             if (!TemplatesValidator.TemplateIsNotNull(template))
             {

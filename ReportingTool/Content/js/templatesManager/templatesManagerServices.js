@@ -5,6 +5,7 @@ templatesManagerModule.factory('TemplateFactory', ['$http', function ($http) {
         GetAllTemplates: GetAllTemplates,
         GetAllTemplateFields: GetAllTemplateFields,
         AddNewTemplate: AddNewTemplate,
+        EditTemplate: EditTemplate,
         deleteTemplate: deleteTemplate
     };
 
@@ -35,6 +36,10 @@ templatesManagerModule.factory('TemplateFactory', ['$http', function ($http) {
             data: newTemplate,
             headers: { 'content-type': 'application/json' }
         });
+    }
+
+    function EditTemplate(editedTemplate) {
+        return $http.put("Templates/EditTemplate", editedTemplate);
     }
 
     //  deletetemplate

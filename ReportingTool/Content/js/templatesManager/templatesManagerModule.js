@@ -33,7 +33,8 @@ templatesManagerModule.config(['$stateProvider', '$urlRouterProvider', function 
     var editTemplate = {
         name: 'mainView.templatesManager.editTemplate',
         url: '/editTemplate/{templateId:int}',
-        templateUrl: 'Content/templates/templatesManager/templatesEdit.html'
+        templateUrl: 'Content/templates/templatesManager/templatesEdit.html',
+        controller: 'EditTemplateController'
     };
     var addTemplate = {
         name: 'mainView.templatesManager.addTemplate',
