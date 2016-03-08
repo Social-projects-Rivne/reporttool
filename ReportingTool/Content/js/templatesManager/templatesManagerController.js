@@ -22,14 +22,11 @@ templatesManagerModule.controller("templatesManagerController",
                 $scope.validationIsInProgress = false;
                 alert("Error: " + response.code + " " + response.statusText);
             };
-
-           
-
         }]);
 
 templatesManagerModule.controller("templatesFieldsManagerController",
-    ['$scope', '$stateParams', '$state', 'TemplateFactory',
-        function ($scope, $stateParams, $state, TemplateFactory) {
+    ['$scope', '$stateParams', '$state', 'TemplateFactory', '$uibModal',
+        function ($scope, $stateParams, $state, TemplateFactory, $uibModal) {
 
             $scope.templateData = {};
             $scope.templateId = $stateParams.templateId;
@@ -52,6 +49,25 @@ templatesManagerModule.controller("templatesFieldsManagerController",
             $scope.filedEnum = fieldEnum;
             $scope.fieldValueGeneratedAutomatically = "Field data will be generated automatically";
             $scope.fieldValueSetManually = "Field data must be set manually";
+
+
+            $scope.animationsEnabled = true;
+            $scope.open = function () {
+
+                var modalInstance = $uibModal.open({
+                    animation: $scope.animationsEnabled,
+                    templateUrl: 'modalContent.html',
+                    controller: 'ModalInstanceCtrl'
+                });
+
+                modalInstance.result.then(function () {
+                    //if user select "YES"
+                    $scope.deleteTemplate($scope.templateId);
+                }, function () {
+                    //if user select "NO"
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            };
 
             function getFields() {
                 TemplateFactory.GetAllTemplateFields($scope.templateId)
@@ -98,28 +114,29 @@ templatesManagerModule.controller("templatesFieldsManagerController",
                 }
             }
 
+            ////TODO: For Marusiak A. Please, delete unnecessary commented lines, if you don't need them
             //  deletetemplate
-            var DeleteTemplate = null;
+            //var DeleteTemplate = null;
             //  deletetemplate
             $scope.deleteTemplate = function (deletedTemplateID) {
 
-                var bAnswer = false;
+                //var bAnswer = false;
                 //  console.log($scope.templates);  //  debug
                 console.log("deletedTemplateID = " + deletedTemplateID);  //  debug
-                var bAnswer =
-                    confirm("Are you sure you want to delete this template ?");
+                //var bAnswer =
+                //    confirm("Are you sure you want to delete this template ?");
                 //  + $scope.templates[deletedTemplateID - 1].templateName + 
 
-                if (bAnswer == true) {
-                    TemplateFactory
-                        .deleteTemplate(deletedTemplateID)
-                        .then(
-                            deleteTemplateSuccess,
-                            deleteTemplateFail);
-                }
-                else {
-                    // $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
-                }
+                //if (bAnswer == true) {
+                TemplateFactory
+                    .deleteTemplate(deletedTemplateID)
+                    .then(
+                        deleteTemplateSuccess,
+                        deleteTemplateFail);
+                //}
+                //else {
+                // $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
+                //}
             };
             //  deletetemplate
             function deleteTemplateSuccess(response) {
@@ -134,6 +151,21 @@ templatesManagerModule.controller("templatesFieldsManagerController",
             }
 
         }]);
+
+// Please note that $uibModalInstance represents a modal window (instance) dependency.
+// It is not the same as the $uibModal service used above.
+
+angular.module('templatesManagerModule').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance) {
+
+
+    $scope.ok = function () {
+        $uibModalInstance.close();
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
 
 templatesManagerModule.controller('AddTemplateController',
     ['$scope', '$state', 'FieldsFactory', '$http', 'UserFactory', 'TemplateFactory',
