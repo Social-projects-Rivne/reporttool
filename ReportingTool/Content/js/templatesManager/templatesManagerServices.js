@@ -4,7 +4,7 @@ templatesManagerModule.factory('TemplateFactory', ['$http', function ($http) {
     var templateFactory = {
         GetAllTemplates: GetAllTemplates,
         GetAllTemplateFields: GetAllTemplateFields,
-        //  deletetemplate
+        AddNewTemplate: AddNewTemplate,
         deleteTemplate: deleteTemplate
     };
 
@@ -14,13 +14,6 @@ templatesManagerModule.factory('TemplateFactory', ['$http', function ($http) {
     }
 
     function GetAllTemplateFields(templateId) {
-        // TODO: check why not working?
-        //return $http({
-        //    url: 'Templates/GetTemplateFields',
-        //    method: 'POST',
-        //    data: templateId,
-        //    headers: { 'content-type': 'application/json' }
-        //})
         return $http.get("Templates/GetTemplateFields?templateId=" + templateId)
         .then(function (response) {
             if (typeof response.data === 'object') {
@@ -32,6 +25,15 @@ templatesManagerModule.factory('TemplateFactory', ['$http', function ($http) {
         }, function (response) {
             // something went wrong
             return $q.reject(response.data);
+        });
+    }
+
+    function AddNewTemplate(newTemplate) {
+        return $http({
+            url: 'Templates/AddNewTemplate',
+            method: 'POST',
+            data: newTemplate,
+            headers: { 'content-type': 'application/json' }
         });
     }
 

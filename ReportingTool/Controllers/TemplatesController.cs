@@ -214,8 +214,6 @@ namespace ReportingTool.Controllers
             base.Dispose(disposing);
         }
 
-
-
         /// <summary>
         /// Delete a template with the specified id
         /// </summary>

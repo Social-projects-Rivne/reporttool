@@ -6,5 +6,6 @@
         public string fieldName { get; set; }
         public string fieldType { get; set; }
         public string fieldDefaultValue { get; set; }
+        public bool isSelected { get; set; }
     }
 }
