@@ -61,11 +61,11 @@ namespace ReportingTool.DAL.DataAccessLayer
             List<JiraUser> result = new List<JiraUser>();
             int count = 0;
             int cursor = 0;
-            int i = 1;
             do
             {
-                count = GetUsers(projectName, cursor).Count;
-                foreach (var u in GetUsers(projectName, cursor))
+                var users = GetUsers(projectName, cursor);
+                count = users.Count;
+                foreach (var u in users)
                 {
                     result.Add(u);
                 }
