@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using ReportingTool.Core.Models;
+using ReportingTool.Core.Services;
 using ReportingTool.Core.Validation;
 using ReportingTool.DAL.DataAccessLayer;
 using ReportingTool.DAL.Entities;
+using ReportingTool.Models;
+using System.Net;
+using System.Web.Hosting;
+using System.Data.Entity;
 
 namespace ReportingTool.Controllers
 {
@@ -16,7 +21,7 @@ namespace ReportingTool.Controllers
         private enum Answer
         {
             DBConnectionError, WrongTemplate, WrongName, WrongId,
-            FieldsIsEmpty, FieldIsNotCorrect, Edited, AlreadyExists, Added, IsNull,
+            FieldsIsEmpty, FieldIsNotCorrect, Edited, AlreadyExists, WrongOwnerName, Added, IsNull,
             NotDeleted, Deleted, NotFound
         };
 
@@ -32,6 +37,9 @@ namespace ReportingTool.Controllers
         [HttpGet]
         public string GetAllFields()
         {
+<<<<<<< HEAD
+            var fields = _db.Fields.AsNoTracking().Select(field => new FieldModel { fieldID = field.Id, fieldName = field.Name, fieldType = field.FieldType.Type }).ToList();
+=======
             var fields = _db.Fields.AsNoTracking().Select(field => new FieldModel
             {
                 fieldID = field.Id,
@@ -39,6 +47,7 @@ namespace ReportingTool.Controllers
                 fieldType = field.FieldType.Type,
                 isSelected = false
             }).ToList();
+>>>>>>> b05570dea55e96151500dcb4624faf248004459f
 
             return JsonConvert.SerializeObject(fields, Formatting.Indented);
         }
@@ -91,11 +100,10 @@ namespace ReportingTool.Controllers
                 return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
             }
 
-            var fieldsToDelete = templateFromDb.FieldsInTemplate.ToList();
+            var fieldsToDelete = templateFromDb.FieldsInTemplate;
 
-            for (var i = 0; i < fieldsToDelete.Count; i++)
+            foreach (var fieldToDelete in fieldsToDelete)
             {
-                var fieldToDelete = fieldsToDelete[i];
                 var deleteField = true;
                 foreach (var fieldFromTemplate in template.FieldsInTemplate)
                 {
@@ -107,7 +115,6 @@ namespace ReportingTool.Controllers
                 if (deleteField)
                 {
                     _db.FieldsInTemplates.Remove(fieldToDelete);
-                    _db.SaveChanges();
                 }
             }
 

@@ -1,16 +1,12 @@
-﻿using ReportingTool.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using IniParser;
 using IniParser.Model;
-using System.Web.Hosting;
-
-using System.IO;
-using System.Data.Entity;
 using Newtonsoft.Json;
 using ReportingTool.DAL.Entities;
 
