@@ -24,8 +24,7 @@ factory('TeamFactory', ['$http', function ($http) {
     }
 
     function updateTeam(data) {
-        return $http.put("Teams/EditTeam", data
-        );
+        return $http.put("Teams/EditTeam", data);
     }
 
     function deleteTeam(id) {
@@ -46,23 +45,3 @@ teamsManagerModule.factory('UserFactory', ['$http', function ($http) {
 
     return jiraUsers;
 }]);
-
-teamsManagerModule.factory('TempTeamFactory', function () {
-
-    var tempTeam = {};
-
-    var tempTeamProp = {
-        setTempTeam: set,
-        getTempTeam: get
-    };
-
-    function set(selectedTeam) {
-        tempTeam = selectedTeam;
-    }
-
-    function get() {
-        return tempTeam;
-    }
-
-    return tempTeamProp;
-});

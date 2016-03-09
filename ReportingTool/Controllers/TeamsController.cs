@@ -174,7 +174,8 @@ namespace ReportingTool.Controllers
                 //  CHECK :   is a team with the specified projectkey and name present in DB ?
 
                 //  CHECK RESULT  : No  ---> send a NotFound error response + exit
-                if (ctx.Teams.Any(t => t.Name == teamFromJSON.Name && t.ProjectKey == ProjectKey && t.IsActive == true) == false)
+                //if (ctx.Teams.Any(t => t.Name == teamFromJSON.Name && t.ProjectKey == ProjectKey && t.IsActive == true) == false)  ----- and if I have changed teamName ??
+                if (ctx.Teams.Any(t => t.Id == teamFromJSON.Id && t.ProjectKey == ProjectKey && t.IsActive == true) == false)
                 {
                     //return HttpStatusCode.NotFound;
                     answer = Answer.NotFound;
@@ -183,7 +184,8 @@ namespace ReportingTool.Controllers
 
                 //  CHECK RESULT  : Yes  ---> keep running
                 teamForUpdate = ctx.Teams.Include("Members")
-                   .SingleOrDefault<Team>(t => t.Name == teamFromJSON.Name && t.ProjectKey == ProjectKey && t.IsActive == true);
+                  // .SingleOrDefault<Team>(t => t.Name == teamFromJSON.Name && t.ProjectKey == ProjectKey && t.IsActive == true);       ----- the same
+                  .SingleOrDefault<Team>(t => t.Id == teamFromJSON.Id && t.ProjectKey == ProjectKey && t.IsActive == true); 
                 //  the team in DB -> active
                 teamForUpdate.IsActive = true;
 

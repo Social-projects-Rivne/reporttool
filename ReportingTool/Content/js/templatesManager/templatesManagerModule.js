@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var templatesManagerModule = angular.module("templatesManagerModule", ['ui.router', 'ui.bootstrap']);
+var templatesManagerModule = angular.module("templatesManagerModule", ['ui.router', 'ui.bootstrap', 'ngAnimate']);
 
 templatesManagerModule.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
@@ -29,11 +29,11 @@ templatesManagerModule.config(['$stateProvider', '$urlRouterProvider', function 
         controller: 'templatesFieldsManagerController'
     };
 
-    //                                 ------- add controllers -------
     var editTemplate = {
         name: 'mainView.templatesManager.editTemplate',
-        url: '/editTemplate/{templateId:int}',
-        templateUrl: 'Content/templates/templatesManager/templatesEdit.html'
+        url: '/editTemplate',
+        templateUrl: 'Content/templates/templatesManager/templatesEdit.html',
+        controller: 'EditTemplateController'
     };
     var addTemplate = {
         name: 'mainView.templatesManager.addTemplate',

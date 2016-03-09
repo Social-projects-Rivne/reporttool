@@ -1,55 +1,81 @@
 ﻿<section id="templatesEdit" class="row">
-    <div class="col-sm-9">
+    <div class="col-sm-8">
         <form>
-            <input class='form-control' id="change-template-name" ng-model="newTemplate.templateName" placeholder="Enter a Template name..." autofocus required>
+            <input class='form-control'
+                   id="change-template-name"
+                   ng-model="tempTemplate.templateName"
+                   placeholder="Enter a Template name..."
+                   autofocus required>
             <container>
-                <div class="row" ng-repeat="field in newTemplate.fields | orderBy:'fieldID'">
+                <div class="row" ng-repeat="field in tempTemplate.fields | orderBy:'fieldID'">
 
                     <span class="col-md-6">
-                        <md-checkbox md-no-ink="false" ng-model="field.isSelected" aria-label="field.fieldName" class="md-primary">
+                        <md-checkbox md-no-ink="false"
+                                     ng-model="field.isSelected"
+                                     aria-label="field.fieldName"
+                                     class="md-primary">
                             {{field.fieldName}}
                         </md-checkbox>
                     </span>
 
                     <!--TEXT INPUT-->
                     <span class="col-md-6">
-                        <input class="form-control" type="text" ng-if="field.fieldType === 'Text'" ng-model="field.fieldDefaultValue" ng-disabled="!field.isSelected" />
+                        <input class="form-control"
+                               type="text"
+                               ng-if="field.fieldType === 'Text'"
+                               ng-model="field.fieldDefaultValue"
+                               ng-disabled="!field.isSelected" />
                     </span>
 
                     <!--COMBOBOX-->
-                    <div class="btn-group col-md-6" uib-dropdown ng-if="field.fieldType === 'ComboBox'" ng-disabled="!field.isSelected">
-
+                    <div class="btn-group col-md-6"
+                         uib-dropdown
+                         ng-if="field.fieldType === 'ComboBox'"
+                         ng-disabled="!field.isSelected">
                         <input type="text" ng-model="field.fieldDefaultValue"
                                placeholder="{{'Enter a ' + field.fieldName + '...'}}"
                                uib-typeahead="JiraUser.fullName for JiraUser in getJiraUsers($viewValue)"
                                typeahead-loading="loadingLocations"
                                typeahead-no-results="noResults" class="form-control"
                                typeahead-wait-ms="1500"
-                               typeahead-min-length="2">
+                               typeahead-min-length="2"
+                               ng-disabled="field.isSelected === false">
                         <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                         <div ng-show="noResults">
                             <i class="glyphicon glyphicon-remove"></i> No Results Found
                         </div>
-
                     </div>
 
                     <!--LABLE-->
                     <span class="btn-group col-md-6" ng-if="field.fieldType === 'ListBox'">
-                        <p class="input-group" ng-disabled="!field.isSelected">
-                            Will be configured during Report generation
-                        </p>
+                        <input type="text" class="form-control readonly-input"
+                               ng-disabled="field.isSelected === false"
+                               value="Will be configured during Report generation"
+                               readonly>
+                        </input>
                     </span>
                 </div>
             </container>
 
-            <container class="btn-group row">
+            <container class="btn-group row center-in-div">
                 <div class="col-sm-6">
-                    <button id="btn-save" class="btn btn-flat" ng-click='save()'>Save</button>
+                    <button id="btn-save"
+                            type="submit"
+                            class="btn btn-flat"
+                            ng-click='save()'>
+                        Save
+                    </button>
                 </div>
                 <div class="col-sm-6">
-                    <button id="btn-cancel" ui-sref="mainView.templatesManager.templatesList" class="btn btn-flat" ng-click='cancel()' type="reset">Cancel</button>
+                    <button id="btn-cancel"
+                            ui-sref="mainView.templatesManager.templatesList"
+                            class="btn btn-flat"
+                            ng-click='cancel()'
+                            type="reset">
+                        Cancel
+                    </button>
                 </div>
             </container>
         </form>
-            </div>
+    </div>
 </section>

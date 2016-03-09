@@ -1,7 +1,7 @@
 'use strict';
 
 teamsManagerModule.controller('teamsManagerController',
-    ['$scope', '$state', 'TeamFactory', 'TempTeamFactory', function ($scope, $state, TeamFactory, TempTeamFactory) {
+    ['$scope', '$state', 'TeamFactory', 'TempObjectFactory', function ($scope, $state, TeamFactory, TempObjectFactory) {
         $scope.message = "Loading...";
         $scope.showTeams = true;
         $scope.teams = {};
@@ -21,7 +21,7 @@ teamsManagerModule.controller('teamsManagerController',
         }
 
         $scope.editTeam = function (updateTeam) {
-            TempTeamFactory.setTempTeam(updateTeam);
+            TempObjectFactory.set(updateTeam);
             $scope.activeTeam = {};
             $state.go('mainView.teamsManager.editTeam');
         }
@@ -50,15 +50,15 @@ teamsManagerModule.controller('teamsManagerController',
     }]);
 
 teamsManagerModule.controller('teamsEditController',
-    ['$scope', '$stateParams', '$state', 'TeamFactory', 'UserFactory', 'TempTeamFactory',
-        function ($scope, $stateParams, $state, TeamFactory, UserFactory, TempTeamFactory) {
+    ['$scope', '$stateParams', '$state', 'TeamFactory', 'UserFactory', 'TempObjectFactory',
+        function ($scope, $stateParams, $state, TeamFactory, UserFactory, TempObjectFactory) {
 
             $scope.jiraUsers = [{
                 loginName: 'Loading...',
                 fullName: 'Loading...'
             }];
 
-            $scope.editTeam = TempTeamFactory.getTempTeam();
+            $scope.editTeam = TempObjectFactory.get();
 
             $scope.selectedMember = {
                 userName: '',
@@ -78,9 +78,6 @@ teamsManagerModule.controller('teamsEditController',
             $scope.message = "Loading...";
             $scope.showEditBlock = true;
 
-            //var backupTeam = {};
-
-
             $scope.addMember = function (member) {
                 for (var i in $scope.editTeam.members) {
                     if ($scope.editTeam.members[i].userName === member.userName) {
@@ -92,13 +89,11 @@ teamsManagerModule.controller('teamsEditController',
 
             $scope.save = function () {
                 TeamFactory.updateTeam($scope.editTeam).then(updateSuccess, updateFail);
-                TempTeamFactory.setTempTeam({});
+                TempObjectFactory.set({});
             }
 
             $scope.cancel = function () {
-                //console.log($scope.editTeam + " = " + backupTeam);
-                //$scope.editTeam = backupTeam;
-                TempTeamFactory.setTempTeam({});
+                TempObjectFactory.set({});
                 $state.go('mainView.teamsManager');
             }
 
@@ -112,7 +107,7 @@ teamsManagerModule.controller('teamsEditController',
             }
 
             function updateSuccess(response) {
-                $state.go('mainView.teamsManager');
+                $state.go('mainView.teamsManager', {}, { reload: true });
             }
 
             function updateFail(response) {
@@ -185,7 +180,6 @@ teamsManagerModule.controller('NewTeamController',
         function createSuccess(response) {
             if (response.data.Answer == 'Created') {
                 $state.go('mainView.teamsManager', {}, { reload: true });
-                //$state.go('mainView.teamsManager.serverResponseView({})');
             }
         }
 
