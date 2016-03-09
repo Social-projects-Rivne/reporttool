@@ -114,12 +114,11 @@ li a {
     background-color: white;
 }
 
-    .readonly-input[disabled] {
-        font-style: italic;
-        color: InactiveCaptionText !important;
+.readonly-input[disabled] {
+    font-style: italic;
+    color: InactiveCaptionText !important;
     background-color: #eee;
-
-    }
+}
 
 #title div {
     margin: auto 0;

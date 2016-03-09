@@ -19,8 +19,8 @@
                 <!--TODO: Need to add functionality with edit template-->
                 <button type="button" 
                         class="btn btn-flat templateButtons margin-left-m84" 
-                        ng-disabled="!isOwner"
-                        >
+                        ng-click="edit()"
+                        ng-disabled="!isOwner">
                     <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                     Edit
                 </button>
@@ -35,10 +35,10 @@
             </div>
             <div id="templateContainerBorder">
                 <div id="templateContainer" class="container">
-                    <h3 ng-bind="templateData.TemplateName" class="font-weight-bold"></h3>
+                    <h3 ng-bind="templateData.templateName" class="font-weight-bold"></h3>
                     <div class="row margin-top-40">
                         <div ng-repeat="field in fields">
-                            <p class="col-sm-3 cellName" ng-bind="field.FieldName"></p>
+                            <p class="col-sm-3 cellName" ng-bind="field.fieldName"></p>
                             <p class="col-sm-9 cellValue" ng-bind="getFieldValue(field)"></p>
                         </div>
                     </div>

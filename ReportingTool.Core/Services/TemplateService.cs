@@ -12,7 +12,7 @@ namespace ReportingTool.Core.Services
     {
         public static Template CreateEntityFromModel(TemplateModel model)
         {
-            return new Template { Name = model.templateName, FieldsInTemplate = FieldsService.CreateEntitiesFromModels(model.fieldsInTemplate) };
+            return new Template { Name = model.templateName, FieldsInTemplate = FieldsService.CreateEntitiesFromModels(model.fields) };
         }
     }
 }

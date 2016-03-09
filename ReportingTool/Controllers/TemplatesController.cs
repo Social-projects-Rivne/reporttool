@@ -181,7 +181,7 @@ namespace ReportingTool.Controllers
 
         public string GetTemplateFields(int templateId)
         {
-            List<TemplateFieldsDataModel> fields;
+            List<FieldModel> fields;
             string temaplateName;
             bool isOwner;
             //using (var db = new DB2())
@@ -197,10 +197,17 @@ namespace ReportingTool.Controllers
             var getFields = from filedsInTemplate in _db.FieldsInTemplates
                             join field in _db.Fields on filedsInTemplate.FieldId equals field.Id
                             where filedsInTemplate.TemplateId == templateId
-                            select new TemplateFieldsDataModel { FieldName = field.Name, DefaultValue = filedsInTemplate.DefaultValue };
+                            select new FieldModel
+                            {
+                                fieldName = field.Name,
+                                fieldDefaultValue = filedsInTemplate.DefaultValue,
+                                fieldID = field.Id,
+                                fieldType = field.FieldType.Type,
+                                isSelected = true
+                            };
             fields = getFields.ToList();
             //}
-            TemplateData templateData = new TemplateData { Fields = fields, IsOwner = isOwner, TemplateName = temaplateName };
+            TemplateModel templateData = new TemplateModel { fields = fields, IsOwner = isOwner, templateName = temaplateName };
             return JsonConvert.SerializeObject(templateData, Formatting.Indented);
         }
 

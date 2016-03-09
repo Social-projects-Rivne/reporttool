@@ -107,7 +107,7 @@ teamsManagerModule.controller('teamsEditController',
             }
 
             function updateSuccess(response) {
-                $state.go('mainView.teamsManager');
+                $state.go('mainView.teamsManager', {}, { reload: true });
             }
 
             function updateFail(response) {
