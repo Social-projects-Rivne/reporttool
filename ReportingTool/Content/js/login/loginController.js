@@ -80,7 +80,8 @@ loginModule.controller("loginController",
                             //LoginService.SetShowLogoutStatus(true);
                             //redirect on main page
                             //$state.transitionTo('mainView');                
-                            $http.get("JiraUsers/CreateBackendStorage").
+                            $http.get("JiraUsers/CreateBackendStorage")
+                                .
                                 then(
                                     function (res) {
                                         $scope.validationIsInProgress = false;

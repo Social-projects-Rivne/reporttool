@@ -10,7 +10,6 @@ namespace ReportingTool.DAL.Entities
         [JsonIgnore]
         public int Id { get; set; }
 
-        [Required]
         [JsonProperty("defaultValue")]
         public string DefaultValue { get; set; }
 

@@ -57,8 +57,6 @@ namespace ReportingTool.Controllers
         {
             Answer answer;
 
-            //----- Move all validation to Core.Validation -----//
-
             if (!TemplatesValidator.TemplateIsNotNull(template))
             {
                 answer = Answer.WrongTemplate;
@@ -91,44 +89,16 @@ namespace ReportingTool.Controllers
                 return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
             }
 
-            var fieldsToDelete = templateFromDb.FieldsInTemplate.ToList();
+            _db.FieldsInTemplates.RemoveRange(templateFromDb.FieldsInTemplate);
 
-            for (var i = 0; i < fieldsToDelete.Count; i++)
+            foreach (var field in template.FieldsInTemplate)
             {
-                var fieldToDelete = fieldsToDelete[i];
-                var deleteField = true;
-                foreach (var fieldFromTemplate in template.FieldsInTemplate)
-                {
-                    if (fieldToDelete.FieldId == fieldFromTemplate.FieldId)
-                    {
-                        deleteField = false;
-                    }
-                }
-                if (deleteField)
-                {
-                    _db.FieldsInTemplates.Remove(fieldToDelete);
-                    _db.SaveChanges();
-                }
-            }
-
-            foreach (var fields in template.FieldsInTemplate)
-            {
-                if (!_db.Fields.Any(f => f.Id == fields.FieldId))
+                if (!_db.Fields.Any(f => f.Id == field.FieldId))
                 {
                     answer = Answer.FieldIsNotCorrect;
                     return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
                 }
-
-                var field = templateFromDb.FieldsInTemplate.SingleOrDefault(f => f.FieldId == fields.FieldId);
-                if (field != null)
-                {
-                    field.DefaultValue = fields.DefaultValue;
-                }
-                else
-                {
-                    fields.Field = _db.Fields.SingleOrDefault(f => f.Id == fields.FieldId);
-                    templateFromDb.FieldsInTemplate.Add(fields);
-                }
+                templateFromDb.FieldsInTemplate.Add(field);
             }
 
             templateFromDb.Name = template.Name;
