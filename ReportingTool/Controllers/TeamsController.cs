@@ -282,6 +282,7 @@ namespace ReportingTool.Controllers
 
                     #endregion
 
+                    teamForUpdate.Name = teamFromJSON.Name;
                     ctx.SaveChanges();
                 }
                 catch

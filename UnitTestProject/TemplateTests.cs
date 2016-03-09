@@ -53,12 +53,16 @@ namespace UnitTestProject
             var wrapper = new HttpContextWrapper(HttpContext.Current);
             controller.ControllerContext = new ControllerContext(wrapper, new RouteData(), controller);
 
-            //SessionHelper.Context = MockHelper.GetFakeHttpContext();
             var testTemplate = new Template { Id = 1, Name = "TestTemplate", IsActive = true, Owner = "testUser" };
             db.Templates.Add(testTemplate);
 
-            var field1 = new Field { Id = 1, Name = "testfield1" };
-            var field2 = new Field { Id = 2, Name = "testfield2" };
+            var fieldType1 = new FieldType { Id = 1, Type = "testtype1" };
+            var fieldType2 = new FieldType { Id = 2, Type = "testtype2" };
+            db.FieldTypes.Add(fieldType1);
+            db.FieldTypes.Add(fieldType2);
+
+            var field1 = new Field { Id = 1, Name = "testfield1", FieldTypeId = 1, FieldType = fieldType1};
+            var field2 = new Field { Id = 2, Name = "testfield2", FieldTypeId = 2, FieldType = fieldType2};
             db.Fields.Add(field1);
             db.Fields.Add(field2);
 
@@ -79,15 +83,26 @@ namespace UnitTestProject
             db.FieldsInTemplates.Add(testfield1);
             db.FieldsInTemplates.Add(testfield2);
 
-            var testFieldsDataModel1 = new TemplateFieldsDataModel
-            { DefaultValue = testfield1.DefaultValue, FieldName = field1.Name };
-            var testFieldsDataModel2 = new TemplateFieldsDataModel
-            { DefaultValue = testfield2.DefaultValue, FieldName = field2.Name };
+            var fieldes = new List<FieldModel>
+            {
+                new FieldModel {
+                fieldName = field1.Name,
+                fieldDefaultValue = testfield1.DefaultValue,
+                fieldID = field1.Id,
+                fieldType = field1.FieldType.Type,
+                isSelected = true
+            },
+             new FieldModel   {
+                fieldName = field2.Name,
+                fieldDefaultValue = testfield2.DefaultValue,
+                fieldID = field2.Id,
+                fieldType = field2.FieldType.Type,
+                isSelected = true
+            }
+            };
 
-            var fields = new List<TemplateFieldsDataModel>
-                { testFieldsDataModel1, testFieldsDataModel2 };
-            var testresult = new TemplateData
-            { Fields = fields, IsOwner = true, TemplateName = testTemplate.Name };
+            var testresult = new TemplateModel
+            { fields = fieldes, IsOwner = true, templateName = testTemplate.Name };
 
             var expected = JsonConvert.SerializeObject(testresult, Formatting.Indented);
             var actual = controller.GetTemplateFields(1);
@@ -269,7 +284,7 @@ namespace UnitTestProject
             var db = new FakeDb();
             var controller = new TemplatesController(db);
 
-            var testTemplate = new Template { Id = 1, Name = "TestTemplate", IsActive = true, Owner = "testowner1", FieldsInTemplate = new List<FieldsInTemplate>()};
+            var testTemplate = new Template { Id = 1, Name = "TestTemplate", IsActive = true, Owner = "testowner1", FieldsInTemplate = new List<FieldsInTemplate>() };
             db.Templates.Add(testTemplate);
             var newField1 = new Field { Id = 1, Name = "testfield1" };
             var newField2 = new Field { Id = 2, Name = "testfield2" };
