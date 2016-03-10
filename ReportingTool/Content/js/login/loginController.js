@@ -79,7 +79,7 @@ loginModule.controller("loginController",
                         if (r.data.Status == "validCredentials") {
                             //LoginService.SetShowLogoutStatus(true);
                             //redirect on main page
-                            //$state.transitionTo('mainView');                
+                            //$state.transitionTo('mainView');         
                             $http.get("JiraUsers/CreateBackendStorage")
                                 .
                                 then(

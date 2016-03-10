@@ -56,6 +56,7 @@ namespace ReportingTool.DAL.DataAccessLayer
             return deserializer.Deserialize<List<JiraUser>>(response);
 
         }
+        
         public List<JiraUser> GetAllUsers(string projectName)
         {
             List<JiraUser> result = new List<JiraUser>();
