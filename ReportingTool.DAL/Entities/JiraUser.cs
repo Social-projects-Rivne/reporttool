@@ -12,4 +12,5 @@ namespace ReportingTool.DAL.Entities
 
         public string displayName { get; set; }
     }
+
 }
