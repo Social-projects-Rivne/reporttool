@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using ReportingTool.Core.Models;
+using ReportingTool.Core.Services;
 using ReportingTool.Core.Validation;
 using ReportingTool.DAL.DataAccessLayer;
 using ReportingTool.DAL.Entities;
@@ -15,8 +16,7 @@ namespace ReportingTool.Controllers
     {
         private enum Answer
         {
-            DBConnectionError, WrongTemplate, WrongName, WrongId,
-            FieldsIsEmpty, FieldIsNotCorrect, Edited, AlreadyExists, Added, IsNull,
+            WrongName, WrongId, FieldIsNotCorrect, Edited, AlreadyExists, Added, IsNull,
             NotDeleted, Deleted, NotFound
         };
 
@@ -55,58 +55,26 @@ namespace ReportingTool.Controllers
         [HttpPut]
         public ActionResult EditTemplate([ModelBinder(typeof(JsonNetModelBinder))] Template template)
         {
-            Answer answer;
-
-            if (!TemplatesValidator.TemplateIsNotNull(template))
-            {
-                answer = Answer.WrongTemplate;
-                return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
-            }
-
-            if (!TemplatesValidator.TemplateNameIsCorrect(template.Name))
-            {
-                answer = Answer.WrongName;
-                return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
-            }
-
-            if (!TemplatesValidator.FieldsInTemplateIsEmpty(template.FieldsInTemplate))
-            {
-                answer = Answer.FieldsIsEmpty;
-                return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
-            }
-
-            if (!TemplatesValidator.FieldInFieldsInTemplateIsCorrect(template.FieldsInTemplate))
-            {
-                answer = Answer.FieldIsNotCorrect;
-                return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
-            }
+            var validation = template.TemplateValidForEdit();
+            if (validation != null) return Json(new { Answer = validation });
 
             var templateFromDb = _db.Templates.SingleOrDefault(t => t.Id == template.Id);
 
-            if (templateFromDb == null)
-            {
-                answer = Answer.WrongId;
-                return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
-            }
+            if (templateFromDb.TemplateIsNotNull() != null) return Json(new { Answer = Answer.WrongId });
 
             _db.FieldsInTemplates.RemoveRange(templateFromDb.FieldsInTemplate);
 
             foreach (var field in template.FieldsInTemplate)
             {
-                if (!_db.Fields.Any(f => f.Id == field.FieldId))
-                {
-                    answer = Answer.FieldIsNotCorrect;
-                    return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
-                }
+                if (!_db.Fields.Any(f => f.Id == field.FieldId)) { return Json(new { Answer = Answer.FieldIsNotCorrect }); }
                 templateFromDb.FieldsInTemplate.Add(field);
             }
 
             templateFromDb.Name = template.Name;
 
             _db.SaveChanges();
-            answer = Answer.Edited;
 
-            return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
+            return Json(new { Answer = Answer.Edited });
         }
 
         [HttpPost]
@@ -135,7 +103,7 @@ namespace ReportingTool.Controllers
                     return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
                 }
 
-                var currentUser = this.Session["currentUser"] as string;
+                var currentUser = Session["currentUser"] as string;
                 template.Owner = currentUser;
                 template.IsActive = true;
 

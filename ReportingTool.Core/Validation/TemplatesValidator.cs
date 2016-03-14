@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using ReportingTool.DAL.Entities;
 
 namespace ReportingTool.Core.Validation
@@ -14,20 +12,19 @@ namespace ReportingTool.Core.Validation
 
         public static bool TemplateNameIsCorrect(string templateName)
         {
-            return !String.IsNullOrWhiteSpace(templateName) && templateName.Length <= 128;
+            return !string.IsNullOrWhiteSpace(templateName) && templateName.Length <= 128;
         }
 
         public static bool TemplateOwnerNameIsCorrect(string owner)
         {
-            return !String.IsNullOrWhiteSpace(owner) && owner.Length <= 128;
+            return !string.IsNullOrWhiteSpace(owner) && owner.Length <= 128;
         }
 
         public static bool FieldsInTemplateIsEmpty(ICollection<FieldsInTemplate> fieldsInTemplate)
         {
             return fieldsInTemplate != null && fieldsInTemplate.Count != 0;
         }
-
-
+        
         public static bool FieldInFieldsInTemplateIsCorrect(ICollection<FieldsInTemplate> fieldsInTemplate)
         {
             var isnull = false;
@@ -44,6 +41,8 @@ namespace ReportingTool.Core.Validation
             }
             return isnull;
         }
+
+
     }
 
 

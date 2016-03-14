@@ -6,8 +6,9 @@ using System.Web;
 using System.Web.Mvc;
 using ReportingTool.Core.Services;
 using ReportingTool.DAL.DataAccessLayer;
-using ReportingTool.DAL.Entities;
 using ReportingTool.Core.Models;
+using ReportingTool.DAL.Entities;
+using JiraUser = ReportingTool.DAL.Entities.JiraUser;
 
 namespace ReportingTool.Controllers
 {
