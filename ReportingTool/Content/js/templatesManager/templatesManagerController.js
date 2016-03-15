@@ -127,32 +127,18 @@ templatesManagerModule.controller("templatesFieldsManagerController",
             ////TODO: For Marusiak A. Please, delete unnecessary commented lines, if you don't need them
 
             //  deletetemplate
-            //var DeleteTemplate = null;
-            //  deletetemplate
             $scope.deleteTemplate = function (deletedTemplateID) {
 
-                //var bAnswer = false;
-                //  console.log($scope.templates);  //  debug
                 console.log("deletedTemplateID = " + deletedTemplateID);  //  debug
-                //var bAnswer =
-                //    confirm("Are you sure you want to delete this template ?");
-                //  + $scope.templates[deletedTemplateID - 1].templateName + 
-
-                //if (bAnswer == true) {
                 TemplateFactory
                     .deleteTemplate(deletedTemplateID)
                     .then(
                         deleteTemplateSuccess,
                         deleteTemplateFail);
-                //}
-                //else {
-                // $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
-                //}
             };
             //  deletetemplate
             function deleteTemplateSuccess(response) {
                 if (response.data.Answer == 'Deleted') {
-                    //  $state.go('mainView.templatesManager', {}, { reload: true });   //  fix
                     $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
                 }
             }

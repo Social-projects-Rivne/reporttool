@@ -5,15 +5,10 @@ namespace ReportingTool.Core.Validation
 {
     public static class Validator
     {
-        public static string TemplateValidation(this Template template)
+        public static string TemplateValidForAdd(this Template template)
         {
-            if (template == null) return "WrongTemplate";
-            if (string.IsNullOrWhiteSpace(template.Name) || template.Name.Length > 128)
-                return "WrongName";
-            if (template.FieldsInTemplate == null || template.FieldsInTemplate.Count == 0)
-                return "FieldsIsEmpty";
-            if (template.FieldsInTemplate.Any(field => field == null || field.FieldId == 0))
-                return "FieldIsNotCorrect";
+            if (template.TemplateIsNotNull() != null) { return template.TemplateIsNotNull(); }
+            if (template.TemplateNameIsCorrect() != null) { return template.TemplateNameIsCorrect(); }
             return null;
         }
 
@@ -46,5 +41,38 @@ namespace ReportingTool.Core.Validation
         {
             return (template.FieldsInTemplate.Any(field => field == null || field.FieldId == 0)) ? "FieldIsNotCorrect" : null;
         }
+
+
+        public static string TeamValid(this Team team)
+        {
+            if (team.TeamIsNotNull() != null) { return team.TeamIsNotNull(); }
+            if (team.TeamNameIsCorrect() != null) { return team.TeamNameIsCorrect(); }
+            if (team.TeamMembersIsEmpty() != null) { return team.TeamMembersIsEmpty(); }
+            if (team.MembersIsNotNull() != null) { return team.MembersIsCorrect(); }
+            if (team.MembersIsCorrect() != null) { return team.MembersIsCorrect(); }
+            return null;
+        }
+
+        public static string TeamIsNotNull(this Team team)
+        {
+            return team == null ? "WrongTeam" : null;
+        }
+        public static string TeamNameIsCorrect(this Team team)
+        {
+            return (string.IsNullOrWhiteSpace(team.Name) || team.Name.Length > 128) ? "WrongName" : null;
+        }
+        public static string TeamMembersIsEmpty(this Team team)
+        {
+            return (team.Members == null || team.Members.Count == 0) ? "MembersIsEmpty" : null;
+        }
+        public static string MembersIsNotNull(this Team team)
+        {
+            return (team.Members.Any(member => member == null)) ? "MembersIsNull" : null;
+        }
+        public static string MembersIsCorrect(this Team team)
+        {
+            return (team.Members.Any(member => string.IsNullOrWhiteSpace(member.UserName) || string.IsNullOrWhiteSpace(member.FullName))) ? "MembersIsNotCorrect" : null;
+        }
+
     }
 }

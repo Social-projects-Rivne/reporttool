@@ -88,8 +88,8 @@ teamsManagerModule.controller('teamsEditController',
             }
 
             $scope.save = function () {
-                TeamFactory.updateTeam($scope.editTeam).then(updateSuccess, updateFail);
-                TempObjectFactory.set({});
+                    TeamFactory.updateTeam($scope.editTeam).then(updateSuccess, updateFail);
+                    TempObjectFactory.set({});
             }
 
             $scope.cancel = function () {
@@ -107,7 +107,9 @@ teamsManagerModule.controller('teamsEditController',
             }
 
             function updateSuccess(response) {
-                $state.go('mainView.teamsManager', {}, { reload: true });
+                if (response.data.Answer == 'Modified') {
+                    $state.go('mainView.teamsManager', {}, { reload: true });
+                }
             }
 
             function updateFail(response) {

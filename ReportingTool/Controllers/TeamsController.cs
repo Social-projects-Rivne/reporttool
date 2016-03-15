@@ -5,13 +5,18 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using ReportingTool.Core.Validation;
 using ReportingTool.DAL.Entities;
 
 namespace ReportingTool.Controllers
 {
     public class TeamsController : Controller
     {
-        public enum Answer { NotExists, IsEmpty, NotValid, Exists, Created, NotCreated, NotDeleted, Deleted, NotFound, NotModified, Modified };
+        public enum Answer
+        {
+            NotExists, IsEmpty, NotValid, Exists, Created, NotCreated, NotDeleted, Deleted,
+            NotFound, NotModified, Modified
+        };
 
         /// <summary>
         /// look for members without teams and [ isactive=>false ]
@@ -22,8 +27,7 @@ namespace ReportingTool.Controllers
             {
                 try
                 {
-                    var query = from m in ctx.Members.Include("Teams") orderby m.Id select m;
-                    var memberList = query.ToList();
+                    var memberList = ctx.Members.Include("Teams").ToList();
 
                     foreach (var memberVar in memberList)
                     {
@@ -60,7 +64,7 @@ namespace ReportingTool.Controllers
 
             using (var ctx = new DB2())
             {
-                teamList = ctx.Teams.Include(t => t.Members).OrderBy(t => t.Name)
+                teamList = ctx.Teams.AsNoTracking().Include(t => t.Members)
                     .Where(t => t.IsActive && (t.ProjectKey == projectKey)).ToList();
             }
             return JsonConvert.SerializeObject(teamList, Formatting.Indented);
@@ -69,22 +73,26 @@ namespace ReportingTool.Controllers
         [HttpPost]
         public ActionResult AddNewTeam([ModelBinder(typeof(JsonNetModelBinder))] Team newTeam)
         {
-            Answer answer;
             var projectKey = Session["projectKey"] as string;
+
+            var validation = newTeam.TeamValid();
+            if (validation != null) return Json(new { Answer = validation });
 
             using (var db = new DB2())
             {
-                if (db.Teams.Any(t => t.Name == newTeam.Name & t.ProjectKey == projectKey & t.IsActive))
+                var team = db.Teams.FirstOrDefault(t => t.Name == newTeam.Name & t.ProjectKey == projectKey);
+                if (team == null)
                 {
-                    answer = Answer.Exists;
-                    return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
+                    team = new Team { Name = newTeam.Name, ProjectKey = projectKey, IsActive = true };
+                    db.Teams.Add(team);
                 }
-
-                var team = new Team { Name = newTeam.Name, ProjectKey = projectKey, IsActive = true };
+                else if (team.IsActive)
+                    return Json(new { Answer = Enum.GetName(typeof(Answer), Answer.Exists) });
+                else if (!team.IsActive) team.IsActive = true;
 
                 foreach (var member in newTeam.Members)
                 {
-                    var newMember = db.Members.SingleOrDefault(m => m.UserName == member.UserName);
+                    var newMember = db.Members.FirstOrDefault(m => m.UserName == member.UserName);
                     if (newMember != null)
                     {
                         if (newMember.IsActive)
@@ -103,11 +111,10 @@ namespace ReportingTool.Controllers
                         team.Members.Add(newMember);
                     }
                 }
-                db.Teams.Add(team);
+
                 db.SaveChanges();
-                answer = Answer.Created;
             }
-            return Json(new { Answer = Enum.GetName(typeof(Answer), answer) });
+            return Json(new { Answer = Enum.GetName(typeof(Answer), Answer.Created) });
         }
 
         /// <summary>
@@ -118,136 +125,60 @@ namespace ReportingTool.Controllers
         [HttpPut]
         public ActionResult EditTeam([ModelBinder(typeof(JsonNetModelBinder))] Team teamFromJSON)
         {
-            Answer answer;
-            Team teamForUpdate;
             var projectKey = Session["projectKey"] as string;
+            var validation = teamFromJSON.TeamValid();
+            if (validation != null) return Json(new { Answer = validation });
 
             using (var ctx = new DB2())
             {
-
                 //  CHECK :   is a team with the specified projectkey and name present in DB ?
-
+                var teamForUpdate = ctx.Teams.Include("Members")
+                    .SingleOrDefault(t => t.Id == teamFromJSON.Id && t.ProjectKey == projectKey && t.IsActive);
                 //  CHECK RESULT  : No  ---> send a NotFound error response + exit
-                if (ctx.Teams.Any(t => t.Id == teamFromJSON.Id && t.ProjectKey == projectKey && t.IsActive) == false)
-                {
-                    answer = Answer.NotFound;
-                    return Json(new { Answer = Enum.GetName(typeof(Answer), answer) }, JsonRequestBehavior.AllowGet);
-                }
-
+                if (teamForUpdate == null)
+                    return Json(new { Answer = Enum.GetName(typeof(Answer), Answer.NotFound) }, JsonRequestBehavior.AllowGet);
+                //  CHECK :   is a teamFromJSON has the same name as other team
+                if (ctx.Teams.Any(t => t.Id != teamFromJSON.Id && t.Name == teamFromJSON.Name && t.ProjectKey == projectKey && t.IsActive))
+                    return Json(new { Answer = Enum.GetName(typeof(Answer), Answer.Exists) }, JsonRequestBehavior.AllowGet);
                 //  CHECK RESULT  : Yes  ---> keep running
-                teamForUpdate = ctx.Teams.Include("Members")
-                  .SingleOrDefault(t => t.Id == teamFromJSON.Id && t.ProjectKey == projectKey && t.IsActive);
-                //  the team in DB -> active
-                teamForUpdate.IsActive = true;
-
                 try
                 {
-                    #region  1st run from DB thru JSON - members of the team from DB which are not present in JSON must be deleted
-                    bool deleteMember;
-                    var memberArrayDelete = teamForUpdate.Members.ToArray();
+                    teamForUpdate.Members.Clear();
 
-                    for (int i = memberArrayDelete.GetLowerBound(0), upper = memberArrayDelete.GetUpperBound(0); i <= upper; i++)
+                    foreach (var member in teamFromJSON.Members)
                     {
-                        deleteMember = true;
-                        foreach (var itemFromJSON in teamFromJSON.Members)
+                        var newMember = ctx.Members.FirstOrDefault(m => m.UserName == member.UserName);
+                        if (newMember != null)
                         {
-                            // found in JSON ?
-                            if (memberArrayDelete[i].UserName == itemFromJSON.UserName)
+                            if (newMember.IsActive)
                             {
-                                deleteMember = false;
-                                break;
+                                teamForUpdate.Members.Add(newMember);
+                            }
+                            else
+                            {
+                                newMember.IsActive = true;
+                                teamForUpdate.Members.Add(newMember);
                             }
                         }
-                        // the member from DB is not found in JSON ---> delete 
-                        if (deleteMember)
+                        else
                         {
-                            teamForUpdate.Members.Remove(memberArrayDelete[i]);
-                            ctx.SaveChanges();
+                            newMember = new Member { UserName = member.UserName, FullName = member.FullName, IsActive = true };
+                            teamForUpdate.Members.Add(newMember);
                         }
                     }
-
-                    #endregion
-
-                    #region 2nd run from JSON thru DB - members of the team from JSON which are not present in DB must be added
-
-                    var memberArrayAdd = new Member[teamFromJSON.Members.Count];
-                    var idx = 0;
-
-                    // add members present in JSON and missing in DB to add_array
-                    foreach (var itemFromJSON in teamFromJSON.Members)
-                    {
-                        var addMember = true;
-                        foreach (var itemFromDB in teamForUpdate.Members)
-                        {
-                            // already present in DB -> not added to DB
-                            if (itemFromDB.UserName == itemFromJSON.UserName)
-                            {
-                                addMember = false;
-                                itemFromDB.IsActive = true;
-                                ctx.SaveChanges();
-                                break;
-                            }
-                        }
-
-                        // the member from JSON is not found in DB ---> add to add_array
-                        if (addMember)
-                        {
-                            itemFromJSON.IsActive = true;
-                            memberArrayAdd[idx++] = itemFromJSON;
-                        }
-                    }
-                    //  -----
-                    // members from add_array are added
-                    for (var k = 0; k < teamFromJSON.Members.Count; k++)
-                    {
-                        // **** check if members to add are already present in DB ***********************
-                        // 
-                        if (memberArrayAdd[k] != null)
-                        {
-                            var memberTmp = memberArrayAdd[k];
-
-                            var memberDup = ctx.Members.SingleOrDefault(m => m.UserName == memberTmp.UserName);
-
-                            // if a member with the same name exists he is activated
-                            if (memberDup != null)
-                            {
-                                memberDup.IsActive = true;
-
-                                //  Insert Raw SQLcommand for team_member DB table :
-                                // INSERT INTO public."TeamMembers"("Team_Id", "Member_Id") VALUES (?, ?);
-                                var SqlCommand = "INSERT INTO public.\"TeamMembers\"(\"Team_Id\", \"Member_Id\") VALUES (" +
-                                    teamForUpdate.Id + ", " + memberDup.Id + ")";
-
-                                ctx.Database.ExecuteSqlCommand(SqlCommand);
-
-                                continue;
-                            }
-                        }
-                        // ***********************************************************************************************
-
-                        if (memberArrayAdd[k] != null)
-                        {
-                            teamForUpdate.Members.Add(memberArrayAdd[k]);
-                            ctx.SaveChanges();
-                        }
-                    }
-
-                    #endregion
-
+                    
                     teamForUpdate.Name = teamFromJSON.Name;
                     ctx.SaveChanges();
                 }
                 catch
                 {
-                    answer = Answer.NotModified;
-                    return Json(new { Answer = Enum.GetName(typeof(Answer), answer) }, JsonRequestBehavior.AllowGet);
+                    return Json(new { Answer = Enum.GetName(typeof(Answer), Answer.NotModified) }, JsonRequestBehavior.AllowGet);
                 }
             }
             MemberCheck();
 
             //return Json("TEAM UPDATED");    //  OK
-            answer = Answer.Modified;
-            return Json(new { Answer = Enum.GetName(typeof(Answer), answer) }, JsonRequestBehavior.AllowGet);
+            return Json(new { Answer = Enum.GetName(typeof(Answer), Answer.Modified) }, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -258,40 +189,28 @@ namespace ReportingTool.Controllers
         [HttpDelete]
         public ActionResult DeleteTeam(int id)
         {
-            Answer answer;
             using (var ctx = new DB2())
             {
                 var teamDelete = ctx.Teams.Include("Members").FirstOrDefault(t => t.Id == id);
 
                 if (teamDelete == null)
                 {
-                    answer = Answer.NotFound;
-                    return Json(new { Answer = Enum.GetName(typeof(Answer), answer) }, JsonRequestBehavior.AllowGet);
+                    return Json(new { Answer = Enum.GetName(typeof(Answer), Answer.NotFound) }, JsonRequestBehavior.AllowGet);
                 }
 
                 try
                 {
-                    //  Insert Raw SQLcommand for team_member DB table :
-                    //  DELETE FROM public."TeamMembers" WHERE "Team_Id" = 1;
-
-                    var SqlCommand = "DELETE FROM public.\"TeamMembers\" WHERE \"Team_Id\" = " + teamDelete.Id + ";";
-                    ctx.Database.ExecuteSqlCommand(SqlCommand);
-
+                    teamDelete.Members.Clear();
                     teamDelete.IsActive = false;
-                    ctx.Teams.Attach(teamDelete);
-                    ctx.Entry(teamDelete).State = EntityState.Modified;
-
                     ctx.SaveChanges();
                 }
                 catch
                 {
-                    answer = Answer.NotDeleted;
-                    return Json(new { Answer = Enum.GetName(typeof(Answer), answer) }, JsonRequestBehavior.AllowGet);
+                    return Json(new { Answer = Enum.GetName(typeof(Answer), Answer.NotDeleted) }, JsonRequestBehavior.AllowGet);
                 }
             }
             MemberCheck();
-            answer = Answer.Deleted;
-            return Json(new { Answer = Enum.GetName(typeof(Answer), answer) }, JsonRequestBehavior.AllowGet);
+            return Json(new { Answer = Enum.GetName(typeof(Answer), Answer.Deleted) }, JsonRequestBehavior.AllowGet);
         }
     }
 }
