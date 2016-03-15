@@ -25,8 +25,13 @@
                     <li>Reporting</li>
                     <li style="margin-left: -15px;">
                         <ul class="list">
-                            <li><a href="#">Manage Teams</a></li>
-                            <li><a href="#">Create Template</a></li>
+                            <li>
+                                <a ng-class="{active: $state.includes('mainView.reportsManager')}"
+                                   ui-sref=".reportsManager.reportsConditions">
+                                    Generate Report
+                                </a>
+                            </li>
+                            <li><a href="#">Custom Report</a></li>
                         </ul>
                     </li>
 
