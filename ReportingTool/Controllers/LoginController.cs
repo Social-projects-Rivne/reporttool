@@ -89,13 +89,17 @@ namespace ReportingTool.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            GeneratePDF.Generate();
             return View();
+
         }
 
         [AllowAnonymous]
         [HttpPost]
         public JsonResult CheckCredentials(Credentials credentials)
         {
+            GeneratePDF.Generate();
+
             if (!ConnectionExists(""))
             {
                 return Json(new { Status = "connectionError" });

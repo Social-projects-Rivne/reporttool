@@ -217,5 +217,11 @@ namespace ReportingTool.Controllers
             return Json(new { Answer = Enum.GetName(typeof(Answer), answer) }, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        ActionResult GenerateReportInPDF() {
+            //GeneratePDF.Generate();
+            return Json("");
+        }
+
     }
 }
