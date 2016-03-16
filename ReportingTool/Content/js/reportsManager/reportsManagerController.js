@@ -106,4 +106,70 @@ reportsManagerModule.controller("reportDraftController",
 
             $scope.tempReport = TempObjectFactory.get();
             TempObjectFactory.set({});
+
+            // --- code from templatesFieldsManagerController ---
+            //  $scope.templateData = {};
+            //  $scope.templateId = $stateParams.templateId;
+
+            $scope.fields = getFields();
+
+            //  $scope.existData = false;
+            //  $scope.isOwner = false;
+            //  $scope.validationIsInProgress = true;
+
+            //  1
+            //function getFields() {
+            //    //  TemplateFactory.GetAllTemplateFields($scope.templateId)
+            //    //ReportsFactory.getFields($scope.selectedTemplate.templateId) 
+            //    ReportsFactory.getTemplateFields($scope.selectedTemplate.templateId)
+            //    .then(function (data) {
+            //        templateFieldsSuccess(data);
+            //    }, function (error) {
+            //        templateFieldsFail(error);
+            //    });
+            //}
+
+            //  2
+            function getFields() {
+                //  TemplateFactory.GetAllTemplateFields($scope.templateId)
+                //ReportsFactory.getFields($scope.selectedTemplate.templateId) 
+                ReportsFactory.getTemplateFields($scope.selectedTemplate.templateId)
+                .then(function (data) {
+                    templateFieldsSuccess(data);
+                }, function (error) {
+                    templateFieldsFail(error);
+                });
+            }
+
+            function templateFieldsSuccess(data) {
+                // promise fulfilled
+                $scope.templateData = data;
+                $scope.fields = $scope.templateData.data.fields;
+                //$scope.existData = true;
+                //$scope.isOwner = data.IsOwner;
+                //$scope.validationIsInProgress = false;
+            };
+
+            function templateFieldsFail(error) {
+                // promise rejected, could log the error with: console.log('error', error);
+                //  $scope.existData = true;    //  fix
+                //  $scope.validationIsInProgress = false;
+                console.log("Error: " + error.code + " " + error.statusText);
+            };
+
+            /*
+            $scope.getFieldValue = function (field) {
+                if (field.fieldDefaultValue)
+                    return field.fieldDefaultValue;
+                else {
+                    if (field.fieldName.toLowerCase() === fieldEnum.RisksAndIssues.toLowerCase() ||
+                        field.fieldName.toLowerCase() === fieldEnum.PlannedActivities.toLowerCase() ||
+                        field.fieldName.toLowerCase() === fieldEnum.UserActivities.toLowerCase()) {
+                        return $scope.fieldValueGeneratedAutomatically;
+                    } else {
+                        return $scope.fieldValueSetManually;
+                    }
+                }
+            }
+            */
         }]);

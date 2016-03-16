@@ -1,4 +1,6 @@
-﻿var reportsManagerModule = angular.module("reportsManagerModule", ['ui.router', 'ui.bootstrap', 'ngAnimate']);
+﻿var reportsManagerModule = angular.module("reportsManagerModule", ['ui.router', 'ui.bootstrap',
+   //    'templatesManagerModule',
+    'ngAnimate']);
 
 reportsManagerModule.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 

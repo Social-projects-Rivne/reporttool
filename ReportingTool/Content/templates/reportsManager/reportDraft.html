@@ -1,6 +1,30 @@
-﻿<section id="reportDraft" class="row row-standart row-margin-top">
-    <div class="col-sm-12">
-        Here!
+﻿
+
+<section id="reportDraft" class="row row-standart row-margin-top">
+    <div class="col-sm-12 panel panel-success">
+        <div class="panel-heading">
+            <h4>
+                <strong>Weekly report by {{ selectedTeam.teamName }}</strong>
+            </h4> 
+        </div>
+
+        <div class="panel-body">
+            <div>
+               templateName :  {{ selectedTemplate.templateName}} 
+                <br />
+               templateId :  {{ selectedTemplate.templateId}} 
+                <br />
+
+               <p id="P0">{{ fields[0].fieldName }} &nbsp; &nbsp;{{ fields[0].fieldDefaultValue }}</p>
+               <p id="P1">{{ fields[1].fieldName }} &nbsp; &nbsp;{{ fields[1].fieldDefaultValue }}</p>
+               <p id="P2">{{ fields[2].fieldName }} &nbsp; &nbsp;{{ fields[2].fieldDefaultValue }} 
+                   <textarea class="form-control resizable(vertical)" rows="4"></textarea>
+               </p>
+
+                 <!--Fname :  {{ selectedTemplate.fields[0].fieldName }} -->
+            </div>
+        </div>
+
         <form>
             <container>
                 <div class="row" ng-repeat="field in tempReport.template.fields | orderBy:'fieldID'">
@@ -10,5 +34,6 @@
                 </div>
             </container>
         </form>
+
     </div>
 </section>
