@@ -354,3 +354,11 @@ th:nth-child(3) {
 .row-margin-top-middle{
     margin-top: 20px;
 }
+
+/* --- HTML Draft  : background-color: #19287B; --- */
+.draft-header {
+    background-color: #00bfe2; 
+    color: #fff;
+    vertical-align:central;
+    margin-bottom: 3px;
+}

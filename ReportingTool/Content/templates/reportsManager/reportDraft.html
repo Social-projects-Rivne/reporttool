@@ -1,7 +1,7 @@
 ﻿
 
 <section id="reportDraft" class="row row-standart row-margin-top">
-    <div class="col-sm-12 panel panel-success">
+    <div class="col-sm-12 panel panel-info">
         <div class="panel-heading">
             <h4>
                 <strong>Weekly report by {{ selectedTeam.teamName }}</strong>
@@ -27,13 +27,265 @@
 
         <form>
             <container>
+
+                {{tempReport.template.templateId}}      <br />           <!-- debug -->
+                {{tempReport.template.templateName}}      <br />    <!-- debug -->
+
                 <div class="row" ng-repeat="field in tempReport.template.fields | orderBy:'fieldID'">
                     <span class="col-md-3">
-                        {{field.fieldName}}
+                        {{field.fieldName}} 
+                        {{field.fieldDefaultValue}}    <br />          <!-- debug -->
                     </span>
                 </div>
             </container>
         </form>
+          
+        <!--            form for user Activities  - header    -->
+         <form class="form-horizontal" role="form">
+            <div class="row">
+
+                <div class="col-xs-4">
+                    <div class="form-group draft-header">
+                         <label>Team Member</label>
+                    </div>
+                </div>
+
+                <div class="col-xs-4">
+                    <div class="form-group draft-header">
+                         <label>Role</label>
+                    </div>
+                </div>
+
+                <div class="col-xs-3">
+                    <div class="form-group draft-header">
+                         <label>Activity</label>
+                    </div>
+                </div>
+
+                <div class="col-xs-1">
+                    <div class="form-group draft-header">
+                         <label>Del</label>
+                    </div>
+                </div>
+
+            </div>
+       </form>
+<!--
+        <form class="form-inline">
+             <div class="form-group col-md-4 draft-header">
+                <label for="col1">Team Member</label>
+             </div>
+            <div class="form-group col-md-4 draft-header">
+                <label for="col2">Role</label>
+             </div>
+            <div class="form-group col-md-4 draft-header">
+                <label for="col3">Activity</label>
+             </div>
+        </form>
+-->
+
+         <!--            form for user Activities  - body        -->
+         <form class="form-horizontal" role="form">
+            <div class="row">
+
+                <div class="col-xs-4">
+                    <div class="form-group">
+                         <label>member.Name</label>
+                    </div>
+                </div>
+
+                <div class="col-xs-4">
+                    <div class="form-group">
+                          <input type="text" class="form-control" id="role" placeholder="Enter role...">
+                    </div>
+                </div>
+
+                <div class="col-xs-3">
+                    <div class="form-group">
+                         <label>member.activity</label>
+                    </div>
+                </div>
+
+                <div class="col-xs-1">
+                    <div class="form-group">
+                        <button type="button" class="btn btn-link">
+                          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+       </form>
+
+<!--
+        <form class="form-inline">
+             <div class="form-group col-md-4">
+                <label for="tMember">{{member.Name}}</label>
+              </div>
+              <div class="form-group col-md-4">
+                <input type="text" class="form-control" id="role" placeholder="Enter role...">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="activity">{{member.activity}}</label>
+              </div>
+        </form>
+-->
+
+        <p>...</p> 
+        
+        <!--            form for List of Issues - headers     -->
+        <form class="form-horizontal" role="form">
+            <div class="row">
+
+                <div class="col-xs-2">
+                    <div class="form-group draft-header">
+                         <label class="text-center"><strong>ID</strong></label>
+                    </div>
+                </div>
+
+                <div class="col-xs-6">
+                    <div class="form-group draft-header">
+                         <label class="text-center">Summary</label>
+                    </div>
+                </div>
+
+                <div class="col-xs-2">
+                    <div class="form-group draft-header">
+                         <label class="text-center">Status</label>
+                    </div>
+                </div>
+
+                <div class="col-xs-2">
+                    <div class="form-group draft-header">
+                         <label class="text-center"><small>Logged time</small></label>
+                    </div>
+                </div>
+
+            </div>
+       </form>
+
+<!--
+         <form class="form-inline"> 
+        
+            <div class="form-group col-md-2 draft-header">
+                <label for="col11">ID</label>
+             </div>
+
+             <div class="form-group col-md-6 draft-header">
+                <label for="col12">Summary</label>
+             </div>
+
+            <div class="form-group col-md-2 draft-header">
+                <label for="col13">Status</label>
+             </div>
+
+            <div class="form-group col-md-2 draft-header">
+                <label for="col14">Logged time</label>
+             </div>
+
+        </form>
+-->
+
+         <!--            form for List of Issues - body        -->
+
+        <form class="form-horizontal" role="form">
+            <div class="row">
+
+                <div class="col-xs-2">
+                    <div class="form-group">
+                         <label>issue.id</label>
+                    </div>
+                </div>
+
+                <div class="col-xs-6">
+                    <div class="form-group">
+                         <label>issue.summary</label>
+                    </div>
+                </div>
+
+                <div class="col-xs-2">
+                    <div class="form-group">
+                         <label class="text-center">issue.status</label>
+                    </div>
+                </div>
+
+                <div class="col-xs-2">
+                    <div class="form-group">
+                         <label class="text-center"><small>Logged time</small></label>
+                    </div>
+                </div>
+
+            </div>
+       </form>
+
+<!--
+        <form class="form-inline">
+            <div class="form-group col-md-2">
+                <label for="id">issue.id</label>
+             </div>
+             <div class="form-group col-md-6">
+                <label for="summary">issue.summary</label>
+             </div>
+            <div class="form-group col-md-2">
+                <label for="status">issue.status</label>
+             </div>
+            <div class="form-group col-md-2">
+                <label for="loggedTime">issue.loggedTime</label>
+             </div>
+        </form>
+-->
+
+         <!--            form for Planned Vacations  - header    -->
+         <form class="form-horizontal" role="form">
+            <div class="row">
+
+                <div class="col-xs-4">
+                    <div class="form-group draft-header">
+                         <label>Team Member</label>
+                    </div>
+                </div>
+
+                <div class="col-xs-4">
+                    <div class="form-group draft-header">
+                         <label>From</label>
+                    </div>
+                </div>
+
+                <div class="col-xs-4">
+                    <div class="form-group draft-header">
+                         <label>To</label>
+                    </div>
+                </div>
+
+            </div>
+       </form>
+
+
+         <!--            form for user Activities  - body        -->
+         <form class="form-horizontal" role="form">
+            <div class="row">
+
+                <div class="col-xs-4">
+                    <div class="form-group">
+                         <label>member.Name</label>
+                    </div>
+                </div>
+
+                <div class="col-xs-4">
+                    <div class="form-group">
+                          <input type="text" class="form-control" id="FromDate" placeholder="From date...">
+                    </div>
+                </div>
+
+                <div class="col-xs-4">
+                    <div class="form-group">
+                          <input type="text" class="form-control" id="ToDate" placeholder="To date...">
+                    </div>
+                </div>
+
+            </div>
+       </form>
+
 
     </div>
 </section>
