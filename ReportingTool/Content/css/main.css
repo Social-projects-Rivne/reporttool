@@ -357,8 +357,18 @@ th:nth-child(3) {
 
 /* --- HTML Draft  : background-color: #19287B; --- */
 .draft-header {
-    background-color: #00bfe2; 
+    /* background-color: #00bfe2; */
+    background-color: #00BCD4;
     color: #fff;
-    vertical-align:central;
+    vertical-align: central;
     margin-bottom: 3px;
+    padding: 5px;
+}
+
+.draft-row {
+     padding: 5px;
+}
+
+.row2 {
+    margin-top: 10px;
 }
