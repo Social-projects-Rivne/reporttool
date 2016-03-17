@@ -3,6 +3,7 @@
 var mainViewModule = angular.module('mainViewModule',
     ['teamsManagerModule',
         'templatesManagerModule',
+        'reportsManagerModule',
         'ui.router']);
 
 mainViewModule

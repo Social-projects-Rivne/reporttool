@@ -16,7 +16,7 @@
             </script>
 
             <div class="col-sm-offset-7" style="margin-top: -21px; margin-bottom: 21px">
-                <!--TODO: Need to add functionality with edit template-->
+                <!--Functionality with edit template-->
                 <button type="button" 
                         class="btn btn-flat templateButtons margin-left-m84" 
                         ng-click="edit()"
@@ -24,7 +24,7 @@
                     <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                     Edit
                 </button>
-                <!--TODO: Need to add functionality with delete template-->
+                <!--Functionality with delete template-->
                 <button type="button" 
                         class="btn btn-flat templateButtons" 
                         ng-disabled="!isOwner" 
@@ -47,7 +47,7 @@
             </div>
             <div class="center-in-div">
                 <!--TODO: Need to implement-->
-                <a class="btn btn-flat">Generate Report</a>
+                <a ng-click="saveToTempAndGoToReportManager()" class="btn btn-flat">Generate Report</a>
             </div>
         </div>
 
