@@ -8,8 +8,6 @@ using RestSharp.Deserializers;
 using System.Net;
 using ReportingTool.DAL.Entities;
 using System.Web;
-using Jira.SDK.Domain;
-
 
 namespace ReportingTool.DAL.DataAccessLayer
 {
@@ -95,7 +93,7 @@ namespace ReportingTool.DAL.DataAccessLayer
             string path = "search?jql=updated >" + correctedDateFrom + 
                 " and updated < " + correctedDateTo + 
                 " and project = " + curProjectName + 
-                " and timespent > 0&fields=summary,worklog" +
+                "&fields=summary,worklog,status,assignee" +
                 "&startAt=" + startAt + "&maxResults=" + 50;
             var request = CreateRequest(Method.GET, path);
 

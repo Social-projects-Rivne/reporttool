@@ -19,6 +19,40 @@ namespace ReportingTool.DAL.Entities
     {
         public string summary { get; set; }
         public Worklog worklog { get; set; }
+        public Status status { set; get; }
+        public Assignee assignee { set; get; }
+    }
+
+    public class Assignee
+    {
+        public bool active { set; get; }
+        public Avatarurls avatarUrls { set; get; }
+        public string displayName { get; set; }
+        public string emailAddress { get; set; }
+        public string key { get; set; }
+        public string name { get; set; }
+        public string self { get; set; }
+        public string timeZone { get; set; }
+    }
+
+    public class Status
+    {
+        public  string description { set; get; }
+        public string iconUrl { set; get; }
+        public int id { set; get; }
+        public string name { set; get; }
+        public string self { set; get; }
+        public StatusCategory statusCategory { set; get; }
+    }
+
+    public class StatusCategory
+    {
+        public string colorName { set; get; }
+        public int id { set; get; }
+        public string key { set; get; }
+        public string name { set; get; }
+        public string self { set; get; }
+
     }
 
     public class Worklog

@@ -39,5 +39,13 @@ namespace ReportingTool.Controllers
                Json( "Wrong request", JsonRequestBehavior.AllowGet) :
                Json(new { Timespent = result }, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public ActionResult GetIssues(string userName, string dateFrom, string dateTo)
+        {
+            var result = jiraClientService.GetUserIssues(userName, dateFrom, dateTo);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        
 	}
 }
