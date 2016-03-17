@@ -336,3 +336,21 @@ th:nth-child(3) {
 [uib-typeahead-popup].dropdown-menu {
     display: block;
 }
+
+/*-------------- Reports --------------*/
+
+.row-standart {
+    margin-top: -40px;
+}
+
+.row-margin-top {
+    margin-top: 10px;
+}
+
+.row-margin-top-little{
+    margin-top: 5px;
+}
+
+.row-margin-top-middle{
+    margin-top: 20px;
+}

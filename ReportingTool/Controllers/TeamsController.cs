@@ -7,11 +7,22 @@ using System.Web.Mvc;
 using Newtonsoft.Json;
 using ReportingTool.Core.Validation;
 using ReportingTool.DAL.Entities;
+using ReportingTool.DAL.DataAccessLayer;
+using ReportingTool.Core.Models;
 
 namespace ReportingTool.Controllers
 {
     public class TeamsController : Controller
     {
+        private readonly IDB2 _db;
+
+        public TeamsController(IDB2 db)
+        {
+            _db = db;
+        }
+
+        public TeamsController() : this(new DB2()) { }
+
         public enum Answer
         {
             NotExists, IsEmpty, NotValid, Exists, Created, NotCreated, NotDeleted, Deleted,
@@ -83,13 +94,13 @@ namespace ReportingTool.Controllers
                 var team = db.Teams.FirstOrDefault(t => t.Name == newTeam.Name & t.ProjectKey == projectKey);
                 if (team == null)
                 {
-                    team = new Team { Name = newTeam.Name, ProjectKey = projectKey, IsActive = true };
+                    team = new Team { Name = newTeam.Name, ProjectKey = projectKey};
                     db.Teams.Add(team);
                 }
                 else if (team.IsActive)
                     return Json(new { Answer = Enum.GetName(typeof(Answer), Answer.Exists) });
-                else if (!team.IsActive) team.IsActive = true;
 
+                team.IsActive = true;
                 foreach (var member in newTeam.Members)
                 {
                     var newMember = db.Members.FirstOrDefault(m => m.UserName == member.UserName);
@@ -166,7 +177,7 @@ namespace ReportingTool.Controllers
                             teamForUpdate.Members.Add(newMember);
                         }
                     }
-                    
+
                     teamForUpdate.Name = teamFromJSON.Name;
                     ctx.SaveChanges();
                 }
@@ -211,6 +222,45 @@ namespace ReportingTool.Controllers
             }
             MemberCheck();
             return Json(new { Answer = Enum.GetName(typeof(Answer), Answer.Deleted) }, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// Get members of team with specific id
+        /// </summary>
+        /// <param name="id">Team id</param>
+        /// <returns>List of team members</returns>
+        [HttpGet]
+        public ActionResult GetMembersByTeamId(int id)
+        {
+            Answer answer;
+            List<MemberModel> members = new List<MemberModel>();
+
+            var team = _db.Teams.SingleOrDefault(t => t.Id == id);
+            if (team == null)
+            {
+                answer = Answer.NotFound;
+                return Json(new { Answer = Enum.GetName(typeof(Answer), answer) }, JsonRequestBehavior.AllowGet);
+            }
+
+            foreach (var teamMember in team.Members)
+            {
+                var member = new MemberModel
+                {
+                    userName = teamMember.UserName,
+                    fullName = teamMember.FullName
+                };
+
+                members.Add(member);
+            }
+            return Json(members, JsonRequestBehavior.AllowGet);
+        }
+        //must be in the end of controller
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && _db != null)
+            {
+                _db.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

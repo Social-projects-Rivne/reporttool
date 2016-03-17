@@ -71,14 +71,8 @@ templatesManagerModule.controller("templatesFieldsManagerController",
             function getFields() {
                 TemplateFactory.GetAllTemplateFields($scope.templateId)
                 .then(function (data) {
-                    // promise fulfilled
-                    if (data.length !== 0) {
-                        templateFieldsSuccess(data);
-                    } else {
-                        //TODO:Thinking about inserting here some check. Not nesseccary
-                    }
+                    templateFieldsSuccess(data);
                 }, function (error) {
-                    // promise rejected, could log the error with: console.log('error', error);
                     templateFieldsFail(error);
                 });
             }
@@ -126,7 +120,6 @@ templatesManagerModule.controller("templatesFieldsManagerController",
 
             ////TODO: For Marusiak A. Please, delete unnecessary commented lines, if you don't need them
 
-            //  deletetemplate
             $scope.deleteTemplate = function (deletedTemplateID) {
 
                 console.log("deletedTemplateID = " + deletedTemplateID);  //  debug
@@ -146,6 +139,17 @@ templatesManagerModule.controller("templatesFieldsManagerController",
             function deleteTemplateFail(response) {
                 console.error("deleteTemplate failed!");
             }
+
+            $scope.saveToTempAndGoToReportManager = function () {
+
+                var saveTempTemplate = {
+                    templateId: $scope.templateId,
+                    templateName: $scope.templateData.templateName,
+                    fields: $scope.templateData.fields
+                }
+                TempObjectFactory.set(saveTempTemplate);
+                $state.go('mainView.reportsManager.reportsConditions');
+            };
 
         }]);
 
@@ -209,7 +213,9 @@ templatesManagerModule.controller('AddTemplateController',
             };
 
             function addSuccess(response) {
-                $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
+                if (response.data.Answer == 'Added') {
+                    $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
+                }
             }
 
             function addFail(response) {
@@ -278,7 +284,9 @@ templatesManagerModule.controller('EditTemplateController',
             };
 
             function editSuccess(response) {
-                $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
+                if (response.data.Answer == 'Edited') {
+                    $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
+                }
             }
 
             function editFail(response) {

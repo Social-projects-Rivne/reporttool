@@ -131,10 +131,10 @@ teamsManagerModule.controller('NewTeamController',
             fullName: ''
         };
 
-        $scope.jiraUsers = [{
-            userName: 'Loading...',
-            fullName: 'Loading...'
-        }];
+        //$scope.jiraUsers = [{
+        //    userName: 'Loading...',
+        //    fullName: 'Loading...'
+        //}];
 
         UserFactory.getJiraUsers().then(getJiraUsersSuccess, getJiraUsersFail);
 

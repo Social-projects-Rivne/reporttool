@@ -46,6 +46,35 @@ namespace ReportingTool.Controllers
             return JsonConvert.SerializeObject(templates, Formatting.Indented);
         }
 
+        [HttpPost]
+        public ActionResult AddNewTemplate([ModelBinder(typeof(JsonNetModelBinder))] Template newTemplate)
+        {
+            var validation = newTemplate.TemplateValidForAdd();
+            if (validation != null) return Json(new { Answer = validation });
+
+            using (var db = new DB2())
+            {
+                var template = db.Templates.FirstOrDefault(t => t.Name == newTemplate.Name);
+                if (template == null)
+                {
+                    template = new Template
+                    {
+                        Name = newTemplate.Name,
+                        Owner = Session["currentUser"] as string
+                    };
+                    db.Templates.Add(template);
+                }
+                else if (template.IsActive)
+                    return Json(new { Answer = Enum.GetName(typeof(Answer), Answer.AlreadyExists) });
+
+                template.FieldsInTemplate = newTemplate.FieldsInTemplate;
+                template.IsActive = true;
+
+                db.SaveChanges();
+                return Json(new { Answer = Enum.GetName(typeof(Answer), Answer.Added) });
+            }
+        }
+
         [HttpPut]
         public ActionResult EditTemplate([ModelBinder(typeof(JsonNetModelBinder))] Template template)
         {
@@ -54,6 +83,7 @@ namespace ReportingTool.Controllers
 
             var templateFromDb = _db.Templates.FirstOrDefault(t => t.Id == template.Id && t.IsActive);
             if (templateFromDb.TemplateIsNotNull() != null) return Json(new { Answer = Enum.GetName(typeof(Answer), Answer.WrongId) });
+            if (_db.Templates.Any(t => t.Id != templateFromDb.Id && t.Name == template.Name && t.IsActive)) return Json(new { Answer = Enum.GetName(typeof(Answer), Answer.AlreadyExists) });
 
             _db.FieldsInTemplates.RemoveRange(templateFromDb.FieldsInTemplate);
 
@@ -68,52 +98,23 @@ namespace ReportingTool.Controllers
             return Json(new { Answer = Enum.GetName(typeof(Answer), Answer.Edited) });
         }
 
-        [HttpPost]
-        public ActionResult AddNewTemplate([ModelBinder(typeof(JsonNetModelBinder))] Template template)
-        {
-            var validation = template.TemplateValidForAdd();
-            if (validation != null) return Json(new { Answer = validation });
-
-            using (var db = new DB2())
-            {
-                var templateFromDb = db.Templates.FirstOrDefault(t => t.Name == template.Name);
-                if (templateFromDb.IsActive)
-                    return Json(new { Answer = Enum.GetName(typeof(Answer), Answer.AlreadyExists) });
-                if (!templateFromDb.IsActive) template = templateFromDb;
-                if (templateFromDb == null) db.Templates.Add(template);
-                //Check if template with incoming name already exists in database
-                var currentUser = Session["currentUser"] as string;
-                template.Owner = currentUser;
-                template.IsActive = true;
-
-                
-                db.SaveChanges();
-                return Json(new { Answer = Enum.GetName(typeof(Answer), Answer.Added) });
-            }
-        }
-
         public string GetTemplateFields(int templateId)
         {
             var template = _db.Templates.FirstOrDefault(t => t.Id == templateId && t.IsActive);
-            if (template.TemplateIsNotNull() != null)
-            {
-                return JsonConvert.SerializeObject(Json(new { Answer = "False" }));
-            }
+            if (template.TemplateIsNotNull() != null) return JsonConvert.SerializeObject(Json(new { Answer = "False" }));
+
             var templateOwner = template.Owner;
             var isOwner = CheckIfCurrentUserIsOwnerOfTemplate(templateOwner);
             var temaplateName = template.Name;
-            var getFields = from filedsInTemplate in _db.FieldsInTemplates
-                            join field in _db.Fields on filedsInTemplate.FieldId equals field.Id
-                            where filedsInTemplate.TemplateId == templateId
-                            select new FieldModel
-                            {
-                                fieldName = field.Name,
-                                fieldDefaultValue = filedsInTemplate.DefaultValue,
-                                fieldID = field.Id,
-                                fieldType = field.FieldType.Type,
-                                isSelected = true
-                            };
-            var fields = getFields.ToList();
+            var fields = _db.FieldsInTemplates.AsNoTracking().Include("Fields").Where(t => t.TemplateId == templateId)
+                .Select(field => new FieldModel
+                {
+                    fieldName = field.Field.Name,
+                    fieldDefaultValue = field.DefaultValue,
+                    fieldID = field.FieldId,
+                    fieldType = field.Field.FieldType.Type,
+                    isSelected = true
+                }).ToList();
 
             var templateData = new TemplateModel { fields = fields, IsOwner = isOwner, templateName = temaplateName };
 
@@ -139,10 +140,9 @@ namespace ReportingTool.Controllers
             using (var ctx = new DB2())
             {
                 var templateDelete = ctx.Templates.Include(t => t.FieldsInTemplate).FirstOrDefault(t => t.Id == id);
-                if (templateDelete.TemplateIsNotNull() != null)
-                {
+                if (templateDelete == null)
                     return Json(new { Answer = Enum.GetName(typeof(Answer), Answer.WrongId) }, JsonRequestBehavior.AllowGet);
-                }
+
                 try
                 {
                     var fitArray = templateDelete.FieldsInTemplate.ToArray();
