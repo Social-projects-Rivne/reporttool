@@ -6,14 +6,14 @@ reportsManagerModule.
 factory('GroupFactory', ['$http', function ($http) {
 
     var groupFactory = {
-        GetAllGroups: GetAllGroups,
+        getAllGroups: getAllGroups,
         getAllMembers: getAllMembers,
         updateGroup: updateGroup,
         deleteGroup: deleteGroup,
         createGroup: createGroup
     };
 
-    function GetAllGroups() {
+    function getAllGroups() {
         //var teams = $http.get("Teams/GetAllTeams");
         var groups = $scope.groups;
         return groups;
@@ -42,8 +42,15 @@ factory('GroupFactory', ['$http', function ($http) {
         //  TODO ? - there is no need to update. create-delete would be enough
     }
 
-    function deleteGroup(id) {
+    function deleteGroup(deleteGroupName) {
         //return $http.delete("Teams/DeleteTeam", { params: { id: id } });
+        console.log('delete group ' + deleteGroupName);
+
+        for (var i in $scope.reportedGroups) {
+            if ($scope.reportedGroups[i].groupName === deleteGroupName) {
+                $scope.reportedGroups.splice(i, 1);
+            }
+        }
     }
 
     return groupFactory;

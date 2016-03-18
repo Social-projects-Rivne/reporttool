@@ -9,7 +9,7 @@ reportsManagerModule.controller('reportGroupController',
 
             // an array of groups in the report
             $scope.reportedGroups = [];
-            $scope.groups = {};
+            //$scope.groups = {};
             $scope.activeGroup = {};
 
             //  a work template for group manipulation
@@ -21,58 +21,63 @@ reportsManagerModule.controller('reportGroupController',
 
             //  a work template for member manipulation
             $scope.selectedMember = {
-                userName: '',
-                fullName: ''
+                userName: "",
+                fullName: ""
             };
 
             //  $scope.message = "Loading...";
-            //  $scope.showTeams = true;
+            //  $scope.showGroups = true;
             //  $scope.validationIsInProgress = true;
 
             $scope.tempReport = TempObjectFactory.get();
             TempObjectFactory.set({});
 
             // === from teamsManagerController ========================
-            GroupFactory.GetAllGroups()
+            GroupFactory.getAllGroups()
                 .then(groupsSuccess, groupsFail);
 
+                //  TODO
                 function groupsSuccess(response) {
                     //$scope.groups = response.data;
                     //$scope.validationIsInProgress = false;
                     //$scope.showGroups = true;
                 }
+
+                //  TODO
                 function groupsFail(response) {
                     //$scope.validationIsInProgress = false;
-                    alert("Error: " + response.code + " " + response.statusText);
+                    //alert("Error: " + response.code + " " + response.statusText);
                 }
             //  --------------------------------------------------------------------------------------
-            var DeleteGroup = null;
+                var DeleteGroup = null;
 
-            $scope.deleteGroup = function (deletedGroupID) {
+            $scope.deleteGroup = function (deleteGroupName) {
                 GroupFactory
-                    .deleteGroup(deletedGroupID)
-                    .then(delSuccess, delFail);
+                    .deleteGroup(deleteGroupName)
+                    .then(deleteGroupSuccess, deleteGroupFail);
             }
-
-                function delSuccess(response) {
-                    //if (response.data.Answer == 'Deleted') {
-                    //    $state.go('mainView.teamsManager', {}, { reload: true });
-                    //}
+                 //  TODO
+                function deleteGroupSuccess(response) {
+                        //if (response.data.Answer == 'Deleted') {
+                        //    $state.go('mainView.teamsManager', {}, { reload: true });
+                        //}
                 }
-                function delFail(response) {
-                    console.error("Delete failed!");
-                }
+                function deleteGroupFail(response) {
+                        console.error("Delete failed!");
+                 }
             //  --------------------------------------------------------------------------------------
             $scope.showGroupMembers = function (selectedGroup) {
                 $scope.activeGroup = selectedGroup;
             }
 
+            //  TODO : a view for Group edit ? - maybe add + delete will be enough
             $scope.editGroup = function (updateGroup) {
+
                 TempObjectFactory.set(updateGroup);
                 $scope.activeGroup = {};
 
                 //  TODO : a view for Group edit ? - maybe add + delete will be enough
-                $state.go('mainView.groupsManager.editGroup');
+                //  $state.go('mainView.groupsManager.editGroup');
             }
             // ======================================================
 
@@ -93,10 +98,10 @@ reportsManagerModule.controller('reportGroupController',
                 .then(getAllMembersSuccess, getAllMembersFail);
 
                 function getAllMembersSuccess(response) {
-                    $scope.groupUsers = response.data;
+                    //$scope.groupUsers = response.data;
                 }
-                function $scope.groupUsersFail(response) {
-                    console.error("getUsers error!");
+                function getAllMembersFail(response) {
+                    console.error("getAllMembers fail !");
                 };
             //  --------------------------------------------------------------------------------------
             $scope.message = "Loading...";
@@ -109,6 +114,7 @@ reportsManagerModule.controller('reportGroupController',
                         return;
                     }
                 }
+                //  add the member to the group's list 
                 $scope.editGroup.members.push(member);
 
                 //  remove the added member from initial report list
@@ -121,17 +127,21 @@ reportsManagerModule.controller('reportGroupController',
             }
 
             $scope.removeMember = function (userName) {
-                console.log('del member ' + userName);
+                console.log('delete member : ' + userName);
 
                 for (var i in $scope.editGroup.members) {
                     if ($scope.editGroup.members[i].userName === userName) {
                         $scope.editGroup.members.splice(i, 1);
                     }
                 }
+
+                //  add the member to reportedMembers array
+                $scope.reportedMembers.push(member);
+
             }
 
             $scope.save = function () {
-                GroupFactory.updateTeam($scope.editTeam)
+                GroupFactory.updateGroup($scope.editGroup)
                     .then(updateSuccess, updateFail);
 
                 TempObjectFactory.set({});
@@ -141,7 +151,7 @@ reportsManagerModule.controller('reportGroupController',
                     $state.go('mainView.reportsManager.reportsConditions.reportDraft', {}, { reload: true });
                 }
                 function updateFail(response) {
-                    console.error("error during saving edited team");
+                    console.error("error during saving edited group");
                 }
 
                 $scope.cancel = function () {
@@ -178,7 +188,7 @@ reportsManagerModule.controller('reportGroupController',
             //  --------------------------------------------------------------------------------------
             //  DONE : group creation saved
             $scope.save = function () {
-                GroupFactory.createGroup($scope.editGrup)
+                GroupFactory.createGroup($scope.editGroup)
                     .then(createSuccess, createFail);
             }
                 //  DONE : create group success
@@ -207,12 +217,19 @@ reportsManagerModule.controller('reportGroupController',
             //  --------------------------------------------------------------------------------------
             //  DONE : remove a member from the group
             $scope.removeMember = function (userName) {
+                console.log('delete member : ' + userName);
+
                 for (var i in $scope.editGroup.members) {
                     if ($scope.editGroup.members[i].userName === userName) {
                         $scope.editGroup.members.splice(i, 1);
                     }
                 }
+
+                //  add the member back to reportedMembers array
+                $scope.reportedMembers.push(member);
+
             }
+
             //  =====================================================
 
         }]);

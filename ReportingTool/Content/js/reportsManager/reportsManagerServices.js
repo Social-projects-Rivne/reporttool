@@ -44,7 +44,6 @@ reportsManagerModule.factory('ReportsFactory', ['$http', function ($http) {
     }
     //  ---------------------------------------------------------------------------------------------------------------  //  debug
 
-
     return reportsFactory;
 }]);
 
