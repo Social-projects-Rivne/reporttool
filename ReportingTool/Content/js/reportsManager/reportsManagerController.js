@@ -107,9 +107,11 @@ reportsManagerModule.controller("reportDraftController",
             $scope.tempReport = TempObjectFactory.get();
             TempObjectFactory.set({});
 
+            //  -------------------------------------------------------------------------   //  debug
             // --- code from templatesFieldsManagerController ---
             //  $scope.templateData = {};
             //  $scope.templateId = $stateParams.templateId;
+            //  -------------------------------------------------------------------------   //  debug
 
             $scope.fields = getFields();
 
@@ -173,3 +175,4 @@ reportsManagerModule.controller("reportDraftController",
             }
             */
         }]);
+

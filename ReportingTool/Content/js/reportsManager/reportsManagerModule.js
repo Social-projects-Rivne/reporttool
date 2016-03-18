@@ -34,4 +34,8 @@ reportsManagerModule.config(['$stateProvider', '$urlRouterProvider', function ($
     $stateProvider.state(reportsManager);
     $stateProvider.state(reportConditions);
     $stateProvider.state(reportDraft);
+
+    //  Group
+    //$stateProvider.state(editGroup);
+    //$stateProvider.state(createGroup);
 }]);

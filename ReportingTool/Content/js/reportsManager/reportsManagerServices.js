@@ -1,9 +1,11 @@
-﻿reportsManagerModule.factory('ReportsFactory', ['$http', function ($http) {
+﻿'use strict';
+
+reportsManagerModule.factory('ReportsFactory', ['$http', function ($http) {
     var reportsFactory = {
         getTeams: getTeams,
         getTemplates: getTemplates,
+        getFields: getFields,
         getTemplateFields: getTemplateFields,   //  debug
-        getFields: getFields
     };
 
     function getTeams() {
@@ -45,3 +47,43 @@
 
     return reportsFactory;
 }]);
+
+//  --- a method from TeamFactory ------------------------------------------------------------------   //  debug
+
+reportsManagerModule.
+factory('GroupFactory', ['$http', function ($http) {
+    var groupFactory = {
+        GetAllGroups: GetAllGroups,
+        updateGroup: updateGroup,
+        deleteGroup: deleteGroup,
+        createGroup: createGroup
+    };
+
+    function GetAllGroups() {
+        //var teams = $http.get("Teams/GetAllTeams");
+        var groups = $scope.groups;
+        return groups;
+    }
+
+    function createGroup(newGroup) {
+        //return $http({
+        //    url: 'Teams/AddNewTeam',
+        //    method: 'POST',
+        //    data: newTeam,
+        //    headers: { 'content-type': 'application/json' }
+        //});
+
+    }
+
+    function updateGroup(data) {
+        //return $http.put("Groups/EditTeam", data);
+    }
+
+    function deleteGroup(id) {
+        //return $http.delete("Teams/DeleteTeam", { params: { id: id } });
+    }
+
+    return groupFactory;
+}]);
+
+//  ---------------------------------------------------------------------------------------------------------------  //  debug
