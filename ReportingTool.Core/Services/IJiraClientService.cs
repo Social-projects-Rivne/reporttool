@@ -8,7 +8,6 @@ namespace ReportingTool.Core.Services
     public interface IJiraClientService
     {
         int GetUserActivity(string userName, string dateFrom, string dateTo);
-        //List<Issue> GetIssuesWithUserWorklogs(string userName, string dateFrom, string dateTo);
         List<IssueModel> GetUserIssues(string userName, string dateFrom, string dateTo);
     }
 }

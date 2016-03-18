@@ -132,7 +132,7 @@ namespace ReportingTool.DAL.DataAccessLayer
         /// Retreiving of worklog for issue with specific key
         /// </summary>
         /// <param name="issueKey">Key of specific issue</param>
-        /// <returns>Worklog of cpecific issue</returns>
+        /// <returns>Worklog of specific issue</returns>
         public  Worklog GetWorklogByIssueKey(string issueKey)
         {
             string path = "/issue/" + issueKey + "/worklog";

@@ -70,7 +70,7 @@ namespace ReportingTool.Core.Services
             if (!ReportsValidator.UserNameIsCorrect(userName) ||
                 !ReportsValidator.DatesAreCorrect(dateFrom, dateTo))
             {
-                return -1;
+                throw new ArgumentException();
             }
 
             var issues = jiraClient.GetAllIssues(dateFrom, dateTo);
@@ -99,7 +99,13 @@ namespace ReportingTool.Core.Services
             return timeSpent;
         }
 
-
+        /// <summary>
+        /// Retrieveing issues of specific user with worklogs
+        /// </summary>
+        /// <param name="userName">Login of specific user</param>
+        /// <param name="dateFrom">Lower boundary of time period</param>
+        /// <param name="dateTo">Upper boundary of time period</param>
+        /// <returns>List of issues entities</returns>
         public List<Issue> GetIssuesWithUserWorklogs(string userName, string dateFrom, string dateTo)
         {
             List<Issue> result = new List<Issue>();
@@ -113,6 +119,7 @@ namespace ReportingTool.Core.Services
                     Worklog worklog = jiraClient.GetWorklogByIssueKey(issue.key);
                     var worklogs = worklog.worklogs.Where(w => w.author.name == userName).ToList();
                     bool issueHasAssignee = issue.fields.assignee != null;
+
                     if (worklogs.Count != 0 || 
                         (issueHasAssignee && issue.fields.assignee.name == userName))
                     {
@@ -123,15 +130,26 @@ namespace ReportingTool.Core.Services
             return result;
         }
 
+        /// <summary>
+        /// Retreiveing issue models for specific user for specific period of time
+        /// </summary>
+        /// <param name="userName">Login of specific user</param>
+        /// <param name="dateFrom">Lower boundary of time period</param>
+        /// <param name="dateTo">Upper boundary of time period</param>
+        /// <returns>List of issue models</returns>
         public List<IssueModel> GetUserIssues(string userName, string dateFrom, string dateTo)
         {
+            if (!ReportsValidator.UserNameIsCorrect(userName) ||
+                !ReportsValidator.DatesAreCorrect(dateFrom, dateTo))
+            {
+                throw new ArgumentException();
+            }
+
             List<IssueModel> result = new List<IssueModel>();
             
             var issuesWithUsersWorklogs = GetIssuesWithUserWorklogs(userName, dateFrom, dateTo);
             if (issuesWithUsersWorklogs != null)
             {
-                if (issuesWithUsersWorklogs != null && ReportsValidator.UserNameIsCorrect(userName))
-                {
                     foreach (var issue in issuesWithUsersWorklogs)
                     {
                         IssueModel issueModel = new IssueModel
@@ -153,7 +171,6 @@ namespace ReportingTool.Core.Services
                         }
                         result.Add(issueModel);
                     }
-                }
             }        
             return result;
         }
