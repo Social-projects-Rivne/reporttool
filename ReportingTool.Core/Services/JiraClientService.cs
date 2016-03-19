@@ -10,6 +10,7 @@ using ReportingTool.DAL.Entities;
 using ReportingTool.DAL.DataAccessLayer;
 using System.Web.UI;
 using ReportingTool.Core.Validation;
+using ReportingTool.Core.Models;
 
 
 namespace ReportingTool.Core.Services
@@ -69,7 +70,7 @@ namespace ReportingTool.Core.Services
             if (!ReportsValidator.UserNameIsCorrect(userName) ||
                 !ReportsValidator.DatesAreCorrect(dateFrom, dateTo))
             {
-                return -1;
+                throw new ArgumentException();
             }
 
             var issues = jiraClient.GetAllIssues(dateFrom, dateTo);
@@ -96,6 +97,82 @@ namespace ReportingTool.Core.Services
                     }
             }
             return timeSpent;
+        }
+
+        /// <summary>
+        /// Retrieveing issues of specific user with worklogs
+        /// </summary>
+        /// <param name="userName">Login of specific user</param>
+        /// <param name="dateFrom">Lower boundary of time period</param>
+        /// <param name="dateTo">Upper boundary of time period</param>
+        /// <returns>List of issues entities</returns>
+        public List<Issue> GetIssuesWithUserWorklogs(string userName, string dateFrom, string dateTo)
+        {
+            List<Issue> result = new List<Issue>();
+
+            var issues = jiraClient.GetAllIssues(dateFrom, dateTo);
+
+            if (issues != null)
+            {
+                foreach (var issue in issues)
+                {
+                    Worklog worklog = jiraClient.GetWorklogByIssueKey(issue.key);
+                    var worklogs = worklog.worklogs.Where(w => w.author.name == userName).ToList();
+                    bool issueHasAssignee = issue.fields.assignee != null;
+
+                    if (worklogs.Count != 0 || 
+                        (issueHasAssignee && issue.fields.assignee.name == userName))
+                    {
+                        result.Add(issue);
+                    }
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Retreiveing issue models for specific user for specific period of time
+        /// </summary>
+        /// <param name="userName">Login of specific user</param>
+        /// <param name="dateFrom">Lower boundary of time period</param>
+        /// <param name="dateTo">Upper boundary of time period</param>
+        /// <returns>List of issue models</returns>
+        public List<IssueModel> GetUserIssues(string userName, string dateFrom, string dateTo)
+        {
+            if (!ReportsValidator.UserNameIsCorrect(userName) ||
+                !ReportsValidator.DatesAreCorrect(dateFrom, dateTo))
+            {
+                throw new ArgumentException();
+            }
+
+            List<IssueModel> result = new List<IssueModel>();
+            
+            var issuesWithUsersWorklogs = GetIssuesWithUserWorklogs(userName, dateFrom, dateTo);
+            if (issuesWithUsersWorklogs != null)
+            {
+                    foreach (var issue in issuesWithUsersWorklogs)
+                    {
+                        IssueModel issueModel = new IssueModel
+                        {
+                            key = issue.key,
+                            status = issue.fields.status.name,
+                            summary = issue.fields.summary
+                        };
+
+                        if (issue.fields.worklog.worklogs != null)
+                        {
+                            foreach (var worklog in issue.fields.worklog.worklogs)
+                            {
+                                if (worklog.author.name == userName)
+                                {
+                                    issueModel.loggedTime += worklog.timeSpentSeconds;
+                                }
+                            }
+                        }
+                        result.Add(issueModel);
+                    }
+            }        
+            return result;
         }
     }
 }

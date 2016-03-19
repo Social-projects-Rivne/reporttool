@@ -1,7 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using ReportingTool.DAL.Entities;
-using System.Collections.Generic;
-using Jira.SDK.Domain;
 
 namespace ReportingTool.DAL.DataAccessLayer
 {

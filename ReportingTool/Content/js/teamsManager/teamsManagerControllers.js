@@ -178,8 +178,23 @@ teamsManagerModule.controller('NewTeamController',
                 }
             }
         }
-
+        
         function createSuccess(response) {
+            if (response.data.Answer == 'WrongTeam') {
+                alert('Team is empty');
+            }
+            if (response.data.Answer == 'WrongName') {
+                alert('Team name is incorrect');
+            } 
+            if (response.data.Answer == 'MembersIsEmpty') {
+                alert('No members in team');
+            } 
+            if (response.data.Answer == 'MembersIsNull') {
+                alert('Some of member is empty');
+            }
+            if (response.data.Answer == 'MembersIsNotCorrect') {
+                alert('Username or fullname of member is not correct');
+            }
             if (response.data.Answer == 'Created') {
                 $state.go('mainView.teamsManager', {}, { reload: true });
             }

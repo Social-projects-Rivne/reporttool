@@ -7,7 +7,7 @@ using System.Web.Security;
 using IniParser;
 using ReportingTool.DAL.DataAccessLayer;
 using ReportingTool.Models;
-using static System.String;
+using System;
 
 namespace ReportingTool.Controllers
 {
@@ -116,7 +116,7 @@ namespace ReportingTool.Controllers
             var userInSession = Session["currentUser"] as string;
             var userInHTTPContext = System.Web.HttpContext.Current.User.Identity.Name;
 
-            if (IsNullOrEmpty(userInSession) || IsNullOrEmpty(userInHTTPContext))
+            if (String.IsNullOrEmpty(userInSession) || String.IsNullOrEmpty(userInHTTPContext))
                 return Json(new { Status = "sessionNotExists" }, JsonRequestBehavior.AllowGet);
 
             if (userInSession.Equals(userInHTTPContext))
