@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Net;
 using System.Text;
-using System.Threading.Tasks;
+using System.Web;
+using ReportingTool.DAL.Entities;
 using RestSharp;
 using RestSharp.Deserializers;
-using System.Net;
-using ReportingTool.DAL.Entities;
-using System.Web;
-using Jira.SDK;
-using Jira.SDK.Domain;
-
 
 namespace ReportingTool.DAL.DataAccessLayer
 {
@@ -20,7 +15,7 @@ namespace ReportingTool.DAL.DataAccessLayer
         private string password;
         private string baseApiUrl;
         private JsonDeserializer deserializer;
-        
+
         public JiraClient(string baseUrl, string username, string password)
         {
             this.username = username;
@@ -59,7 +54,7 @@ namespace ReportingTool.DAL.DataAccessLayer
             return deserializer.Deserialize<List<JiraUser>>(response);
 
         }
-        
+
         public List<JiraUser> GetAllUsers(string projectName)
         {
             List<JiraUser> result = new List<JiraUser>();
@@ -93,10 +88,10 @@ namespace ReportingTool.DAL.DataAccessLayer
             var correctedDateFrom = DateTime.Parse(dateFrom).AddDays(-1).ToString("yyyy-MM-dd");
             var correctedDateTo = DateTime.Parse(dateTo).AddDays(+1).ToString("yyyy-MM-dd");
 
-            string path = "search?jql=updated >" + correctedDateFrom + 
-                " and updated < " + correctedDateTo + 
-                " and project = " + curProjectName + 
-                " and timespent > 0&fields=summary,worklog" +
+            string path = "search?jql=updated >" + correctedDateFrom +
+                " and updated < " + correctedDateTo +
+                " and project = " + curProjectName +
+                "&fields=summary,worklog,status,assignee" +
                 "&startAt=" + startAt + "&maxResults=" + 50;
             var request = CreateRequest(Method.GET, path);
 
@@ -135,8 +130,8 @@ namespace ReportingTool.DAL.DataAccessLayer
         /// Retreiving of worklog for issue with specific key
         /// </summary>
         /// <param name="issueKey">Key of specific issue</param>
-        /// <returns>Worklog of cpecific issue</returns>
-        public  Worklog GetWorklogByIssueKey(string issueKey)
+        /// <returns>Worklog of specific issue</returns>
+        public Worklog GetWorklogByIssueKey(string issueKey)
         {
             string path = "/issue/" + issueKey + "/worklog";
             var request = CreateRequest(Method.GET, path);
