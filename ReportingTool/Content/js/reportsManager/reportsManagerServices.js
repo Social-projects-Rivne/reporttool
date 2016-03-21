@@ -5,7 +5,8 @@ reportsManagerModule.factory('ReportsFactory', ['$http', function ($http) {
         getTeams: getTeams,
         getTemplates: getTemplates,
         getFields: getFields,
-        getTemplateFields: getTemplateFields,   //  debug
+        getUserActivity: getUserActivity,       //  debug
+        getTemplateFields: getTemplateFields   //  debug
     };
 
     function getTeams() {
@@ -43,6 +44,31 @@ reportsManagerModule.factory('ReportsFactory', ['$http', function ($http) {
         return fields;
     }
     //  ---------------------------------------------------------------------------------------------------------------  //  debug
+
+    //  BE params
+    // GetUserActivity(string userName, string dateFrom, string dateTo)
+
+    //  example
+    //function getTeams() {
+    //    return $http.get("Teams/GetAllTeams");
+    //}
+
+    // v.001
+    //function getUserActivity(userName, dateFrom, dateTo) {
+    //    return $http.get("Reports/GetUserActivity?userName=" + userName + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)
+    //    .then(function (response) {
+    //        if (typeof response.data === 'object') {
+    //            return response.data;
+    //        } else {
+    //            return $q.reject(response.data);
+    //        }
+    //    });
+    //}
+
+    function getUserActivity(userName, dateFrom, dateTo) {
+        return $http.get("Reports/GetUserActivity?userName=" + userName + "&dateFrom= " + "01/01/2016" + "&dateTo=" + dateTo + "01/03/2016");
+        //  + "&dateFrom='" + dateFrom + "'&dateTo='" + dateTo + "'"
+    }
 
     return reportsFactory;
 }]);

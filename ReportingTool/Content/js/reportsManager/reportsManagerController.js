@@ -311,7 +311,46 @@ reportsManagerModule.controller("reportDraftController",
                 }
                 tmpMemberList = "(" + tmpMemberList + ")";
                 return tmpMemberList;
+            };
+
+
+            $scope.getUserActivity = function (userName, dateFrom, dateTo) {
+                var userActivity = "";
+
+                ReportsFactory.getUserActivity(userName, dateFrom, dateTo)
+                    .then(function (response) {
+                        //$scope.teams = response.data;
+                        userActivity = response.data;
+                    }, function (error) {
+                        console.error("getUserActivity error!", error);
+                    });
+
+                console.log(userActivity);
+                return userActivity;
+            };
+
+            //  TODO
+            function getGroupActivity() {
+                //var teams = $http.get("Teams/GetAllTeams");
+                //var members = $scope.reportedMembers;
+                var tmp_members = [];
+
+                //for (var i in $scope.selectedTeam.members) {
+                for (var i = 0, len = $scope.reportedMembers.length; i < len; i++) {
+                    var tmp_member = {};
+                    tmp_member.userName = $scope.reportedMembers[i].userName;
+                    tmp_member.fullName = $scope.reportedMembers[i].fullName;
+                    tmp_member.role = '';
+                    tmp_member.activity = $scope.getUserActivity(
+                        $scope.reportedMembers[i].userName,
+                        $scope.tempReport.from,
+                        $scope.tempReport.to);
+
+                    tmp_members.push(tmp_member);
+                }
+                return tmp_members;
             }
+            $scope.reportedMembers = getGroupActivity();
 
             //  ========================================================================
 
