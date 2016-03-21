@@ -300,6 +300,19 @@ reportsManagerModule.controller("reportDraftController",
                 //  $state.go('mainView.reportsManager.reportsConditions.reportDraft', {}, { reload: true });
             }
 
+            $scope.groupMemberList = function (group) {
+                var tmpMemberList = "";
+
+                for (var i in group.members) {
+                    if (tmpMemberList.length > 0) {
+                        tmpMemberList += ", ";
+                    }
+                    tmpMemberList += group.members[i].fullName ;
+                }
+                tmpMemberList = "(" + tmpMemberList + ")";
+                return tmpMemberList;
+            }
+
             //  ========================================================================
 
 

@@ -152,7 +152,8 @@
                 <col width="5%" />
             </colgroup>
 
-            <thead id="change-team-head">
+            <!--<thead id="change-team-head">-->
+            <thead class="thead1">
                 <tr>
                     <th>Team Member</th>
                     <th>Role</th>
@@ -184,6 +185,7 @@
         </div>
         <br />
          <!-- Reported groups with members --------------------------------------------- -->
+        <div class="panel-body">
            <div ng-repeat="group in reportedGroups | orderBy:'groupName' " class="row">
                 <div class="col-xs-8 col-sm-4 col-sm-offset-5 group-name">
                             <strong> {{group.groupName | uppercase}} </strong>
@@ -213,6 +215,7 @@
                        </tbody>
                     </table>
                 </div>
+            </div>
         </div>
         <!-- Reported groups with members --------------------------------------------- -->
         <br />
@@ -225,7 +228,6 @@
             </div>
          </div>
          <!-- Add Group button ----------------------------------------------------------------- -->
-
        
          <!-- groupName + 2 glyphs----------------------------------------------------------- -->
         <div class="row " ng-if="addGroupPanel == true">
@@ -330,8 +332,33 @@
 -->
 
         <p>...</p> 
+
+        <!--  ------------ List of Issues form v.0 - headers ---------------------------------  -->
+<!--
+         <form class="form-inline"> 
         
-        <!--            form for List of Issues - headers     -->
+            <div class="form-group col-md-2 draft-header">
+                <label for="col11">ID</label>
+             </div>
+
+             <div class="form-group col-md-6 draft-header">
+                <label for="col12">Summary</label>
+             </div>
+
+            <div class="form-group col-md-2 draft-header">
+                <label for="col13">Status</label>
+             </div>
+
+            <div class="form-group col-md-2 draft-header">
+                <label for="col14">Logged time</label>
+             </div>
+
+        </form>
+-->
+        <!--  ------------ List of Issues form v.0 - headers ---------------------------------  -->
+        
+        <!--  ------------ List of Issues form v.1 - headers - works ----------------------  -->
+<!--
         <form class="form-horizontal" role="form">
             <div class="row">
 
@@ -361,31 +388,11 @@
 
             </div>
        </form>
-
-<!--
-         <form class="form-inline"> 
-        
-            <div class="form-group col-md-2 draft-header">
-                <label for="col11">ID</label>
-             </div>
-
-             <div class="form-group col-md-6 draft-header">
-                <label for="col12">Summary</label>
-             </div>
-
-            <div class="form-group col-md-2 draft-header">
-                <label for="col13">Status</label>
-             </div>
-
-            <div class="form-group col-md-2 draft-header">
-                <label for="col14">Logged time</label>
-             </div>
-
-        </form>
 -->
+        <!--  ------------ List of Issues form v.1 - headers - works ----------------------  -->
 
-         <!--            form for List of Issues - body        -->
-
+         <!--  ------------ List of Issues form v.1 - body - works ----------------------  -->
+<!--
         <form class="form-horizontal" role="form">
             <div class="row row2">
 
@@ -415,7 +422,68 @@
 
             </div>
        </form>
+-->
+         <!--  ------------ List of Issues form v.1 - body - works ----------------------  -->
 
+        <!--  ------------ List of Issues table v.2 -  works -------------------------------  -->
+         <div ng-repeat="group in reportedGroups | orderBy:'groupName' " class="row">
+            <div class="col-xs-10 col-sm-offset-1">
+                     <span class="pheader"><em><strong> {{group.groupName | uppercase}}  </strong> </em> </span> {{groupMemberList(group)}} 
+                </div>
+
+            <div class="panel-body">
+                <div>
+                    <textarea class="form-control resizable" rows="3"></textarea>
+                </div> 
+             </div>
+        
+            <div class="panel-body">
+            <table class="table table-striped">
+                <colgroup>
+                    <col width="15%" />
+                    <col width="55%" />
+                    <col width="15%" />
+                    <col width="15%" />
+                </colgroup>
+
+               <thead class="thead1">
+                    <tr>
+                        <th class ="thead1-th">ID</th>
+                        <th class ="thead1-th">Summary</th>
+                        <th class ="thead1-th">Status</th>
+                        <th class ="thead1-th">Logged time</th>
+                    </tr>
+                </thead>
+
+                <div>
+                    <table class="table table-striped">
+                    <colgroup>
+                        <col width="40%" />
+                        <col width="30%" />
+                        <col width="30%" />
+                    </colgroup>
+
+                    <tbody>
+                          <!-- <tr ng-repeat="member in selectedTeam.members | orderBy:'fullName' "> -->
+                          <tr ng-repeat="member in group.members | orderBy:'fullName' ">
+                               <!--<td>{{$index + 1}}</td>-->
+                               <td>{{member.fullName}}</td>
+                                <td>
+                                    <input type="text" class="form-control" ng-model="member.role" value="{{member.role}}"  placeholder="Enter role...">
+                                </td>
+                                <!--<td>{{member.userName}}</td>-->
+                                 <td>
+                                     <label>{{member.activity}}</label>
+                                </td>
+                            </tr>
+                       </tbody>
+                    </table>
+                </div>
+        </div>
+
+        </div>
+         <!--  ------------ List of Issues table v.2 - works ------------------------------------  -->
+        <br />
 <!--
         <form class="form-inline">
             <div class="form-group col-md-2">
@@ -435,7 +503,8 @@
         <!-- Risks and Issues ---------------------------------------------------------------------- -->
          <div class="panel-body">
             <div>
-               <p id="P14">{{ fields[4].fieldName }} &nbsp; &nbsp;{{ fields[4].fieldDefaultValue }} </p>
+               <!--<p id="P14" class="pheader">{{ fields[3].fieldName }} &nbsp; &nbsp;{{ fields[3].fieldDefaultValue }} </p>-->
+                <p id="P14" class="pheader">Risks and Issues </p>
                 <div>
                     <textarea class="form-control resizable" rows="3"></textarea>
                 </div> 
@@ -446,7 +515,8 @@
          <!-- Planned Activities -------------------------------------------------------------------- -->
         <div class="panel-body">
             <div>
-               <p id="P15">{{ fields[5].fieldName }} &nbsp; &nbsp;{{ fields[5].fieldDefaultValue }} </p>
+               <!--<p id="P15" class="pheader">{{ fields[4].fieldName }} &nbsp; &nbsp;{{ fields[4].fieldDefaultValue }} </p>-->
+                <p id="P15" class="pheader">Planned Activities </p>
                 <div>
                     <textarea class="form-control resizable" rows="3"></textarea>
                 </div> 
@@ -455,6 +525,13 @@
          <!-- Planned Activities -------------------------------------------------------------------- -->
 
          <!--            form for Planned Vacations  - header    -->
+        <div class="panel-body">
+            <div>
+               <!--<p id="P16" class="pheader">{{ fields[5].fieldName }} &nbsp; &nbsp;{{ fields[5].fieldDefaultValue }} </p>-->
+                <p id="P16" class="pheader">Planned Vacations</p>
+             </div>
+        </div>
+
          <form class="form-horizontal" role="form">
             <div class="row">
 

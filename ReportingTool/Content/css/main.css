@@ -375,6 +375,21 @@ th:nth-child(3) {
 
 .group-name {
     color: #00BCD4;
-    font-size: 2em;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.thead1 {
+    color: #fff;
+    background-color: #00BCD4;
+   vertical-align: central;
+}
+
+.thead1-th {
+    vertical-align: central;
+}
+
+.pheader {
+    font-size: 1.4em;
     font-weight: bold;
 }
