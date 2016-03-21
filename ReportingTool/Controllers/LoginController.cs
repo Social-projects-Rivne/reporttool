@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using ReportingTool.Models;
-using System.Diagnostics;
-using Jira.SDK;
-using Jira.SDK.Domain;
-using System.Web.Security;
-using System.Threading;
-using IniParser;
-using IniParser.Model;
-using System.Web.Hosting;
+﻿using System.Net;
+using System.Runtime.Serialization;
 using System.Security.Principal;
+using System.Web.Hosting;
+using System.Web.Mvc;
+using System.Web.Security;
+using IniParser;
 using ReportingTool.DAL.DataAccessLayer;
-using ReportingTool.Core.Services;
-
+using ReportingTool.Models;
+using System;
 
 namespace ReportingTool.Controllers
 {
@@ -27,32 +19,30 @@ namespace ReportingTool.Controllers
         private const string SERVEL_URL_KEY = "ServerUrl";
         private const string PROJECT_NAME_KEY = "ProjectName";
 
-
         private string getServerUrl()
         {
-            FileIniDataParser fileIniData = new FileIniDataParser();
-            IniData parsedData = fileIniData.ReadFile(FILE_NAME);
+            var fileIniData = new FileIniDataParser();
+            var parsedData = fileIniData.ReadFile(FILE_NAME);
             return parsedData[SECTION][SERVEL_URL_KEY];
         }
 
         private string getProjectKey()
         {
-            FileIniDataParser fileIniData = new FileIniDataParser();
-            IniData parsedData = fileIniData.ReadFile(FILE_NAME);
+            var fileIniData = new FileIniDataParser();
+            var parsedData = fileIniData.ReadFile(FILE_NAME);
             return parsedData[SECTION][PROJECT_NAME_KEY];
         }
 
         private bool IsUserValid(string userName, string password)
         {
             var server = getServerUrl();
-
-            Jira.SDK.Jira jira = new Jira.SDK.Jira();
+            var jira = new Jira.SDK.Jira();
 
             try
             {
                 jira.Connect(server, userName, password);
             }
-            catch (System.Runtime.Serialization.SerializationException)
+            catch (SerializationException)
             {
                 return false;
             }
@@ -63,22 +53,22 @@ namespace ReportingTool.Controllers
         private void DefinePrincipal(string login)
         {
             IIdentity id = new GenericIdentity(login);
-            string[] roles = new string[] { "existing user" };
+            var roles = new[] { "existing user" };
             System.Web.HttpContext.Current.User = new GenericPrincipal(id, roles);
         }
 
         private bool ConnectionExists(string server)
         {
-            Jira.SDK.Jira jira = new Jira.SDK.Jira();
+            var jira = new Jira.SDK.Jira();
             try
             {
                 jira.Connect(getServerUrl(), "test", "test");
             }
-            catch (System.Net.WebException)
+            catch (WebException)
             {
                 return false;
             }
-            catch (System.Runtime.Serialization.SerializationException)
+            catch (SerializationException)
             {
                 return true;
             }
@@ -100,48 +90,39 @@ namespace ReportingTool.Controllers
             {
                 return Json(new { Status = "connectionError" });
             }
-            else
+            var isUserValid = IsUserValid(credentials.UserName, credentials.Password);
+            var isUserAuthenticated = (System.Web.HttpContext.Current.User != null) &&
+                                       System.Web.HttpContext.Current.User.Identity.IsAuthenticated;
+
+            if (isUserValid || isUserAuthenticated)
             {
-                bool isUserValid = IsUserValid(credentials.UserName, credentials.Password);
-                bool isUserAuthenticated = (System.Web.HttpContext.Current.User != null) &&
-                     System.Web.HttpContext.Current.User.Identity.IsAuthenticated;
+                var client = new JiraClient(getServerUrl(), credentials.UserName, credentials.Password);
 
-                if (isUserValid || isUserAuthenticated)
-                {
-                    ReportingTool.DAL.DataAccessLayer.JiraClient client = new DAL.DataAccessLayer.JiraClient(getServerUrl(), credentials.UserName, credentials.Password);
+                DefinePrincipal(credentials.UserName);
+                FormsAuthentication.SetAuthCookie(credentials.UserName, false);
 
-                    DefinePrincipal(credentials.UserName);
-                    FormsAuthentication.SetAuthCookie(credentials.UserName, false);
-                   
-                    Session.Add("currentUser", credentials.UserName);
-                    Session.Add("projectKey", getProjectKey());
-                    Session.Add("jiraClient", client);
+                Session.Add("currentUser", credentials.UserName);
+                Session.Add("projectKey", getProjectKey());
+                Session.Add("jiraClient", client);
 
-                    return Json(new { Status = "validCredentials" });
-                }
-                return Json(new { Status = "invalidCredentials" });
+                return Json(new { Status = "validCredentials" });
             }
+            return Json(new { Status = "invalidCredentials" });
         }
         [AllowAnonymous]
         [HttpGet]
         public JsonResult CheckSession()
         {
-            string userInSession = Session["currentUser"] as string;
-            string userInHTTPContext = System.Web.HttpContext.Current.User.Identity.Name;
+            var userInSession = Session["currentUser"] as string;
+            var userInHTTPContext = System.Web.HttpContext.Current.User.Identity.Name;
 
             if (String.IsNullOrEmpty(userInSession) || String.IsNullOrEmpty(userInHTTPContext))
-            {
                 return Json(new { Status = "sessionNotExists" }, JsonRequestBehavior.AllowGet);
-            }
 
             if (userInSession.Equals(userInHTTPContext))
-            {
                 return Json(new { Status = "sessionExists" }, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                return Json(new { Status = "sessionNotExists" }, JsonRequestBehavior.AllowGet);
-            }
+
+            return Json(new { Status = "sessionNotExists" }, JsonRequestBehavior.AllowGet);
         }
 
         [AllowAnonymous]

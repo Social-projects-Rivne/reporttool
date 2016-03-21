@@ -122,28 +122,16 @@ templatesManagerModule.controller("templatesFieldsManagerController",
 
             $scope.deleteTemplate = function (deletedTemplateID) {
 
-                //var bAnswer = false;
-                //  console.log($scope.templates);  //  debug
                 console.log("deletedTemplateID = " + deletedTemplateID);  //  debug
-                //var bAnswer =
-                //    confirm("Are you sure you want to delete this template ?");
-                //  + $scope.templates[deletedTemplateID - 1].templateName + 
-
-                //if (bAnswer == true) {
                 TemplateFactory
                     .deleteTemplate(deletedTemplateID)
                     .then(
                         deleteTemplateSuccess,
                         deleteTemplateFail);
-                //}
-                //else {
-                // $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
-                //}
             };
             //  deletetemplate
             function deleteTemplateSuccess(response) {
                 if (response.data.Answer == 'Deleted') {
-                    //  $state.go('mainView.templatesManager', {}, { reload: true });   //  fix
                     $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
                 }
             }
@@ -225,7 +213,9 @@ templatesManagerModule.controller('AddTemplateController',
             };
 
             function addSuccess(response) {
-                $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
+                if (response.data.Answer == 'Added') {
+                    $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
+                }
             }
 
             function addFail(response) {
@@ -294,7 +284,9 @@ templatesManagerModule.controller('EditTemplateController',
             };
 
             function editSuccess(response) {
-                $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
+                if (response.data.Answer == 'Edited') {
+                    $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
+                }
             }
 
             function editFail(response) {

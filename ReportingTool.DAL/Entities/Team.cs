@@ -17,7 +17,6 @@ namespace ReportingTool.DAL.Entities
         [Required]
         [MaxLength(128)]
         [JsonProperty("teamName")]
-        [Index("IX_NameAndProjectKey", 1, IsUnique = true)]
         public string Name { get; set; }
 
         [Required]
@@ -27,7 +26,6 @@ namespace ReportingTool.DAL.Entities
         [Required]
         [MaxLength(128)]
         [JsonIgnore]
-        [Index("IX_NameAndProjectKey", 2, IsUnique = true)]
         public string ProjectKey { get; set; }
 
         [JsonProperty("members")]
