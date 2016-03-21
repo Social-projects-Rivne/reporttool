@@ -18,7 +18,7 @@ namespace UnitTestProject
         public void GetUserActivity_WrongUserName_ReturnsBadRequest()
         {
             //Arrange
-            var reportsController = new ReportsController(new JiraClientMock());
+            var reportsController = new ReportsController(new JiraClientServiceMock());
             var wrongUserName = String.Empty;
             var dateFrom = "2016-01-01";
             var dateTo = "2016-01-15";
@@ -36,7 +36,7 @@ namespace UnitTestProject
         public void GetUserActivity_WrongDateFromFormat_ReturnsBadRequest()
         {
             //Arrange
-            var reportsController = new ReportsController(new JiraClientMock());
+            var reportsController = new ReportsController(new JiraClientServiceMock());
             var userName = "testUserName";
             var dateFromInWrongFormat = "01-01-2016";
             var dateTo = "2016-01-15";
@@ -55,7 +55,7 @@ namespace UnitTestProject
         public void GetUserActivity_WrongDateToFormat_ReturnsBadRequest()
         {
             //Arrange
-            var reportsController = new ReportsController(new JiraClientMock());
+            var reportsController = new ReportsController(new JiraClientServiceMock());
             var userName = "testUserName";
             var dateFrom = "2016-01-01";
             var dateToInWrongFormat = "15-01-2016";
@@ -74,7 +74,7 @@ namespace UnitTestProject
         public void GetUserActivity_SwappedDates_ReturnsBadRequest()
         {
             //Arrange
-            var reportsController = new ReportsController(new JiraClientMock());
+            var reportsController = new ReportsController(new JiraClientServiceMock());
             var userName = "testUserName";
             var dateFrom = "2016-01-15";
             var dateTo = "2016-01-01";
@@ -93,7 +93,7 @@ namespace UnitTestProject
         public void GetUserActivity_CorrectArguments_ReturnsTime()
         {
             //Arrange
-            var reportsController = new ReportsController(new JiraClientMock());
+            var reportsController = new ReportsController(new JiraClientServiceMock());
             var userName = "testUserName";
             var dateFrom = "2016-01-01";
             var dateTo = "2016-01-15";

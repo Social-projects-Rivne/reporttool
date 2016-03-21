@@ -8,7 +8,7 @@ using ReportingTool.Core.Validation;
 
 namespace UnitTestProject
 {
-    public class JiraClientMock : IJiraClientService
+    public class JiraClientServiceMock : IJiraClientService
     {
         public int GetUserActivity(string userName, string dateFrom, string dateTo)
         {
