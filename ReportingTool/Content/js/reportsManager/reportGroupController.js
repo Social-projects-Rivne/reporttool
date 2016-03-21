@@ -4,14 +4,11 @@ reportsManagerModule.controller('reportGroupController',
     ['$scope', '$state', 'GroupFactory',
         function ($scope, $state, GroupFactory) {
 
-            //  initial array of members for report
-            $scope.reportedMembers = [];
-
             // an array of groups in the report
             $scope.reportedGroups = [];
             //$scope.groups = {};
             $scope.activeGroup = {};
-
+                        
             //  a work template for group manipulation
             $scope.editGroup = {
                 //groupID: "0",
@@ -19,30 +16,56 @@ reportsManagerModule.controller('reportGroupController',
                 members: []
             };
 
+            //  initial array of members for report
+            $scope.reportedMembers = [{
+                userName: 'Loading...',
+                fullName: 'Loading...',
+                role: 'No Role'
+            }];
+
+            function getAllMembers() {
+                //var teams = $http.get("Teams/GetAllTeams");
+                //var members = $scope.reportedMembers;
+                var tmp_members = [];
+                var tmp_member = {};
+
+                for (var i in $scope.selectedTeam.members) {
+                    tmp_member.userName = scope.selectedTeam.members[i].userName;
+                    tmp_member.fullName = scope.selectedTeam.members[i].fullName;
+                    tmp_member.role = '';
+
+                    tmp_members.push(member);
+                }
+                tmp_member = {};
+                return tmp_members;
+            }
+
+            $scope.reportedMembers = getAllMembers();
+
             //  a work template for member manipulation
             $scope.selectedMember = {
                 userName: "",
-                fullName: ""
+                fullName: "",
+                role: ""
             };
 
             //  $scope.message = "Loading...";
             //  $scope.showGroups = true;
             //  $scope.validationIsInProgress = true;
 
+            //  ?
             $scope.tempReport = TempObjectFactory.get();
             TempObjectFactory.set({});
 
             // === from teamsManagerController ========================
             GroupFactory.getAllGroups()
                 .then(groupsSuccess, groupsFail);
-
                 //  TODO
                 function groupsSuccess(response) {
                     //$scope.groups = response.data;
                     //$scope.validationIsInProgress = false;
                     //$scope.showGroups = true;
                 }
-
                 //  TODO
                 function groupsFail(response) {
                     //$scope.validationIsInProgress = false;
@@ -89,10 +112,6 @@ reportsManagerModule.controller('reportGroupController',
 
             $scope.editGroup = TempObjectFactory.get();
 
-            $scope.selectedMember = {
-                userName: '',
-                fullName: ''
-            }
             //  --------------------------------------------------------------------------------------
             GroupFactory.getAllMembers()
                 .then(getAllMembersSuccess, getAllMembersFail);

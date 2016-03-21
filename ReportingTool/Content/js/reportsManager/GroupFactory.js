@@ -7,7 +7,7 @@ factory('GroupFactory', ['$http', function ($http) {
 
     var groupFactory = {
         getAllGroups: getAllGroups,
-        getAllMembers: getAllMembers,
+        //getAllMembers: getAllMembers,
         updateGroup: updateGroup,
         deleteGroup: deleteGroup,
         createGroup: createGroup
@@ -18,13 +18,24 @@ factory('GroupFactory', ['$http', function ($http) {
         var groups = $scope.groups;
         return groups;
     }
-
+/*
     function getAllMembers() {
         //var teams = $http.get("Teams/GetAllTeams");
-        var members = $scope.reportedMembers;
-        return members;
-    }
+        //var members = $scope.reportedMembers;
+        var tmp_members = [];
+        var tmp_member = {};
 
+        for (var i in $scope.selectedTeam.members) {
+            tmp_member.userName = scope.selectedTeam.members[i].userName;
+            tmp_member.fullName = scope.selectedTeam.members[i].fullName;
+            tmp_member.role = '';
+
+            tmp_members.push(member);
+        }
+        tmp_member = {};
+        return tmp_members;
+    }
+*/
     function createGroup(newGroup) {
         //return $http({
         //    url: 'Teams/AddNewTeam',

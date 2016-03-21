@@ -12,11 +12,14 @@
             <div>
                templateName :  {{ selectedTemplate.templateName}} 
                 <br />
-               templateId :  {{ selectedTemplate.templateId}} 
+               <!--
+                   templateId :  {{ selectedTemplate.templateId}} 
                 <br />
 
                <p id="P0">{{ fields[0].fieldName }} &nbsp; &nbsp;{{ fields[0].fieldDefaultValue }}</p>
                <p id="P1">{{ fields[1].fieldName }} &nbsp; &nbsp;{{ fields[1].fieldDefaultValue }}</p>
+                -->                
+            
                <p id="P2">{{ fields[2].fieldName }} &nbsp; &nbsp;{{ fields[2].fieldDefaultValue }} </p>
                 <div>
                     <textarea class="form-control resizable" rows="4"></textarea>
@@ -25,29 +28,32 @@
              </div>
         </div>
 
-        <!-- selectedTeam members -->
+        <!-- selectedTeam members check -->
+        <!--
          <div class="row" ng-repeat="member in selectedTeam.members | orderBy:'fullName' ">
                     <span class="col-md-3">
-                        {{member.userName}} {{member.fullName}} <br />          <!-- debug -->
+                        {{member.userName}} {{member.fullName}} <br />          
                     </span>
            </div>
-        <!--  -->
+        -->
+         <!-- selectedTeam members check -->
 
-
+        <!-- tempReport.template fields check -->
+        <!--
         <form>
             <container>
-
-                {{tempReport.template.templateId}}      <br />           <!-- debug -->
-                {{tempReport.template.templateName}}      <br />    <!-- debug -->
-
+                {{tempReport.template.templateId}}      <br />           
+                {{tempReport.template.templateName}}      <br />    
                 <div class="row" ng-repeat="field in tempReport.template.fields | orderBy:'fieldID'">
                     <span class="col-md-3">
-                        {{field.fieldName}} {{field.fieldDefaultValue}}    <br />          <!-- debug -->
+                        {{field.fieldName}} {{field.fieldDefaultValue}}    <br />          
                     </span>
                 </div>
             </container>
         </form>
-          
+        -->
+         <!-- tempReport.template fields check -->  
+
         <!--            form for user Activities  - header    -->
          <form class="form-horizontal" role="form">
             <div class="row">
@@ -130,36 +136,37 @@
             </div>
        </form>
 
-        <div class="row">
-            <div class="col-xs-6 center">
-                 <input class='form-control' id="change-team-name" 
-                     ng-model="editGroup.groupName" 
-                     placeholder="Enter group name..." autofocus>
-            </div>
-         </div>
+        <!-- table for all members -->
+        <div>
+            <table class="table table-striped">
+            <colgroup>
+                <col width="40%" />
+                <col width="35%" />
+                <col width="20%" />
+                <col width="5%" />
+            </colgroup>
 
-        <table class="table table-striped">
-                <colgroup>
-                    <col width="5%" />
-                    <col width="45%" />
-                    <col width="45%" />
-                    <col width="5%" />
-                </colgroup>
-
-                <thead id="change-team-head">
-                    <tr>
-                        <th>#</th>
-                        <th>User Name</th>
-                        <th>Full Name</th>
-                        <th>&nbsp;</th>
-                    </tr>
-                </thead>
+            <thead id="change-team-head">
+                <tr>
+                    <th>Team Member</th>
+                    <th>Role</th>
+                    <th>Activity</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
 
               <tbody>
-                  <tr ng-repeat="member in selectedTeam.members | orderBy:'fullName' ">
-                        <td>{{$index + 1}}</td>
-                        <td>{{member.userName}}</td>
-                        <td>{{member.fullName}}</td>
+                  <!-- <tr ng-repeat="member in selectedTeam.members | orderBy:'fullName' "> -->
+                  <tr ng-repeat="member in reportedMembers | orderBy:'fullName' ">
+                       <!--<td>{{$index + 1}}</td>-->
+                       <td>{{member.fullName}}</td>
+                        <td>
+                            <input type="text" class="form-control" id="Text1" placeholder="Enter role...">
+                        </td>
+                        <!--<td>{{member.userName}}</td>-->
+                         <td>
+                             <label>{{member.activity}}</label>
+                        </td>
                         <td>
                             <a class="glyph-link" ng-click="removeMember(member.userName)">
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
@@ -168,6 +175,106 @@
                     </tr>
                </tbody>
             </table>
+        </div>
+
+        <!--  TODO: Add Group -->
+         <div class="row">
+            <div class="col-xs-6 center">
+                  <a ui-sref="mainView.teamsManager.createTeam" class="btn btn-flat">Add Group</a>
+            </div>
+         </div>
+         <!--  TODO -->
+
+       
+        <!-- group name -->
+        <div class="row">
+            <div class="col-xs-8">
+                 <input class='form-control' id="groupName" ng-model="editGroup.groupName" placeholder="Enter group name..." >  <!-- autofocus -->
+            </div>
+             <div class="col-xs-1">
+                <!--<button id="btn-save" class="btn btn-default" ng-click='save()'>Save</button>-->
+                 <a class="glyph-link" ng-click='save()'>
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    </a>
+              </div>
+
+            <div class="col-xs-1">
+                <!--<button id="btn-cancel" class="btn btn-default" ng-click='cancel()'>Cancel</button>-->
+                 <a class="glyph-link" ng-click='cancel()'>
+                        <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                    </a>
+            </div>
+         </div>
+          <!-- group name -->
+        <table class="table table-striped">
+            <colgroup>
+                <col width="40%" />
+                <col width="35%" />
+                <col width="20%" />
+                <col width="5%" />
+            </colgroup>
+            <tbody>
+                  <!-- <tr ng-repeat="member in selectedTeam.members | orderBy:'fullName' "> -->
+                  <tr ng-repeat="member in editGroup.members | orderBy:'fullName' ">
+                       <!--<td>{{$index + 1}}</td>-->
+                       <td>{{member.fullName}}</td>
+                        <td>
+                            <input type="text" class="form-control" id="Text2" placeholder="Enter role...">
+                        </td>
+                        <!--<td>{{member.userName}}</td>-->
+                         <td>
+                             <label>{{member.activity}}</label>
+                        </td>
+                        <td>
+                            <a class="glyph-link" ng-click="removeMember(member.userName)">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </a>
+                        </td>
+                    </tr>
+               </tbody>
+            </table>
+
+           <!-- <div class="col-xs-1">
+                &nbsp;
+              </div>-->
+
+            
+        <br />
+        <!-- adding a member to the group ------------------------------------------------- -->
+        <div>
+            <table class="table table-striped">
+                 <colgroup>
+                    <col width="40%" />
+                    <col width="35%" />
+                    <col width="20%" />
+                    <col width="5%" />
+                  </colgroup>
+                 <tbody>
+                    <tr>
+                    <td>
+                       <!-- <select class="form-control select-username"
+                            ng-model="selectedMember"
+                            ng-options="member.fullName for member in selectedTeam.members"
+                            name="memberSelection">-->
+                          <select class="form-control select-username"
+                            ng-model="selectedMember" placeholder="Select a member"
+                            ng-options="member.fullName for member in reportedMembers"
+                            name="memberSelection">
+                        </select>
+                    </td>
+                    <td>
+                            <input type="text" class="form-control" id="editRole" ng-model="selectedMember.role" placeholder="Enter role...">
+                    </td>
+                    <td>
+                        <a class="glyph-link"
+                            ng-click="addMember(selectedMember)">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
 <!--
         <form class="form-inline">
