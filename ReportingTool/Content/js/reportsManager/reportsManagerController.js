@@ -223,7 +223,8 @@ reportsManagerModule.controller("reportDraftController",
             $scope.selectedMember = {
                 userName: "",
                 fullName: "",
-                role: ""
+                role: "",
+                activity: ""
             };
 
             $scope.addMember = function (member) {
@@ -234,7 +235,15 @@ reportsManagerModule.controller("reportDraftController",
                     }
                 }
                 //  add the member to the group's list 
-                $scope.editGroup.members.push(member);
+                var tmp_member = {};
+                console.log(member);
+                tmp_member.userName = member.userName;
+                tmp_member.fullName = member.fullName;
+                tmp_member.role = member.role;
+                tmp_member.activity = member.activity;
+
+                //$scope.editGroup.members.push(member);
+                $scope.editGroup.members.push(tmp_member);
 
                 //  remove the added member from initial report list
                 for (var i in $scope.reportedMembers) {

@@ -372,3 +372,9 @@ th:nth-child(3) {
 .row2 {
     margin-top: 10px;
 }
+
+.group-name {
+    color: #00BCD4;
+    font-size: 2em;
+    font-weight: bold;
+}

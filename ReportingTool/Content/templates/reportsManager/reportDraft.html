@@ -22,7 +22,7 @@
             
                <p id="P2">{{ fields[2].fieldName }} &nbsp; &nbsp;{{ fields[2].fieldDefaultValue }} </p>
                 <div>
-                    <textarea class="form-control resizable" rows="4"></textarea>
+                    <textarea class="form-control resizable" rows="3"></textarea>
                 </div> 
                     <!--Fname :  {{ selectedTemplate.fields[0].fieldName }} -->
              </div>
@@ -182,16 +182,49 @@
                </tbody>
             </table>
         </div>
-
         <br />
-        <!--  TODO: Add Group -->
+         <!-- Reported groups with members --------------------------------------------- -->
+           <div ng-repeat="group in reportedGroups | orderBy:'groupName' " class="row">
+                <div class="col-xs-8 col-sm-4 col-sm-offset-5 group-name">
+                            <strong> {{group.groupName | uppercase}} </strong>
+                </div>
+
+                <div>
+                    <table class="table table-striped">
+                    <colgroup>
+                        <col width="40%" />
+                        <col width="30%" />
+                        <col width="30%" />
+                    </colgroup>
+
+                    <tbody>
+                          <!-- <tr ng-repeat="member in selectedTeam.members | orderBy:'fullName' "> -->
+                          <tr ng-repeat="member in group.members | orderBy:'fullName' ">
+                               <!--<td>{{$index + 1}}</td>-->
+                               <td>{{member.fullName}}</td>
+                                <td>
+                                    <input type="text" class="form-control" ng-model="member.role" value="{{member.role}}"  placeholder="Enter role...">
+                                </td>
+                                <!--<td>{{member.userName}}</td>-->
+                                 <td>
+                                     <label>{{member.activity}}</label>
+                                </td>
+                            </tr>
+                       </tbody>
+                    </table>
+                </div>
+        </div>
+        <!-- Reported groups with members --------------------------------------------- -->
+        <br />
+
+        <!-- Add Group button ----------------------------------------------------------------- -->
          <div class="row">
             <div class="col-xs-3 center">
                   <a class="btn btn-flat" ng-click="addGroupPanel=true">Add Group</a>
                         <!--ui-sref="mainView.teamsManager.createTeam"-->
             </div>
          </div>
-         <!--  TODO -->
+         <!-- Add Group button ----------------------------------------------------------------- -->
 
        
          <!-- groupName + 2 glyphs----------------------------------------------------------- -->
@@ -229,7 +262,7 @@
                        <!--<td>{{$index + 1}}</td>-->
                        <td>{{member.fullName}}</td>
                         <td>
-                            <input type="text" class="form-control" id="Text2" placeholder="Enter role...">
+                            <input type="text" class="form-control" ng-model="member.role" value="{{member.role}}" placeholder="Enter role...">
                         </td>
                         <!--<td>{{member.userName}}</td>-->
                          <td>
@@ -269,7 +302,7 @@
                         </select>
                     </td>
                     <td>
-                            <input type="text" class="form-control" id="editRole" ng-model="selectedMember.role" placeholder="Enter role...">
+                            <input type="text" class="form-control" ng-model="selectedMember.role" placeholder="Enter role...">
                     </td>
                     <td>
                         <a class="glyph-link"
@@ -399,6 +432,27 @@
              </div>
         </form>
 -->
+        <!-- Risks and Issues ---------------------------------------------------------------------- -->
+         <div class="panel-body">
+            <div>
+               <p id="P14">{{ fields[4].fieldName }} &nbsp; &nbsp;{{ fields[4].fieldDefaultValue }} </p>
+                <div>
+                    <textarea class="form-control resizable" rows="3"></textarea>
+                </div> 
+             </div>
+        </div>
+        <!-- Risks and Issues ---------------------------------------------------------------------- -->
+
+         <!-- Planned Activities -------------------------------------------------------------------- -->
+        <div class="panel-body">
+            <div>
+               <p id="P15">{{ fields[5].fieldName }} &nbsp; &nbsp;{{ fields[5].fieldDefaultValue }} </p>
+                <div>
+                    <textarea class="form-control resizable" rows="3"></textarea>
+                </div> 
+             </div>
+        </div>
+         <!-- Planned Activities -------------------------------------------------------------------- -->
 
          <!--            form for Planned Vacations  - header    -->
          <form class="form-horizontal" role="form">
