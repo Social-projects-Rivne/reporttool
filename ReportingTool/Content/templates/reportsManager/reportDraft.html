@@ -54,7 +54,24 @@
         -->
          <!-- tempReport.template fields check -->  
 
-        <!--            form for user Activities  - header    -->
+        <!-- Activity form header v.1 -->
+<!--
+        <form class="form-inline">
+             <div class="form-group col-md-4 draft-header">
+                <label for="col1">Team Member</label>
+             </div>
+            <div class="form-group col-md-4 draft-header">
+                <label for="col2">Role</label>
+             </div>
+            <div class="form-group col-md-4 draft-header">
+                <label for="col3">Activity</label>
+             </div>
+        </form>
+-->
+        <!-- Activity form header v.1 -->
+
+         <!-- Activity form header v.2 - works -->
+<!--       
          <form class="form-horizontal" role="form">
             <div class="row">
 
@@ -84,28 +101,18 @@
 
             </div>
        </form>
-<!--
-        <form class="form-inline">
-             <div class="form-group col-md-4 draft-header">
-                <label for="col1">Team Member</label>
-             </div>
-            <div class="form-group col-md-4 draft-header">
-                <label for="col2">Role</label>
-             </div>
-            <div class="form-group col-md-4 draft-header">
-                <label for="col3">Activity</label>
-             </div>
-        </form>
 -->
+        <!-- Activity form header v.2 - works -->
+        
 
-         <!--            form for user Activities  - body        -->
+          <!-- Activity form body v.2 - works -->
+<!--
          <form class="form-horizontal" role="form">
 
             <div class="row row2" ng-repeat="member in selectedTeam.members | orderBy:'fullName' ">
 
                 <div class="col-xs-4">
                     <div class="form-group draft-row">
-                         <!--<label>name</label>-->
                         <label>{{member.fullName}}</label>
                     </div>
                 </div>
@@ -124,17 +131,16 @@
 
                 <div class="col-xs-1">
                     <div class="form-group draft-row">
-                       <!--  <button type="button" class="btn btn-link">
-                          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> -->
                             <a class="glyph-link" ng-click="removeMember(member.userName)">
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                             </a>
-                        <!--</button>-->
                     </div>
                 </div>
 
             </div>
        </form>
+-->
+         <!-- Activity form body v.2 - works -->
 
         <!-- table for all members -->
         <div>
@@ -177,18 +183,20 @@
             </table>
         </div>
 
+        <br />
         <!--  TODO: Add Group -->
          <div class="row">
-            <div class="col-xs-6 center">
-                  <a ui-sref="mainView.teamsManager.createTeam" class="btn btn-flat">Add Group</a>
+            <div class="col-xs-3 center">
+                  <a class="btn btn-flat" ng-click="addGroupPanel=true">Add Group</a>
+                        <!--ui-sref="mainView.teamsManager.createTeam"-->
             </div>
          </div>
          <!--  TODO -->
 
        
-        <!-- group name -->
-        <div class="row">
-            <div class="col-xs-8">
+         <!-- groupName + 2 glyphs----------------------------------------------------------- -->
+        <div class="row " ng-if="addGroupPanel == true">
+            <div class="col-xs-8 col-sm-6 col-sm-offset-2">
                  <input class='form-control' id="groupName" ng-model="editGroup.groupName" placeholder="Enter group name..." >  <!-- autofocus -->
             </div>
              <div class="col-xs-1">
@@ -205,8 +213,10 @@
                     </a>
             </div>
          </div>
-          <!-- group name -->
-        <table class="table table-striped">
+         <!-- groupName + 2 glyphs----------------------------------------------------------- -->
+
+        <!-- editGroup table -------------------------------------------------------------------- -->
+        <table class="table table-striped" ng-if="addGroupPanel==true">
             <colgroup>
                 <col width="40%" />
                 <col width="35%" />
@@ -233,15 +243,11 @@
                     </tr>
                </tbody>
             </table>
-
-           <!-- <div class="col-xs-1">
-                &nbsp;
-              </div>-->
-
+         <!-- editGroup table -------------------------------------------------------------------- -->
             
         <br />
         <!-- adding a member to the group ------------------------------------------------- -->
-        <div>
+        <div ng-if="addGroupPanel==true">
             <table class="table table-striped">
                  <colgroup>
                     <col width="40%" />
@@ -275,7 +281,7 @@
                 </tbody>
             </table>
         </div>
-
+        <!-- adding a member to the group ------------------------------------------------- -->
 <!--
         <form class="form-inline">
              <div class="form-group col-md-4">
@@ -425,7 +431,7 @@
             </div>
        </form>
 
-         <!--            form for user Activities  - body        -->
+         <!--            form for Planned Vacations  - body        -->
          <form class="form-horizontal" role="form">
             <div class="row row2">
 

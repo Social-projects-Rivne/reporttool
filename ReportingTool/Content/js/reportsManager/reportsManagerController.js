@@ -1,4 +1,5 @@
-﻿'use strict';
+﻿/// <reference path="../vendor/angular.js" />
+'use strict';
 
 reportsManagerModule.controller("reportsManagerController",
     ['$scope', '$stateParams', '$state','ReportsFactory', 'TempObjectFactory','$filter',
@@ -196,6 +197,8 @@ reportsManagerModule.controller("reportDraftController",
                 activity: '2h'
             }];
 
+            $scope.addGroupPanel = false;
+
             function getAllMembers() {
                 //var teams = $http.get("Teams/GetAllTeams");
                 //var members = $scope.reportedMembers;
@@ -233,13 +236,13 @@ reportsManagerModule.controller("reportDraftController",
                 //  add the member to the group's list 
                 $scope.editGroup.members.push(member);
 
-                ////  remove the added member from initial report list
-                //for (var i in $scope.reportedMembers) {
-                //    if ($scope.reportedMembers[i].userName === member.userName) {
-                //        $scope.reportedMembers.splice(i, 1);
-                //        //  $scope.editGroup.members.splice(i, 1);
-                //    }
-                //}
+                //  remove the added member from initial report list
+                for (var i in $scope.reportedMembers) {
+                    if ($scope.reportedMembers[i].userName === member.userName) {
+                        $scope.reportedMembers.splice(i, 1);
+                        //  $scope.editGroup.members.splice(i, 1);
+                    }
+                }
             }
 
             $scope.save = function () {
@@ -249,6 +252,7 @@ reportsManagerModule.controller("reportDraftController",
                 };
                 tmp_group.groupName = $scope.editGroup.groupName;
 
+                //  remove the added member from initial report list
                 for (var i in $scope.editGroup.members) {
                     for (var j in $scope.reportedMembers) {
                         if ($scope.editGroup.members[i].userName === $scope.reportedMembers[j].userName) {
@@ -265,12 +269,26 @@ reportsManagerModule.controller("reportDraftController",
                 $scope.editGroup.groupName = "";
                 $scope.editGroup.members = [];
 
+                $scope.addGroupPanel = false;
                 //  $state.go('mainView.reportsManager.reportsConditions.reportDraft', {}, { reload: true });
             }
 
             $scope.cancel = function () {
+                //  write the cancelled group members back to initial report list
+                for (var i in $scope.editGroup.members) {
+                    var tmp_member = {};
+
+                    tmp_member.userName = $scope.editGroup.members[i].userName;
+                    tmp_member.fullName = $scope.editGroup.members[i].fullName;
+                    tmp_member.role = $scope.editGroup.members[i].role;
+                    tmp_member.activity = $scope.editGroup.members[i].activity;
+
+                    $scope.reportedMembers.push(tmp_member);
+                    $scope.editGroup.members.splice(i, 1);
+                }
                 console.log("group save cancelled");
-                $state.go('mainView.reportsManager.reportsConditions.reportDraft', {}, { reload: true });
+                $scope.addGroupPanel = false;
+                //  $state.go('mainView.reportsManager.reportsConditions.reportDraft', {}, { reload: true });
             }
 
             //  ========================================================================
