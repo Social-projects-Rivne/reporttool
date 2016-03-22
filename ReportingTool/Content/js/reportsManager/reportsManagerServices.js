@@ -5,7 +5,7 @@ reportsManagerModule.factory('ReportsFactory', ['$http', function ($http) {
         getTeams: getTeams,
         getTemplates: getTemplates,
         getFields: getFields,
-        getUserActivity: getUserActivity,       //  debug
+        getUserActivityRequest: getUserActivityRequest,       //  debug
         getTemplateFields: getTemplateFields   //  debug
     };
 
@@ -65,9 +65,56 @@ reportsManagerModule.factory('ReportsFactory', ['$http', function ($http) {
     //    });
     //}
 
-    function getUserActivity(userName, dateFrom, dateTo) {
-        return $http.get("Reports/GetUserActivity?userName=" + userName + "&dateFrom= " + "01/01/2016" + "&dateTo=" + dateTo + "01/03/2016");
+    
+    function getUserActivityRequest(userName, dateFrom, dateTo) {
+        //  --- working example of opastukhov ------------------------------------
+        //$scope.Test = function () {
+        //    var req = {
+        //        url: '/Reports/GetUserActivity?userName=opastutc&dateFrom=2016-01-01&dateTo=2016-03-22',
+        //        method: 'GET',
+        //        headers: { 'content-type': 'application/json' }
+        //    };
+
+        //    $http(req).then(
+        //        function (r) {
+        //            alert("ok");
+        //        },
+        //        function (response) {
+        //            alert("not ok");
+        //        }
+        //     );
+        //};
+        //  --- working example --------------------------------------------------------
+
+            //  works OK ! ---------------------------------------------------------
+            var req = {
+                url: '/Reports/GetUserActivity?userName=opastutc&dateFrom=2016-01-01&dateTo=2016-03-22',
+                method: 'GET',
+                headers: { 'content-type': 'application/json' }
+            };
+
+            //$http(req).then(
+            //    function (r) {
+            //        //alert("ok" + " r = " + r);
+            //        console.log(r);
+            //        userActivity = response.data.Timespent;
+            //    },
+            //    function (response) {
+            //        console.log("Error getUserActivity.");
+            //    }
+            // );
+             // -------------------------------------------------------------------------
+
+          //return $http(req);
+
+        // OLD
+        // return $http.get("Reports/GetUserActivity?userName=" + userName);
+
+        //   + "&dateFrom= " + "2016-01-01" + "&dateTo=" + dateTo + "2016-03-01"
         //  + "&dateFrom='" + dateFrom + "'&dateTo='" + dateTo + "'"
+        
+            var response = $http(req);
+            return response;
     }
 
     return reportsFactory;

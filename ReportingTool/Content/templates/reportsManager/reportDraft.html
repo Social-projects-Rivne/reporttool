@@ -6,6 +6,13 @@
             <h4>
                 <strong>Weekly report by {{ selectedTeam.teamName }}</strong>
             </h4> 
+
+             <div id="progressIndicator">
+                <md-progress-circular md-mode="indeterminate"
+                    md-diameter="80"
+                    ng-show="requestProcessing">
+                </md-progress-circular>
+            </div>
         </div>
 
         <div class="panel-body">

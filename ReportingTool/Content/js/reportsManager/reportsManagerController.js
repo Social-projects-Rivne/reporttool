@@ -77,7 +77,8 @@ reportsManagerModule.controller("reportsManagerController",
             };
 
             function formatDate(date) {
-                return $filter('date')(date, "dd/MM/yyyy");
+                //return $filter('date')(date, "dd/MM/yyyy");   //  fix
+                return $filter('date')(date, "yyyy-MM-dd");
             }
 
             $scope.saveIntoClientStorage = function () {
@@ -315,19 +316,37 @@ reportsManagerModule.controller("reportDraftController",
 
 
             $scope.getUserActivity = function (userName, dateFrom, dateTo) {
-                var userActivity = "";
 
-                ReportsFactory.getUserActivity(userName, dateFrom, dateTo)
-                    .then(function (response) {
-                        //$scope.teams = response.data;
-                        userActivity = response.data;
-                    }, function (error) {
-                        console.error("getUserActivity error!", error);
-                    });
+                //  debug
+                console.log("userName = " + userName);
+                console.log("dateFrom = " + dateFrom);
+                console.log("dateTo = " + dateTo);
 
-                console.log(userActivity);
-                return userActivity;
+                //  hung up the browser
+                //ReportsFactory.getUserActivity(userName, dateFrom, dateTo)
+                //    .then(function (response) {
+                //        //$scope.teams = response.data;
+                //        userActivity = response.data;
+                //    }, function (error) {
+                //        console.error("getUserActivity error!", error);
+                //    });
+
+                $scope.requestProcessing = true;
+
+                ReportsFactory.getUserActivityRequest(userName, dateFrom, dateTo)
+                .then(gUASuccess, gUAFail);
+
             };
+                function gUASuccess(response) {
+                    $scope.requestProcessing = false;
+                    $scope.time = response.data.Timespent;
+                }
+                function gUAFail(response) {
+                    $scope.requestProcessing = false;
+                    alert("Error: " + response.code + ".  " + response.statusText);
+                }
+
+            $scope.Test02 = $scope.getUserActivity("user1", "date1", "date2");
 
             //  TODO
             function getGroupActivity() {
@@ -341,8 +360,7 @@ reportsManagerModule.controller("reportDraftController",
                     tmp_member.userName = $scope.reportedMembers[i].userName;
                     tmp_member.fullName = $scope.reportedMembers[i].fullName;
                     tmp_member.role = '';
-                    tmp_member.activity = $scope.getUserActivity(
-                        $scope.reportedMembers[i].userName,
+                    tmp_member.activity = $scope.getUserActivity($scope.reportedMembers[i].userName,
                         $scope.tempReport.from,
                         $scope.tempReport.to);
 
@@ -350,7 +368,11 @@ reportsManagerModule.controller("reportDraftController",
                 }
                 return tmp_members;
             }
-            $scope.reportedMembers = getGroupActivity();
+            //  $scope.reportedMembers = getGroupActivity();
+
+            //  worked OK !
+            //$scope.Test = ReportsFactory.getUserActivityRequest("user1", "date1", "date2");
+                        
 
             //  ========================================================================
 
