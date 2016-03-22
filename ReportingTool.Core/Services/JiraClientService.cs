@@ -29,17 +29,6 @@ namespace ReportingTool.Core.Services
         }
 
         /// <summary>
-        /// Retrieving list of issues of current project for period of time  
-        /// </summary>
-        /// <param name="dateFrom">Lower boundary of time period</param>
-        /// <param name="dateTo">Upper boundary of time period</param>
-        /// <returns>List of issues</returns>
-        public List<Issue> GetIssuesWithWorklogs(string dateFrom, string dateTo)
-        {
-            return jiraClient.GetAllIssues(dateFrom, dateTo);
-        }
-
-        /// <summary>
         /// Counting of spent time in specific worklogs
         /// </summary>
         /// <param name="worklog">Worklog contains list of worklogs deatails</param>
@@ -73,7 +62,7 @@ namespace ReportingTool.Core.Services
                 throw new ArgumentException();
             }
 
-            var issues = jiraClient.GetAllIssues(dateFrom, dateTo);
+            var issues = jiraClient.GetUserIssues(userName, dateFrom, dateTo);
             if (issues == null)
             {
                 return 0;
@@ -100,37 +89,6 @@ namespace ReportingTool.Core.Services
         }
 
         /// <summary>
-        /// Retrieveing issues of specific user with worklogs
-        /// </summary>
-        /// <param name="userName">Login of specific user</param>
-        /// <param name="dateFrom">Lower boundary of time period</param>
-        /// <param name="dateTo">Upper boundary of time period</param>
-        /// <returns>List of issues entities</returns>
-        private List<Issue> getIssuesWithUserWorklogs(string userName, string dateFrom, string dateTo)
-        {
-            List<Issue> result = new List<Issue>();
-
-            var issues = jiraClient.GetAllIssues(dateFrom, dateTo);
-
-            if (issues != null)
-            {
-                foreach (var issue in issues)
-                {
-                    Worklog worklog = jiraClient.GetWorklogByIssueKey(issue.key);
-                    var worklogs = worklog.worklogs.Where(w => w.author.name == userName).ToList();
-                    bool issueHasAssignee = issue.fields.assignee != null;
-
-                    if (worklogs.Count != 0 || 
-                        (issueHasAssignee && issue.fields.assignee.name == userName))
-                    {
-                        result.Add(issue);
-                    }
-                }
-            }
-            return result;
-        }
-
-        /// <summary>
         /// Retreiveing issue models for specific user for specific period of time
         /// </summary>
         /// <param name="userName">Login of specific user</param>
@@ -139,39 +97,33 @@ namespace ReportingTool.Core.Services
         /// <returns>List of issue models</returns>
         public List<IssueModel> GetUserIssues(string userName, string dateFrom, string dateTo)
         {
-            if (!ReportsValidator.UserNameIsCorrect(userName) ||
-                !ReportsValidator.DatesAreCorrect(dateFrom, dateTo))
-            {
-                throw new ArgumentException();
-            }
-
             List<IssueModel> result = new List<IssueModel>();
-            
-            var issuesWithUsersWorklogs = getIssuesWithUserWorklogs(userName, dateFrom, dateTo);
+
+            var issuesWithUsersWorklogs = jiraClient.GetUserIssues(userName, dateFrom, dateTo);
             if (issuesWithUsersWorklogs != null)
             {
-                    foreach (var issue in issuesWithUsersWorklogs)
+                foreach (var issue in issuesWithUsersWorklogs)
+                {
+                    IssueModel issueModel = new IssueModel
                     {
-                        IssueModel issueModel = new IssueModel
-                        {
-                            key = issue.key,
-                            status = issue.fields.status.name,
-                            summary = issue.fields.summary
-                        };
+                        key = issue.key,
+                        status = issue.fields.status.name,
+                        summary = issue.fields.summary
+                    };
 
-                        if (issue.fields.worklog.worklogs != null)
+                    if (issue.fields.worklog.worklogs != null)
+                    {
+                        foreach (var worklog in issue.fields.worklog.worklogs)
                         {
-                            foreach (var worklog in issue.fields.worklog.worklogs)
+                            if (worklog.author.name == userName)
                             {
-                                if (worklog.author.name == userName)
-                                {
-                                    issueModel.loggedTime += worklog.timeSpentSeconds;
-                                }
+                                issueModel.loggedTime += worklog.timeSpentSeconds;
                             }
                         }
-                        result.Add(issueModel);
                     }
-            }        
+                    result.Add(issueModel);
+                }
+            }
             return result;
         }
     }

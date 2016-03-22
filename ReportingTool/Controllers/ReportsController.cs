@@ -67,7 +67,6 @@ namespace ReportingTool.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);        
             }
             return Json(result, JsonRequestBehavior.AllowGet);
-        }
-        
+        } 
 	}
 }

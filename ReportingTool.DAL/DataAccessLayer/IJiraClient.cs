@@ -7,7 +7,7 @@ namespace ReportingTool.DAL.DataAccessLayer
     {
         List<JiraUser> GetAllUsers(string projectName);
         List<JiraUser> GetUsers(string projectName, int startAt);
-        List<Issue> GetAllIssues(string dateFrom, string dateTo);
         Worklog GetWorklogByIssueKey(string issueKey);
+        List<Issue> GetUserIssues(string userName, string dateFrom, string dateTo);
     }
 }
