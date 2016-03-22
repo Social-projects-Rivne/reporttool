@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ReportingTool.Core.Services;
 using ReportingTool.Core.Validation;
+using ReportingTool.Core.Models;
 
 namespace UnitTestProject
 {
@@ -23,9 +24,31 @@ namespace UnitTestProject
             return TimeSpent;
         }
 
-        public List<ReportingTool.Core.Models.IssueModel> GetUserIssues(string userName, string dateFrom, string dateTo)
+        public List<IssueModel> GetUserIssues(string userName, string dateFrom, string dateTo)
         {
-            throw new NotImplementedException();
+            if (!ReportsValidator.UserNameIsCorrect(userName) ||
+                !ReportsValidator.DatesAreCorrect(dateFrom, dateTo))
+            {
+                throw new ArgumentException();
+            }
+
+            List<IssueModel> result = new List<IssueModel> 
+            { 
+                new IssueModel 
+                {   key = "issueKey1",
+                    loggedTime = 600,
+                    status = "In Progress",
+                    summary = "Issue 1 summary"
+                },
+                new IssueModel 
+                {   key = "issueKey2",
+                    loggedTime = 0,
+                    status = "To Do",
+                    summary = "Issue 2 summary"
+                }
+            };
+
+            return result;
         }
     }
 }

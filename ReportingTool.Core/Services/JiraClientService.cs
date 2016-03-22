@@ -82,7 +82,7 @@ namespace ReportingTool.Core.Services
             var timeSpent = 0;
             foreach (var issue in issues)
             {
-                //if total quantity of worklogs in issue is more than allowed my Jira
+                //if total quantity of worklogs in issue is more than allowed by Jira
                 if (issue.fields.worklog.total > issue.fields.worklog.maxResults)
                 {
                     //get all worklogs of specific issue
@@ -106,7 +106,7 @@ namespace ReportingTool.Core.Services
         /// <param name="dateFrom">Lower boundary of time period</param>
         /// <param name="dateTo">Upper boundary of time period</param>
         /// <returns>List of issues entities</returns>
-        public List<Issue> GetIssuesWithUserWorklogs(string userName, string dateFrom, string dateTo)
+        private List<Issue> getIssuesWithUserWorklogs(string userName, string dateFrom, string dateTo)
         {
             List<Issue> result = new List<Issue>();
 
@@ -147,7 +147,7 @@ namespace ReportingTool.Core.Services
 
             List<IssueModel> result = new List<IssueModel>();
             
-            var issuesWithUsersWorklogs = GetIssuesWithUserWorklogs(userName, dateFrom, dateTo);
+            var issuesWithUsersWorklogs = getIssuesWithUserWorklogs(userName, dateFrom, dateTo);
             if (issuesWithUsersWorklogs != null)
             {
                     foreach (var issue in issuesWithUsersWorklogs)
