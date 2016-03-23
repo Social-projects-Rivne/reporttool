@@ -195,9 +195,11 @@ reportsManagerModule.controller("reportDraftController",
                 userName: 'Loading...',
                 fullName: 'Loading...',
                 role: 'No Role',
-                activity: '2h'
+                activity: '2h',
+                issues: []
             }];
 
+            //$scope.requestProcessing = false;
             $scope.requestProcessing = 0;
 
             $scope.addGroupPanel = false;
@@ -221,6 +223,7 @@ reportsManagerModule.controller("reportDraftController",
             }
             $scope.reportedMembers = getAllMembers();
 
+            //  not done and not called
             function getActivityAndIssues() {
                 for (var i = 0, len = $scope.reportedMembers.length; i < len; i++) {
 
@@ -229,13 +232,13 @@ reportsManagerModule.controller("reportDraftController",
                 }
             }
 
-
             //  a work template for member manipulation
             $scope.selectedMember = {
                 userName: "",
                 fullName: "",
                 role: "",
-                activity: ""
+                activity: "",
+                issues: []
             };
 
             $scope.addMember = function (member) {
@@ -252,6 +255,8 @@ reportsManagerModule.controller("reportDraftController",
                 tmp_member.fullName = member.fullName;
                 tmp_member.role = member.role;
                 tmp_member.activity = member.activity;
+                // adding issues
+                tmp_member.issues = member.issues;
 
                 //$scope.editGroup.members.push(member);
                 $scope.editGroup.members.push(tmp_member);
@@ -302,6 +307,8 @@ reportsManagerModule.controller("reportDraftController",
                     tmp_member.fullName = $scope.editGroup.members[i].fullName;
                     tmp_member.role = $scope.editGroup.members[i].role;
                     tmp_member.activity = $scope.editGroup.members[i].activity;
+                    //  get the issues back
+                    tmp_member.issues = $scope.editGroup.members[i].issues;
 
                     $scope.reportedMembers.push(tmp_member);
                     $scope.editGroup.members.splice(i, 1);
@@ -324,6 +331,20 @@ reportsManagerModule.controller("reportDraftController",
                 return tmpMemberList;
             };
 
+            //  in progress !!!
+            $scope.groupIssueArray = function (group) {
+                var tmpIssueArray = [];
+
+                for (var i in group.members) {
+                    for (var j in group.members.issues) {
+                        var tmpIssue = group.members[i].issues[j];
+                        tmpIssueArray.push(tmpIssue);
+                    }
+                }
+                console.log("tmpIssueArray = " + tmpIssueArray);
+
+                return tmpIssueArray;
+            };
 
             $scope.getUserActivity = function (userName, dateFrom, dateTo) {
 
@@ -354,7 +375,7 @@ reportsManagerModule.controller("reportDraftController",
 
                     //  fill the activity field on scope
                     // $scope.time = (parseInt(response.data.Timespent) / 3600);
-                    var hours = (parseInt(response.data.Timespent) / 3600);
+                    var hours = Math.round( parseInt( response.data.Timespent) / 3600);
                     var userNameVar = response.data.userNameFromBE;
 
                     for (var i in $scope.reportedMembers) {
@@ -403,22 +424,22 @@ reportsManagerModule.controller("reportDraftController",
             //$scope.Test03 = $scope.getIssues("user1", "date1", "date2");
 
             //  TODO
-                function getGroupInfo() {
+                function getReportedMembersInfo() {
                     var from = $scope.tempReport.from;
                     var to = $scope.tempReport.to;
 
-                for (var i = 0, len = $scope.reportedMembers.length; i < len; i++) {
+                    for (var i = 0, len = $scope.reportedMembers.length; i < len; i++) {
 
-                    //  launch the activity Ajax request
-                    var username = $scope.reportedMembers[i].userName;
-                    //var from = $scope.tempReport.from;
-                    //var to = $scope.tempReport.to;
+                        //  launch the activity Ajax request
+                        var username = $scope.reportedMembers[i].userName;
+                        //var from = $scope.tempReport.from;
+                        //var to = $scope.tempReport.to;
 
-                    $scope.getUserActivity(username, from, to);
-                    $scope.getIssues(username, from, to);
+                        $scope.getUserActivity(username, from, to);
+                        $scope.getIssues(username, from, to);
+                    }
                 }
-            }
-            getGroupInfo();
+                getReportedMembersInfo();
 
             //  worked OK !
             //$scope.Test = ReportsFactory.getUserActivityRequest("user1", "date1", "date2");

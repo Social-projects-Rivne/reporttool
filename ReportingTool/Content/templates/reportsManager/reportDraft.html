@@ -179,7 +179,7 @@
                         </td>
                         <!--<td>{{member.userName}}</td>-->
                          <td>
-                             <label>{{member.activity}}</label>
+                             <label>{{member.activity}}&nbsp;h</label>
                               <!--<label>{{getUserActivity(member.userName, tempReport.from, tempReport.to)}}</label>-->
                         </td>
                         <td>
@@ -446,51 +446,45 @@
              </div>
         
             <div class="panel-body">
-            <table class="table table-striped">
-                <colgroup>
-                    <col width="15%" />
-                    <col width="55%" />
-                    <col width="15%" />
-                    <col width="15%" />
-                </colgroup>
-
-               <thead class="thead1">
-                    <tr>
-                        <th class ="thead1-th">ID</th>
-                        <th class ="thead1-th">Summary</th>
-                        <th class ="thead1-th">Status</th>
-                        <th class ="thead1-th">Logged time</th>
-                    </tr>
-                </thead>
-
-                <div>
-                    <table class="table table-striped">
+                <table class="table table-striped">
                     <colgroup>
-                        <col width="40%" />
-                        <col width="30%" />
-                        <col width="30%" />
+                        <col width="15%" />
+                        <col width="55%" />
+                        <col width="15%" />
+                        <col width="15%" />
                     </colgroup>
 
-                    <tbody>
-                          <!-- <tr ng-repeat="member in selectedTeam.members | orderBy:'fullName' "> -->
-                          <tr ng-repeat="member in group.members | orderBy:'fullName' ">
-                               <!--<td>{{$index + 1}}</td>-->
-                               <td>{{member.fullName}}</td>
-                                <td>
-                                    <input type="text" class="form-control" ng-model="member.role" value="{{member.role}}"  placeholder="Enter role...">
-                                </td>
-                                <!--<td>{{member.userName}}</td>-->
-                                 <td>
-                                     <label>{{member.activity}}</label>
-                                </td>
-                            </tr>
-                       </tbody>
-                    </table>
-                </div>
-        </div>
+                    <thead class="thead1">
+                        <tr>
+                            <th class ="thead1-th">ID</th>
+                            <th class ="thead1-th">Summary</th>
+                            <th class ="thead1-th">Status</th>
+                            <th class ="thead1-th">Logged time</th>
+                        </tr>
+                    </thead>
 
-        </div>
+                    <!--
+                        [
+                        {"key":"RVNETJAN-101","summary":"Implement tests for business layer","status":"In Progress","loggedTime":7200},
+                        {"key":"RVNETJAN-100","summary":"Implement method for getting members by team id","status":"Done","loggedTime":5400},
+                        ]
+                        -->
+
+                    <tbody>
+                            <tr ng-repeat="issue in groupIssueArray(group) | orderBy:'key' ">
+                                <!--<td>{{$index + 1}}</td>-->
+                                <td>{{issue.key}}</td>
+                                <td>{{issue.summary}}</td>
+                                <td>{{issue.status}}</td>
+                                <td>{{ issue.loggedTime / 3600}}</td>
+                            </tr>
+                     </tbody>
+                  </table>
+                </div>
+
+            </div>
          <!--  ------------ List of Issues table v.2 - works ------------------------------------  -->
+
         <br />
 <!--
         <form class="form-inline">
