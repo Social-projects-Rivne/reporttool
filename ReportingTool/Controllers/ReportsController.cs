@@ -44,7 +44,8 @@ namespace ReportingTool.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            return Json(new { Timespent = result }, JsonRequestBehavior.AllowGet);
+            //  return Json(new { Timespent = result }, JsonRequestBehavior.AllowGet);
+            return Json(new { Timespent = result, userNameFromBE = userName }, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -66,7 +67,8 @@ namespace ReportingTool.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);        
             }
-            return Json(result, JsonRequestBehavior.AllowGet);
+            //  return Json(result, JsonRequestBehavior.AllowGet);
+            return Json(new { Issues = result, userNameFromBE = userName }, JsonRequestBehavior.AllowGet);
         }
         
 	}

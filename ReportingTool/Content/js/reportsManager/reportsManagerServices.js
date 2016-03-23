@@ -86,9 +86,18 @@ reportsManagerModule.factory('ReportsFactory', ['$http', function ($http) {
         //     );
         //};
         //  --- working example of opastukhov ------------------------------------
+            
+            //  WORKS OK!
+            //var req = {
+            //    url: '/Reports/GetUserActivity?userName=opastutc&dateFrom=2016-01-01&dateTo=2016-03-22',
+            //    method: 'GET',
+            //    headers: { 'content-type': 'application/json' }
+            //};
 
+        var urlVar = '/Reports/GetUserActivity?userName=' + userName + '&dateFrom=' + dateFrom + '&dateTo=' + dateTo;
             var req = {
-                url: '/Reports/GetUserActivity?userName=opastutc&dateFrom=2016-01-01&dateTo=2016-03-22',
+                //url: '/Reports/GetUserActivity?userName=opastutc&dateFrom=2016-01-01&dateTo=2016-03-22',
+                url: urlVar,
                 method: 'GET',
                 headers: { 'content-type': 'application/json' }
             };

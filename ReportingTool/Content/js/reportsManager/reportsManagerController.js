@@ -198,6 +198,8 @@ reportsManagerModule.controller("reportDraftController",
                 activity: '2h'
             }];
 
+            $scope.requestProcessing = 0;
+
             $scope.addGroupPanel = false;
 
             function getAllMembers() {
@@ -211,14 +213,22 @@ reportsManagerModule.controller("reportDraftController",
                     tmp_member.userName = $scope.selectedTeam.members[i].userName;
                     tmp_member.fullName = $scope.selectedTeam.members[i].fullName;
                     tmp_member.role = '';
-                    tmp_member.activity = '0h'
+                    tmp_member.activity = 0;
 
                     tmp_members.push(tmp_member);
                 }
                 return tmp_members;
             }
-
             $scope.reportedMembers = getAllMembers();
+
+            function getActivityAndIssues() {
+                for (var i = 0, len = $scope.reportedMembers.length; i < len; i++) {
+
+                    $scope.getUserActivity($scope.reportedMembers[i].userName, $scope.tempReport.from, $scope.tempReport.to);
+                    //$scope.getIssues($scope.reportedMembers[i].userName, $scope.tempReport.from, $scope.tempReport.to);
+                }
+            }
+
 
             //  a work template for member manipulation
             $scope.selectedMember = {
@@ -331,68 +341,84 @@ reportsManagerModule.controller("reportDraftController",
                 //        console.error("getUserActivity error!", error);
                 //    });
 
-                $scope.requestProcessing = true;
+                //$scope.requestProcessing = true;
+                $scope.requestProcessing += 1;
 
                 ReportsFactory.getUserActivityRequest(userName, dateFrom, dateTo)
                 .then(gUASuccess, gUAFail);
 
             };
                 function gUASuccess(response) {
-                    $scope.requestProcessing = false;
-                    $scope.time = response.data.Timespent;
+                    //$scope.requestProcessing = false;
+                    $scope.requestProcessing -= 1;
+
+                    //  fill the activity field on scope
+                    // $scope.time = (parseInt(response.data.Timespent) / 3600);
+                    var hours = (parseInt(response.data.Timespent) / 3600);
+                    var userNameVar = response.data.userNameFromBE;
+
+                    for (var i in $scope.reportedMembers) {
+                        if ($scope.reportedMembers[i].userName === userNameVar) {
+                            $scope.reportedMembers[i].activity = hours;
+                        }
+                    }
+
                 }
                 function gUAFail(response) {
-                    $scope.requestProcessing = false;
+                    //$scope.requestProcessing = false;
+                    $scope.requestProcessing -= 1;
+
                     alert("Error: " + response.code + ".  " + response.statusText);
                 }
-
-            $scope.Test02 = $scope.getUserActivity("user1", "date1", "date2");
+            //$scope.Test02 = $scope.getUserActivity("user1", "date1", "date2");
 
             $scope.getIssues = function (userName, dateFrom, dateTo) {
-
-                //  debug
-                //console.log("userName = " + userName);
-                //console.log("dateFrom = " + dateFrom);
-                //console.log("dateTo = " + dateTo);
-
-                $scope.requestProcessing = true;
+                //$scope.requestProcessing = true;
+                $scope.requestProcessing += 1;
 
                 ReportsFactory.getIssuesRequest(userName, dateFrom, dateTo)
                 .then(gISuccess, gIFail);
 
             };
                 function gISuccess(response) {
-                    $scope.requestProcessing = false;
-                    $scope.issues = response.data;
+                    //$scope.requestProcessing = false;
+                    $scope.requestProcessing -= 1;
+
+                    //  fill the issues field on scope
+                    var issuesVar = response.data.Issues;
+                    var userNameVar = response.data.userNameFromBE;
+
+                    for (var i in $scope.reportedMembers) {
+                        if ($scope.reportedMembers[i].userName === userNameVar) {
+                            $scope.reportedMembers[i].issues = issuesVar;
+                        }
+                    }
                 }
                 function gIFail(response) {
-                    $scope.requestProcessing = false;
+                    //$scope.requestProcessing = false;
+                    $scope.requestProcessing -= 1;
+
                     alert("Error: " + response.code + ".  " + response.statusText);
                 }
-
-            $scope.Test03 = $scope.getIssues("user1", "date1", "date2");
+            //$scope.Test03 = $scope.getIssues("user1", "date1", "date2");
 
             //  TODO
-            function getGroupActivity() {
-                //var teams = $http.get("Teams/GetAllTeams");
-                //var members = $scope.reportedMembers;
-                var tmp_members = [];
+                function getGroupInfo() {
+                    var from = $scope.tempReport.from;
+                    var to = $scope.tempReport.to;
 
-                //for (var i in $scope.selectedTeam.members) {
                 for (var i = 0, len = $scope.reportedMembers.length; i < len; i++) {
-                    var tmp_member = {};
-                    tmp_member.userName = $scope.reportedMembers[i].userName;
-                    tmp_member.fullName = $scope.reportedMembers[i].fullName;
-                    tmp_member.role = '';
-                    tmp_member.activity = $scope.getUserActivity($scope.reportedMembers[i].userName,
-                        $scope.tempReport.from,
-                        $scope.tempReport.to);
 
-                    tmp_members.push(tmp_member);
+                    //  launch the activity Ajax request
+                    var username = $scope.reportedMembers[i].userName;
+                    //var from = $scope.tempReport.from;
+                    //var to = $scope.tempReport.to;
+
+                    $scope.getUserActivity(username, from, to);
+                    $scope.getIssues(username, from, to);
                 }
-                return tmp_members;
             }
-            //  $scope.reportedMembers = getGroupActivity();
+            getGroupInfo();
 
             //  worked OK !
             //$scope.Test = ReportsFactory.getUserActivityRequest("user1", "date1", "date2");
