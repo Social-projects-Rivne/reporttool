@@ -2,7 +2,8 @@
     var reportsFactory = {
         getTeams: getTeams,
         getTemplates: getTemplates,
-        getFields: getFields
+        getFields: getFields,
+        getJiraUsers: getJiraUsers
     };
 
     function getTeams() {
@@ -16,5 +17,10 @@
     function getFields(templateId) {
         return $http.get("Templates/GetTemplateFields?templateId=" + templateId);
     }
+
+    function getJiraUsers(param) {
+        return $http.get("JiraUsers/GetAllUsers", { params: { "searchValue": param } });
+    }
+
     return reportsFactory;
 }]);

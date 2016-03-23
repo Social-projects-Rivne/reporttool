@@ -33,6 +33,40 @@ reportsManagerModule.controller("reportsManagerController",
                 console.error("getTemplates error!", error);
             });
 
+            $scope.jiraUsers = [{
+                userName: 'Loading...',
+                fullName: 'Loading...'
+            }];
+
+            ReportsFactory.getJiraUsers().then(getJiraUsersSuccess, getJiraUsersFail);
+
+            function getJiraUsersSuccess(response) {
+                $scope.jiraUsers = response.data;
+            }
+
+            function getJiraUsersFail(response) {
+                console.error("getUsers error!");
+            };
+
+            $scope.members = [];
+
+            $scope.addMember = function (member) {
+                for (var i in $scope.members) {
+                    if ($scope.members[i].userName === member.userName) {
+                        return;
+                    }
+                }
+                $scope.members.push(member);
+            }
+
+            $scope.removeMember = function (userName) {
+                for (var i in $scope.members) {
+                    if ($scope.members[i].userName === userName) {
+                        $scope.members.splice(i, 1);
+                    }
+                }
+            }
+
             $scope.fromDate = new Date();
             $scope.toDate = new Date();
 
@@ -91,9 +125,10 @@ reportsManagerModule.controller("reportsManagerController",
             }
 
             function initializeTempReportConditionals(templateName, fields) {
-                return {
-                    fields: fields,
+                return {                  
                     templateName: templateName,
+                    fields: fields,
+                    members: $scope.members,
                     teamId: $scope.selectedTeam.teamID,
                     from: formatDate($scope.fromDate),
                     to: formatDate($scope.toDate)
