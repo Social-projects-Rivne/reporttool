@@ -27,7 +27,8 @@
                         <ul class="list">
                             <li>
                                 <a ng-class="{active: $state.includes('mainView.reportsManager')}"
-                                   ui-sref=".reportsManager.reportsConditions">
+                                   ui-sref=".reportsManager.reportsConditions"
+                                   ui-sref-opts="{reload: true}">
                                     Generate Report
                                 </a>
                             </li>

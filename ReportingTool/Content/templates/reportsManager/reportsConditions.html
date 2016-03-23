@@ -31,9 +31,9 @@
                     <div class="col-sm-8">
                         <select class="form-control select-username"
                                 ng-model="selectedTemplate"
-                                ng-options="template.templateName for template in templates"
-                                name="templateSelection">
-                         </select>
+                                ng-options="template.templateName for template in templates track by template.templateId"
+                                name="templateSelection">                           
+                        </select>
                     </div>
                 </div>
             </div>
