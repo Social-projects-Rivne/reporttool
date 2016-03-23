@@ -6,6 +6,7 @@ reportsManagerModule.factory('ReportsFactory', ['$http', function ($http) {
         getTemplates: getTemplates,
         getFields: getFields,
         getUserActivityRequest: getUserActivityRequest,       //  debug
+        getIssuesRequest: getIssuesRequest,     //  debug
         getTemplateFields: getTemplateFields   //  debug
     };
 
@@ -84,9 +85,8 @@ reportsManagerModule.factory('ReportsFactory', ['$http', function ($http) {
         //        }
         //     );
         //};
-        //  --- working example --------------------------------------------------------
+        //  --- working example of opastukhov ------------------------------------
 
-            //  works OK ! ---------------------------------------------------------
             var req = {
                 url: '/Reports/GetUserActivity?userName=opastutc&dateFrom=2016-01-01&dateTo=2016-03-22',
                 method: 'GET',
@@ -115,6 +115,37 @@ reportsManagerModule.factory('ReportsFactory', ['$http', function ($http) {
         
             var response = $http(req);
             return response;
+    }
+
+    function getIssuesRequest(userName, dateFrom, dateTo) {
+        //  --- working example of opastukhov ------------------------------------
+        //$scope.Test = function () {
+        //    var req = {
+        //        url: '/Reports/GetIssues?userName=opastutc&dateFrom=2016-01-01&dateTo=2016-03-22',
+        //        method: 'GET',
+        //        headers: { 'content-type': 'application/json' }
+        //    };
+
+        //    $http(req).then(
+        //        function (r) {
+        //            alert("ok");
+        //        },
+        //        function (response) {
+        //            alert("not ok");
+
+        //        }
+        //     );
+        //};
+        //  --- working example of opastukhov ------------------------------------
+
+        var req = {
+            url: '/Reports/GetIssues?userName=opastutc&dateFrom=2016-01-01&dateTo=2016-03-22',
+            method: 'GET',
+            headers: { 'content-type': 'application/json' }
+        };
+
+        var response = $http(req);
+        return response;
     }
 
     return reportsFactory;

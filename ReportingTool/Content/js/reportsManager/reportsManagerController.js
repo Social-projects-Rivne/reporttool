@@ -348,6 +348,30 @@ reportsManagerModule.controller("reportDraftController",
 
             $scope.Test02 = $scope.getUserActivity("user1", "date1", "date2");
 
+            $scope.getIssues = function (userName, dateFrom, dateTo) {
+
+                //  debug
+                //console.log("userName = " + userName);
+                //console.log("dateFrom = " + dateFrom);
+                //console.log("dateTo = " + dateTo);
+
+                $scope.requestProcessing = true;
+
+                ReportsFactory.getIssuesRequest(userName, dateFrom, dateTo)
+                .then(gISuccess, gIFail);
+
+            };
+                function gISuccess(response) {
+                    $scope.requestProcessing = false;
+                    $scope.issues = response.data;
+                }
+                function gIFail(response) {
+                    $scope.requestProcessing = false;
+                    alert("Error: " + response.code + ".  " + response.statusText);
+                }
+
+            $scope.Test03 = $scope.getIssues("user1", "date1", "date2");
+
             //  TODO
             function getGroupActivity() {
                 //var teams = $http.get("Teams/GetAllTeams");
