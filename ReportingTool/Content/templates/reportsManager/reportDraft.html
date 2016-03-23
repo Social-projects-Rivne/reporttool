@@ -462,6 +462,8 @@
                             <th class ="thead1-th">Logged time</th>
                         </tr>
                     </thead>
+                  </table>
+                </div>
 
                     <!--
                         [
@@ -469,9 +471,17 @@
                         {"key":"RVNETJAN-100","summary":"Implement method for getting members by team id","status":"Done","loggedTime":5400},
                         ]
                         -->
-
+              <div ng-repeat="member in group.members | orderBy:'fullName' " class="row">
+                  <table>
+                      <colgroup>
+                        <col width="15%" />
+                        <col width="55%" />
+                        <col width="15%" />
+                        <col width="15%" />
+                    </colgroup>
                     <tbody>
-                            <tr ng-repeat="issue in groupIssueArray(group) | orderBy:'key' ">
+                        <!--<tr ng-repeat="issue in groupIssueArray(group) | orderBy:'key' ">-->
+                            <tr ng-repeat="issue in member.issues | orderBy:'key' ">
                                 <!--<td>{{$index + 1}}</td>-->
                                 <td>{{issue.key}}</td>
                                 <td>{{issue.summary}}</td>

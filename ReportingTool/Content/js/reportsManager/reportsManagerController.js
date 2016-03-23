@@ -335,7 +335,7 @@ reportsManagerModule.controller("reportDraftController",
             $scope.groupIssueArray = function (group) {
                 var tmpIssueArray = [];
 
-                for (var i in group.members) {
+                for (var i in  $scope.reportedGroups) {
                     for (var j in group.members.issues) {
                         var tmpIssue = group.members[i].issues[j];
                         tmpIssueArray.push(tmpIssue);
