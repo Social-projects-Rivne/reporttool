@@ -3,7 +3,7 @@
         Here!
         <form>
             <container>
-                <div class="row" ng-repeat="field in tempReport.template.fields | orderBy:'fieldID'">
+                <div class="row" ng-repeat="field in tempReport.fields | orderBy:'fieldID'">
                     <span class="col-md-3">
                         {{field.fieldName}}
                     </span>
