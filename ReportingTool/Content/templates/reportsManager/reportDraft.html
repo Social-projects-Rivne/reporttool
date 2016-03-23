@@ -27,9 +27,10 @@
                <p id="P1">{{ fields[1].fieldName }} &nbsp; &nbsp;{{ fields[1].fieldDefaultValue }}</p>
                 -->                
             
-               <p id="P2">{{ fields[2].fieldName }} &nbsp; &nbsp;{{ fields[2].fieldDefaultValue }} </p>
+               <p id="P2" class="pheader">{{ fields[2].fieldName }} </p>
                 <div>
-                    <textarea class="form-control resizable" rows="3"></textarea>
+                    <!--<textarea rows="4" cols="50" name="comment" form="usrform"> Enter text here...</textarea>-->
+                    <textarea class="form-control resizable" rows="3">{{ fields[2].fieldDefaultValue }}</textarea>
                 </div> 
                     <!--Fname :  {{ selectedTemplate.fields[0].fieldName }} -->
              </div>
@@ -471,7 +472,7 @@
                         {"key":"RVNETJAN-100","summary":"Implement method for getting members by team id","status":"Done","loggedTime":5400},
                         ]
                         -->
-              <div ng-repeat="member in group.members | orderBy:'fullName' " class="row">
+              <div class="panel-body" ng-repeat="member in group.members | orderBy:'fullName' " class="row">
                   <table>
                       <colgroup>
                         <col width="15%" />
@@ -486,7 +487,7 @@
                                 <td>{{issue.key}}</td>
                                 <td>{{issue.summary}}</td>
                                 <td>{{issue.status}}</td>
-                                <td>{{ issue.loggedTime / 3600}}</td>
+                                <td>{{ issue.loggedTime / 3600 | number:1}}</td>
                             </tr>
                      </tbody>
                   </table>
