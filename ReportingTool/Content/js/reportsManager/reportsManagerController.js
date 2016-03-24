@@ -375,6 +375,7 @@ reportsManagerModule.controller("reportDraftController",
 
                     //  fill the activity field on scope
                     // $scope.time = (parseInt(response.data.Timespent) / 3600);
+                    var seconds = response.data.Timespent;
                     var hours = Math.round( parseInt( response.data.Timespent) / 3600);
                     var userNameVar = response.data.userNameFromBE;
 
@@ -440,6 +441,15 @@ reportsManagerModule.controller("reportDraftController",
                     }
                 }
                 getReportedMembersInfo();
+
+            //  test User Activity for a fixed user
+                //$scope.TestActivity = function () {
+                //    console.log("TestActivity start");
+                //        ReportsFactory.TestActivityRequest();
+                //        console.log("TestActivity end");
+                //        return 1;
+                //}
+                //$scope.TActivity = $scope.TestActivity();
 
             //  worked OK !
             //$scope.Test = ReportsFactory.getUserActivityRequest("user1", "date1", "date2");

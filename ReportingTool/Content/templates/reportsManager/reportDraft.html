@@ -5,9 +5,9 @@
 
         <div class="panel-heading">
 
-            <h4>
-                <strong>Weekly report by {{ selectedTeam.teamName }}&nbsp;&nbsp;&nbsp;&nbsp;</strong>
-            </h4> 
+            <h3>
+                <strong>{{ selectedTemplate.templateName}}&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+            </h3> 
 
             <!--  --- progress Indicator for Ajax Requests ------ begin ---------------- -->
              <div id="progressIndicator">
@@ -243,7 +243,7 @@
 
             <div class="panel-body">
                 <div>
-                    <textarea class="form-control resizable" rows="2"></textarea>
+                    <textarea class="form-control resizable" rows="2">Add some comments here...</textarea>
                 </div> 
              </div>
         
@@ -285,7 +285,7 @@
                                 <td>{{issue.key}}</td>
                                 <td>{{issue.summary}}</td>
                                 <td>{{issue.status}}</td>
-                                <td>{{ issue.loggedTime / 3600 | number:1}}</td>
+                                <td>{{ issue.loggedTime / 3600 | number:0}}&nbsp;h</td>
                             </tr>
                      </tbody>
                   </table>

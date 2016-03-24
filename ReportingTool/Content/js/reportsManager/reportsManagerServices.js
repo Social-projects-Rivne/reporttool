@@ -6,6 +6,7 @@ reportsManagerModule.factory('ReportsFactory', ['$http', function ($http) {
         getTemplates: getTemplates,
         getFields: getFields,
         getUserActivityRequest: getUserActivityRequest,       //  debug
+        //TestActivityRequest: TestActivityRequest,     //  debug
         getIssuesRequest: getIssuesRequest,     //  debug
         getTemplateFields: getTemplateFields   //  debug
     };
@@ -158,6 +159,26 @@ reportsManagerModule.factory('ReportsFactory', ['$http', function ($http) {
         var response = $http(req);
         return response;
     }
+
+    //function TestActivityRequest() {
+    //    var req = {
+    //        url: '/Reports/GetUserActivity?userName=amarutc&dateFrom=2016-03-21&dateTo=2016-03-24',
+    //        method: 'GET',
+    //        headers: { 'content-type': 'application/json' }
+    //    };
+
+    //    $http(req).then(
+    //        function (r) {
+    //            var tmpData = r;
+    //            console.log(r.data.Timespent);
+
+    //            console.log("TestActivityRequest success");
+    //        },
+    //        function (response) {
+    //            console.log("TestActivityRequest fail");
+    //        }
+    //     );
+    //};
 
     return reportsFactory;
 }]);
