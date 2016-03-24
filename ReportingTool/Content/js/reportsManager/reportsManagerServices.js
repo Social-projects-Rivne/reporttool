@@ -147,8 +147,10 @@ reportsManagerModule.factory('ReportsFactory', ['$http', function ($http) {
         //};
         //  --- working example of opastukhov ------------------------------------
 
+        var urlVar = '/Reports/GetIssues?userName=' + userName + '&dateFrom=' + dateFrom + '&dateTo=' + dateTo;
         var req = {
-            url: '/Reports/GetIssues?userName=opastutc&dateFrom=2016-01-01&dateTo=2016-03-22',
+            //url: '/Reports/GetIssues?userName=opastutc&dateFrom=2016-01-01&dateTo=2016-03-22',
+            url: urlVar,
             method: 'GET',
             headers: { 'content-type': 'application/json' }
         };
