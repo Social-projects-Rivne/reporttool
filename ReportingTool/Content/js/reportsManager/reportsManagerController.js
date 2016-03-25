@@ -270,6 +270,26 @@ reportsManagerModule.controller("reportDraftController",
                 }
             }
 
+            $scope.removeMember = function (userName) {
+                console.log('del member ' + userName);
+                for (var i in $scope.editGroup.members) {
+                    if ($scope.editGroup.members[i].userName === userName) {
+                        var tmp_member = {};
+
+                        tmp_member.userName = $scope.editGroup.members[i].userName;
+                        tmp_member.fullName = $scope.editGroup.members[i].fullName;
+                        tmp_member.role = $scope.editGroup.members[i].role;
+                        tmp_member.activity = $scope.editGroup.members[i].activity;
+                        //  get the issues back
+                        tmp_member.issues = $scope.editGroup.members[i].issues;
+
+                        $scope.reportedMembers.push(tmp_member);
+                        
+                        $scope.editGroup.members.splice(i, 1);
+                    }
+                }
+            }
+
             $scope.save = function () {
                 var tmp_group = {
                     groupName: "",
@@ -324,7 +344,7 @@ reportsManagerModule.controller("reportDraftController",
                     var tmpMember = $scope.reportedGroups[groupId].members[i];
 
                     $scope.reportedMembers.push(tmpMember);
-                    $scope.reportedGroups[groupId].members.splice(groupId, 1);
+                    //$scope.reportedGroups[groupId].members.splice(groupId, 1);
                 }
                 $scope.reportedGroups.splice(groupId, 1);
             };
