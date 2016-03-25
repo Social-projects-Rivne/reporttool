@@ -62,7 +62,7 @@
 
         <!-- table for all members -->
         <div>
-            <table class="table table-striped">
+            <table class="table table-striped tbottom">
             <colgroup>
                 <col width="40%" />
                 <col width="35%" />
@@ -113,11 +113,14 @@
                </tbody>
             </table>
         </div>
-         <!-- Reported groups with members --------------------------------------------- -->
+         <!-- Reported groups with members ------------ begin -------------------------- -->
         <div class="panel-body">
            <div ng-repeat="group in reportedGroups | orderBy:'groupName' " class="row gheader">
                 <div class="col-xs-8 col-sm-4 col-sm-offset-5 group-name">
                             <strong> {{group.groupName | uppercase}} </strong>
+                            <a class="glyph-link" ng-click="removeGroup($index)">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </a>
                 </div>
 
                 <div>
@@ -144,8 +147,7 @@
                 </div>
             </div>
         </div>
-        <!-- Reported groups with members ---------------------------------------------- -->
-        <br />
+        <!-- Reported groups with members ------------- end ---------------------------- -->
 
         <!-- Add Group button ----------------------------------------------------------------- -->
          <div class="row">

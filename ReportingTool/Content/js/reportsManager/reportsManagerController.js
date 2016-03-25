@@ -318,6 +318,17 @@ reportsManagerModule.controller("reportDraftController",
                 //  $state.go('mainView.reportsManager.reportsConditions.reportDraft', {}, { reload: true });
             }
 
+            //  In progress...
+            $scope.removeGroup = function (groupId) {
+                for (var i in $scope.reportedGroups[groupId].members) {
+                    var tmpMember = $scope.reportedGroups[groupId].members[i];
+
+                    $scope.reportedMembers.push(tmpMember);
+                    $scope.reportedGroups[groupId].members.splice(groupId, 1);
+                }
+                $scope.reportedGroups.splice(groupId, 1);
+            };
+
             $scope.groupMemberList = function (group) {
                 var tmpMemberList = "";
 
@@ -331,7 +342,7 @@ reportsManagerModule.controller("reportDraftController",
                 return tmpMemberList;
             };
 
-            //  in progress !!!
+            //  in progress !!! - is there any need ?
             $scope.groupIssueArray = function (group) {
                 var tmpIssueArray = [];
 
