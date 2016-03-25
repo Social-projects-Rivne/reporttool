@@ -80,6 +80,18 @@
             </thead>
 
               <tbody>
+                    <!--  --- Project Manager row--------------------------- begin ---------------- -->
+                   <tr>
+                       <td>{{fields[0].fieldDefaultValue}}</td>
+                        <td>
+                            <input type="text" class="form-control" placeholder="Enter role..." value="Project Manager"> 
+                        </td>
+                         <td>
+                             <label>0&nbsp;h</label>
+                        </td>
+                    </tr>
+                   <!--  --- Project Manager row--------------------------- end ------------------- -->
+
                   <!-- <tr ng-repeat="member in selectedTeam.members | orderBy:'fullName' "> -->
                   <tr ng-repeat="member in reportedMembers | orderBy:'fullName' ">
                        <!--<td>{{$index + 1}}</td>-->
