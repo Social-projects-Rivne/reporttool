@@ -120,6 +120,10 @@ templatesManagerModule.controller("templatesFieldsManagerController",
 
             ////TODO: For Marusiak A. Please, delete unnecessary commented lines, if you don't need them
 
+<<<<<<< HEAD
+            //  deletetemplate
+=======
+>>>>>>> ba63fd7e7984e6fa3f5f03964b2b2b3f0cb0bc54
             $scope.deleteTemplate = function (deletedTemplateID) {
 
                 console.log("deletedTemplateID = " + deletedTemplateID);  //  debug
@@ -157,6 +161,8 @@ templatesManagerModule.controller("templatesFieldsManagerController",
 // It is not the same as the $uibModal service used above.
 
 templatesManagerModule.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance) {
+
+
     $scope.ok = function () {
         $uibModalInstance.close();
     };
@@ -191,33 +197,27 @@ templatesManagerModule.controller('AddTemplateController',
 
             $scope.getJiraUsers = function (searchValue) {
                 return UserFactory.getJiraUsers(searchValue).then(function (response) {
-                    return response.data;
+                    return response.data
                 });
             };
 
             $scope.save = function () {
-                var validation = TemplateFactory.isValid($scope.tempTemplate);
-                if (validation == true) {
-                    $scope.newTemplate.templateName = $scope.tempTemplate.templateName;
-                    for (var i in $scope.tempTemplate.fields) {
+                $scope.newTemplate.templateName = $scope.tempTemplate.templateName;
+                for (var i in $scope.tempTemplate.fields) {
 
-                        if ($scope.tempTemplate.fields[i].isSelected) {
-                            $scope.newTemplate.fields.push({
-                                fieldID: $scope.tempTemplate.fields[i].fieldID,
-                                defaultValue: $scope.tempTemplate.fields[i].fieldDefaultValue
-                            });
-                        }
+                    if ($scope.tempTemplate.fields[i].isSelected) {
+                        $scope.newTemplate.fields.push({
+                            fieldID: $scope.tempTemplate.fields[i].fieldID,
+                            defaultValue: $scope.tempTemplate.fields[i].fieldDefaultValue
+                        });
                     }
-
-                    TemplateFactory.AddNewTemplate($scope.newTemplate).then(addSuccess, addFail);
                 }
+
+                TemplateFactory.AddNewTemplate($scope.newTemplate).then(addSuccess, addFail);
             };
 
             function addSuccess(response) {
-                TemplateFactory.serverResponse(response);
-                if (response.data.Answer == 'Added') {
-                    $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
-                }
+                $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
             }
 
             function addFail(response) {
@@ -270,29 +270,23 @@ templatesManagerModule.controller('EditTemplateController',
             };
 
             $scope.save = function () {
-                var validation = TemplateFactory.isValid($scope.tempTemplate);
-                if (validation == true) {
-                    $scope.editedTemplate.templateId = $scope.tempTemplate.templateId;
-                    $scope.editedTemplate.templateName = $scope.tempTemplate.templateName;
-                    for (var i in $scope.tempTemplate.fields) {
+                $scope.editedTemplate.templateId = $scope.tempTemplate.templateId;
+                $scope.editedTemplate.templateName = $scope.tempTemplate.templateName;
+                for (var i in $scope.tempTemplate.fields) {
 
-                        if ($scope.tempTemplate.fields[i].isSelected) {
-                            $scope.editedTemplate.fields.push({
-                                fieldID: $scope.tempTemplate.fields[i].fieldID,
-                                defaultValue: $scope.tempTemplate.fields[i].fieldDefaultValue
-                            });
-                        }
+                    if ($scope.tempTemplate.fields[i].isSelected) {
+                        $scope.editedTemplate.fields.push({
+                            fieldID: $scope.tempTemplate.fields[i].fieldID,
+                            defaultValue: $scope.tempTemplate.fields[i].fieldDefaultValue
+                        });
                     }
-                    TempObjectFactory.set({});
-                    TemplateFactory.EditTemplate($scope.editedTemplate).then(editSuccess, editFail);
                 }
+                TempObjectFactory.set({});
+                TemplateFactory.EditTemplate($scope.editedTemplate).then(editSuccess, editFail);
             };
 
             function editSuccess(response) {
-                TemplateFactory.serverResponse(response);
-                if (response.data.Answer == 'Edited') {
-                    $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
-                }
+                $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
             }
 
             function editFail(response) {
