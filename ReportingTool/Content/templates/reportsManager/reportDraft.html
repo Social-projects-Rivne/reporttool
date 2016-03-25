@@ -70,14 +70,14 @@
                 <col width="5%" />
             </colgroup>
 
-            <thead class="thead1">
-                <tr>
-                    <th>Team Member</th>
-                    <th>Role</th>
-                    <th>Activity</th>
-                    <th>&nbsp;</th>
-                </tr>
-            </thead>
+                <thead class="thead1">
+                    <tr>
+                        <th>Team Member</th>
+                        <th>Role</th>
+                        <th>Activity</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
 
               <tbody>
                     <!--  --- Project Manager row--------------------------- begin ---------------- -->
@@ -92,17 +92,15 @@
                     </tr>
                    <!--  --- Project Manager row--------------------------- end ------------------- -->
 
-                  <!-- <tr ng-repeat="member in selectedTeam.members | orderBy:'fullName' "> -->
+                  <!--  --- Total ReportedList ------------------------------- begin ---------------- -->
+                  <!--
                   <tr ng-repeat="member in reportedMembers | orderBy:'fullName' ">
-                       <!--<td>{{$index + 1}}</td>-->
                        <td>{{member.fullName}}</td>
                         <td>
-                            <input type="text" class="form-control" id="Text1" placeholder="Enter role...">
+                            <input type="text" class="form-control" placeholder="Enter role...">
                         </td>
-                        <!--<td>{{member.userName}}</td>-->
                          <td>
                              <label>{{member.activity}}&nbsp;h</label>
-                              <!--<label>{{getUserActivity(member.userName, tempReport.from, tempReport.to)}}</label>-->
                         </td>
                         <td>
                             <a class="glyph-link" ng-click="removeMember(member.userName)">
@@ -110,13 +108,14 @@
                             </a>
                         </td>
                     </tr>
+                  -->
+                  <!--  --- Total ReportedList ------------------------------- end ------------------- -->
                </tbody>
             </table>
         </div>
-        <br />
          <!-- Reported groups with members --------------------------------------------- -->
         <div class="panel-body">
-           <div ng-repeat="group in reportedGroups | orderBy:'groupName' " class="row">
+           <div ng-repeat="group in reportedGroups | orderBy:'groupName' " class="row gheader">
                 <div class="col-xs-8 col-sm-4 col-sm-offset-5 group-name">
                             <strong> {{group.groupName | uppercase}} </strong>
                 </div>
@@ -132,14 +131,12 @@
                     <tbody>
                           <!-- <tr ng-repeat="member in selectedTeam.members | orderBy:'fullName' "> -->
                           <tr ng-repeat="member in group.members | orderBy:'fullName' ">
-                               <!--<td>{{$index + 1}}</td>-->
                                <td>{{member.fullName}}</td>
                                 <td>
                                     <input type="text" class="form-control" ng-model="member.role" value="{{member.role}}"  placeholder="Enter role...">
                                 </td>
-                                <!--<td>{{member.userName}}</td>-->
                                  <td>
-                                     <label>{{member.activity}}</label>
+                                     <label>{{member.activity}}&nbsp;h</label>
                                 </td>
                             </tr>
                        </tbody>
@@ -409,3 +406,9 @@
 
     </div>
 </section>
+
+    <!-- Iteration thru the whole member list -->
+    <!--
+        <tr ng-repeat="member in selectedTeam.members | orderBy:'fullName' "> 
+        {{$index + 1}} {{member.userName}} {{getUserActivity(member.userName, tempReport.from, tempReport.to)}}
+    -->

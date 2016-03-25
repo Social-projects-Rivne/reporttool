@@ -393,3 +393,8 @@ th:nth-child(3) {
     font-size: 1.4em;
     font-weight: bold;
 }
+
+.gheader {
+    margin-top: 10px;
+}
+
