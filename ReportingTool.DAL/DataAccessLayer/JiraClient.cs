@@ -106,8 +106,10 @@ namespace ReportingTool.DAL.DataAccessLayer
                " worklogAuthor = " + userName +
                " and worklogDate >=" + dateFrom +
                " and worklogDate <=" + dateTo +
-               " or assignee = " + userName + 
-               "&fields=summary,worklog,status,assignee";
+               " or (assignee = " + userName +
+               " and createdDate >= " + dateFrom +
+               " and createdDate <= " + dateTo +
+               ")&fields=summary,worklog,status,assignee";
 
             var request = CreateRequest(Method.GET, path);
 

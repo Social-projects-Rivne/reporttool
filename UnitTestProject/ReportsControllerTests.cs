@@ -98,7 +98,10 @@ namespace UnitTestProject
             var dateFrom = "2016-01-01";
             var dateTo = "2016-01-15";
 
-            JsonResult expectedResult = new JsonResult { Data = (new { TimeSpent = 5000}) };
+            JsonResult expectedResult = new JsonResult 
+            { 
+                Data = (new { TimeSpent = 5000, userNameFromBE = userName }) 
+            };
 
             //Act
             var result = reportsController.
@@ -194,17 +197,26 @@ namespace UnitTestProject
                 Data = new object[] 
                 {
                    new { 
-                            key = "issueKey1",
-                            loggedTime = 600,
-                            status = "In Progress",
-                            summary = "Issue 1 summary"
-                       },
+                       Issues =                                                       
+                               new {
+                                        key = "issueKey1",
+                                        loggedTime = 600,
+                                        status = "In Progress",
+                                        summary = "Issue 1 summary"
+                                   },
+                       userNameFromBE = userName 
+                   },
 
-                   new {   key = "issueKey2",
-                            loggedTime = 0,
-                            status = "To Do",
-                            summary = "Issue 2 summary"
-                       }
+                   new { 
+                       Issues =                            
+                               new {
+                                        key = "issueKey2",
+                                        loggedTime = 0,
+                                        status = "To Do",
+                                        summary = "Issue 2 summary"
+                                   },
+                       userNameFromBE = userName 
+                   },
                 }
             };
                 

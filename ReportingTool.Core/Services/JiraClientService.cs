@@ -34,12 +34,14 @@ namespace ReportingTool.Core.Services
         /// <param name="worklog">Worklog contains list of worklogs deatails</param>
         /// <param name="userName">Login of specific user</param>
         /// <returns>Spent time in seconds</returns>
-        private int countWorklogsTimeSpent(Worklog worklog, string userName)
+        private int countSpentTime(Worklog worklog, string userName, DateTime dateFrom, DateTime dateTo)
         {
             int timeSpent = 0;
             foreach (var worklogDetails in worklog.worklogs)
             {
-                if (worklogDetails.author.name == userName)
+                if (worklogDetails.author.name == userName &&
+                    worklogDetails.started.Date >= dateFrom.Date &&
+                    worklogDetails.started.Date <= dateTo.Date)
                 {
                     timeSpent += worklogDetails.timeSpentSeconds;
                 }
@@ -62,6 +64,9 @@ namespace ReportingTool.Core.Services
                 throw new ArgumentException();
             }
 
+            DateTime startDate = DateTime.Parse(dateFrom);
+            DateTime endDate = DateTime.Parse(dateTo);
+
             var issues = jiraClient.GetUserIssues(userName, dateFrom, dateTo);
             if (issues == null)
             {
@@ -77,12 +82,13 @@ namespace ReportingTool.Core.Services
                     //get all worklogs of specific issue
                     Worklog worklog = jiraClient.GetWorklogByIssueKey(issue.key);
 
-                    timeSpent += countWorklogsTimeSpent(worklog, userName);
+                    timeSpent += countSpentTime(worklog, userName, startDate, endDate);
                 }
                 else
                     if (issue.fields.worklog.worklogs != null)
                     {
-                        timeSpent += countWorklogsTimeSpent(issue.fields.worklog, userName);
+                        timeSpent += countSpentTime(issue.fields.worklog, userName, 
+                                                    startDate, endDate);
                     }
             }
             return timeSpent;
@@ -97,6 +103,9 @@ namespace ReportingTool.Core.Services
         /// <returns>List of issue models</returns>
         public List<IssueModel> GetUserIssues(string userName, string dateFrom, string dateTo)
         {
+            DateTime startDate = DateTime.Parse(dateFrom);
+            DateTime endDate = DateTime.Parse(dateTo);
+
             List<IssueModel> result = new List<IssueModel>();
 
             var issuesWithUsersWorklogs = jiraClient.GetUserIssues(userName, dateFrom, dateTo);
@@ -113,13 +122,9 @@ namespace ReportingTool.Core.Services
 
                     if (issue.fields.worklog.worklogs != null)
                     {
-                        foreach (var worklog in issue.fields.worklog.worklogs)
-                        {
-                            if (worklog.author.name == userName)
-                            {
-                                issueModel.loggedTime += worklog.timeSpentSeconds;
-                            }
-                        }
+                        issueModel.loggedTime = 
+                        countSpentTime(issue.fields.worklog, userName, startDate, endDate);
+
                     }
                     result.Add(issueModel);
                 }
