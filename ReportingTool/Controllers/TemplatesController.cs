@@ -51,7 +51,10 @@ namespace ReportingTool.Controllers
         {
             var validation = newTemplate.TemplateValidForAdd();
             if (validation != null) return Json(new { Answer = validation });
-
+            if (newTemplate.FieldsInTemplate.Any(field => field.FieldId == 1 && JiraUsersController.UsersStorage.FirstOrDefault(user => user.displayName == field.DefaultValue) == null))
+                return Json(new { Answer = Enum.GetName(typeof(Answer), Answer.FieldIsNotCorrect) });
+            //if ()
+            //return Json(new { Answer = Enum.GetName(typeof(Answer), Answer.FieldIsNotCorrect) });
             using (var db = new DB2())
             {
                 var template = db.Templates.FirstOrDefault(t => t.Name == newTemplate.Name);
@@ -80,6 +83,9 @@ namespace ReportingTool.Controllers
         {
             var validation = template.TemplateValidForEdit();
             if (validation != null) return Json(new { Answer = validation });
+
+            if (template.FieldsInTemplate.Any(field => field.FieldId == 1 && JiraUsersController.UsersStorage.FirstOrDefault(user => user.displayName == field.DefaultValue) == null))
+                return Json(new { Answer = Enum.GetName(typeof(Answer), Answer.FieldIsNotCorrect) });
 
             var templateFromDb = _db.Templates.FirstOrDefault(t => t.Id == template.Id && t.IsActive);
             if (templateFromDb.TemplateIsNotNull() != null) return Json(new { Answer = Enum.GetName(typeof(Answer), Answer.WrongId) });

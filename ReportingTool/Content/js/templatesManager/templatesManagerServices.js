@@ -6,7 +6,10 @@ templatesManagerModule.factory('TemplateFactory', ['$http', function ($http) {
         GetAllTemplateFields: GetAllTemplateFields,
         AddNewTemplate: AddNewTemplate,
         EditTemplate: EditTemplate,
-        deleteTemplate: deleteTemplate
+        deleteTemplate: deleteTemplate,
+        serverResponse: serverResponse,
+        isValidForAdd: isValidForAdd,
+        isValidForEdit: isValidForEdit
     };
 
     function GetAllTemplates() {
@@ -41,6 +44,33 @@ templatesManagerModule.factory('TemplateFactory', ['$http', function ($http) {
     //  deletetemplate
     function deleteTemplate(id) {
         return $http.delete("Templates/DeleteTemplate", { params: { id: id } });
+    }
+
+    function isValidForAdd(template) {
+        var valid = true;
+        
+        return valid;
+    }
+
+    function isValidForEdit(template) {
+        var valid = true;
+
+        return valid;
+    }
+
+    function serverResponse(response) {
+        if (response.data.Answer == 'WrongTemplate') {
+            window.alert('Template is empty');
+        }
+        if (response.data.Answer == 'WrongName') {
+            window.alert('Template name is incorrect');
+        }
+        if (response.data.Answer == 'FieldsIsEmpty') {
+            window.alert('No fields in template');
+        }
+        if (response.data.Answer == 'FieldIsNotCorrect') {
+            window.alert('Field of template is not correct');
+        }
     }
 
     return templateFactory;

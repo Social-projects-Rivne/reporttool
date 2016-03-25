@@ -120,6 +120,10 @@ templatesManagerModule.controller("templatesFieldsManagerController",
 
             ////TODO: For Marusiak A. Please, delete unnecessary commented lines, if you don't need them
 
+<<<<<<< HEAD
+            //  deletetemplate
+=======
+>>>>>>> ba63fd7e7984e6fa3f5f03964b2b2b3f0cb0bc54
             $scope.deleteTemplate = function (deletedTemplateID) {
 
                 console.log("deletedTemplateID = " + deletedTemplateID);  //  debug
@@ -213,10 +217,7 @@ templatesManagerModule.controller('AddTemplateController',
             };
 
             function addSuccess(response) {
-                TemplateFactory.serverResponse(response);
-                if (response.data.Answer == 'Added') {
-                    $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
-                }
+                $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
             }
 
             function addFail(response) {
@@ -285,10 +286,7 @@ templatesManagerModule.controller('EditTemplateController',
             };
 
             function editSuccess(response) {
-                TemplateFactory.serverResponse(response);
-                if (response.data.Answer == 'Edited') {
-                    $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
-                }
+                $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
             }
 
             function editFail(response) {

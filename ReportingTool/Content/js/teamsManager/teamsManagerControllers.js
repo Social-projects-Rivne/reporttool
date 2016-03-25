@@ -54,8 +54,8 @@ teamsManagerModule.controller('teamsEditController',
         function ($scope, $stateParams, $state, TeamFactory, UserFactory, TempObjectFactory) {
 
             $scope.jiraUsers = [{
-                loginName: 'Loading...',
-                fullName: 'Loading...'
+                loginName: 'Jira users are not loaded',
+                fullName: 'Jira users are not loaded'
             }];
 
             $scope.editTeam = TempObjectFactory.get();
@@ -88,8 +88,10 @@ teamsManagerModule.controller('teamsEditController',
             }
 
             $scope.save = function () {
+                if (TeamFactory.isValid($scope.editTeam) == true) {
                     TeamFactory.updateTeam($scope.editTeam).then(updateSuccess, updateFail);
                     TempObjectFactory.set({});
+                }
             }
 
             $scope.cancel = function () {
@@ -107,6 +109,7 @@ teamsManagerModule.controller('teamsEditController',
             }
 
             function updateSuccess(response) {
+                TeamFactory.serverResponse(response);
                 if (response.data.Answer == 'Modified') {
                     $state.go('mainView.teamsManager', {}, { reload: true });
                 }
@@ -118,8 +121,24 @@ teamsManagerModule.controller('teamsEditController',
 
         }]);
 
+
 teamsManagerModule.controller('NewTeamController',
-    ['$scope', '$state', 'TeamFactory', 'UserFactory', function ($scope, $state, TeamFactory, UserFactory) {
+    ['$scope', '$state', 'TeamFactory', 'UserFactory', '$uibModal', function ($scope, $state, TeamFactory, UserFactory, $uibModal) {
+
+        $scope.open2 = function () {
+            $scope.message = 'item1';
+            $uibModal.open({
+                animation: true,
+                templateUrl: 'myModalContent.html',
+                controller: 'ModalInstanceCtrl',
+                resolve: {
+                    message: function () {
+                        return $scope.message;
+                    }
+                }
+            });
+        };
+
         $scope.editTeam = {
             teamID: "0",
             teamName: "",
@@ -131,10 +150,10 @@ teamsManagerModule.controller('NewTeamController',
             fullName: ''
         };
 
-        //$scope.jiraUsers = [{
-        //    userName: 'Loading...',
-        //    fullName: 'Loading...'
-        //}];
+        $scope.jiraUsers = [{
+            userName: 'Jira users are not loaded',
+            fullName: 'Jira users are not loaded'
+        }];
 
         UserFactory.getJiraUsers().then(getJiraUsersSuccess, getJiraUsersFail);
 
@@ -158,8 +177,12 @@ teamsManagerModule.controller('NewTeamController',
             $scope.editTeam.members.push(member);
         }
 
+        
+
         $scope.save = function () {
-            TeamFactory.createTeam($scope.editTeam).then(createSuccess, createFail);
+            if (TeamFactory.isValid($scope.editTeam) == null) {
+                TeamFactory.createTeam($scope.editTeam).then(createSuccess, createFail);
+            }
         }
 
         $scope.cancel = function () {
@@ -178,23 +201,9 @@ teamsManagerModule.controller('NewTeamController',
                 }
             }
         }
-        
+
         function createSuccess(response) {
-            if (response.data.Answer == 'WrongTeam') {
-                alert('Team is empty');
-            }
-            if (response.data.Answer == 'WrongName') {
-                alert('Team name is incorrect');
-            } 
-            if (response.data.Answer == 'MembersIsEmpty') {
-                alert('No members in team');
-            } 
-            if (response.data.Answer == 'MembersIsNull') {
-                alert('Some of member is empty');
-            }
-            if (response.data.Answer == 'MembersIsNotCorrect') {
-                alert('Username or fullname of member is not correct');
-            }
+            TeamFactory.serverResponse(response);
             if (response.data.Answer == 'Created') {
                 $state.go('mainView.teamsManager', {}, { reload: true });
             }
@@ -204,3 +213,8 @@ teamsManagerModule.controller('NewTeamController',
             console.error('create team fail!');
         }
     }]);
+
+teamsManagerModule.controller('ModalInstanceCtrl', function ($scope, message) {
+
+    $scope.message = message;
+});
