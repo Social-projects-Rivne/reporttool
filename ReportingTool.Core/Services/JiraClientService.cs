@@ -103,6 +103,12 @@ namespace ReportingTool.Core.Services
         /// <returns>List of issue models</returns>
         public List<IssueModel> GetUserIssues(string userName, string dateFrom, string dateTo)
         {
+            if (!ReportsValidator.UserNameIsCorrect(userName) ||
+                !ReportsValidator.DatesAreCorrect(dateFrom, dateTo))
+            {
+                throw new ArgumentException();
+            }
+
             DateTime startDate = DateTime.Parse(dateFrom);
             DateTime endDate = DateTime.Parse(dateTo);
 

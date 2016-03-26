@@ -102,13 +102,16 @@ namespace ReportingTool.DAL.DataAccessLayer
         /// <returns>List of issues</returns>
         private List<Issue> getUserIssues(string userName, string dateFrom, string dateTo, int startAt)
         {
+            var correctedDateFrom = DateTime.Parse(dateFrom).AddDays(-1).ToString("yyyy-MM-dd");
+            var correctedDateTo = DateTime.Parse(dateTo).AddDays(+1).ToString("yyyy-MM-dd"); 
+
             string path = "search?jql=" + 
                " worklogAuthor = " + userName +
                " and worklogDate >=" + dateFrom +
                " and worklogDate <=" + dateTo +
                " or (assignee = " + userName +
-               " and createdDate >= " + dateFrom +
-               " and createdDate <= " + dateTo +
+               " and createdDate >= " + correctedDateFrom +
+               " and createdDate <= " + correctedDateTo +
                ")&fields=summary,worklog,status,assignee";
 
             var request = CreateRequest(Method.GET, path);
