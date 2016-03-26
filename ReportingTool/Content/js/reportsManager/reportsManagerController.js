@@ -180,8 +180,9 @@ reportsManagerModule.controller("reportDraftController",
             //  ========================================================================
             // an array of groups in the report
             $scope.reportedGroups = [];
-            //$scope.groups = {};
-            $scope.activeGroup = {};
+
+            //  $scope.groups = {};
+            //  $scope.activeGroup = {};
 
             //  a work template for group manipulation
             $scope.editGroup = {
@@ -199,6 +200,7 @@ reportsManagerModule.controller("reportDraftController",
                 issues: []
             }];
 
+            //  a number of async requests for progres indication
             //$scope.requestProcessing = false;
             $scope.requestProcessing = 0;
 
@@ -241,6 +243,7 @@ reportsManagerModule.controller("reportDraftController",
                 issues: []
             };
 
+            // add a member to a new group being set up
             $scope.addMember = function (member) {
                 //  check to avoid member duplication
                 for (var i in $scope.editGroup.members) {
@@ -250,7 +253,7 @@ reportsManagerModule.controller("reportDraftController",
                 }
                 //  add the member to the group's list 
                 var tmp_member = {};
-                console.log(member);
+                console.log("Adding member : " + member);
                 tmp_member.userName = member.userName;
                 tmp_member.fullName = member.fullName;
                 tmp_member.role = member.role;
@@ -270,7 +273,8 @@ reportsManagerModule.controller("reportDraftController",
                 }
             }
 
-            $scope.removeMember = function (userName) {
+            //  remove a member from a new group being set up
+            $scope.removeEditGroupMember = function (userName) {
                 console.log('del member ' + userName);
                 for (var i in $scope.editGroup.members) {
                     if ($scope.editGroup.members[i].userName === userName) {
@@ -290,6 +294,7 @@ reportsManagerModule.controller("reportDraftController",
                 }
             }
 
+            //  a new group being set up : save
             $scope.save = function () {
                 var tmp_group = {
                     groupName: "",
@@ -318,6 +323,7 @@ reportsManagerModule.controller("reportDraftController",
                 //  $state.go('mainView.reportsManager.reportsConditions.reportDraft', {}, { reload: true });
             }
 
+            //  a new group being set up : cancel 
             $scope.cancel = function () {
                 //  write the cancelled group members back to initial report list
                 for (var i in $scope.editGroup.members) {

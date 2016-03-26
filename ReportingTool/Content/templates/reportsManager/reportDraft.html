@@ -119,7 +119,7 @@
                 <div class="col-xs-8 col-sm-4 col-sm-offset-5 group-name">
                             <strong> {{group.groupName | uppercase}} </strong>
                             <a class="glyph-link" ng-click="removeGroup($index)">
-                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                <small><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></small>
                             </a>
                 </div>
 
@@ -197,10 +197,10 @@
                         </td>
                         <!--<td>{{member.userName}}</td>-->
                          <td>
-                             <label>{{member.activity}}</label>
+                             <label>{{member.activity}}&nbsp;h</label>
                         </td>
                         <td>
-                            <a class="glyph-link" ng-click="removeMember(member.userName)">
+                            <a class="glyph-link" ng-click="removeEditGroupMember(member.userName)">
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                             </a>
                         </td>
