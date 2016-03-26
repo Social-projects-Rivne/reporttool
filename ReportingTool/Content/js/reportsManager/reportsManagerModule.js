@@ -28,8 +28,14 @@ reportsManagerModule.config(['$stateProvider', '$urlRouterProvider', function ($
         controller: 'reportDraftController'
     };
 
+    var reload = {
+        parent: 'mainView.reportsManager.reportsConditions',
+        name: 'reload',
+        controller: ['$state', function ($state) { $state.go('^.reportDraft') }]
+    };
 
     $stateProvider.state(reportsManager);
     $stateProvider.state(reportConditions);
+    $stateProvider.state(reload);
     $stateProvider.state(reportDraft);
 }]);
