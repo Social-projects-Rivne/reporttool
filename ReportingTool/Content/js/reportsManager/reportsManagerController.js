@@ -344,7 +344,7 @@ reportsManagerModule.controller("reportDraftController",
                 //  $state.go('mainView.reportsManager.reportsConditions.reportDraft', {}, { reload: true });
             }
 
-            //  In progress...
+            //  remove a group 
             $scope.removeGroup = function (groupId) {
                 for (var i in $scope.reportedGroups[groupId].members) {
                     var tmpMember = $scope.reportedGroups[groupId].members[i];
@@ -354,6 +354,32 @@ reportsManagerModule.controller("reportDraftController",
                 }
                 $scope.reportedGroups.splice(groupId, 1);
             };
+
+            //  IN PROGRESS : remove a member from a group
+            $scope.removeGroupMember = function (userName) {
+                console.log('removeGroupMember : ' + userName);
+                for (var j in $scope.reportedGroups) {
+                    for (var i in $scope.reportedGroups[j].members) {
+
+                        if ($scope.reportedGroups[j].members[i].userName === userName) {
+                            var tmp_member = {};
+
+                            tmp_member.userName = $scope.reportedGroups[j].members[i].userName;
+                            tmp_member.fullName = $scope.reportedGroups[j].members[i].fullName;
+                            tmp_member.role = $scope.reportedGroups[j].members[i].role;
+                            tmp_member.activity = $scope.reportedGroups[j].members[i].activity;
+                            //  get the issues back
+                            tmp_member.issues = $scope.reportedGroups[j].members[i].issues;
+
+                            $scope.reportedMembers.push(tmp_member);
+
+                            $scope.reportedGroups[j].members.splice(i, 1);
+                            return;
+                        }
+                    }
+                }
+
+            }
 
             $scope.groupMemberList = function (group) {
                 var tmpMemberList = "";

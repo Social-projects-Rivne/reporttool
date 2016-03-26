@@ -127,8 +127,9 @@
                     <table class="table table-striped">
                     <colgroup>
                         <col width="40%" />
-                        <col width="30%" />
-                        <col width="30%" />
+                        <col width="35%" />
+                        <col width="20%" />
+                        <col width="5%" />
                     </colgroup>
 
                     <tbody>
@@ -141,6 +142,12 @@
                                  <td>
                                      <label>{{member.activity}}&nbsp;h</label>
                                 </td>
+                              <td>
+                                    <a class="glyph-link" ng-click="removeGroupMember(member.userName)">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </a>
+                               </td>
+
                             </tr>
                        </tbody>
                     </table>
