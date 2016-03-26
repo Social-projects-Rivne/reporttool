@@ -3,34 +3,50 @@
 <section id="reportDraft" class="row row-standart row-margin-top">
     <div class="col-sm-12 panel panel-info">
 
-        <div class="panel-heading">
-
-            <h3>
-                <strong>{{ selectedTemplate.templateName}}&nbsp;&nbsp;&nbsp;&nbsp;</strong>
-            </h3> 
-
-            <!--  --- progress Indicator for Ajax Requests ------ begin ---------------- -->
-             <div id="progressIndicator">
+       <div class="panel-body">
+            <!--  --- Panel Header  ------------------------------------- begin -------------------- -->
+           <div class="floating-box">
+                <h3>
+                    <!-- <strong>{{ selectedTemplate.templateName}}&nbsp;&nbsp;&nbsp;&nbsp;</strong> -->
+                    <strong>{{ tempReport.templateName}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+                </h3> 
+            </div>
+          <!--  --- Panel Header  ------------------------------------- begin -------------------- -->
+            <!--  --- progress Indicator for Ajax Requests ------ begin -------------------- -->
+             <div id="progressIndicator" class="floating-box">
                 <md-progress-circular md-mode="indeterminate"
                     md-diameter="40"
                     ng-show="requestProcessing > 0">
                 </md-progress-circular>
             </div>
-            <!--  --- progress Indicator for Ajax Requests ------- end ----------------- -->
-
+            <!--  --- progress Indicator for Ajax Requests ------- end ---------------------- -->
         </div>
 
-        <!--  --- Usual Tasks --------------------------------------- begin ---------------- -->
+         <!--  --- Reporter ------------------------------------------- begin ------------------------- -->
+        <div class="panel-body" ng-init="fid1=1" ng-show="showSection(fid1)">
+            <div class="floating-box">
+               <span class="pheader">{{ tempReport.fields[fid1-1].fieldName }} &nbsp;&nbsp;:&nbsp;&nbsp;</span>
+             </div>
+            <div class="floating-box">
+               <span>{{ tempReport.fields[fid1-1].fieldDefaultValue }}</span>
+            </div>
+        </div>
+         <!--  --- Reporter ------------------------------------------- end ------------------------- -->
+
+         <!--  --- Receiver ------------------------------------------- begin ------------------------- -->
+        <div class="panel-body" ng-init="fid2=2" ng-show="showSection(fid2)">
+            <div class="floating-box">
+               <span class="pheader">{{ tempReport.fields[fid2-1].fieldName }} &nbsp;&nbsp;:&nbsp;&nbsp;</span>
+             </div>
+            <div class="floating-box">
+               <span>{{ tempReport.fields[fid2-1].fieldDefaultValue }}</span>
+            </div>
+        </div>
+         <!--  --- Receiver ------------------------------------------- end ------------------------- -->
+
+        <!--  --- Usual Tasks --------------------------------------- begin ------------------------- -->
         <div class="panel-body">
             <div>
-                <!--
-                    templateName :  &nbsp; &nbsp; {{ selectedTemplate.templateName}} <br />
-                    templateId :  &nbsp; &nbsp; {{ selectedTemplate.templateId}}  <br />
-                     Fname :  {{ selectedTemplate.fields[0].fieldName }} 
-
-                    <p id="P0">{{ fields[0].fieldName }} &nbsp; &nbsp;{{ fields[0].fieldDefaultValue }}</p>
-                    <p id="P1">{{ fields[1].fieldName }} &nbsp; &nbsp;{{ fields[1].fieldDefaultValue }}</p>
-                -->                
                <p id="P2" class="pheader">{{ fields[2].fieldName }} </p>
                 <div>
                     <!--<textarea rows="4" cols="50" name="comment" form="usrform"> Enter text here...</textarea>-->

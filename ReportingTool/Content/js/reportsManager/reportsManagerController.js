@@ -233,6 +233,16 @@ reportsManagerModule.controller("reportDraftController",
                 issues: []
             };
 
+            //check if a specific section should be displayed
+            $scope.showSection = function (sectionID) {
+                for (var i in $scope.tempReport.fields) {
+                    if ($scope.tempReport.fields[i].fieldID === sectionID) {
+                        return true;
+                    }
+                }
+                return false;
+            };
+
             // add a member to a new group being set up
             $scope.addMember = function (member) {
                 //  check to avoid member duplication
@@ -261,7 +271,7 @@ reportsManagerModule.controller("reportDraftController",
                         //  $scope.editGroup.members.splice(i, 1);
                     }
                 }
-            }
+            };
 
             //  remove a member from a new group being set up
             $scope.removeEditGroupMember = function (userName) {
@@ -278,11 +288,11 @@ reportsManagerModule.controller("reportDraftController",
                         tmp_member.issues = $scope.editGroup.members[i].issues;
 
                         $scope.reportedMembers.push(tmp_member);
-                        
+
                         $scope.editGroup.members.splice(i, 1);
                     }
                 }
-            }
+            };
 
             //  a new group being set up : save
             $scope.save = function () {

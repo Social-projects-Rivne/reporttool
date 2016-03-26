@@ -401,3 +401,7 @@ th:nth-child(3) {
 .tbottom {
     margin-bottom: 5px;
 }
+
+.floating-box {
+    display: inline-block;
+}
