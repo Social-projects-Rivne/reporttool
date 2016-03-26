@@ -18,11 +18,62 @@
                     <select class="form-control select-username"
                             ng-model="selectedTeam"
                             ng-options="team.teamName for team in teams"
-                            name="teamSelection">
-                     </select>
+                            name="teamSelection"></select>
                 </div>
             </div>
-            <h3 ng-show="content == 'member'"> Hello there!</br> Here will be selected member functionality!</h3>
+            <div ng-show="content == 'member'">
+                <div class="col-sm-11" style="padding-top: 5px;">
+                    <table class="table table-striped">
+                        <colgroup>
+                            <col width="5%" />
+                            <col width="45%" />
+                            <col width="45%" />
+                            <col width="5%" />
+                        </colgroup>
+                        <thead id="change-team-head">
+                            <tr>
+                                <th>#</th>
+                                <th>User Name</th>
+                                <th>Full Name</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat='member in members | orderBy: member.userName'>
+                                <td>{{$index + 1}}</td>
+                                <td>{{member.userName}}</td>
+                                <td>{{member.fullName}}</td>
+                                <td>
+                                    <a class="glyph-link" ng-click="removeMember(member.userName)">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>
+                                    <select class="form-control select-username"
+                                            ng-model="selectedMember"
+                                            ng-options="jiraUser.userName for jiraUser in jiraUsers"
+                                            name="memberSelection"></select>
+                                </td>
+                                <td>
+                                    <select class="form-control select-username"
+                                            ng-model="selectedMember"
+                                            ng-options="jiraUser.fullName for jiraUser in jiraUsers"
+                                            name="memberSelection"></select>
+                                </td>
+                                <td>
+                                    <a class="glyph-link"
+                                       ng-click="addMember(selectedMember)">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        <tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         <div class="row row-standart row-margin-top-little">
             <div>
@@ -31,9 +82,8 @@
                     <div class="col-sm-8">
                         <select class="form-control select-username"
                                 ng-model="selectedTemplate"
-                                ng-options="template.templateName for template in templates"
-                                name="templateSelection">
-                         </select>
+                                ng-options="template.templateName for template in templates track by template.templateId"
+                                name="templateSelection"></select>
                     </div>
                 </div>
             </div>

@@ -5,10 +5,12 @@ reportsManagerModule.factory('ReportsFactory', ['$http', function ($http) {
         getTeams: getTeams,
         getTemplates: getTemplates,
         getFields: getFields,
+        getJiraUsers: getJiraUsers,
+        // -------------------------------------------------------------------------------------
+        getTemplateFields: getTemplateFields,   //  debug
         getUserActivityRequest: getUserActivityRequest,       //  debug
         //TestActivityRequest: TestActivityRequest,     //  debug
-        getIssuesRequest: getIssuesRequest,     //  debug
-        getTemplateFields: getTemplateFields   //  debug
+        getIssuesRequest: getIssuesRequest     //  debug
     };
 
     function getTeams() {
@@ -24,49 +26,16 @@ reportsManagerModule.factory('ReportsFactory', ['$http', function ($http) {
         return $http.get("Templates/GetTemplateFields?templateId=" + templateId);
     }
 
-    //  --- a method from TemplateFactory -----------------------------------------------------------   //  debug
-    //  1
-    //function getTemplateFields(templateId) {
-    //    var promise1 = $http.get("Templates/GetTemplateFields?templateId=" + templateId);   //  debug
-    //    console.log(promise1);   //  debug
+    function getJiraUsers(param) {
+        return $http.get("JiraUsers/GetAllUsers", { params: { "searchValue": param } });
+    }
 
-    //    return $http.get("Templates/GetTemplateFields?templateId=" + templateId)
-    //    .then(function (response) {
-    //        if (typeof response.data === 'object') {
-    //            return response.data;
-    //        } else {
-    //            return $q.reject(response.data);
-    //        }
-    //    });
-    //}
-
+    //  ---------------------------------------------------------------------------------------------------------------  //  debug
     //  2
     function getTemplateFields(templateId) {
         var fields = $http.get("Templates/GetTemplateFields?templateId=" + templateId);
         return fields;
     }
-    //  ---------------------------------------------------------------------------------------------------------------  //  debug
-
-    //  BE params
-    // GetUserActivity(string userName, string dateFrom, string dateTo)
-
-    //  example
-    //function getTeams() {
-    //    return $http.get("Teams/GetAllTeams");
-    //}
-
-    // v.001
-    //function getUserActivity(userName, dateFrom, dateTo) {
-    //    return $http.get("Reports/GetUserActivity?userName=" + userName + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)
-    //    .then(function (response) {
-    //        if (typeof response.data === 'object') {
-    //            return response.data;
-    //        } else {
-    //            return $q.reject(response.data);
-    //        }
-    //    });
-    //}
-
     
     function getUserActivityRequest(userName, dateFrom, dateTo) {
         //  --- working example of opastukhov ------------------------------------

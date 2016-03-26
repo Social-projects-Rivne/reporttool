@@ -10,8 +10,8 @@ reportsManagerModule.config(['$stateProvider', '$urlRouterProvider', function ($
         cache: false,
         views: {
             '': {
-                templateUrl: 'Content/templates/reportsManager/reportsManagerView.html',
-                controller: 'reportsManagerController'
+                templateUrl: 'Content/templates/reportsManager/reportsManagerView.html'
+                //controller: 'reportsManagerController'
             }
         }
     };

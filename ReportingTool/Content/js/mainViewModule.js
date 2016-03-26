@@ -14,6 +14,9 @@ mainViewModule
             name: 'mainView',
             url: 'ReportingTool',
             templateUrl: 'Content/templates/mainView.html',
+            controller: function ($scope, TempObjectFactory) {
+                    TempObjectFactory.set({});
+            }
         }
 
         $stateProvider.state(mainView);

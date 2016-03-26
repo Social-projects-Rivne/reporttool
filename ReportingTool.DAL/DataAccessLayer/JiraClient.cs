@@ -46,7 +46,8 @@ namespace ReportingTool.DAL.DataAccessLayer
 
         public List<JiraUser> GetUsers(string projectName, int startAt)
         {
-            string path = "user/assignable/search?project=" + projectName + "&startAt=" + startAt + "&maxResults=" + 1000;
+            string path = "user/assignable/search?project=" + 
+                   projectName + "&startAt=" + startAt + "&maxResults=" + 1000;
             var request = CreateRequest(Method.GET, path);
 
             var response = ExecuteRequest(request);
@@ -75,58 +76,6 @@ namespace ReportingTool.DAL.DataAccessLayer
         }
 
         /// <summary>
-        /// Retreiving of issues using one request
-        /// </summary>
-        /// <param name="dateFrom">Lower boundary of time period</param>
-        /// <param name="dateTo">Upper boundary of time period</param>
-        /// <param name="startAt">Start position query</param>
-        /// <returns></returns>
-        public List<Issue> GetIssues(string dateFrom, string dateTo, int startAt)
-        {
-            var curProjectName = HttpContext.Current.Session["projectKey"] as string;
-
-            var correctedDateFrom = DateTime.Parse(dateFrom).AddDays(-1).ToString("yyyy-MM-dd");
-            var correctedDateTo = DateTime.Parse(dateTo).AddDays(+1).ToString("yyyy-MM-dd");
-
-            string path = "search?jql=updated >" + correctedDateFrom +
-                " and updated < " + correctedDateTo +
-                " and project = " + curProjectName +
-                "&fields=summary,worklog,status,assignee" +
-                "&startAt=" + startAt + "&maxResults=" + 50;
-            var request = CreateRequest(Method.GET, path);
-
-            var response = ExecuteRequest(request);
-            AssertStatus(response, HttpStatusCode.OK);
-
-            deserializer.RootElement = "issues";
-            return deserializer.Deserialize<List<Issue>>(response);
-        }
-
-        /// <summary>
-        /// Retreiving of all issues considering restrictions of Jira
-        /// </summary>
-        /// <param name="dateFrom">Lower boundary of time period</param>
-        /// <param name="dateTo">Upper boundary of time period</param>
-        /// <returns>List of issues</returns>
-        public List<Issue> GetAllIssues(string dateFrom, string dateTo)
-        {
-            List<Issue> result = new List<Issue>();
-            int count = 0;
-            int cursor = 0;
-            do
-            {
-                var issues = GetIssues(dateFrom, dateTo, cursor);
-                count = issues.Count;
-                foreach (var issue in issues)
-                {
-                    result.Add(issue);
-                }
-                cursor += 50;
-            } while (count >= 50);
-
-            return result;
-        }
-        /// <summary>
         /// Retreiving of worklog for issue with specific key
         /// </summary>
         /// <param name="issueKey">Key of specific issue</param>
@@ -141,6 +90,60 @@ namespace ReportingTool.DAL.DataAccessLayer
 
             deserializer.RootElement = "issues.fields.worklog";
             return deserializer.Deserialize<Worklog>(response);
+        }
+
+        /// <summary>
+        /// Retreiving of issues using one request
+        /// </summary>
+        /// <param name="userName">Login of specific user</param>
+        /// <param name="dateFrom">Lower boundary of time period</param>
+        /// <param name="dateTo">Upper boundary of time period</param>
+        /// <param name="startAt">Start position of query</param>
+        /// <returns>List of issues</returns>
+        private List<Issue> getUserIssues(string userName, string dateFrom, string dateTo, int startAt)
+        {
+            string path = "search?jql=" + 
+               " worklogAuthor = " + userName +
+               " and worklogDate >=" + dateFrom +
+               " and worklogDate <=" + dateTo +
+               " or (assignee = " + userName +
+               " and createdDate >= " + dateFrom +
+               " and createdDate <= " + dateTo +
+               ")&fields=summary,worklog,status,assignee";
+
+            var request = CreateRequest(Method.GET, path);
+
+            var response = ExecuteRequest(request);
+            AssertStatus(response, HttpStatusCode.OK);
+
+            deserializer.RootElement = "issues";
+            return deserializer.Deserialize<List<Issue>>(response);
+        }
+
+        /// <summary>
+        /// Retreiving of all issues considering restrictions of Jira
+        /// </summary>
+        /// <param name="userName">Login of specific user</param>
+        /// <param name="dateFrom">Lower boundary of time period</param>
+        /// <param name="dateTo">Upper boundary of time period</param>
+        /// <returns>List of issues</returns>
+        public List<Issue> GetUserIssues(string userName, string dateFrom, string dateTo)
+        {
+            List<Issue> result = new List<Issue>();
+            int count = 0;
+            int cursor = 0;
+            do
+            {
+                var issues = getUserIssues(userName, dateFrom, dateTo, cursor);
+                count = issues.Count;
+                foreach (var issue in issues)
+                {
+                    result.Add(issue);
+                }
+                cursor += 50;
+            } while (count >= 50);
+
+            return result;
         }
 
     }

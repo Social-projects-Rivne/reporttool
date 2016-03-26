@@ -44,11 +44,12 @@
         <!--
         <form>
             <container>
+                <div class="row" ng-repeat="field in tempReport.fields | orderBy:'fieldID'">
                 {{tempReport.template.templateId}}      <br />           
                 {{tempReport.template.templateName}}      <br />    
                 <div class="row" ng-repeat="field in tempReport.template.fields | orderBy:'fieldID'">
                     <span class="col-md-3">
-                        {{field.fieldName}} {{field.fieldDefaultValue}}    <br />          
+                        {{field.fieldName}}
                     </span>
                 </div>
             </container>
