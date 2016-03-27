@@ -110,7 +110,6 @@ namespace ReportingTool.Controllers
                     {
                         IniData newData = ConfigurationHelper.CreateINIData(serverUrl, projectName);
                         newData = ConfigurationHelper.AddSectionDBConfigurationINIData(newData);
-                        //fileIniData.WriteFile(FILE_NAME, newData);
                         FileManager.WriteFile(fileIniData, FILE_NAME, newData);
                         answer = Answer.Created;
                     }
