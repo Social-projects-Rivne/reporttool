@@ -405,3 +405,8 @@ th:nth-child(3) {
 .floating-box {
     display: inline-block;
 }
+
+.resize-vert {
+    resize:vertical;
+    overflow:auto;	
+}

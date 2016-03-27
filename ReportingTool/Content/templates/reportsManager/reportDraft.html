@@ -51,7 +51,7 @@
             <div>
                <p class="pheader">{{ getSingleField(fid3).fieldName }} </p>
                 <div>
-                    <textarea class="form-control resizable" rows="2">{{ getSingleField(fid3).fieldDefaultValue }}</textarea>
+                    <textarea class="form-control resizable resize-vert" rows="2">{{ getSingleField(fid3).fieldDefaultValue }}</textarea>
                 </div> 
              </div>
         </div>
@@ -327,7 +327,7 @@
             <div>
                 <p class="pheader">{{ getSingleField(fid4).fieldName }} </p>
                 <div>
-                    <textarea class="form-control resizable" rows="2">Enter Risks and Issues here...</textarea>
+                    <textarea class="form-control resizable resize-vert" rows="2">Enter Risks and Issues here...</textarea>
                 </div> 
              </div>
         </div>
@@ -338,7 +338,7 @@
             <div>
                <p class="pheader">{{ getSingleField(fid5).fieldName }} </p>
                 <div>
-                    <textarea class="form-control resizable" rows="2">Enter Planned Activities here...</textarea>
+                    <textarea class="form-control resizable resize-vert" rows="2">Enter Planned Activities here...</textarea>
                 </div> 
              </div>
         </div>
@@ -349,7 +349,7 @@
             <div>
                <p class="pheader">{{ getSingleField(fid8).fieldName }} </p>
                 <div>
-                    <textarea class="form-control resizable" rows="2">Enter Reasons here...</textarea>
+                    <textarea class="form-control resizable resize-vert" rows="2">Enter Reasons here...</textarea>
                 </div> 
              </div>
         </div>
@@ -424,9 +424,14 @@
                                       <tr>
                                         <td>
                                             <form name="addVac">
-                                                <select class="form-control select-username" required
+                                                <!--<select class="form-control select-username" required
                                                         ng-model="selectedMemberForVacation"
                                                         ng-options="jiraUser.fullName for jiraUser in jiraUsers"
+                                                        name="memberSelection">
+                                                </select>-->
+                                                <select class="form-control select-username" required
+                                                        ng-model="selectedMemberForVacation"
+                                                        ng-options="member.fullName for member in reportedMembers"
                                                         name="memberSelection">
                                                 </select>
                                             </form>
