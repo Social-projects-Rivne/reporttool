@@ -25,59 +25,45 @@
          <!--  --- Reporter ------------------------------------------- begin ------------------------- -->
         <div class="panel-body" ng-init="fid1=1" ng-show="showSection(fid1)">
             <div class="floating-box">
-               <span class="pheader">{{ tempReport.fields[fid1-1].fieldName }} &nbsp;&nbsp;:&nbsp;&nbsp;</span>
+               <!--<span class="pheader">{{ tempReport.fields[fid1-1].fieldName }} &nbsp;&nbsp;:&nbsp;&nbsp;</span>-->
+               <span class="pheader">{{ getSingleField(fid1).fieldName }} &nbsp;&nbsp;:&nbsp;&nbsp;</span>
              </div>
             <div class="floating-box">
-               <span>{{ tempReport.fields[fid1-1].fieldDefaultValue }}</span>
+               <!--<span>{{ tempReport.fields[fid1-1].fieldDefaultValue }}</span>-->
+                 <span>{{ getSingleField(fid1).fieldDefaultValue }}</span>
             </div>
         </div>
-         <!--  --- Reporter ------------------------------------------- end ------------------------- -->
+         <!--  --- Reporter ------------------------------------------- end ---------------------------- -->
 
          <!--  --- Receiver ------------------------------------------- begin ------------------------- -->
         <div class="panel-body" ng-init="fid2=2" ng-show="showSection(fid2)">
             <div class="floating-box">
-               <span class="pheader">{{ tempReport.fields[fid2-1].fieldName }} &nbsp;&nbsp;:&nbsp;&nbsp;</span>
+               <span class="pheader">{{ getSingleField(fid2).fieldName }} &nbsp;&nbsp;:&nbsp;&nbsp;</span>
              </div>
             <div class="floating-box">
-               <span>{{ tempReport.fields[fid2-1].fieldDefaultValue }}</span>
+               <span>{{ getSingleField(fid2).fieldDefaultValue }}</span>
             </div>
         </div>
-         <!--  --- Receiver ------------------------------------------- end ------------------------- -->
+         <!--  --- Receiver ------------------------------------------- end ---------------------------- -->
 
-        <!--  --- Usual Tasks --------------------------------------- begin ------------------------- -->
-        <div class="panel-body">
+        <!--  --- Usual Tasks --------------------------------------- begin -------------------------- -->
+        <div class="panel-body" ng-init="fid3=3" ng-show="showSection(fid3)">
             <div>
-               <p id="P2" class="pheader">{{ fields[2].fieldName }} </p>
+               <p class="pheader">{{ getSingleField(fid3).fieldName }} </p>
                 <div>
-                    <!--<textarea rows="4" cols="50" name="comment" form="usrform"> Enter text here...</textarea>-->
-                    <textarea class="form-control resizable" rows="2">{{ fields[2].fieldDefaultValue }}</textarea>
+                    <textarea class="form-control resizable" rows="2">{{ getSingleField(fid3).fieldDefaultValue }}</textarea>
                 </div> 
              </div>
         </div>
-        <!--  --- Usual Tasks --------------------------------------- end ------------------- -->
-
-        <!-- tempReport.template fields check -->
-        <!--
-        <form>
-            <container>
-                <div class="row" ng-repeat="field in tempReport.fields | orderBy:'fieldID'">
-                {{tempReport.template.templateId}}      <br />           
-                {{tempReport.template.templateName}}      <br />    
-                <div class="row" ng-repeat="field in tempReport.template.fields | orderBy:'fieldID'">
-                    <span class="col-md-3">
-                        {{field.fieldName}}
-                    </span>
-                </div>
-            </container>
-        </form>
-        -->
-         <!-- tempReport.template fields check -->  
+        <!--  --- Usual Tasks --------------------------------------- end ----------------------------- -->
         
-        <div class="panel-body">
-                <p  class="pheader">User Activity </p>
-        </div>
+        <!--  --- User Activity ---------------------------------------- begin ----------------------------------------------- -->
+        <div class="panel-body" ng-init="fid7=7" ng-show="showSection(fid7)">
+            <div>
+               <p class="pheader">{{ getSingleField(fid7).fieldName }} </p>
+            </div>
 
-        <!-- table for all members -->
+        <!-- table for all members --------------------------------------- begin ----------------- -->
         <div>
             <table class="table table-striped tbottom">
             <colgroup>
@@ -87,7 +73,7 @@
                 <col width="5%" />
             </colgroup>
 
-                <thead class="thead1">
+            <thead class="thead1">
                     <tr>
                         <th>Team Member</th>
                         <th>Role</th>
@@ -130,6 +116,8 @@
                </tbody>
             </table>
         </div>
+        <!-- table for all members --------------------------------------- end ------------------ -->
+
          <!-- Reported groups with members ------------ begin -------------------------- -->
         <div class="panel-body">
            <div ng-repeat="group in reportedGroups | orderBy:'groupName' " class="row gheader">
@@ -333,70 +321,71 @@
             </div>
          <!--  ------------ List of Issues table v.2 - works ------------------------------------  -->
 
-        <br />
+         </div>
+        <!--  --- User Activity ---------------------------------------- end -------------------------------------------------- -->
 
-        <!-- Risks and Issues ---------------------------------------------------------------------- -->
-         <div class="panel-body">
+        <!-- --- Risks and Issues ----------------------------------- begin -------------------------- -->
+         <div class="panel-body" ng-init="fid4=4" ng-show="showSection(fid4)">
             <div>
-               <!--<p id="P14" class="pheader">{{ fields[3].fieldName }} &nbsp; &nbsp;{{ fields[3].fieldDefaultValue }} </p>-->
-                <p id="P14" class="pheader">Risks and Issues </p>
+                <p class="pheader">{{ getSingleField(fid4).fieldName }} </p>
                 <div>
                     <textarea class="form-control resizable" rows="2">Enter Risks and Issues here...</textarea>
                 </div> 
              </div>
         </div>
-        <!-- Risks and Issues ---------------------------------------------------------------------- -->
+        <!-- --- Risks and Issues ----------------------------------- end ----------------------------- -->
 
-         <!-- Planned Activities -------------------------------------------------------------------- -->
-        <div class="panel-body">
+         <!-- --- Planned Activities --------------------------------- begin -------------------------- -->
+        <div class="panel-body" ng-init="fid5=5" ng-show="showSection(fid5)">
             <div>
-               <!--<p id="P15" class="pheader">{{ fields[4].fieldName }} &nbsp; &nbsp;{{ fields[4].fieldDefaultValue }} </p>-->
-                <p id="P15" class="pheader">Planned Activities </p>
+               <p class="pheader">{{ getSingleField(fid5).fieldName }} </p>
                 <div>
                     <textarea class="form-control resizable" rows="2">Enter Planned Activities here...</textarea>
                 </div> 
              </div>
         </div>
-         <!-- Planned Activities -------------------------------------------------------------------- -->
+         <!-- --- Planned Activities ---------------------------------- end ---------------------------- -->
 
-         <!--            form for Planned Vacations  - header    -->
-        <div class="panel-body">
+        <!-- --- Reasons ----------------------------------------------- begin -------------------------- -->
+        <div class="panel-body" ng-init="fid8=8" ng-show="showSection(fid5)">
             <div>
-               <!--<p id="P16" class="pheader">{{ fields[5].fieldName }} &nbsp; &nbsp;{{ fields[5].fieldDefaultValue }} </p>-->
-                <p id="P16" class="pheader">Planned Vacations</p>
+               <p class="pheader">{{ getSingleField(fid8).fieldName }} </p>
+                <div>
+                    <textarea class="form-control resizable" rows="2">Enter Reasons here...</textarea>
+                </div> 
              </div>
         </div>
+         <!-- --- Reasons ----------------------------------------------- end ---------------------------- -->
 
-         <form class="form-horizontal" role="form">
-            <div class="row">
+        <!-- --- Planned Vacations ---------------------------------- begin -------------------------- -->
+       <div class="panel-body" ng-init="fid6=6" ng-show="showSection(fid6)">
+            <div>
+               <p class="pheader">{{ getSingleField(fid6).fieldName }} </p>
+             </div>
 
-                <div class="col-xs-5">
-                    <div class="form-group draft-header">
-                         <label>Team Member</label>
-                    </div>
-                </div>
+            <div>
+                <table class="table table-striped tbottom">
+                    <colgroup>
+                        <col width="45%" />
+                        <col width="25%" />
+                        <col width="25%" />
+                        <col width="5%" />
+                    </colgroup>
 
-                <div class="col-xs-3">
-                    <div class="form-group draft-header">
-                         <label>From</label>
-                    </div>
-                </div>
+                     <thead class="thead1">
+                        <tr>
+                            <th>Team Member</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
 
-                <div class="col-xs-3">
-                    <div class="form-group draft-header">
-                         <label>To</label>
-                    </div>
-                </div>
+                </table>
 
-                <div class="col-xs-1">
-                   <div class="form-group draft-header">
-                         <label>.</label>
-                    </div>
-                </div>
+        </div>
 
-            </div>
-       </form>
-
+       
          <!--            form for Planned Vacations  - body        -->
          <form class="form-horizontal" role="form">
             <div class="row row2">
@@ -434,8 +423,28 @@
     </div>
 </section>
 
-    <!-- Iteration thru the whole member list -->
+<!--  ---COMMENTED OUT PARTS OF CODE -------- begin ------------------------- -->
+    <!--  --- Iteration thru the whole member list-------- begin ------------------------- -->
     <!--
         <tr ng-repeat="member in selectedTeam.members | orderBy:'fullName' "> 
         {{$index + 1}} {{member.userName}} {{getUserActivity(member.userName, tempReport.from, tempReport.to)}}
     -->
+    <!--  --- Iteration thru the whole member list------- end     ------------------------- -->
+
+    <!--  --- tempReport.fields check ---------------------- begin ------------------------- -->
+        <!--
+        <form>
+            <container>
+                <div class="row" ng-repeat="field in tempReport.fields | orderBy:'fieldID'">
+                {{tempReport.template.templateId}}      <br />           
+                {{tempReport.template.templateName}}      <br />    
+                <div class="row" ng-repeat="field in tempReport.template.fields | orderBy:'fieldID'">
+                    <span class="col-md-3">
+                        {{field.fieldName}}
+                    </span>
+                </div>
+            </container>
+        </form>
+        -->
+    <!--  --- tempReport.fields check ---------------------- end ---------------------------- -->
+<!--  ---COMMENTED OUT PARTS OF CODE -------- begin ------------------------- -->

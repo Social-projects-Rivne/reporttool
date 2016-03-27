@@ -233,7 +233,7 @@ reportsManagerModule.controller("reportDraftController",
                 issues: []
             };
 
-            //check if a specific section should be displayed
+            //  check if a specific section should be displayed
             $scope.showSection = function (sectionID) {
                 for (var i in $scope.tempReport.fields) {
                     if ($scope.tempReport.fields[i].fieldID === sectionID) {
@@ -243,7 +243,25 @@ reportsManagerModule.controller("reportDraftController",
                 return false;
             };
 
-            // add a member to a new group being set up
+            //  get a field from $scope.tempReport.fields
+            $scope.getSingleField = function (sectionID) {
+                for (var i in $scope.tempReport.fields) {
+                    if ($scope.tempReport.fields[i].fieldID === sectionID) {
+                        var tmp_field = {};
+
+                        tmp_field.fieldDefaultValue = $scope.tempReport.fields[i].fieldDefaultValue;
+                        tmp_field.fieldID = $scope.tempReport.fields[i].fieldID;
+                        tmp_field.fieldName = $scope.tempReport.fields[i].fieldName;
+                        tmp_field.fieldType = $scope.tempReport.fields[i].fieldType;
+                        tmp_field.isSelected = $scope.tempReport.fields[i].isSelected;
+
+                        return tmp_field;
+                    }
+                }
+                return null;
+            };
+
+            //  add a member to a new group being set up
             $scope.addMember = function (member) {
                 //  check to avoid member duplication
                 for (var i in $scope.editGroup.members) {
