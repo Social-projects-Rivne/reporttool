@@ -1,11 +1,5 @@
-﻿using IniParser;
-using IniParser.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using IniParser.Model;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace ReportingTool.Core.Validation
 {
