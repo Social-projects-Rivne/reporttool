@@ -534,7 +534,10 @@ reportsManagerModule.controller("reportDraftController",
 
             //  worked OK !
             //$scope.Test = ReportsFactory.getUserActivityRequest("user1", "date1", "date2");
-                   
+               
+            //  show VacationPanel ?
+                $scope.addVacationPanel = false;
+
             // an array of vacations
             $scope.vacations = [];
 
@@ -567,11 +570,15 @@ reportsManagerModule.controller("reportDraftController",
             
             };
 
+            $scope.removeVacation = function (id) {
+                $scope.vacations.splice(id, 1);
+            };
+
             Date.prototype.yyyymmdd = function () {
                 var yyyy = this.getFullYear().toString();
                 var mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
                 var dd = this.getDate().toString();
-                return yyyy + (mm[1] ? mm : "0" + mm[0]) + (dd[1] ? dd : "0" + dd[0]); // padding
+                return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]); // padding
             };
             //d = new Date();
             //d.yyyymmdd();
