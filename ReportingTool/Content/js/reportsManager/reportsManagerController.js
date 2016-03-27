@@ -167,7 +167,7 @@ reportsManagerModule.controller("reportDraftController",
             TempObjectFactory.set({});
 
 
-            //  ========================================================================
+//  ===================================================================================
             // an array of groups in the report
             $scope.reportedGroups = [];
 
@@ -534,7 +534,47 @@ reportsManagerModule.controller("reportDraftController",
 
             //  worked OK !
             //$scope.Test = ReportsFactory.getUserActivityRequest("user1", "date1", "date2");
-                        
+                   
+            // an array of vacations
+            $scope.vacations = [];
+
+            //  a vacation template for manipulation
+            $scope.selectedVacation = {
+                vacationID: "",
+                userName: "",
+                fullName: "",
+                from: "",
+                to: ""
+            };
+
+            //  a work template for member manipulation
+            $scope.selectedMemberForVacation = {
+                userName: "",
+                fullName: ""
+            };
+
+            //  add a vacation record to vacation list
+            $scope.addVacation = function (member, from, to) {
+                var tmp_vacation = {};
+
+                tmp_vacation.userName = member.userName;
+                tmp_vacation.fullName = member.fullName;
+
+                tmp_vacation.from = from.yyyymmdd();
+                tmp_vacation.to = to.yyyymmdd();
+
+                $scope.vacations.push(tmp_vacation);
+            
+            };
+
+            Date.prototype.yyyymmdd = function () {
+                var yyyy = this.getFullYear().toString();
+                var mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
+                var dd = this.getDate().toString();
+                return yyyy + (mm[1] ? mm : "0" + mm[0]) + (dd[1] ? dd : "0" + dd[0]); // padding
+            };
+            //d = new Date();
+            //d.yyyymmdd();
 
             //  ========================================================================
 
