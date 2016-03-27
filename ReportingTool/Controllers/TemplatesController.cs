@@ -46,15 +46,18 @@ namespace ReportingTool.Controllers
             return JsonConvert.SerializeObject(templates, Formatting.Indented);
         }
 
+        /// <summary>
+        /// Add new template into database
+        /// </summary>
+        /// <param name="newTemplate">New template model</param>
+        /// <returns>Answer of operation result in JSON object</returns>
         [HttpPost]
         public ActionResult AddNewTemplate([ModelBinder(typeof(JsonNetModelBinder))] Template newTemplate)
         {
             var validation = newTemplate.TemplateValidForAdd();
             if (validation != null) return Json(new { Answer = validation });
 
-            using (var db = new DB2())
-            {
-                var template = db.Templates.FirstOrDefault(t => t.Name == newTemplate.Name);
+                var template = _db.Templates.FirstOrDefault(t => t.Name == newTemplate.Name);
                 if (template == null)
                 {
                     template = new Template
@@ -62,7 +65,7 @@ namespace ReportingTool.Controllers
                         Name = newTemplate.Name,
                         Owner = Session["currentUser"] as string
                     };
-                    db.Templates.Add(template);
+                    _db.Templates.Add(template);
                 }
                 else if (template.IsActive)
                     return Json(new { Answer = Enum.GetName(typeof(Answer), Answer.AlreadyExists) });
@@ -70,9 +73,8 @@ namespace ReportingTool.Controllers
                 template.FieldsInTemplate = newTemplate.FieldsInTemplate;
                 template.IsActive = true;
 
-                db.SaveChanges();
+                _db.SaveChanges();
                 return Json(new { Answer = Enum.GetName(typeof(Answer), Answer.Added) });
-            }
         }
 
         [HttpPut]
