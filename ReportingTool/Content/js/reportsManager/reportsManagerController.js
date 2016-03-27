@@ -161,11 +161,9 @@ reportsManagerModule.controller("reportsManagerController",
 reportsManagerModule.controller("reportDraftController",
     ['$scope', '$stateParams', '$state', 'ReportsFactory', 'TempObjectFactory',
         function ($scope, $stateParams, $state, ReportsFactory, TempObjectFactory) {
-
            
             $scope.tempReport = TempObjectFactory.get();
             TempObjectFactory.set({});
-
 
 //  ===================================================================================
             // an array of groups in the report
@@ -196,24 +194,47 @@ reportsManagerModule.controller("reportDraftController",
 
             $scope.addGroupPanel = false;
 
+            //  get the list of members chosen for reporting
             function getAllMembers() {
-                //var teams = $http.get("Teams/GetAllTeams");
-                //var members = $scope.reportedMembers;
                 var tmp_members = [];
 
-                //for (var i in $scope.selectedTeam.members) {
-                for (var i = 0, len = $scope.selectedTeam.members.length; i < len; i++) {
-                    var tmp_member = {};
-                    tmp_member.userName = $scope.selectedTeam.members[i].userName;
-                    tmp_member.fullName = $scope.selectedTeam.members[i].fullName;
-                    tmp_member.role = '';
-                    tmp_member.activity = 0;
+                // a team is present
+                if ($scope.tempReport.teamId) {
+                    //  for (var i in $scope.selectedTeam.members) {
+                    //  for (var i = 0, len = $scope.selectedTeam.members.length; i < len; i++) {
+                    for (var i = 0, len = $scope.selectedTeam.members.length; i < len; i++) {
+                        var tmp_member = {};
+                        tmp_member.userName = $scope.selectedTeam.members[i].userName;
+                        tmp_member.fullName = $scope.selectedTeam.members[i].fullName;
+                        tmp_member.role = '';
+                        tmp_member.activity = 0;
 
-                    tmp_members.push(tmp_member);
+                        tmp_members.push(tmp_member);
+                    }
                 }
+
+                //  no team
+                if (!$scope.tempReport.teamId) {
+                    //  for (var i in $scope.selectedTeam.members) {
+                    //  for (var i = 0, len = $scope.selectedTeam.members.length; i < len; i++) {
+                    for (var i = 0, len = $scope.tempReport.members.length; i < len; i++) {
+                        var tmp_member = {};
+                        tmp_member.userName = $scope.tempReport.members[i].userName;
+                        tmp_member.fullName = $scope.tempReport.members[i].fullName;
+                        tmp_member.role = '';
+                        tmp_member.activity = 0;
+
+                        tmp_members.push(tmp_member);
+                    }
+                }
+               
                 return tmp_members;
             }
             $scope.reportedMembers = getAllMembers();
+
+            //  get the list of members chosen for vacations
+            $scope.vacationMembers = [];
+            $scope.vacationMembers = getAllMembers();
 
             //  not done and not called
             function getActivityAndIssues() {
@@ -260,6 +281,9 @@ reportsManagerModule.controller("reportDraftController",
                 }
                 return null;
             };
+
+            //  show addGroupPanel ?
+            $scope.addGroupPanel = false;
 
             //  add a member to a new group being set up
             $scope.addMember = function (member) {

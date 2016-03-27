@@ -164,7 +164,7 @@
         <!-- Add Group button ----------------------------------------------------------------- -->
          <div class="row">
             <div class="col-xs-3 center">
-                  <a class="btn btn-link" ng-click="addGroupPanel=true">Add Group</a>
+                  <a class="btn btn-link" ng-click="addGroupPanel=!addGroupPanel">Add Group</a>
                         <!--ui-sref="mainView.teamsManager.createTeam"-->
             </div>
          </div>
@@ -238,11 +238,13 @@
                             ng-model="selectedMember"
                             ng-options="member.fullName for member in selectedTeam.members"
                             name="memberSelection">-->
-                          <select class="form-control select-username"
-                            ng-model="selectedMember" placeholder="Select a member"
-                            ng-options="member.fullName for member in reportedMembers"
-                            name="memberSelection">
-                        </select>
+                         <form name="addMem">
+                              <select class="form-control select-username"
+                                ng-model="selectedMember" placeholder="Select a member"
+                                ng-options="member.fullName for member in reportedMembers"
+                                name="memberSelection">
+                            </select>
+                         </form>
                     </td>
                     <td>
                             <input type="text" class="form-control" ng-model="selectedMember.role" placeholder="Enter role...">
@@ -250,6 +252,7 @@
                     <td></td>
                     <td>
                         <a class="glyph-link"
+                             ng-show="addMem.memberSelection.$dirty"
                             ng-click="addMember(selectedMember)">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                         </a>
@@ -268,7 +271,7 @@
 
             <div class="panel-body">
                 <div>
-                    <textarea class="form-control resizable" rows="2">Add some comments here...</textarea>
+                    <textarea class="form-control resizable resize-vert" rows="2">Add some comments here...</textarea>
                 </div> 
              </div>
         
@@ -400,7 +403,7 @@
                     <!--  --- Vacations List ------------------------------- begin -------------------------- -->
                 </table>
             </div>
-           <br />
+            <br />
                     <!-- Add Vacation button ----------------------------------- begin ------------------------- -->
                         <div class="row">
                         <div class="col-xs-3 center">
@@ -420,18 +423,12 @@
                                   </colgroup>
 
                                  <tbody>
-                                     <!--***************************************************-->
                                       <tr>
                                         <td>
                                             <form name="addVac">
-                                                <!--<select class="form-control select-username" required
-                                                        ng-model="selectedMemberForVacation"
-                                                        ng-options="jiraUser.fullName for jiraUser in jiraUsers"
-                                                        name="memberSelection">
-                                                </select>-->
                                                 <select class="form-control select-username" required
                                                         ng-model="selectedMemberForVacation"
-                                                        ng-options="member.fullName for member in reportedMembers"
+                                                        ng-options="member.fullName for member in vacationMembers"
                                                         name="memberSelection">
                                                 </select>
                                             </form>
@@ -452,17 +449,16 @@
                                             </a>
                                         </td>
                                     </tr>
-
-                                     <!--*******************************************************-->
                                 </tbody>
                             </table>
                         </div>
                      <!-- adding a record to the vacation list ----------------- end  ------------------------- -->
-       
            <hr />  
 
     </div>
+        <!-- --- Planned Vacations ---------------------------------- end ----------------------------- -->
 
+        <!-- --- Buttons : Export, Email ----------------------------- begin -------------------------- -->
          <div class="panel-body" >
              <div class="row">
                  <div class="col-sm-3 col-sm-offset-3">
@@ -473,6 +469,7 @@
                  </div>
              </div>
          </div>
+         <!-- --- Buttons : Export, Email ---------------------------- end -------------------------- -->
 <!--  ---------------------------------------------------------- -->
         </div>
 </section>
