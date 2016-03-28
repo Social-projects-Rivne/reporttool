@@ -197,7 +197,7 @@ reportsManagerModule.controller("reportDraftController",
             //  get the list of members chosen for reporting
             function getAllMembers() {
                 var tmp_members = [];
-
+                
                 // a team is present
                 if ($scope.tempReport.teamId) {
                     //  for (var i in $scope.selectedTeam.members) {
@@ -531,6 +531,12 @@ reportsManagerModule.controller("reportDraftController",
 
             //  get activity and issues for members for reportedMembers
                 function getReportedMembersInfo() {
+                    // if UserActivity is not checked in template --> return
+                    var fid7 = 7;   //  fieldID of UserActivity div
+                    if (!$scope.showSection(fid7)) {
+                        return;
+                    }
+
                     var from = $scope.tempReport.from;
                     var to = $scope.tempReport.to;
 
@@ -547,7 +553,7 @@ reportsManagerModule.controller("reportDraftController",
                 }
                 getReportedMembersInfo();
 
-            // --- get activity for a PM ------------------------------------------------------
+            //  get activity for a PM
                 $scope.pmMember = {};
 
                 $scope.getPmActivity = function (userName) {
@@ -581,8 +587,7 @@ reportsManagerModule.controller("reportDraftController",
 
                         alert("Error: " + response.code + ".  " + response.statusText);
                     }
-            // **********************************************************************
-
+            
             //  test User Activity for a fixed user
                 //$scope.TestActivity = function () {
                 //    console.log("TestActivity start");
