@@ -52,6 +52,15 @@ namespace UnitTestProject
             return item;
         }
 
+        public override IEnumerable<T> RemoveRange(IEnumerable<T> items)
+        {
+            foreach (var item in items)
+            {
+                _data.Remove(item);
+            }
+            return items;
+        }
+
         Expression IQueryable.Expression
         {
             get { return _query.Expression; }
