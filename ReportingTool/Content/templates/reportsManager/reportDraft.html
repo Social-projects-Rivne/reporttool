@@ -65,7 +65,7 @@
                <p class="pheader">{{ getSingleField(fid7).fieldName }} </p>
             </div>
 
-        <!-- table for all members --------------------------------------- begin ----------------- -->
+        <!-- PM Activity record --------------------------------------- begin ----------------- -->
         <div>
             <table class="table table-striped tbottom">
             <colgroup>
@@ -85,7 +85,7 @@
                 </thead>
 
               <tbody>
-                    <!--  --- TODO: drop-down for members ----- Project Manager row--------------------------- begin ---------------- -->
+                    <!--  ---  Project Manager row--------------------------- begin ---------------- -->
                    <tr>
                        <td>
                            <!-- <span>{{ getSingleField(fid1).fieldDefaultValue }}</span>-->
@@ -101,7 +101,8 @@
                             <input type="text" class="form-control" placeholder="Enter role..." value="Project Manager"> 
                         </td>
                         <td>
-                             <label>{{pmMember.activity}}&nbsp;h</label>
+                            <!-- <label>{{pmMember.activity}}&nbsp;h</label>-->
+                            <label>{{pmMember.activity ? pmMember.activity  : "0"}}&nbsp;h</label>
                         </td>
                        <td>
                             <a class="glyph-link"
@@ -134,7 +135,7 @@
                </tbody>
             </table>
         </div>
-        <!-- table for all members --------------------------------------- end ------------------ -->
+        <!-- PM Activity record --------------------------------------- end ------------------ -->
 
          <!-- Reported groups with members ------------ begin -------------------------- -->
         <div class="panel-body">
@@ -192,8 +193,8 @@
          <!-- Add Group button ----------------------------------------------------------------- -->
        
          <!-- groupName + 2 glyphs----------------------------------------------------------- -->
-        <div class="row " ng-if="addGroupPanel == true">
-            <div class="col-xs-8 col-sm-6 col-sm-offset-2">
+        <div class="row tab-vert-center" ng-if="addGroupPanel == true">
+            <div class="col-xs-8 col-sm-5 col-sm-offset-4">
                  <input class='form-control' id="groupName" 
                      ng-model="editGroup.groupName" 
                      placeholder="Enter group name..." 
@@ -215,8 +216,8 @@
          </div>
          <!-- groupName + 2 glyphs----------------------------------------------------------- -->
 
-        <!-- editGroup table -------------------------------------------------------------------- -->
-        <table class="table table-striped" ng-if="addGroupPanel==true">
+        <!-- editGroup table ------------------------------------ begin ------------------------- -->
+        <table class="table table-striped tab-vert-center" ng-if="addGroupPanel==true">
             <colgroup>
                 <col width="40%" />
                 <col width="35%" />
@@ -241,9 +242,8 @@
                     </tr>
                </tbody>
             </table>
-         <!-- editGroup table -------------------------------------------------------------------- -->
+         <!-- editGroup table ----------------------------------- end ---------------------------- -->
             
-        <hr />
         <!-- adding a member to the group ----------------- begin ----------------------- -->
         <div ng-if="addGroupPanel==true">
             <table class="table table-striped">
@@ -282,11 +282,12 @@
                 </tr>
                 </tbody>
             </table>
+            <hr /> 
         </div>
         <!-- adding a member to the group ------------------ end ------------------------- -->
-        <hr /> 
+        
         <!--  ------------ List of Issues table v.2 -  works -------------------------------  -->
-         <div ng-repeat="group in reportedGroups | orderBy:'groupName' " class="row">
+         <div ng-repeat="group in reportedGroups | orderBy:'groupName' " class="row tab-vert-center">
             <div class="col-xs-10 col-sm-offset-1">
                      <span class="pheader"><em><strong> {{group.groupName | uppercase}}  </strong> </em> </span> {{groupMemberList(group)}} 
                 </div>
@@ -297,8 +298,8 @@
                 </div> 
              </div>
         
-            <div class="panel-body">
-                <table class="table table-striped">
+            <div class="panel-body pad-vert-center">
+                <table class="table table-striped tab-vert-center4">
                     <colgroup>
                         <col width="15%" />
                         <col width="55%" />
@@ -320,9 +321,11 @@
 <!--
 [ {"key":"RVNETJAN-101","summary":"Implement tests for biz layer","status":"In Progress","loggedTime":7200} ]
 -->
-              <div class="panel-body" ng-repeat="member in group.members | orderBy:'fullName' " class="row">
-                  <table class="table table-striped">
-                      <colgroup>
+              <div class="panel-body pad-vert-center " 
+                  ng-repeat="member in group.members | orderBy:'fullName' " 
+                  class="row pad-vert-center">
+                  <table class="table table-striped tab-vert-center4">
+                    <colgroup>
                             <col width="15%" />
                             <col width="55%" />
                             <col width="15%" />

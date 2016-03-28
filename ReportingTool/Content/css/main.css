@@ -410,3 +410,18 @@ th:nth-child(3) {
     resize:vertical;
     overflow:auto;	
 }
+
+.tab-vert-center {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.tab-vert-center4 {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.pad-vert-center {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
