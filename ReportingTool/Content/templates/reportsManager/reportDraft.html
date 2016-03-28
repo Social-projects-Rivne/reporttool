@@ -181,8 +181,9 @@
         <!-- Add Group button ----------------------------------------------------------------- -->
          <div class="row">
             <div class="col-xs-3 center">
-                  <a class="btn btn-link" ng-click="addGroupPanel=!addGroupPanel">Add Group</a>
-                        <!--ui-sref="mainView.teamsManager.createTeam"-->
+                  <a class="btn btn-link" 
+                      ng-click="addGroupPanel=!addGroupPanel" 
+                      ng-show="reportedMembers.length>0">Add Group</a>
             </div>
          </div>
          <!-- Add Group button ----------------------------------------------------------------- -->
@@ -192,7 +193,7 @@
             <div class="col-xs-8 col-sm-6 col-sm-offset-2">
                  <input class='form-control' id="groupName" ng-model="editGroup.groupName" placeholder="Enter group name..." >  <!-- autofocus -->
             </div>
-             <div class="col-xs-1">
+            <div class="col-xs-1" ng-show="editGroup.groupName.length > 0">
                 <!--<button id="btn-save" class="btn btn-default" ng-click='save()'>Save</button>-->
                  <a class="glyph-link" ng-click='save()'>
                         <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
@@ -217,14 +218,12 @@
                 <col width="5%" />
             </colgroup>
             <tbody>
-                  <!-- <tr ng-repeat="member in selectedTeam.members | orderBy:'fullName' "> -->
                   <tr ng-repeat="member in editGroup.members | orderBy:'fullName' ">
                        <!--<td>{{$index + 1}}</td>-->
                        <td>{{member.fullName}}</td>
                         <td>
                             <input type="text" class="form-control" ng-model="member.role" value="{{member.role}}" placeholder="Enter role...">
                         </td>
-                        <!--<td>{{member.userName}}</td>-->
                          <td>
                              <label>{{member.activity}}&nbsp;h</label>
                         </td>
@@ -239,7 +238,7 @@
          <!-- editGroup table -------------------------------------------------------------------- -->
             
         <hr />
-        <!-- adding a member to the group ------------------------------------------------- -->
+        <!-- adding a member to the group ----------------- begin ----------------------- -->
         <div ng-if="addGroupPanel==true">
             <table class="table table-striped">
                  <colgroup>
@@ -278,7 +277,7 @@
                 </tbody>
             </table>
         </div>
-        <!-- adding a member to the group ------------------------------------------------- -->
+        <!-- adding a member to the group ------------------ end ------------------------- -->
         <hr /> 
         <!--  ------------ List of Issues table v.2 -  works -------------------------------  -->
          <div ng-repeat="group in reportedGroups | orderBy:'groupName' " class="row">
