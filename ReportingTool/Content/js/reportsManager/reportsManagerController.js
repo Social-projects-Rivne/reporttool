@@ -139,7 +139,8 @@ reportsManagerModule.controller("reportsManagerController",
             function saveReportConditionals(tempReportConditionals) {
                 TempObjectFactory.set({});
                 TempObjectFactory.set(tempReportConditionals);
-                $state.go('reload');
+                //  $state.go('reload');
+                $state.go('mainView.reportsManager.reportsConditions.reportDraft');
             }
 
             function reportDataValidation() {
