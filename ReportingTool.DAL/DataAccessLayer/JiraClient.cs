@@ -46,7 +46,7 @@ namespace ReportingTool.DAL.DataAccessLayer
 
         public List<JiraUser> GetUsers(string projectName, int startAt)
         {
-            string path = "user/assignable/search?project=" + 
+            string path = "user/assignable/search?project=" +
                    projectName + "&startAt=" + startAt + "&maxResults=" + 1000;
             var request = CreateRequest(Method.GET, path);
 
@@ -103,9 +103,9 @@ namespace ReportingTool.DAL.DataAccessLayer
         private List<Issue> getUserIssues(string userName, string dateFrom, string dateTo, int startAt)
         {
             var correctedDateFrom = DateTime.Parse(dateFrom).AddDays(-1).ToString("yyyy-MM-dd");
-            var correctedDateTo = DateTime.Parse(dateTo).AddDays(+1).ToString("yyyy-MM-dd"); 
+            var correctedDateTo = DateTime.Parse(dateTo).AddDays(+1).ToString("yyyy-MM-dd");
 
-            string path = "search?jql=" + 
+            string path = "search?jql=" +
                " worklogAuthor = " + userName +
                " and worklogDate >=" + dateFrom +
                " and worklogDate <=" + dateTo +
