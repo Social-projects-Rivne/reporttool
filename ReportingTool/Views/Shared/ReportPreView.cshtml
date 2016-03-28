@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "MyPartialView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("ExportToPdf", "Reports", FormMethod.Post))
+{
+    <section ng-controller="exportReportController">
+        <div class="row">
+            <div class="col-sm-9 center">
+
+                <h1>HEEEELLLLOOO!!!11</h1>
+
+                <div class="col-sm-6">
+                    <button type="submit" class="btn btn-flat">Save to PDF</button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+}

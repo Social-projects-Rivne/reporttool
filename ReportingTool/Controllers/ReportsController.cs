@@ -10,6 +10,8 @@ using ReportingTool.Core.Services;
 using ReportingTool.DAL.DataAccessLayer;
 using ReportingTool.Core.Validation;
 using ReportingTool.Core.Models;
+using SelectPdf;
+using System.IO;
 
 
 namespace ReportingTool.Controllers
@@ -38,7 +40,7 @@ namespace ReportingTool.Controllers
             int result = 0;
             try
             {
-                result = jiraClientService.GetUserActivity(userName, dateFrom, dateTo);            
+                result = jiraClientService.GetUserActivity(userName, dateFrom, dateTo);
             }
             catch (ArgumentException)
             {
@@ -64,9 +66,48 @@ namespace ReportingTool.Controllers
             }
             catch (ArgumentException)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);        
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             return Json(new { Issues = result, userNameFromBE = userName }, JsonRequestBehavior.AllowGet);
-        } 
-	}
+        }
+
+
+        public PartialViewResult PreviewReport()
+        {
+            return PartialView("ReportPreview");
+        }
+
+        [HttpPost]
+        public ActionResult ExportToPdf(object report)
+        {
+            // instantiate a html to pdf converter object
+            HtmlToPdf converter = new HtmlToPdf();
+
+            // create a new pdf document converting an url
+            PdfDocument doc = converter.ConvertHtmlString(RenderRazorViewToString("ReportPreview"));
+
+            // save pdf document
+            byte[] pdf = doc.Save();
+
+            // close pdf document
+            doc.Close();
+            FileResult fileResult = new FileContentResult(pdf, "application/pdf");
+            fileResult.FileDownloadName = "Document.pdf";
+            return fileResult;
+        }
+
+        string RenderRazorViewToString(string viewName)
+        {
+            using (var sw = new StringWriter())
+            {
+                var viewResult = ViewEngines.Engines.FindView(ControllerContext, viewName, "_Layout");
+                var viewContext = new ViewContext(ControllerContext, viewResult.View,
+                                             ViewData, TempData, sw);
+                viewResult.View.Render(viewContext, sw);
+                viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
+                return sw.GetStringBuilder().ToString();
+            }
+        }
+
+    }
 }

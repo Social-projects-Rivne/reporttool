@@ -176,6 +176,10 @@ reportsManagerModule.controller("reportsManagerController",
                     showValidationMessage();
                 }
             }
+
+            $scope.export = function () {
+                window.open('/Reports/PreviewReport', '_blank', 'left=100,top=100,toolbar=1,resizable=0');
+            };
         }]);
 
 reportsManagerModule.controller("reportDraftController",

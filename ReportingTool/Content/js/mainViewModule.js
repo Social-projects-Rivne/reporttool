@@ -4,6 +4,7 @@ var mainViewModule = angular.module('mainViewModule',
     ['teamsManagerModule',
         'templatesManagerModule',
         'reportsManagerModule',
+        'exportReportModule',
         'ui.router']);
 
 mainViewModule
