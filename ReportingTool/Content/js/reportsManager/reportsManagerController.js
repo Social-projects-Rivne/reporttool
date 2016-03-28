@@ -529,7 +529,7 @@ reportsManagerModule.controller("reportDraftController",
                 }
             //$scope.Test03 = $scope.getIssues("user1", "date1", "date2");
 
-            //  TODO
+            //  get activity and issues for members for reportedMembers
                 function getReportedMembersInfo() {
                     var from = $scope.tempReport.from;
                     var to = $scope.tempReport.to;
@@ -546,6 +546,42 @@ reportsManagerModule.controller("reportDraftController",
                     }
                 }
                 getReportedMembersInfo();
+
+            // --- get activity for a PM ------------------------------------------------------
+                $scope.pmMember = {};
+
+                $scope.getPmActivity = function (userName) {
+                    var dateFrom = $scope.tempReport.from;
+                    var dateTo = $scope.tempReport.to;
+
+                    //  debug
+                    console.log("userName = " + userName);
+                    console.log("dateFrom = " + dateFrom);
+                    console.log("dateTo = " + dateTo);
+
+                    $scope.requestProcessing += 1;
+
+                    ReportsFactory.getUserActivityRequest(userName, dateFrom, dateTo)
+                    .then(gPmASuccess, gPmAFail);
+
+                };
+                    function gPmASuccess(response) {
+                        $scope.requestProcessing -= 1;
+
+                        //  fill the activity field on scope
+                        var seconds = response.data.Timespent;
+                        var hours = Math.round(parseInt(response.data.Timespent) / 3600);
+                        var userNameVar = response.data.userNameFromBE;
+
+                        $scope.pmMember.userName = userNameVar;
+                        $scope.pmMember.activity = hours;
+                    }
+                    function gPmAFail(response) {
+                        $scope.requestProcessing -= 1;
+
+                        alert("Error: " + response.code + ".  " + response.statusText);
+                    }
+            // **********************************************************************
 
             //  test User Activity for a fixed user
                 //$scope.TestActivity = function () {

@@ -11,7 +11,7 @@
                     <strong>{{ tempReport.templateName}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
                 </h3> 
             </div>
-          <!--  --- Panel Header  ------------------------------------- begin -------------------- -->
+          <!--  --- Panel Header  ------------------------------------- end -------------------- -->
             <!--  --- progress Indicator for Ajax Requests ------ begin -------------------- -->
              <div id="progressIndicator" class="floating-box">
                 <md-progress-circular md-mode="indeterminate"
@@ -30,7 +30,8 @@
              </div>
             <div class="floating-box">
                <!--<span>{{ tempReport.fields[fid1-1].fieldDefaultValue }}</span>-->
-                 <span>{{ getSingleField(fid1).fieldDefaultValue }}</span>
+               <!-- <span>{{ getSingleField(fid1).fieldDefaultValue }}</span>-->
+                <input type="text" class="form-control" placeholder="Enter reporter..." value="{{ getSingleField(fid1).fieldDefaultValue }}"> 
             </div>
         </div>
          <!--  --- Reporter ------------------------------------------- end ---------------------------- -->
@@ -83,14 +84,30 @@
                 </thead>
 
               <tbody>
-                    <!--  --- TODO: drop-down for memebers ----- Project Manager row--------------------------- begin ---------------- -->
+                    <!--  --- TODO: drop-down for members ----- Project Manager row--------------------------- begin ---------------- -->
                    <tr>
-                       <td>{{fields[0].fieldDefaultValue}}</td>
+                       <td>
+                           <!-- <span>{{ getSingleField(fid1).fieldDefaultValue }}</span>-->
+                           <form name="addPm">
+                               <select class="form-control select-username"
+                                                ng-model="selectedPm"
+                                                ng-options="jiraUser.fullName for jiraUser in jiraUsers"
+                                                name="pmSelection">
+                               </select>
+                           </form>
+                       </td>
                         <td>
                             <input type="text" class="form-control" placeholder="Enter role..." value="Project Manager"> 
                         </td>
-                         <td>
-                             <label>0&nbsp;h</label>
+                        <td>
+                             <label>{{pmMember.activity}}&nbsp;h</label>
+                        </td>
+                       <td>
+                            <a class="glyph-link"
+                                ng-show="addPm.pmSelection.$dirty"
+                                ng-click="getPmActivity(selectedPm.userName)">
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                            </a>
                         </td>
                     </tr>
                    <!--  --- Project Manager row--------------------------- end ------------------- -->
