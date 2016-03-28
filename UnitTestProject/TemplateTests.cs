@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -61,8 +62,8 @@ namespace UnitTestProject
             db.FieldTypes.Add(fieldType1);
             db.FieldTypes.Add(fieldType2);
 
-            var field1 = new Field { Id = 1, Name = "testfield1", FieldTypeId = 1, FieldType = fieldType1};
-            var field2 = new Field { Id = 2, Name = "testfield2", FieldTypeId = 2, FieldType = fieldType2};
+            var field1 = new Field { Id = 1, Name = "testfield1", FieldTypeId = 1, FieldType = fieldType1 };
+            var field2 = new Field { Id = 2, Name = "testfield2", FieldTypeId = 2, FieldType = fieldType2 };
             db.Fields.Add(field1);
             db.Fields.Add(field2);
 
@@ -71,6 +72,7 @@ namespace UnitTestProject
                 Id = 1,
                 DefaultValue = "testvalue1",
                 FieldId = 1,
+                Field = field1,
                 TemplateId = 1
             };
             var testfield2 = new FieldsInTemplate
@@ -78,6 +80,7 @@ namespace UnitTestProject
                 Id = 2,
                 DefaultValue = "testvalue2",
                 FieldId = 2,
+                Field = field2,
                 TemplateId = 1
             };
             db.FieldsInTemplates.Add(testfield1);
@@ -279,12 +282,47 @@ namespace UnitTestProject
         }
 
         [TestMethod]
+        public void EditTemplate_Test_IfReporterIsNotJiraUser()
+        {
+            var db = new FakeDb();
+            var controller = new TemplatesController(db);
+
+            var testTemplate = new Template { Id = 1, Name = "TestTemplate", IsActive = true, Owner = "testowner1", FieldsInTemplate = new List<FieldsInTemplate>() };
+            var testTemplate1 = new Template { Id = 1, Name = "TestTemplate", IsActive = true, Owner = "testowner1", FieldsInTemplate = new List<FieldsInTemplate>() };
+            db.Templates.Add(testTemplate);
+            var newField1 = new Field { Id = 1, Name = "testfield1" };
+
+            db.Fields.Add(newField1);
+
+            var field1 = new FieldsInTemplate
+            {
+                Id = 1,
+                FieldId = 1,
+                TemplateId = 1,
+                DefaultValue = "testvalue2"
+            };
+
+            db.FieldsInTemplates.Add(field1);
+            testTemplate1.FieldsInTemplate.Add(field1);
+            JiraUsersController.UsersStorage = new List<JiraUser>
+            {
+                new JiraUser {name = "ssundtc", displayName = "Sergiy Sundutov"}
+            };
+
+            var expected = new JsonResult { Data = (new { Answer = "FieldIsNotCorrect" }) };
+            var actual = (JsonResult)controller.EditTemplate(testTemplate1);
+            Assert.AreEqual(expected.Data.ToString(), actual.Data.ToString());
+            JiraUsersController.UsersStorage.Clear();
+        }
+
+        [TestMethod]
         public void EditTemplate_Testing()
         {
             var db = new FakeDb();
             var controller = new TemplatesController(db);
 
             var testTemplate = new Template { Id = 1, Name = "TestTemplate", IsActive = true, Owner = "testowner1", FieldsInTemplate = new List<FieldsInTemplate>() };
+            var testTemplate1 = new Template { Id = 1, Name = "TestTemplate", IsActive = true, Owner = "testowner1", FieldsInTemplate = new List<FieldsInTemplate>() };
             db.Templates.Add(testTemplate);
             var newField1 = new Field { Id = 1, Name = "testfield1" };
             var newField2 = new Field { Id = 2, Name = "testfield2" };
@@ -299,8 +337,9 @@ namespace UnitTestProject
                 Id = 1,
                 FieldId = 1,
                 TemplateId = 1,
-                DefaultValue = "testvalue1"
+                DefaultValue = "Sergiy Sundutov"
             };
+
             var field2 = new FieldsInTemplate
             {
                 Id = 2,
@@ -315,12 +354,22 @@ namespace UnitTestProject
                 TemplateId = 1,
                 DefaultValue = "testvalue3"
             };
-            testTemplate.FieldsInTemplate.Add(field1);
-            testTemplate.FieldsInTemplate.Add(field2);
-            testTemplate.FieldsInTemplate.Add(field3);
+            db.FieldsInTemplates.Add(field1);
+            db.FieldsInTemplates.Add(field2);
+            db.FieldsInTemplates.Add(field3);
+            testTemplate1.FieldsInTemplate.Add(field1);
+            testTemplate1.FieldsInTemplate.Add(field2);
+            testTemplate1.FieldsInTemplate.Add(field3);
+
+            JiraUsersController.UsersStorage = new List<JiraUser>
+            {
+                new JiraUser {name = "ssundtc", displayName = "Sergiy Sundutov"}
+            };
+
             var expected = new JsonResult { Data = (new { Answer = "Edited" }) };
-            var actual = (JsonResult)controller.EditTemplate(testTemplate);
+            var actual = (JsonResult)controller.EditTemplate(testTemplate1);
             Assert.AreEqual(expected.Data.ToString(), actual.Data.ToString());
+            JiraUsersController.UsersStorage.Clear();
         }
     }
 }

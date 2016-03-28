@@ -1,12 +1,12 @@
 'use strict';
 
-var teamsManagerModule = angular.module("teamsManagerModule", ['ui.router']);
+var teamsManagerModule = angular.module("teamsManagerModule", ['ui.router', 'ui.bootstrap', 'ngAnimate']);
 
 teamsManagerModule.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
     var teamsManager = {
         name: 'mainView.teamsManager',
-        url: '/teamsManager',
+        url: '/teamsManager', 
         cache: false,
         views: {
             '': {

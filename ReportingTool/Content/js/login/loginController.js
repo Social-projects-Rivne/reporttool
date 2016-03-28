@@ -45,7 +45,7 @@ loginModule.controller("loginController",
                 }
                 else {
                     LoginService.SetShowLogoutStatus(false);
-                    //redirect on main page
+                    //redirect on login page
                     LoginService.SetShowLoginStatus(true);
                     $state.transitionTo('loginView');
                 }

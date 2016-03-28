@@ -14,14 +14,12 @@ namespace ReportingTool.Controllers
 {
     public class JiraUsersController : Controller
     {
-        private static List<JiraUser> UsersStorage { get; set; }
+        public static List<JiraUser> UsersStorage { get; set; }
 
         // GET: JiraUsers
         [HttpGet]
         public JsonResult GetAllUsers(string searchValue)
         {
-            
-
             List<JiraUserModel> members = new List<JiraUserModel>();
             if (!string.IsNullOrEmpty(searchValue))
             {

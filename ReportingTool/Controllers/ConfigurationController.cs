@@ -6,16 +6,30 @@ using System;
 using System.IO;
 using System.Web.Hosting;
 using System.Web.Mvc;
+using ReportingTool.Core.Validation.Interfaces;
 
 namespace ReportingTool.Controllers
 {
     public enum Answer { NotExists, IsEmpty, NotValid, Exists, Created, NotCreated };
+
     public class ConfigurationController : Controller
     {
-        private string FILE_NAME = HostingEnvironment.MapPath("~/Configurations.ini"); 
+        private string FILE_NAME = HostingEnvironment.MapPath("~/Configurations.ini");
         private const string SECTION = "GeneralConfiguration";
         private const string SERVEL_URL_KEY = "ServerUrl";
         private const string PROJECT_NAME_KEY = "ProjectName";
+        private IFileExtensionManager _fileManager;
+
+        public ConfigurationController()
+        {
+            _fileManager = new FileExtensionManager();
+        }
+
+        public IFileExtensionManager FileManager
+        {
+            get { return _fileManager; }
+            set { _fileManager = value; }
+        }
 
         /// <summary>
         /// Checks if configuration file exists, empty and valid
@@ -25,21 +39,20 @@ namespace ReportingTool.Controllers
         public ActionResult SetConfigurations()
         {
             Answer answer;
-            if (!System.IO.File.Exists(FILE_NAME))
+            if (!FileManager.IsExists(FILE_NAME))
             {
                 answer = Answer.NotExists;
             }
-            else if (new FileInfo(FILE_NAME).Length == 0)
+            else if (FileManager.IsEmpty(FILE_NAME))
             {
                 answer = Answer.IsEmpty;
             }
             else
             {
-                FileIniDataParser fileIniData = new FileIniDataParser();
                 try
                 {
-                    IniData parsedData = fileIniData.ReadFile(FILE_NAME);
-
+                    FileIniDataParser fileIniData = new FileIniDataParser();
+                    IniData parsedData = FileManager.ReadFile(fileIniData, FILE_NAME);
                     KeyDataCollection section = parsedData[SECTION];
                     if (section == null)
                     {
@@ -62,7 +75,6 @@ namespace ReportingTool.Controllers
                         {
                             answer = Answer.IsEmpty;
                         }
-
                     }
                 }
                 catch (Exception e)
@@ -94,18 +106,18 @@ namespace ReportingTool.Controllers
                 {
                     FileIniDataParser fileIniData = new FileIniDataParser();
 
-                    if (!System.IO.File.Exists(FILE_NAME) || (new FileInfo(FILE_NAME).Length == 0))
+                    if (!FileManager.IsExists(FILE_NAME) || FileManager.IsEmpty(FILE_NAME))
                     {
                         IniData newData = ConfigurationHelper.CreateINIData(serverUrl, projectName);
                         newData = ConfigurationHelper.AddSectionDBConfigurationINIData(newData);
-                        fileIniData.WriteFile(FILE_NAME, newData);
+                        FileManager.WriteFile(fileIniData, FILE_NAME, newData);
                         answer = Answer.Created;
                     }
                     else
                     {
                         try
                         {
-                            IniData parsedData = fileIniData.ReadFile(FILE_NAME);
+                            IniData parsedData = FileManager.ReadFile(fileIniData, FILE_NAME);
                             KeyDataCollection section = parsedData[SECTION];
                             if (section == null)
                             {
@@ -132,7 +144,7 @@ namespace ReportingTool.Controllers
                                 }
                             }
                             parsedData = ConfigurationHelper.AddSectionDBConfigurationINIData(parsedData);
-                            fileIniData.WriteFile(FILE_NAME, parsedData);
+                            FileManager.WriteFile(fileIniData, FILE_NAME, parsedData);
                             answer = Answer.Created;
                         }
                         catch (Exception e)

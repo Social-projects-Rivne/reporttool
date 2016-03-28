@@ -2,8 +2,8 @@
 'use strict';
 
 reportsManagerModule.controller("reportsManagerController",
-    ['$scope', '$stateParams', '$state', 'ReportsFactory', 'TempObjectFactory', '$filter',
-        function ($scope, $stateParams, $state, ReportsFactory, TempObjectFactory, $filter) {
+    ['$scope', '$stateParams', '$state', 'ReportsFactory', 'TempObjectFactory', '$filter', '$uibModal',
+        function ($scope, $stateParams, $state, ReportsFactory, TempObjectFactory, $filter, $uibModal) {
 
             var tempTemplate = TempObjectFactory.get();
             $scope.content = "team";
@@ -139,21 +139,42 @@ reportsManagerModule.controller("reportsManagerController",
             function saveReportConditionals(tempReportConditionals) {
                 TempObjectFactory.set({});
                 TempObjectFactory.set(tempReportConditionals);
-                $state.go('mainView.reportsManager.reportsConditions.reportDraft');
+                $state.go('reload');
             }
 
-            $scope.saveIntoClientStorage = function () {
-                //TODO: Add here validation about all input values and selected data
+            function reportDataValidation() {
+                if (!(isEmpty($scope.members) ^ (!$scope.selectedTeam.teamID)))
+                    return false;
+                if (!$scope.selectedTemplate.templateName)
+                    return false;
+                var fromDate = Date.parse($scope.fromDate);
+                var toDate = Date.parse($scope.toDate);
+                if (fromDate > toDate) return false;
+                return true;
+            }
 
-                if (isEmpty(tempTemplate)) {
-                    var dataPromise = ReportsFactory.getFields($scope.selectedTemplate.templateId);
-                    dataPromise.then(function (result) {
-                        var tempReportConditionals = initializeTempReportConditionals(result.data.templateName, result.data.fields);
+            function showValidationMessage(size) {
+                var modalInstance = $uibModal.open({
+                    animation: $scope.animationsEnabled,
+                    templateUrl: 'modalContentValidation.html',
+                    size: size
+                });
+            };
+
+            $scope.saveIntoClientStorage = function () {
+                if (reportDataValidation()) {
+                    if (isEmpty(tempTemplate)) {
+                        var dataPromise = ReportsFactory.getFields($scope.selectedTemplate.templateId);
+                        dataPromise.then(function (result) {
+                            var tempReportConditionals = initializeTempReportConditionals(result.data.templateName, result.data.fields);
+                            saveReportConditionals(tempReportConditionals);
+                        });
+                    } else {
+                        var tempReportConditionals = initializeTempReportConditionals(tempTemplate.templateName, tempTemplate.fields);
                         saveReportConditionals(tempReportConditionals);
-                    });
+                    }
                 } else {
-                    var tempReportConditionals = initializeTempReportConditionals(tempTemplate.templateName, tempTemplate.fields);
-                    saveReportConditionals(tempReportConditionals);
+                    showValidationMessage();
                 }
             }
         }]);

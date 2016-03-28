@@ -83,6 +83,8 @@
     <Compile Include="Services\MockHelper.cs" />
     <Compile Include="Services\TemplateService.cs" />
     <Compile Include="Validation\ConfigurationHelper.cs" />
+    <Compile Include="Validation\FileExtensionManager.cs" />
+    <Compile Include="Validation\Interfaces\IFileExtensionManager.cs" />
     <Compile Include="Validation\ReportsValidator.cs" />
     <Compile Include="Validation\TemplatesValidator.cs" />
     <Compile Include="Validation\Validator.cs" />

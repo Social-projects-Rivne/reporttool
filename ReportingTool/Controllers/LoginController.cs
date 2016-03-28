@@ -33,7 +33,7 @@ namespace ReportingTool.Controllers
             return parsedData[SECTION][PROJECT_NAME_KEY];
         }
 
-        private bool IsUserValid(string userName, string password)
+        private bool isUserValidated(string userName, string password)
         {
             var server = getServerUrl();
             var jira = new Jira.SDK.Jira();
@@ -50,14 +50,14 @@ namespace ReportingTool.Controllers
             return true;
         }
 
-        private void DefinePrincipal(string login)
+        private void definePrincipal(string login)
         {
             IIdentity id = new GenericIdentity(login);
             var roles = new[] { "existing user" };
             System.Web.HttpContext.Current.User = new GenericPrincipal(id, roles);
         }
 
-        private bool ConnectionExists(string server)
+        private bool connectionExists(string server)
         {
             var jira = new Jira.SDK.Jira();
             try
@@ -86,11 +86,11 @@ namespace ReportingTool.Controllers
         [HttpPost]
         public JsonResult CheckCredentials(Credentials credentials)
         {
-            if (!ConnectionExists(""))
+            if (!connectionExists(""))
             {
                 return Json(new { Status = "connectionError" });
             }
-            var isUserValid = IsUserValid(credentials.UserName, credentials.Password);
+            var isUserValid = isUserValidated(credentials.UserName, credentials.Password);
             var isUserAuthenticated = (System.Web.HttpContext.Current.User != null) &&
                                        System.Web.HttpContext.Current.User.Identity.IsAuthenticated;
 
@@ -98,7 +98,7 @@ namespace ReportingTool.Controllers
             {
                 var client = new JiraClient(getServerUrl(), credentials.UserName, credentials.Password);
 
-                DefinePrincipal(credentials.UserName);
+                definePrincipal(credentials.UserName);
                 FormsAuthentication.SetAuthCookie(credentials.UserName, false);
 
                 Session.Add("currentUser", credentials.UserName);
