@@ -2,19 +2,62 @@
     ViewBag.Title = "MyPartialView";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 @using (Html.BeginForm("ExportToPdf", "Reports", FormMethod.Post))
 {
-    <section ng-controller="exportReportController">
-        <div class="row">
-            <div class="col-sm-9 center">
-
-                <h1>HEEEELLLLOOO!!!11</h1>
+    <section ng-app="exportReportModule" ng-controller="exportReportController">
+    <div class="row">
+        <div class="col-sm-9 center">
+            <div style="page-break-after: always">
+                <ul>
+                    <li><h1>Template name</h1></li>
+                    <li><h1>Date</h1></li>
+                    <li><h1>Receiver</h1></li>
+                    <li><h1>Contact Person</h1></li>
+                </ul>
+            </div>
+           
+            <div>
+                <div class="panel-body" ng-init="fid1=1" >
+                    <div class="floating-box">
+                        <!--<span class="pheader">{{ tempReport.fields[fid1-1].fieldName }} &nbsp;&nbsp;:&nbsp;&nbsp;</span>-->
+                        <span class="pheader">Reporter &nbsp;&nbsp;:&nbsp;&nbsp;</span>
+                    </div>
+                    <div class="floating-box">
+                        <!--<span>{{ tempReport.fields[fid1-1].fieldDefaultValue }}</span>-->
+                        <!-- <span>{{ getSingleField(fid1).fieldDefaultValue }}</span>-->
+                        <input type="text" class="form-control"  value="Oleksanr">
+                    </div>
+                </div>
+                <!--  --- Reporter ------------------------------------------- end ---------------------------- -->
+                <!--  --- Receiver ------------------------------------------- begin ------------------------- -->
+                <div class="panel-body" ng-init="fid2=2" >
+                    <div class="floating-box">
+                        <span class="pheader">Receiver &nbsp;&nbsp;:&nbsp;&nbsp;</span>
+                    </div>
+                    <div class="floating-box">
+                        <!--<span>{{ getSingleField(fid2).fieldDefaultValue }}</span>-->
+                        <input type="text" class="form-control" value="Oleksandr">
+                    </div>
+                </div>
+                <!--  --- Receiver ------------------------------------------- end ---------------------------- -->
+                <!--  --- Usual Tasks --------------------------------------- begin -------------------------- -->
+                <div class="panel-body" ng-init="fid3=3" >
+                    <div>
+                        <p class="pheader">{{ getSingleField(fid3).fieldName }} </p>
+                        <div>
+                            <textarea class="form-control resizable resize-vert" rows="2">{{ getSingleField(fid3).fieldDefaultValue }}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <!--  --- Usual Tasks --------------------------------------- end ----------------------------- -->
+            </div>
 
                 <div class="col-sm-6">
-                    <button type="submit" class="btn btn-flat">Save to PDF</button>
+                    <button type="submit" class="btn btn-flat"style="position: fixed; top: 10px; right: 100px;">Save to PDF</button>
                 </div>
-
-            </div>
         </div>
-    </section>
+    </div>
+
+</section>
 }

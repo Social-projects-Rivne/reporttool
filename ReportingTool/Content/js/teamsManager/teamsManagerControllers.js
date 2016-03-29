@@ -1,7 +1,7 @@
 'use strict';
 
 teamsManagerModule.controller('teamsManagerController',
-    ['$scope', '$state', 'TeamFactory', 'TempObjectFactory', function ($scope, $state, TeamFactory, TempObjectFactory) {
+    ['$scope', '$state', 'TeamFactory', 'TempObjectFactory', '$uibModal', function ($scope, $state, TeamFactory, TempObjectFactory, $uibModal) {
         $scope.message = "Loading...";
         $scope.showTeams = true;
         $scope.teams = {};
@@ -12,6 +12,22 @@ teamsManagerModule.controller('teamsManagerController',
 
         var DeleteTeam = null;
 
+        $scope.open = function (teamId) {
+
+            var modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'modalContent.html',
+                controller: 'ModalInstanceCtrl'
+            });
+
+            modalInstance.result.then(function () {
+                //if user select "YES"
+                $scope.deleteTeam(teamId);
+            }, function () {
+                //if user select "NO"
+                $log.info('Modal dismissed at: ' + new Date());
+            });
+        };
         $scope.deleteTeam = function (deletedTeamID) {
             TeamFactory.deleteTeam(deletedTeamID).then(delSuccess, delFail);
         }
@@ -54,8 +70,8 @@ teamsManagerModule.controller('teamsEditController',
         function ($scope, $stateParams, $state, TeamFactory, UserFactory, TempObjectFactory) {
 
             $scope.jiraUsers = [{
-                loginName: 'Loading...',
-                fullName: 'Loading...'
+                loginName: 'Jira users are not loaded',
+                fullName: 'Jira users are not loaded'
             }];
 
             $scope.editTeam = TempObjectFactory.get();
@@ -88,13 +104,16 @@ teamsManagerModule.controller('teamsEditController',
             }
 
             $scope.save = function () {
+                var validation = TeamFactory.isValid($scope.editTeam);
+                if (validation == true) {
                     TeamFactory.updateTeam($scope.editTeam).then(updateSuccess, updateFail);
                     TempObjectFactory.set({});
+                }
             }
 
             $scope.cancel = function () {
                 TempObjectFactory.set({});
-                $state.go('mainView.teamsManager');
+                $state.go('mainView.teamsManager', {}, { reload: true });
             }
 
             $scope.removeMember = function (userName) {
@@ -107,6 +126,7 @@ teamsManagerModule.controller('teamsEditController',
             }
 
             function updateSuccess(response) {
+                TeamFactory.serverResponse(response);
                 if (response.data.Answer == 'Modified') {
                     $state.go('mainView.teamsManager', {}, { reload: true });
                 }
@@ -118,8 +138,10 @@ teamsManagerModule.controller('teamsEditController',
 
         }]);
 
+
 teamsManagerModule.controller('NewTeamController',
     ['$scope', '$state', 'TeamFactory', 'UserFactory', function ($scope, $state, TeamFactory, UserFactory) {
+
         $scope.editTeam = {
             teamID: "0",
             teamName: "",
@@ -131,10 +153,10 @@ teamsManagerModule.controller('NewTeamController',
             fullName: ''
         };
 
-        //$scope.jiraUsers = [{
-        //    userName: 'Loading...',
-        //    fullName: 'Loading...'
-        //}];
+        $scope.jiraUsers = [{
+            userName: 'Jira users are not loaded',
+            fullName: 'Jira users are not loaded'
+        }];
 
         UserFactory.getJiraUsers().then(getJiraUsersSuccess, getJiraUsersFail);
 
@@ -159,7 +181,10 @@ teamsManagerModule.controller('NewTeamController',
         }
 
         $scope.save = function () {
-            TeamFactory.createTeam($scope.editTeam).then(createSuccess, createFail);
+            var validation = TeamFactory.isValid($scope.editTeam);
+            if (validation == true) {
+                TeamFactory.createTeam($scope.editTeam).then(createSuccess, createFail);
+            }
         }
 
         $scope.cancel = function () {
@@ -168,7 +193,7 @@ teamsManagerModule.controller('NewTeamController',
                 teamName: "",
                 members: []
             };
-            $state.go('mainView.teamsManager');
+            $state.go('mainView.teamsManager', {}, { reload: true });
         }
 
         $scope.removeMember = function (userName) {
@@ -180,6 +205,7 @@ teamsManagerModule.controller('NewTeamController',
         }
 
         function createSuccess(response) {
+            TeamFactory.serverResponse(response);
             if (response.data.Answer == 'Created') {
                 $state.go('mainView.teamsManager', {}, { reload: true });
             }
@@ -189,3 +215,7 @@ teamsManagerModule.controller('NewTeamController',
             console.error('create team fail!');
         }
     }]);
+
+teamsManagerModule.controller('ModalController', function ($scope, message) {
+    $scope.message = message;
+});

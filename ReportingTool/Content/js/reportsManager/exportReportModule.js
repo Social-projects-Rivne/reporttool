@@ -12,7 +12,7 @@ exportReportModule.factory('exportFactory', ['$http', function ($http) {
     };
 
     function exportReport() {
-        return $http.get("ExportToPdf");
+        return $http.get('ExportToPdf?url=' + encodeURIComponent(window.location.href));
     }
 
     return exportFactory;

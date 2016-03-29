@@ -78,35 +78,18 @@ namespace ReportingTool.Controllers
         }
 
         [HttpPost]
-        public ActionResult ExportToPdf(object report)
+        public ActionResult ExportToPdf()
         {
-            // instantiate a html to pdf converter object
             HtmlToPdf converter = new HtmlToPdf();
 
-            // create a new pdf document converting an url
-            PdfDocument doc = converter.ConvertHtmlString(RenderRazorViewToString("ReportPreview"));
+            PdfDocument doc = converter.ConvertUrl(@"http://localhost:60953/Reports/PreviewReport");
 
-            // save pdf document
             byte[] pdf = doc.Save();
 
-            // close pdf document
             doc.Close();
             FileResult fileResult = new FileContentResult(pdf, "application/pdf");
-            fileResult.FileDownloadName = "Document.pdf";
+            fileResult.FileDownloadName = "JiraReport_" + DateTime.Now.ToString("MM/dd/yyyy h:mm tt") + ".pdf";
             return fileResult;
-        }
-
-        string RenderRazorViewToString(string viewName)
-        {
-            using (var sw = new StringWriter())
-            {
-                var viewResult = ViewEngines.Engines.FindView(ControllerContext, viewName, "_Layout");
-                var viewContext = new ViewContext(ControllerContext, viewResult.View,
-                                             ViewData, TempData, sw);
-                viewResult.View.Render(viewContext, sw);
-                viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
-                return sw.GetStringBuilder().ToString();
-            }
         }
 
     }

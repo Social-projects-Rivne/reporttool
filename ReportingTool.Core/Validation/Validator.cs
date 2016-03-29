@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using ReportingTool.DAL.Entities;
-
 namespace ReportingTool.Core.Validation
 {
     public static class Validator
@@ -42,7 +41,6 @@ namespace ReportingTool.Core.Validation
             return (template.FieldsInTemplate.Any(field => field == null || field.FieldId == 0)) ? "FieldIsNotCorrect" : null;
         }
 
-
         public static string TeamValid(this Team team)
         {
             if (team.TeamIsNotNull() != null) { return team.TeamIsNotNull(); }
@@ -74,5 +72,5 @@ namespace ReportingTool.Core.Validation
             return (team.Members.Any(member => string.IsNullOrWhiteSpace(member.UserName) || string.IsNullOrWhiteSpace(member.FullName))) ? "MembersIsNotCorrect" : null;
         }
 
-    }
+            }
 }

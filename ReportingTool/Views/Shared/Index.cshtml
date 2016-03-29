@@ -2,7 +2,27 @@
     ViewBag.Title = "Reporting Tool";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div ng-app="ReportingTool">
 
-<div class="row fluid">
-    <div class="col-md-12 col-sm-12 col-xs-12" ui-view></div>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid nav-container">
+            <div class="navbar-header brand">
+                <a class="navbar-brand" ui-sref="mainView">
+                    <p class="blue">Reporting</p>
+                    <p class="white">Tool</p>
+                </a>
+            </div>
+            <div class="navbar-header logout" ng-controller="logoutController" ng-show="showLogout.show">
+                <a class="navbar-brand"
+                   ng-click="Logout();" ui-sref="configView">
+                    <p class="white">Logout</p>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="row fluid">
+        <div class="col-md-12 col-sm-12 col-xs-12" ui-view></div>
+    </div>
 </div>

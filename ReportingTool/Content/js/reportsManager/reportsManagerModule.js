@@ -1,4 +1,6 @@
-﻿var reportsManagerModule = angular.module("reportsManagerModule", ['ui.router', 'ui.bootstrap', 'ngAnimate']);
+﻿var reportsManagerModule = angular.module("reportsManagerModule", ['ui.router', 'ui.bootstrap',
+   //    'templatesManagerModule',
+    'ngAnimate']);
 
 reportsManagerModule.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
@@ -38,4 +40,8 @@ reportsManagerModule.config(['$stateProvider', '$urlRouterProvider', function ($
     $stateProvider.state(reportConditions);
     $stateProvider.state(reload);
     $stateProvider.state(reportDraft);
+
+    //  Group
+    //$stateProvider.state(editGroup);
+    //$stateProvider.state(createGroup);
 }]);

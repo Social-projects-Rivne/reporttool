@@ -1,4 +1,13 @@
 <section id="teamsList">
+    <script type="text/ng-template" id="modalContent.html">
+        <div class="modal-body">
+            Are you sure you want to delete this team ?
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">YES</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">NO</button>
+        </div>
+    </script>
     <div ng-show="!validationIsInProgress">
         <div class="message" ng-show="!teams.length">
             <h3>There are no teams yet. Please, do something with that!</h3>
@@ -23,13 +32,13 @@
                         <td ng-bind="team.teamName"></td>
                         <td>
                             <a class="glyph-link" ng-click="editTeam(team)"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> </a>
-                            <a class="glyph-link" ng-click="deleteTeam(team.teamID)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a>
+                            <a class="glyph-link" ng-click="open(team.teamID)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a>
                         </td>
                     </tr>
                 </tbody>
             </table>
 
-        <!--Move this table to separate view which should be shown on ng-click="showTeamMembers(team);" in unnamed ui-view in parent state-->
+            <!--Move this table to separate view which should be shown on ng-click="showTeamMembers(team);" in unnamed ui-view in parent state-->
             <table class="table table-striped" ng-show="$state.current.name === 'mainView.teamsManager'">
                 <colgroup>
                     <col width="5%" />

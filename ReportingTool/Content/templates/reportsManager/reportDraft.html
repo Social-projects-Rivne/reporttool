@@ -1,14 +1,533 @@
-﻿<section id="reportDraft" class="row row-standart row-margin-top">
-    <div class="col-sm-12">
-        Here!
+﻿
+
+<section id="reportDraft" class="row row-standart row-margin-top">
+    <div class="col-sm-12 panel panel-info">
+
+       <div class="panel-body">
+            <!--  --- Panel Header  ------------------------------------- begin -------------------- -->
+           <div class="floating-box">
+                <h3>
+                    <!-- <strong>{{ selectedTemplate.templateName}}&nbsp;&nbsp;&nbsp;&nbsp;</strong> -->
+                    <strong>{{ tempReport.templateName}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+                </h3> 
+            </div>
+          <!--  --- Panel Header  ------------------------------------- end -------------------- -->
+            <!--  --- progress Indicator for Ajax Requests ------ begin -------------------- -->
+             <div id="progressIndicator" class="floating-box">
+                <md-progress-circular md-mode="indeterminate"
+                    md-diameter="40"
+                    ng-show="requestProcessing > 0">
+                </md-progress-circular>
+            </div>
+            <!--  --- progress Indicator for Ajax Requests ------- end ---------------------- -->
+        </div>
+
+         <!--  --- Reporter ------------------------------------------- begin ------------------------- -->
+        <div class="panel-body" ng-init="fid1=1" ng-show="showSection(fid1)">
+            <div class="floating-box">
+               <!--<span class="pheader">{{ tempReport.fields[fid1-1].fieldName }} &nbsp;&nbsp;:&nbsp;&nbsp;</span>-->
+               <span class="pheader">{{ getSingleField(fid1).fieldName }} &nbsp;&nbsp;:&nbsp;&nbsp;</span>
+             </div>
+            <div class="floating-box">
+               <!--<span>{{ tempReport.fields[fid1-1].fieldDefaultValue }}</span>-->
+               <!-- <span>{{ getSingleField(fid1).fieldDefaultValue }}</span>-->
+                <input type="text" class="form-control" placeholder="Enter reporter..." value="{{ getSingleField(fid1).fieldDefaultValue }}"> 
+            </div>
+        </div>
+         <!--  --- Reporter ------------------------------------------- end ---------------------------- -->
+
+         <!--  --- Receiver ------------------------------------------- begin ------------------------- -->
+        <div class="panel-body" ng-init="fid2=2" ng-show="showSection(fid2)">
+            <div class="floating-box">
+               <span class="pheader">{{ getSingleField(fid2).fieldName }} &nbsp;&nbsp;:&nbsp;&nbsp;</span>
+             </div>
+            <div class="floating-box">
+               <!--<span>{{ getSingleField(fid2).fieldDefaultValue }}</span>-->
+                 <input type="text" class="form-control" placeholder="Enter receiver..." value="{{ getSingleField(fid2).fieldDefaultValue }}"> 
+            </div>
+        </div>
+         <!--  --- Receiver ------------------------------------------- end ---------------------------- -->
+
+        <!--  --- Usual Tasks --------------------------------------- begin -------------------------- -->
+        <div class="panel-body" ng-init="fid3=3" ng-show="showSection(fid3)">
+            <div>
+               <p class="pheader">{{ getSingleField(fid3).fieldName }} </p>
+                <div>
+                    <textarea class="form-control resizable resize-vert" rows="2">{{ getSingleField(fid3).fieldDefaultValue }}</textarea>
+                </div> 
+             </div>
+        </div>
+        <!--  --- Usual Tasks --------------------------------------- end ----------------------------- -->
+        
+        <!--  --- User Activity ---------------------------------------- begin ----------------------------------------------- -->
+        <div class="panel-body" ng-init="fid7=7" ng-show="showSection(fid7)">
+            <div>
+               <p class="pheader">{{ getSingleField(fid7).fieldName }} </p>
+            </div>
+
+        <!-- PM Activity record --------------------------------------- begin ----------------- -->
+        <div>
+            <table class="table table-striped tbottom">
+            <colgroup>
+                <col width="40%" />
+                <col width="35%" />
+                <col width="20%" />
+                <col width="5%" />
+            </colgroup>
+
+            <thead class="thead1">
+                    <tr>
+                        <th>Team Member</th>
+                        <th>Role</th>
+                        <th>Activity</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+
+              <tbody>
+                    <!--  ---  Project Manager row--------------------------- begin ---------------- -->
+                   <tr>
+                       <td>
+                           <!-- <span>{{ getSingleField(fid1).fieldDefaultValue }}</span>-->
+                           <form name="addPm">
+                               <select class="form-control select-username"
+                                                ng-model="selectedPm"
+                                                ng-options="jiraUser.fullName for jiraUser in jiraUsers"
+                                                name="pmSelection">
+                               </select>
+                           </form>
+                       </td>
+                        <td>
+                            <input type="text" class="form-control" placeholder="Enter role..." value="Project Manager"> 
+                        </td>
+                        <td>
+                            <!-- <label>{{pmMember.activity}}&nbsp;h</label>-->
+                            <label>{{pmMember.activity ? pmMember.activity  : "0"}}&nbsp;h</label>
+                        </td>
+                       <td>
+                            <a class="glyph-link"
+                                ng-show="addPm.pmSelection.$dirty"
+                                ng-click="getPmActivity(selectedPm.userName)">
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                            </a>
+                        </td>
+                    </tr>
+                   <!--  --- Project Manager row--------------------------- end ------------------- -->
+
+                  <!--  --- Total ReportedList ------------------------------- begin ---------------- -->
+                  <!--
+                  <tr ng-repeat="member in reportedMembers | orderBy:'fullName' ">
+                       <td>{{member.fullName}}</td>
+                        <td>
+                            <input type="text" class="form-control" placeholder="Enter role...">
+                        </td>
+                         <td>
+                             <label>{{member.activity}}&nbsp;h</label>
+                        </td>
+                        <td>
+                            <a class="glyph-link" ng-click="removeMember(member.userName)">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </a>
+                        </td>
+                    </tr>
+                  -->
+                  <!--  --- Total ReportedList ------------------------------- end ------------------- -->
+               </tbody>
+            </table>
+        </div>
+        <!-- PM Activity record --------------------------------------- end ------------------ -->
+
+         <!-- Reported groups with members ------------ begin -------------------------- -->
+        <div class="panel-body">
+           <div ng-repeat="group in reportedGroups | orderBy:'groupName' " class="row gheader">
+                <div class="col-xs-8 col-sm-4 col-sm-offset-5 group-name">
+                            <strong> {{group.groupName | uppercase}} </strong>
+                            <a class="glyph-link" ng-click="removeGroup($index)">
+                                <small><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></small>
+                            </a>
+                </div>
+
+                <div>
+                    <table class="table table-striped">
+                    <colgroup>
+                        <col width="40%" />
+                        <col width="35%" />
+                        <col width="20%" />
+                        <col width="5%" />
+                    </colgroup>
+
+                    <tbody>
+                          <!-- <tr ng-repeat="member in selectedTeam.members | orderBy:'fullName' "> -->
+                          <tr ng-repeat="member in group.members | orderBy:'fullName' ">
+                               <td>{{member.fullName}}</td>
+                               <td>
+                                    <input type="text" class="form-control" ng-model="member.role" value="{{member.role}}"  placeholder="Enter role...">
+                                </td>
+                               <td>
+                                     <label>{{member.activity}}&nbsp;h</label>
+                                </td>
+                               <td>
+                                    <a class="glyph-link" ng-click="removeGroupMember(member.userName)">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"
+                                            data-toggle="tooltip" title="Delete"></span>
+                                    </a>
+                               </td>
+
+                            </tr>
+                       </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- Reported groups with members ------------- end ---------------------------- -->
+
+        <!-- Add Group button ----------------------------------------------------------------- -->
+         <div class="row">
+            <div class="col-xs-3 center">
+                  <a class="btn btn-link" 
+                      ng-click="addGroupPanel=!addGroupPanel" 
+                      ng-show="reportedMembers.length>0"
+                      data-toggle="tooltip" title="Toggle button to add a group">Add Group</a>
+            </div>
+         </div>
+         <!-- Add Group button ----------------------------------------------------------------- -->
+       
+         <!-- groupName + 2 glyphs----------------------------------------------------------- -->
+        <div class="row tab-vert-center" ng-if="addGroupPanel == true">
+            <div class="col-xs-8 col-sm-5 col-sm-offset-4">
+                 <input class='form-control' id="groupName" 
+                     ng-model="editGroup.groupName" 
+                     placeholder="Enter group name..." 
+                     data-toggle="tooltip" title="Enter a group name">  
+            </div>
+            <div class="col-xs-1" ng-show="editGroup.groupName.length > 0 && editGroup.members.length > 0">
+                <!--<button id="btn-save" class="btn btn-default" ng-click='save()'>Save</button>-->
+                 <a class="glyph-link" ng-click='save()'>
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true" data-toggle="tooltip" title="Save"></span>
+                    </a>
+              </div>
+
+            <div class="col-xs-1">
+                <!--<button id="btn-cancel" class="btn btn-default" ng-click='cancel()'>Cancel</button>-->
+                 <a class="glyph-link" ng-click='cancel()'>
+                        <span class="glyphicon glyphicon-off" aria-hidden="true" data-toggle="tooltip" title="Cancel"></span>
+                    </a>
+            </div>
+         </div>
+         <!-- groupName + 2 glyphs----------------------------------------------------------- -->
+
+        <!-- editGroup table ------------------------------------ begin ------------------------- -->
+        <table class="table table-striped tab-vert-center" ng-if="addGroupPanel==true">
+            <colgroup>
+                <col width="40%" />
+                <col width="35%" />
+                <col width="20%" />
+                <col width="5%" />
+            </colgroup>
+            <tbody>
+                  <tr ng-repeat="member in editGroup.members | orderBy:'fullName' ">
+                       <!--<td>{{$index + 1}}</td>-->
+                       <td>{{member.fullName}}</td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="member.role" value="{{member.role}}" placeholder="Enter role...">
+                        </td>
+                        <td>
+                             <label>{{member.activity}}&nbsp;h</label>
+                        </td>
+                        <td>
+                            <a class="glyph-link" ng-click="removeEditGroupMember(member.userName)">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </a>
+                        </td>
+                    </tr>
+               </tbody>
+            </table>
+         <!-- editGroup table ----------------------------------- end ---------------------------- -->
+            
+        <!-- adding a member to the group ----------------- begin ----------------------- -->
+        <div ng-if="addGroupPanel==true">
+            <table class="table table-striped">
+                 <colgroup>
+                    <col width="40%" />
+                    <col width="35%" />
+                    <col width="20%" />
+                    <col width="5%" />
+                  </colgroup>
+                 <tbody>
+                    <tr>
+                    <td>
+                       <!-- <select class="form-control select-username"
+                            ng-model="selectedMember"
+                            ng-options="member.fullName for member in selectedTeam.members"
+                            name="memberSelection">-->
+                         <form name="addMem">
+                              <select class="form-control select-username"
+                                ng-model="selectedMember" placeholder="Select a member"
+                                ng-options="member.fullName for member in reportedMembers"
+                                name="memberSelection">
+                            </select>
+                         </form>
+                    </td>
+                    <td>
+                            <input type="text" class="form-control" ng-model="selectedMember.role" placeholder="Enter role...">
+                    </td>
+                    <td></td>
+                    <td>
+                        <a class="glyph-link"
+                             ng-show="addMem.memberSelection.$dirty && selectedMember.fullName.length>0 "
+                            ng-click="addMember(selectedMember)">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <hr /> 
+        </div>
+        <!-- adding a member to the group ------------------ end ------------------------- -->
+        
+        <!--  ------------ List of Issues table v.2 -  works -------------------------------  -->
+         <div ng-repeat="group in reportedGroups | orderBy:'groupName' " class="row tab-vert-center">
+            <div class="col-xs-10 col-sm-offset-1">
+                     <span class="pheader"><em><strong> {{group.groupName | uppercase}}  </strong> </em> </span> {{groupMemberList(group)}} 
+                </div>
+
+            <div class="panel-body">
+                <div>
+                    <textarea class="form-control resizable resize-vert" rows="2">Add some comments here...</textarea>
+                </div> 
+             </div>
+        
+            <div class="panel-body pad-vert-center">
+                <table class="table table-striped tab-vert-center4">
+                    <colgroup>
+                        <col width="15%" />
+                        <col width="55%" />
+                        <col width="15%" />
+                        <col width="15%" />
+                    </colgroup>
+
+                    <thead class="thead1">
+                        <tr>
+                            <th class ="thead1-th">ID</th>
+                            <th class ="thead1-th">Summary</th>
+                            <th class ="thead1-th">Status</th>
+                            <th class ="thead1-th">Logged time</th>
+                        </tr>
+                    </thead>
+                  </table>
+                </div>
+
+<!--
+[ {"key":"RVNETJAN-101","summary":"Implement tests for biz layer","status":"In Progress","loggedTime":7200} ]
+-->
+              <div class="panel-body pad-vert-center " 
+                  ng-repeat="member in group.members | orderBy:'fullName' " 
+                  class="row pad-vert-center">
+                  <table class="table table-striped tab-vert-center4">
+                    <colgroup>
+                            <col width="15%" />
+                            <col width="55%" />
+                            <col width="15%" />
+                            <col width="15%" />
+                        </colgroup>
+                    <tbody>
+                            <!--<tr ng-repeat="issue in groupIssueArray(group) | orderBy:'key' ">-->
+                            <tr ng-repeat="issue in member.issues | orderBy:'key' ">
+                                <!--<td>{{$index + 1}}</td>-->
+                                <td>{{issue.key}}</td>
+                                <td>{{issue.summary}}</td>
+                                <td>{{issue.status}}</td>
+                                <td>{{ issue.loggedTime / 3600 | number:0}}&nbsp;h</td>
+                            </tr>
+                     </tbody>
+                  </table>
+                </div>
+
+            </div>
+         <!--  ------------ List of Issues table v.2 - works ------------------------------------  -->
+
+         </div>
+        <!--  --- User Activity ---------------------------------------- end -------------------------------------------------- -->
+
+        <!-- --- Risks and Issues ----------------------------------- begin -------------------------- -->
+         <div class="panel-body" ng-init="fid4=4" ng-show="showSection(fid4)">
+            <div>
+                <p class="pheader">{{ getSingleField(fid4).fieldName }} </p>
+                <div>
+                    <textarea class="form-control resizable resize-vert" rows="2">Enter Risks and Issues here...</textarea>
+                </div> 
+             </div>
+        </div>
+        <!-- --- Risks and Issues ----------------------------------- end ----------------------------- -->
+
+         <!-- --- Planned Activities --------------------------------- begin -------------------------- -->
+        <div class="panel-body" ng-init="fid5=5" ng-show="showSection(fid5)">
+            <div>
+               <p class="pheader">{{ getSingleField(fid5).fieldName }} </p>
+                <div>
+                    <textarea class="form-control resizable resize-vert" rows="2">Enter Planned Activities here...</textarea>
+                </div> 
+             </div>
+        </div>
+         <!-- --- Planned Activities ---------------------------------- end ---------------------------- -->
+
+        <!-- --- Reasons ----------------------------------------------- begin -------------------------- -->
+        <div class="panel-body" ng-init="fid8=8" ng-show="showSection(fid5)">
+            <div>
+               <p class="pheader">{{ getSingleField(fid8).fieldName }} </p>
+                <div>
+                    <textarea class="form-control resizable resize-vert" rows="2">Enter Reasons here...</textarea>
+                </div> 
+             </div>
+        </div>
+         <!-- --- Reasons ----------------------------------------------- end ---------------------------- -->
+
+        <!-- --- Planned Vacations ---------------------------------- begin -------------------------- -->
+       <div class="panel-body" ng-init="fid6=6" ng-show="showSection(fid6)">
+            <div>
+               <p class="pheader">{{ getSingleField(fid6).fieldName }} </p>
+             </div>
+
+            <div>
+                <table class="table table-striped tbottom">
+                    <colgroup>
+                        <col width="45%" />
+                        <col width="25%" />
+                        <col width="25%" />
+                        <col width="5%" />
+                    </colgroup>
+                    <thead class="thead1">
+                        <tr>
+                            <th>Team Member</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+
+                     <!--  --- Vacations List ------------------------------- begin -------------------------- -->
+                      <tbody>
+                          <tr ng-repeat="vacation in vacations | orderBy:'fullName' ">
+                               <td>
+                                   {{vacation.fullName}}
+                               </td>
+                                <td>
+                                     {{vacation.from}}
+                                </td>
+                                 <td>
+                                      {{vacation.to}}
+                                </td>
+                                <td>
+                                    <a class="glyph-link" ng-click="removeVacation($index)">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </a>
+                                </td>
+                        </tr>
+                    </tbody>
+                    <!--  --- Vacations List ------------------------------- begin -------------------------- -->
+                </table>
+            </div>
+            <br />
+                    <!-- Add Vacation button ----------------------------------- begin ------------------------- -->
+                        <div class="row">
+                        <div class="col-xs-3 center">
+                                <a class="btn btn-link" ng-click="addVacationPanel=!addVacationPanel">Add Vacation</a>
+                        </div>
+                        </div>
+                    <!-- Add Vacation button ----------------------------------- end ---------------------------- -->
+
+                    <!-- adding a record to the vacation list ----------------- begin ------------------------ -->
+                        <div ng-if="addVacationPanel==true">
+                            <table class="table table-striped">
+                                 <colgroup>
+                                    <col width="45%" />
+                                    <col width="25%" />
+                                    <col width="25%" />
+                                    <col width="5%" />
+                                  </colgroup>
+
+                                 <tbody>
+                                      <tr>
+                                        <td>
+                                            <form name="addVac">
+                                                <select class="form-control select-username" required
+                                                        ng-model="selectedMemberForVacation"
+                                                        ng-options="member.fullName for member in vacationMembers"
+                                                        name="memberSelection">
+                                                </select>
+                                            </form>
+                                        </td>
+                                        <td>
+                                                <input type="date" class="form-control" ng-model="vacationFrom" id="fromDate2" 
+                                                    min = "2010-01-01" >
+                                        </td>
+                                            <td>
+                                                <input type="date" class="form-control" ng-model="vacationTo" id="toDate2"
+                                                    min = "2010-01-01">
+                                        </td>
+                                        <td>
+                                            <a class="glyph-link"
+                                                ng-show="vacationFrom <= vacationTo && addVac.memberSelection.$dirty"
+                                                ng-click="addVacation(selectedMemberForVacation, vacationFrom, vacationTo)">
+                                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                     <!-- adding a record to the vacation list ----------------- end  ------------------------- -->
+           <hr />  
+
+    </div>
+        <!-- --- Planned Vacations ---------------------------------- end ----------------------------- -->
+
+        <!-- --- Buttons : Export, Email ----------------------------- begin -------------------------- -->
+         <div class="panel-body" >
+             <div class="row">
+                 
+                     <a ng-click="export()" class="btn btn-flat col-sm-5 col-sm-offset-1">
+                         Export
+                     </a>
+                 
+                
+                     <button type="submit" class="btn btn-flat col-sm-5 col-sm-offset-1" ng-click="sendByEMail()">Email</button>
+               
+             </div>
+         </div>
+         <!-- --- Buttons : Export, Email ---------------------------- end -------------------------- -->
+<!--  ---------------------------------------------------------- -->
+        </div>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+</section>
+
+<!--  ---COMMENTED OUT PARTS OF CODE -------- begin ------------------------- -->
+    <!--  --- Iteration thru the whole member list-------- begin ------------------------- -->
+    <!--
+        <tr ng-repeat="member in selectedTeam.members | orderBy:'fullName' "> 
+        {{$index + 1}} {{member.userName}} {{getUserActivity(member.userName, tempReport.from, tempReport.to)}}
+    -->
+    <!--  --- Iteration thru the whole member list------- end     ------------------------- -->
+
+    <!--  --- tempReport.fields check ---------------------- begin ------------------------- -->
+        <!--
         <form>
             <container>
                 <div class="row" ng-repeat="field in tempReport.fields | orderBy:'fieldID'">
+                {{tempReport.template.templateId}}      <br />           
+                {{tempReport.template.templateName}}      <br />    
+                <div class="row" ng-repeat="field in tempReport.template.fields | orderBy:'fieldID'">
                     <span class="col-md-3">
                         {{field.fieldName}}
                     </span>
                 </div>
             </container>
         </form>
-    </div>
-</section>
+        -->
+    <!--  --- tempReport.fields check ---------------------- end ---------------------------- -->
+<!--  ---COMMENTED OUT PARTS OF CODE -------- begin ------------------------- -->

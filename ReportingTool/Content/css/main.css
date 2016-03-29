@@ -354,3 +354,74 @@ th:nth-child(3) {
 .row-margin-top-middle{
     margin-top: 20px;
 }
+
+/* --- HTML Draft  : background-color: #19287B; --- */
+.draft-header {
+    /* background-color: #00bfe2; */
+    background-color: #00BCD4;
+    color: #fff;
+    vertical-align: central;
+    margin-bottom: 3px;
+    padding: 5px;
+}
+
+.draft-row {
+     padding: 5px;
+}
+
+.row2 {
+    margin-top: 10px;
+}
+
+.group-name {
+    color: #00BCD4;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.thead1 {
+    color: #fff;
+    background-color: #00BCD4;
+   vertical-align: central;
+}
+
+.thead1-th {
+    vertical-align: central;
+}
+
+.pheader {
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+.gheader {
+    margin-top: 10px;
+}
+
+.tbottom {
+    margin-bottom: 5px;
+}
+
+.floating-box {
+    display: inline-block;
+}
+
+.resize-vert {
+    resize:vertical;
+    overflow:auto;	
+}
+
+.tab-vert-center {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.tab-vert-center4 {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.pad-vert-center {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}

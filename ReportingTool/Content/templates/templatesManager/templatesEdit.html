@@ -1,11 +1,16 @@
 ﻿<section id="templatesEdit" class="row">
     <div class="col-sm-8">
+        <script type="text/ng-template" id="Modal.html">
+            <div class="modal-body">
+                {{message}}
+            </div>
+        </script>
         <form>
             <input class='form-control'
                    id="change-template-name"
                    ng-model="tempTemplate.templateName"
                    placeholder="Enter a Template name..."
-                   autofocus required>
+                   autofocus>
             <container>
                 <div class="row" ng-repeat="field in tempTemplate.fields | orderBy:'fieldID'">
 
@@ -20,11 +25,12 @@
 
                     <!--TEXT INPUT-->
                     <span class="col-md-6">
-                        <input class="form-control"
+                        <textarea class="form-control"
                                type="text"
                                ng-if="field.fieldType === 'Text'"
                                ng-model="field.fieldDefaultValue"
-                               ng-disabled="!field.isSelected" />
+                               ng-disabled="!field.isSelected" >
+                        </textarea>
                     </span>
 
                     <!--COMBOBOX-->
@@ -52,7 +58,6 @@
                                ng-disabled="field.isSelected === false"
                                value="Will be configured during Report generation"
                                readonly>
-                        </input>
                     </span>
                 </div>
             </container>
