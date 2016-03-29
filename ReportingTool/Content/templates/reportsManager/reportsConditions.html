@@ -11,10 +11,10 @@
             <div class="form-group">
                 <label style="color: #161c66" class="col-sm-3">Type report</label>
                 <label class="radio-inline">
-                    <input type="radio" name="inlineRadioOptions" value="team" ng-model="content"> by team
+                    <input type="radio" name="inlineRadioOptions" value="team" ng-model="content" ng-click="cleanMembers()"> by team
                 </label>
                 <label class="radio-inline">
-                    <input type="radio" name="inlineRadioOptions" value="member" ng-model="content"> by member
+                    <input type="radio" name="inlineRadioOptions" value="member" ng-model="content" ng-click="cleanTeam()"> by member
                 </label>
             </div>
         </div>

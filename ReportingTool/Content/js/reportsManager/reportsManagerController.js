@@ -51,6 +51,14 @@ reportsManagerModule.controller("reportsManagerController",
 
             $scope.members = [];
 
+            $scope.cleanMembers=function() {
+                $scope.members = [];
+            }
+
+            $scope.cleanTeam=function() {
+                $scope.selectedTeam = {};
+            }
+
             $scope.addMember = function (member) {
                 for (var i in $scope.members) {
                     if ($scope.members[i].userName === member.userName) {
@@ -138,8 +146,8 @@ reportsManagerModule.controller("reportsManagerController",
             function saveReportConditionals(tempReportConditionals) {
                 TempObjectFactory.set({});
                 TempObjectFactory.set(tempReportConditionals);
-                //  $state.go('reload');
-                $state.go('mainView.reportsManager.reportsConditions.reportDraft');
+                $state.go('reload');
+               // $state.go('mainView.reportsManager.reportsConditions.reportDraft');
             }
 
             function reportDataValidation() {
