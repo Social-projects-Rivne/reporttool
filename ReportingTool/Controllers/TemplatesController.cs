@@ -56,6 +56,11 @@ namespace ReportingTool.Controllers
         {
             var validation = newTemplate.TemplateValidForAdd();
             if (validation != null) return Json(new { Answer = validation });
+
+            foreach (FieldsInTemplate field in newTemplate.FieldsInTemplate) {
+                field.DefaultValue = field.DefaultValue ?? "\t";
+            }
+
             if (
                 newTemplate.FieldsInTemplate.Any(
                     field =>

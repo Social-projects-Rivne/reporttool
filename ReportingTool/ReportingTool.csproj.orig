@@ -163,9 +163,12 @@
     <Content Include="Content\js\login\logoutController.js" />
     <Content Include="Content\js\mainViewModule.js" />
     <Content Include="Content\js\mainViewService.js" />
-    <Content Include="Content\js\reportsManager\GroupFactory.js" />
+<<<<<<< HEAD
     <Content Include="Content\js\reportsManager\exportReportModule.js" />
+=======
+    <Content Include="Content\js\reportsManager\GroupFactory.js" />
     <Content Include="Content\js\reportsManager\reportGroupController.js" />
+>>>>>>> dev
     <Content Include="Content\js\reportsManager\reportsManagerController.js" />
     <Content Include="Content\js\reportsManager\reportsManagerModule.js" />
     <Content Include="Content\js\reportsManager\reportsManagerServices.js" />
@@ -234,7 +237,11 @@
     <Content Include="Views\Shared\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
+<<<<<<< HEAD
+    <Content Include="Reporting tool improvements.patch" />
     <Content Include="Views\Shared\ReportPreview.cshtml" />
+=======
+>>>>>>> dev
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

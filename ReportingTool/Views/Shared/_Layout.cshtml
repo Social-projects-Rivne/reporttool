@@ -17,25 +17,9 @@
 
 </head>
 
-<body ng-app="ReportingTool">
+<body>
 
-    <nav class="navbar navbar-default" role="navigation">
-        <div class="container-fluid nav-container">
-            <div class="navbar-header brand">
-                <a class="navbar-brand" ui-sref="mainView">
-                    <p class="blue">Reporting</p>
-                    <p class="white">Tool</p>
-                </a>
-            </div>
-            <div class="navbar-header logout" ng-controller="logoutController" ng-show="showLogout.show">
-                <a class="navbar-brand"
-                   ng-click="Logout();" ui-sref="configView">
-                    <p class="white">Logout</p>
-                </a>
-            </div>
-        </div>
-    </nav>
-
+    
 
     @RenderBody()
 
@@ -74,7 +58,7 @@
     <script src="~/Content/js/login/loginController.js"></script>
     <script src="~/Content/js/login/logoutController.js"></script>
     <script src="~/Content/js/login/loginService.js"></script>
-
+    <script src="~/Content/js/reportsManager/exportReportModule.js"></script>
 </body>
 
 </html>
