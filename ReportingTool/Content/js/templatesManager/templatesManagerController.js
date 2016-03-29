@@ -60,10 +60,8 @@ templatesManagerModule.controller("templatesFieldsManagerController",
                 });
 
                 modalInstance.result.then(function () {
-                    //if user select "YES"
                     $scope.deleteTemplate($scope.templateId);
                 }, function () {
-                    //if user select "NO"
                     $log.info('Modal dismissed at: ' + new Date());
                 });
             };
@@ -78,7 +76,6 @@ templatesManagerModule.controller("templatesFieldsManagerController",
             }
 
             function templateFieldsSuccess(data) {
-                // promise fulfilled
                 $scope.templateData = data;
                 $scope.fields = data.fields;
                 $scope.existData = true;
@@ -87,8 +84,7 @@ templatesManagerModule.controller("templatesFieldsManagerController",
             };
 
             function templateFieldsFail(error) {
-                // promise rejected, could log the error with: console.log('error', error);
-                $scope.existData = true;    //  fix
+                $scope.existData = true;   
                 $scope.validationIsInProgress = false;
                 alert("Error: " + error.code + " " + error.statusText);
             };
@@ -118,24 +114,22 @@ templatesManagerModule.controller("templatesFieldsManagerController",
                 $state.go('mainView.templatesManager.editTemplate');
             }
 
-            ////TODO: For Marusiak A. Please, delete unnecessary commented lines, if you don't need them
-
             $scope.deleteTemplate = function (deletedTemplateID) {
 
-                console.log("deletedTemplateID = " + deletedTemplateID);  //  debug
+                console.log("deletedTemplateID = " + deletedTemplateID);  
                 TemplateFactory
                     .deleteTemplate(deletedTemplateID)
                     .then(
                         deleteTemplateSuccess,
                         deleteTemplateFail);
             };
-            //  deletetemplate
+
             function deleteTemplateSuccess(response) {
                 if (response.data.Answer == 'Deleted') {
                     $state.go('mainView.templatesManager.templatesList', {}, { reload: true });
                 }
             }
-            //  deletetemplate
+
             function deleteTemplateFail(response) {
                 console.error("deleteTemplate failed!");
             }
@@ -153,8 +147,6 @@ templatesManagerModule.controller("templatesFieldsManagerController",
 
         }]);
 
-// Please note that $uibModalInstance represents a modal window (instance) dependency.
-// It is not the same as the $uibModal service used above.
 
 templatesManagerModule.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance) {
     $scope.ok = function () {

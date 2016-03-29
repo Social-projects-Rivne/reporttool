@@ -83,7 +83,6 @@ reportsManagerModule.controller("reportsManagerController",
                 startingDay: 1
             };
 
-            // Disable weekend selection
             function disabled(data) {
                 var date = data.date,
                   mode = data.mode;

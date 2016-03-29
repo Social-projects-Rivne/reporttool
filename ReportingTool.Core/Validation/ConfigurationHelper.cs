@@ -28,10 +28,7 @@ namespace ReportingTool.Core.Validation
         public static IniData CreateINIData(string serverUrl, string projectName)
         {
             IniData newData = new IniData();
-            newData.Sections.AddSection(SECTION);
-            newData[SECTION].AddKey(SERVEL_URL_KEY, serverUrl);
-            newData[SECTION].AddKey(PROJECT_NAME_KEY, projectName);
-            return newData;
+            return AddSectionINIData(serverUrl, projectName, newData);
         }
 
         /// <summary>
@@ -44,9 +41,7 @@ namespace ReportingTool.Core.Validation
         public static IniData AddSectionINIData(string serverUrl, string projectName, IniData iniData)
         {
             iniData.Sections.AddSection(SECTION);
-            iniData[SECTION].AddKey(SERVEL_URL_KEY, serverUrl);
-            iniData[SECTION].AddKey(PROJECT_NAME_KEY, projectName);
-            return iniData;
+            return UpdateSectionINIData(serverUrl, projectName, iniData);
         }
 
         /// <summary>
