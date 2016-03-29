@@ -180,6 +180,8 @@ reportsManagerModule.controller("reportsManagerController",
                     showValidationMessage();
                 }
             }
+
+           
         }]);
 
 reportsManagerModule.controller("reportDraftController",
@@ -673,7 +675,16 @@ reportsManagerModule.controller("reportDraftController",
             //d.yyyymmdd();
 
             //  ========================================================================
+            
 
+
+            $scope.export = function () {
+                var report = {
+                    reporter: ""
+                };
+
+                window.open('/Reports/PreviewReport', '_blank', 'toolbar=1,resizable=0');
+            };
 
         }]);
 

@@ -25,11 +25,12 @@
 
                     <!--TEXT INPUT-->
                     <span class="col-md-6">
-                        <input class="form-control"
+                        <textarea class="form-control"
                                type="text"
                                ng-if="field.fieldType === 'Text'"
                                ng-model="field.fieldDefaultValue"
-                               ng-disabled="!field.isSelected" />
+                               ng-disabled="!field.isSelected" >
+                        </textarea>
                     </span>
 
                     <!--COMBOBOX-->
