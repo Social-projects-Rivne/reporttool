@@ -163,16 +163,11 @@ reportsManagerModule.controller("reportsManagerController",
 
             $scope.saveIntoClientStorage = function () {
                 if (reportDataValidation()) {
-                    if (isEmpty(tempTemplate)) {
-                        var dataPromise = ReportsFactory.getFields($scope.selectedTemplate.templateId);
-                        dataPromise.then(function (result) {
-                            var tempReportConditionals = initializeTempReportConditionals(result.data.templateName, result.data.fields);
-                            saveReportConditionals(tempReportConditionals);
-                        });
-                    } else {
-                        var tempReportConditionals = initializeTempReportConditionals(tempTemplate.templateName, tempTemplate.fields);
+                    var dataPromise = ReportsFactory.getFields($scope.selectedTemplate.templateId);
+                    dataPromise.then(function (result) {
+                        var tempReportConditionals = initializeTempReportConditionals(result.data.templateName, result.data.fields);
                         saveReportConditionals(tempReportConditionals);
-                    }
+                    });
                 } else {
                     showValidationMessage();
                 }
